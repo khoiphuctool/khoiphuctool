@@ -237,9 +237,22 @@
   /* TICKER */
   .ticker-wrap {
     background: #2c3e50; color: #f1c40f;
-    padding: 9px 0; overflow: hidden; white-space: nowrap;
+    padding: 7px 0; overflow: hidden; white-space: nowrap;
     font-size: 0.92rem; font-weight: 600;
+    display: flex; align-items: center; gap: 6px; position: relative;
   }
+  .ticker-btn {
+    background: rgba(255,255,255,0.12); border: none; color: #f1c40f;
+    font-size: 1rem; cursor: pointer; padding: 2px 10px; border-radius: 6px;
+    flex-shrink: 0; transition: background .2s;
+  }
+  .ticker-btn:hover { background: rgba(255,255,255,0.25); }
+  .ticker-close {
+    background: none; border: none; color: #e74c3c;
+    font-size: 1.1rem; cursor: pointer; padding: 2px 8px; flex-shrink: 0;
+    margin-left: 2px;
+  }
+  .ticker-text-wrap { flex: 1; overflow: hidden; }
   .ticker-inner {
     display: inline-block;
     animation: ticker-scroll 30s linear infinite;
@@ -249,6 +262,7 @@
     0%   { transform: translateX(100vw); }
     100% { transform: translateX(-100%); }
   }
+  .ticker-static { display: none; flex: 1; text-align: center; padding: 0 10px; }
 
   @media(max-width:600px){
     header h1 { font-size: 1.9rem; }
@@ -274,10 +288,14 @@
 </nav>
 
 <!-- TICKER THÔNG BÁO -->
-<div class="ticker-wrap">
-  <div class="ticker-inner" id="ticker-inner">
-    <span>⏳ Đang tải thông báo...</span>
+<div class="ticker-wrap" id="ticker-wrap">
+  <button class="ticker-btn" onclick="tickerPrev()">◀</button>
+  <div class="ticker-text-wrap" id="ticker-text-wrap">
+    <div class="ticker-inner" id="ticker-inner"><span>⏳ Đang tải thông báo...</span></div>
   </div>
+  <div class="ticker-static" id="ticker-static"></div>
+  <button class="ticker-btn" onclick="tickerNext()">▶</button>
+  <button class="ticker-close" onclick="toggleTicker()" id="ticker-toggle" title="Tắt thông báo">🔔</button>
 </div>
 
 <!-- HERO -->
@@ -512,7 +530,7 @@ fetch(SHEET_CSV)
   .then(r => r.text())
   .then(csv => {
     const rows = csv.split('\n').map(r =>
-      r.split(',').map(c => c.replace(/^"|"$/g, '').trim())
+      r.replace(/\r/g, '').split(',').map(c => c.replace(/^"|"$/g, '').trim())
     );
     // Hàng 2 (index 1): J = index 9 → link MOM
     // Hàng 3 (index 2): J = index 9 → version MOM
@@ -536,22 +554,61 @@ fetch(SHEET_CSV)
       document.getElementById('sub-rar').textContent = 'RARZIP Tool v' + rarVer;
     }
 
-    // Cột I (index 8) từ hàng 7 (index 6) trở đi là thông báo
+    // Cột I (index 8) toàn bộ, bỏ ô trống
     const notices = [];
-    for (let i = 6; i < rows.length; i++) {
-      const msg = rows[i][8];
-      if (msg) notices.push(msg);
+    for (let i = 1; i < rows.length; i++) {
+      const msg = rows[i] && rows[i][8];
+      if (msg && msg.trim()) notices.push(msg.trim());
     }
     if (notices.length > 0) {
+      window.tickerNotices = notices;
+      window.tickerIndex = 0;
       document.getElementById('ticker-inner').innerHTML =
         notices.map(m => `<span>${m}</span>`).join('');
-      // Tốc độ cuộn tỉ lệ với độ dài nội dung
       const totalLen = notices.join('   ').length;
       const duration = Math.max(20, totalLen * 0.18);
       document.getElementById('ticker-inner').style.animationDuration = duration + 's';
     }
   })
   .catch(() => {}); // Nếu lỗi thì giữ link mặc định
+
+function toggleTicker() {
+  const wrap = document.getElementById('ticker-text-wrap');
+  const stat = document.getElementById('ticker-static');
+  const btn  = document.getElementById('ticker-toggle');
+  const inner = document.getElementById('ticker-inner');
+  if (inner.style.animationPlayState === 'paused') {
+    inner.style.animationPlayState = 'running';
+    wrap.style.display = 'block';
+    stat.style.display = 'none';
+    btn.textContent = '🔔';
+    btn.title = 'Tắt thông báo';
+  } else {
+    inner.style.animationPlayState = 'paused';
+    btn.textContent = '🔕';
+    btn.title = 'Bật thông báo';
+  }
+}
+  if (!window.tickerNotices || !window.tickerNotices.length) return;
+  window.tickerIndex = (window.tickerIndex - 1 + window.tickerNotices.length) % window.tickerNotices.length;
+  showStaticNotice();
+}
+function tickerNext() {
+  if (!window.tickerNotices || !window.tickerNotices.length) return;
+  window.tickerIndex = (window.tickerIndex + 1) % window.tickerNotices.length;
+  showStaticNotice();
+}
+function showStaticNotice() {
+  document.getElementById('ticker-text-wrap').style.display = 'none';
+  const s = document.getElementById('ticker-static');
+  s.style.display = 'block';
+  s.textContent = `[${window.tickerIndex + 1}/${window.tickerNotices.length}] ${window.tickerNotices[window.tickerIndex]}`;
+  clearTimeout(window.tickerTimer);
+  window.tickerTimer = setTimeout(() => {
+    s.style.display = 'none';
+    document.getElementById('ticker-text-wrap').style.display = 'block';
+  }, 5000);
+}
 const WEBHOOK = _xd(_wp, _wk);
 
 async function submitReg(e, type) {
