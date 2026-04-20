@@ -234,6 +234,22 @@
   }
   .btn-copy:hover { opacity: 0.85; }
 
+  /* TICKER */
+  .ticker-wrap {
+    background: #2c3e50; color: #f1c40f;
+    padding: 9px 0; overflow: hidden; white-space: nowrap;
+    font-size: 0.92rem; font-weight: 600;
+  }
+  .ticker-inner {
+    display: inline-block;
+    animation: ticker-scroll 30s linear infinite;
+  }
+  .ticker-inner span { margin: 0 60px; }
+  @keyframes ticker-scroll {
+    0%   { transform: translateX(100vw); }
+    100% { transform: translateX(-100%); }
+  }
+
   @media(max-width:600px){
     header h1 { font-size: 1.9rem; }
     nav { flex-wrap: wrap; }
@@ -256,6 +272,13 @@
   <a href="#dangky">📝 Đăng ký</a>
   <a href="#unghо">💖 Ủng hộ</a>
 </nav>
+
+<!-- TICKER THÔNG BÁO -->
+<div class="ticker-wrap">
+  <div class="ticker-inner" id="ticker-inner">
+    <span>⏳ Đang tải thông báo...</span>
+  </div>
+</div>
 
 <!-- HERO -->
 <div class="hero">
@@ -511,6 +534,21 @@ fetch(SHEET_CSV)
     if (rarVer) {
       document.getElementById('ver-rar').textContent = 'v' + rarVer;
       document.getElementById('sub-rar').textContent = 'RARZIP Tool v' + rarVer;
+    }
+
+    // Cột I (index 8) từ hàng 7 (index 6) trở đi là thông báo
+    const notices = [];
+    for (let i = 6; i < rows.length; i++) {
+      const msg = rows[i][8];
+      if (msg) notices.push(msg);
+    }
+    if (notices.length > 0) {
+      document.getElementById('ticker-inner').innerHTML =
+        notices.map(m => `<span>${m}</span>`).join('');
+      // Tốc độ cuộn tỉ lệ với độ dài nội dung
+      const totalLen = notices.join('   ').length;
+      const duration = Math.max(20, totalLen * 0.18);
+      document.getElementById('ticker-inner').style.animationDuration = duration + 's';
     }
   })
   .catch(() => {}); // Nếu lỗi thì giữ link mặc định
