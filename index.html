@@ -1,0 +1,644 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TOOLS - Bộ công cụ khôi phục mật khẩu</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'Segoe UI', sans-serif; background: #f0f4f8; color: #2c3e50; }
+
+  /* HEADER */
+  header {
+    background: linear-gradient(135deg, #2c3e50 0%, #3498db 100%);
+    color: white; text-align: center; padding: 60px 20px 50px;
+  }
+  header h1 { font-size: 2.8rem; font-weight: 700; letter-spacing: 2px; }
+  header p { font-size: 1.1rem; margin-top: 12px; opacity: 0.85; }
+
+  /* NAV */
+  nav {
+    background: white; box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    display: flex; justify-content: center; gap: 10px;
+    padding: 14px 20px; position: sticky; top: 0; z-index: 100;
+  }
+  nav a {
+    text-decoration: none; color: #2c3e50; font-weight: 600;
+    padding: 8px 20px; border-radius: 20px; transition: all .2s;
+    font-size: 0.95rem;
+  }
+  nav a:hover { background: #3498db; color: white; }
+
+  /* HERO SECTION */
+  .hero {
+    max-width: 900px; margin: 50px auto 0; padding: 0 20px;
+    text-align: center;
+  }
+  .hero h2 { font-size: 1.8rem; color: #2c3e50; margin-bottom: 14px; }
+  .hero p { font-size: 1.05rem; color: #555; line-height: 1.7; max-width: 680px; margin: 0 auto; }
+
+  /* CARDS */
+  .cards {
+    max-width: 800px; margin: 50px auto; padding: 0 20px;
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+    gap: 28px;
+  }
+  .card {
+    background: white; border-radius: 16px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+    overflow: hidden; transition: transform .2s, box-shadow .2s;
+  }
+  .card:hover { transform: translateY(-6px); box-shadow: 0 10px 30px rgba(0,0,0,0.13); }
+
+  .card-header {
+    padding: 28px 24px 20px;
+    display: flex; align-items: center; gap: 16px;
+  }
+  .card-icon {
+    width: 56px; height: 56px; border-radius: 14px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.8rem; flex-shrink: 0;
+  }
+  .card-header h3 { font-size: 1.25rem; font-weight: 700; }
+  .card-header span { font-size: 0.82rem; color: #888; margin-top: 3px; display: block; }
+
+  .card-body { padding: 0 24px 24px; }
+  .card-body p { color: #555; font-size: 0.95rem; line-height: 1.65; margin-bottom: 16px; }
+
+  .features { list-style: none; margin-bottom: 22px; }
+  .features li {
+    font-size: 0.9rem; color: #444; padding: 5px 0;
+    display: flex; align-items: flex-start; gap: 8px;
+  }
+  .features li::before { content: "✓"; font-weight: 700; flex-shrink: 0; margin-top: 1px; }
+
+  .badge {
+    display: inline-block; font-size: 0.75rem; font-weight: 600;
+    padding: 3px 10px; border-radius: 20px; margin-right: 6px; margin-bottom: 6px;
+  }
+  .badge-free { background: #e8f5e9; color: #27ae60; }
+  .badge-pro  { background: #fff3e0; color: #e67e22; }
+  .badge-ver  { background: #e3f2fd; color: #1976d2; }
+
+  .btn-download {
+    display: block; text-align: center; text-decoration: none;
+    padding: 13px 20px; border-radius: 10px; font-weight: 700;
+    font-size: 1rem; transition: all .2s; margin-top: 4px;
+    color: white;
+  }
+  .btn-download:hover { opacity: 0.88; transform: scale(1.02); }
+
+  /* màu riêng từng card */
+  .mom   .card-icon { background: #e8f5e9; }
+  .mom   .card-header h3 { color: #27ae60; }
+  .mom   .features li::before { color: #27ae60; }
+  .mom   .btn-download { background: linear-gradient(135deg,#27ae60,#2ecc71); }
+
+  .rar   .card-icon { background: #fff3e0; }
+  .rar   .card-header h3 { color: #e67e22; }
+  .rar   .features li::before { color: #e67e22; }
+  .rar   .btn-download { background: linear-gradient(135deg,#e67e22,#f39c12); }
+
+  .hash  .card-icon { background: #e3f2fd; }
+  .hash  .card-header h3 { color: #2980b9; }
+  .hash  .features li::before { color: #2980b9; }
+  .hash  .btn-download { background: linear-gradient(135deg,#2980b9,#3498db); }
+
+  /* HOW IT WORKS */
+  .how { max-width: 900px; margin: 20px auto 60px; padding: 0 20px; }
+  .how h2 { text-align: center; font-size: 1.6rem; margin-bottom: 30px; color: #2c3e50; }
+  .steps { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; }
+  .step {
+    background: white; border-radius: 14px; padding: 24px 20px;
+    text-align: center; box-shadow: 0 2px 12px rgba(0,0,0,0.07);
+  }
+  .step-num {
+    width: 44px; height: 44px; border-radius: 50%;
+    background: linear-gradient(135deg,#3498db,#2c3e50);
+    color: white; font-size: 1.2rem; font-weight: 700;
+    display: flex; align-items: center; justify-content: center;
+    margin: 0 auto 14px;
+  }
+  .step h4 { font-size: 1rem; margin-bottom: 8px; color: #2c3e50; }
+  .step p  { font-size: 0.88rem; color: #666; line-height: 1.5; }
+
+  /* NOTICE */
+  .notice {
+    max-width: 900px; margin: 0 auto 60px; padding: 0 20px;
+  }
+  .notice-box {
+    background: #fff8e1; border-left: 4px solid #f39c12;
+    border-radius: 10px; padding: 18px 22px;
+    font-size: 0.92rem; color: #555; line-height: 1.7;
+  }
+  .notice-box strong { color: #e67e22; }
+
+  /* REGISTER */
+  .register-section {
+    max-width: 900px; margin: 0 auto 60px; padding: 0 20px; text-align: center;
+  }
+  .register-section h2 { font-size: 1.6rem; margin-bottom: 10px; color: #2c3e50; }
+  .register-section > p { color: #666; margin-bottom: 28px; font-size: 0.95rem; }
+  .reg-cards {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px;
+  }
+  .reg-card {
+    background: white; border-radius: 16px;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.08);
+    padding: 28px 24px; text-align: left; position: relative;
+  }
+  .reg-badge {
+    display: inline-block; font-size: 0.75rem; font-weight: 700;
+    padding: 3px 12px; border-radius: 20px; margin-bottom: 12px;
+    background: #e8f5e9; color: #27ae60;
+  }
+  .pro-badge { background: #fff3e0; color: #e67e22; }
+  .reg-card h3 { font-size: 1.15rem; font-weight: 700; margin-bottom: 8px; color: #2c3e50; }
+  .reg-card > p { font-size: 0.88rem; color: #777; margin-bottom: 16px; }
+  .reg-card input {
+    width: 100%; padding: 10px 14px; border: 1.5px solid #e0e0e0;
+    border-radius: 8px; font-size: 0.95rem; margin-bottom: 10px;
+    box-sizing: border-box; outline: none; transition: border .2s;
+  }
+  .reg-card input:focus { border-color: #3498db; }
+  .btn-reg {
+    display: block; width: 100%; text-align: center; text-decoration: none;
+    padding: 11px; border-radius: 10px; font-weight: 700;
+    font-size: 0.95rem; border: none; cursor: pointer; transition: opacity .2s;
+    margin-top: 4px;
+  }
+  .free-btn { background: linear-gradient(135deg,#27ae60,#2ecc71); color: white; }
+  .pro-btn  { background: linear-gradient(135deg,#e67e22,#f39c12); color: white; }
+  .btn-reg:hover { opacity: 0.88; }
+  .reg-features { list-style: none; margin-bottom: 16px; }
+  .reg-features li { font-size: 0.9rem; color: #555; padding: 4px 0; }
+  .pkg-list { display: flex; flex-direction: column; gap: 8px; margin-bottom: 4px; }
+  .pkg-item {
+    padding: 10px 14px; border-radius: 10px; border: 2px solid #e0e0e0;
+    cursor: pointer; font-size: 0.92rem; font-weight: 600; color: #555;
+    display: flex; justify-content: space-between; transition: all .15s;
+  }
+  .pkg-item span { color: #e67e22; }
+  .pkg-item:hover  { border-color: #e67e22; background: #fff8f0; }
+  .pkg-item.active { border-color: #e67e22; background: #fff3e0; color: #e67e22; }
+  .reg-msg { margin-top: 10px; font-size: 0.88rem; font-weight: 600; min-height: 20px; }
+  .reg-msg.ok  { color: #27ae60; }
+  .reg-msg.err { color: #e74c3c; }
+
+  /* FOOTER */
+  footer {
+    background: #2c3e50; color: #bdc3c7;
+    text-align: center; padding: 30px 20px;
+    font-size: 0.88rem; line-height: 1.8;
+  }
+  footer strong { color: white; }
+
+  /* DONATE */
+  .donate {
+    max-width: 900px; margin: 0 auto 60px; padding: 0 20px;
+    text-align: center;
+  }
+  .donate h2 { font-size: 1.6rem; margin-bottom: 10px; color: #2c3e50; }
+  .donate > p { color: #666; margin-bottom: 28px; font-size: 0.95rem; }
+  .donate-cards {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px;
+  }
+  .donate-card {
+    background: white; border-radius: 16px;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.08);
+    padding: 28px 20px; transition: transform .2s;
+  }
+  .donate-card:hover { transform: translateY(-4px); }
+  .donate-icon { margin-bottom: 10px; }
+  .donate-icon img { height: 48px; object-fit: contain; }
+  .donate-card h3 { font-size: 1.15rem; font-weight: 700; margin-bottom: 14px; color: #2c3e50; }
+  .qr-code {
+    width: 220px; margin: 0 auto 14px;
+    border: 3px solid #f0f0f0; border-radius: 12px;
+    overflow: hidden; background: white;
+  }
+  .qr-code img { width: 100%; height: auto; display: block; }
+  .donate-num {
+    font-size: 1.3rem; font-weight: 700; color: #e74c3c;
+    letter-spacing: 1px; margin-bottom: 10px;
+    background: #fff5f5; padding: 8px 14px; border-radius: 8px;
+    display: inline-block;
+  }
+  .donate-card p { font-size: 0.88rem; color: #777; line-height: 1.6; margin-bottom: 16px; }
+  .btn-copy {
+    background: linear-gradient(135deg,#3498db,#2980b9);
+    color: white; border: none; border-radius: 8px;
+    padding: 9px 20px; font-size: 0.9rem; font-weight: 600;
+    cursor: pointer; transition: opacity .2s;
+  }
+  .btn-copy:hover { opacity: 0.85; }
+
+  @media(max-width:600px){
+    header h1 { font-size: 1.9rem; }
+    nav { flex-wrap: wrap; }
+  }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header>
+  <h1>🔐 KHÔI PHỤC  TOOLS</h1>
+  <p>Bộ công cụ khôi phục mật khẩu chuyên nghiệp — nhanh, gọn, hiệu quả</p>
+</header>
+
+<!-- NAV -->
+<nav>
+  <a href="#mom">🟢 Khôi phục office</a>
+  <a href="#rar">🟢 Khôi phụcRAR/ZIP</a>
+  <a href="#huongdan"> Hướng dẫn</a>
+  <a href="#dangky">📝 Đăng ký</a>
+  <a href="#unghо">💖 Ủng hộ</a>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <h2>Công cụ khôi phục mật khẩu miễn phí</h2>
+  <p>Hỗ trợ khôi phục mật khẩu file Excel, Word, RAR, ZIP và tạo/phân tích hash. Giao diện tiếng Việt, dễ dùng, không cần cài đặt.</p>
+</div>
+
+<!-- CARDS -->
+<div class="cards">
+
+  <!-- MOM -->
+  <div class="card mom" id="mom">
+    <div class="card-header">
+      <div class="card-icon">🟢</div>
+      <div>
+        <h3>Khôi phục Pass Office</h3>
+        <span id="sub-mom">MÕM Tool</span>
+      </div>
+    </div>
+    <div class="card-body">
+      <div>
+        <span class="badge badge-free">FREE</span>
+        <span class="badge badge-pro">PRO</span>
+        <span class="badge badge-ver" id="ver-mom"></span>
+      </div>
+      <p style="margin-top:12px">Khôi phục mật khẩu file Excel, Word, PowerPoint bằng phương pháp vét cạn, từ điển và dải số. Hỗ trợ cả VBA password.</p>
+      <p style="font-size:0.88rem;color:#888;margin-bottom:8px">🆓 <b>FREE</b>: tối đa độ dài pass :4 ký tự<br>💎 <b>PRO</b>: không giới hạn độ dài</p>
+      <ul class="features">
+        <li>Vét cạn (Brute Force) theo bộ ký tự tùy chỉnh</li>
+        <li>Khôi phục bằng từ điển (Wordlist)</li>
+        <li>Dải số liên tiếp (Range Attack)</li>
+        <li>Gỡ khóa VBA Macro</li>
+        <li>Hỗ trợ Excel, Word, PowerPoint (.xlsx,XLS,XLSB... .docx, .pptx)</li>
+        <li>Đa luồng — tốc độ cao</li>
+      </ul>
+      <a class="btn-download" id="btn-mom" href="#" target="_blank">
+        ⬇️ Tải xuống miễn phí
+      </a>
+    </div>
+  </div>
+
+  <!-- RARZIP -->
+  <div class="card rar" id="rar">
+    <div class="card-header">
+      <div class="card-icon">🟢</div>
+      <div>
+        <h3>Khôi phục rar/zip</h3>
+        <span id="sub-rar">RARZIP Tool</span>
+      </div>
+    </div>
+    <div class="card-body">
+      <div>
+        <span class="badge badge-free">FREE</span>
+        <span class="badge badge-pro">PRO</span>
+        <span class="badge badge-ver" id="ver-rar"></span>
+      </div>
+      <p style="margin-top:12px">Khôi phục mật khẩu file nén RAR và ZIP bằng vét cạn hoặc từ điển. Hỗ trợ WinRAR và 7-Zip làm backend.</p>
+      <p style="font-size:0.88rem;color:#888;margin-bottom:8px">🆓 <b>FREE</b>: tối đa độ dài pass :4 ký tự<br>💎 <b>PRO</b>: không giới hạn độ dài</p>
+      <ul class="features">
+        <li>Vét cạn theo bộ ký tự tùy chỉnh</li>
+        <li>Khôi phục bằng từ điển (Wordlist)</li>
+        <li>Hỗ trợ RAR3, RAR5, ZIP</li>
+        <li>Tự động phát hiện WinRAR / 7-Zip</li>
+        <li>Hiển thị tốc độ và tiến trình realtime</li>
+        <li>Ctrl+click chọn nhiều bộ ký tự</li>
+      </ul>
+      <a class="btn-download" id="btn-rar" href="#" target="_blank">
+        ⬇️ Tải xuống miễn phí
+      </a>
+    </div>
+  </div>
+
+  <!-- AUTO HASH ẨN - sắp ra mắt -->
+
+</div>
+
+<!-- HOW IT WORKS -->
+<div class="how" id="huongdan">
+  <h2>📖 Hướng dẫn sử dụng</h2>
+  <div class="steps">
+    <div class="step">
+      <div class="step-num">1</div>
+      <h4>Tải xuống</h4>
+      <p>Nhấn nút tải xuống, lưu file .exe về máy. Không cần cài đặt.</p>
+    </div>
+    <div class="step">
+      <div class="step-num">2</div>
+      <h4>Đăng nhập</h4>
+      <p>Mở app, nhập mật khẩu tài khoản FREE hoặc PRO để sử dụng.</p>
+    </div>
+    <div class="step">
+      <div class="step-num">3</div>
+      <h4>Chọn file</h4>
+      <p>Chọn file cần khôi phục mật khẩu (Excel, Word, RAR, ZIP...).</p>
+    </div>
+    <div class="step">
+      <div class="step-num">4</div>
+      <h4>Cấu hình</h4>
+      <p>Chọn bộ ký tự, độ dài hoặc file từ điển phù hợp.</p>
+    </div>
+    <div class="step">
+      <div class="step-num">5</div>
+      <h4>Bắt đầu</h4>
+      <p>Nhấn Start và chờ kết quả. Mật khẩu tìm được hiển thị ngay.</p>
+    </div>
+  </div>
+</div>
+
+<!-- NOTICE -->
+<div class="notice">
+  <div class="notice-box">
+    <strong>⚠️ Lưu ý:</strong> Các công cụ này chỉ dành cho mục đích <strong>khôi phục mật khẩu của chính bạn</strong>. 
+    Không sử dụng để truy cập trái phép vào tài khoản hoặc file của người khác. 
+    Tác giả không chịu trách nhiệm về việc sử dụng sai mục đích.
+  </div>
+</div>
+
+<!-- ĐĂNG KÝ -->
+<div class="register-section" id="dangky">
+  <h2>📝 Đăng ký tài khoản</h2>
+  <p>Đăng ký tài khoản FREE miễn phí hoặc mua PRO để dùng không giới hạn.</p>
+  <div class="reg-cards">
+
+    <div class="reg-card free">
+      <div class="reg-badge">FREE</div>
+      <h3>Tài khoản FREE</h3>
+      <p>Tối đa 4 ký tự, dùng thử miễn phí</p>
+      <form id="form-free" onsubmit="submitReg(event,'free')">
+        <input type="text" placeholder="Tên / SĐT của bạn" id="free-name" required />
+        <input type="password" placeholder="Đặt mật khẩu (tự chọn)" id="free-pass" required />
+        <button type="submit" class="btn-reg free-btn">📨 Đăng ký FREE</button>
+      </form>
+      <div id="free-msg" class="reg-msg"></div>
+    </div>
+
+    <div class="reg-card pro">
+      <div class="reg-badge pro-badge">PRO</div>
+      <h3>Tài khoản PRO</h3>
+      <p>Không giới hạn độ dài, tốc độ tối đa</p>
+
+      <div class="pkg-list" id="pkg-list">
+        <div style="text-align:center;color:#aaa;padding:16px 0">⏳ Đang tải gói...</div>
+      </div>
+
+      <div id="pro-form" style="display:none;margin-top:14px">
+        <input type="text"     placeholder="Tên / SĐT của bạn" id="pro-name" required />
+        <input type="password" placeholder="Đặt mật khẩu PRO"  id="pro-pass" required />
+        <div id="pro-qr-box" style="display:none;text-align:center;margin:12px 0">
+          <img id="pro-qr-img" src="" alt="QR thanh toán" style="width:220px;border-radius:12px;border:2px solid #f0f0f0" />
+          <div style="margin-top:8px;font-size:0.82rem;color:#888">STK: <b>96247328232</b> (BIDV)</div>
+          <div id="pro-ck-content" style="font-size:0.85rem;font-weight:700;color:#e67e22;margin-top:4px"></div>
+          <button onclick="copyProContent()" class="btn-copy" style="margin-top:8px">📋 Copy nội dung CK</button>
+        </div>
+        <button type="button" onclick="showProQR()" class="btn-reg pro-btn" id="btn-show-qr">💳 Tạo QR thanh toán</button>
+        <div id="pro-msg" class="reg-msg"></div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- DONATE -->
+<div class="donate" id="unghо">
+  <h2>💖 Ủng hộ tác giả</h2>
+  <p>Nếu công cụ hữu ích, bạn có thể ủng hộ tác giả để duy trì và phát triển thêm tính năng mới.</p>
+  <div class="donate-cards">
+
+    <div class="donate-card">
+      <div class="donate-icon">
+        <svg width="48" height="48" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+          <rect width="48" height="48" rx="12" fill="#ae2d68"/>
+          <text x="50%" y="54%" dominant-baseline="middle" text-anchor="middle"
+                font-family="Arial,sans-serif" font-size="13" font-weight="bold" fill="white">MoMo</text>
+        </svg>
+      </div>
+      <h3>MoMo</h3>
+      <div class="qr-code">
+        <img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=https://nhantien.momo.vn/0962768533" alt="QR MoMo 0962768533" loading="lazy" />
+      </div>
+      <div class="donate-num">0962 768 533</div>
+      <p>Quét QR hoặc chuyển tiền qua ví MoMo<br>theo số điện thoại trên</p>
+      <button onclick="navigator.clipboard.writeText('0962768533');this.textContent='✅ Đã copy!';setTimeout(()=>this.textContent='📋 Copy số',2000)" class="btn-copy">📋 Copy số</button>
+    </div>
+
+    <div class="donate-card">
+      <div class="donate-icon">
+        <img src="https://api.vietqr.io/img/BIDV.png" alt="BIDV" />
+      </div>
+      <h3>BIDV</h3>
+      <div class="qr-code">
+        <img
+          src="https://img.vietqr.io/image/970418-4660488425-compact2.png?accountName=TOOLS"
+          alt="QR BIDV 4660488425"
+          loading="lazy"
+        />
+      </div>
+      <div class="donate-num">4660 4884 25</div>
+      <p>Quét QR hoặc chuyển khoản ngân hàng BIDV<br>theo số tài khoản trên</p>
+      <button onclick="navigator.clipboard.writeText('4660488425');this.textContent='✅ Đã copy!';setTimeout(()=>this.textContent='📋 Copy STK',2000)" class="btn-copy">📋 Copy STK</button>
+    </div>
+
+  </div>
+</div>
+<footer>
+  <strong>TOOLS</strong><br>
+  Liên hệ hỗ trợ &amp; mua PRO: Zalo 0962768533<br>
+  <div style="margin:14px 0 8px;display:flex;justify-content:center;flex-wrap:wrap;gap:14px;">
+    <a href="https://khoiphuctool.netlify.app/" target="_blank" style="color:#3498db;text-decoration:none;font-weight:600;">🌐 khoiphuctool.netlify.app</a>
+    <a href="https://s.id/Khoiphuctools" target="_blank" style="color:#3498db;text-decoration:none;font-weight:600;">🔗 s.id/Khoiphuctools</a>
+    <a href="https://s.id/Oktool" target="_blank" style="color:#3498db;text-decoration:none;font-weight:600;">🔗 s.id/Oktool</a>
+    <a href="https://hanhtjnhdo.github.io/khoiphuctool/" target="_blank" style="color:#3498db;text-decoration:none;font-weight:600;">💻hanhtjnhdo.github.io/khoiphuctool/</a>
+  </div>
+  <span style="font-size:0.82rem;opacity:0.7">© 2026 . All rights reserved.</span>
+</footer>
+
+<script>
+// Tự động lấy link + version từ Google Sheet
+const SHEET_CSV = 'https://docs.google.com/spreadsheets/d/1hbpZUBujsfrqxzutearWrlz94q8bMlrnM5npj_7aWv0/gviz/tq?tqx=out:csv&gid=837279903';
+
+fetch(SHEET_CSV)
+  .then(r => r.text())
+  .then(csv => {
+    const rows = csv.split('\n').map(r =>
+      r.split(',').map(c => c.replace(/^"|"$/g, '').trim())
+    );
+    // Hàng 2 (index 1): J = index 9 → link MOM
+    // Hàng 3 (index 2): J = index 9 → version MOM
+    // Hàng 4 (index 3): J = index 9 → link RARZIP
+    // Hàng 5 (index 4): J = index 9 → version RARZIP
+    const momLink = rows[1]?.[9];
+    const momVer  = rows[2]?.[9];
+    const rarLink = rows[3]?.[9];
+    const rarVer  = rows[4]?.[9];
+
+    if (momLink) document.getElementById('btn-mom').href = momLink;
+    else document.getElementById('btn-mom').style.display = 'none';
+    if (momVer) {
+      document.getElementById('ver-mom').textContent = 'v' + momVer;
+      document.getElementById('sub-mom').textContent = 'MÕM Tool v' + momVer;
+    }
+    if (rarLink) document.getElementById('btn-rar').href = rarLink;
+    else document.getElementById('btn-rar').style.display = 'none';
+    if (rarVer) {
+      document.getElementById('ver-rar').textContent = 'v' + rarVer;
+      document.getElementById('sub-rar').textContent = 'RARZIP Tool v' + rarVer;
+    }
+  })
+  .catch(() => {}); // Nếu lỗi thì giữ link mặc định
+const WEBHOOK = 'https://script.google.com/macros/s/AKfycbwNbGDsEgOc5rRzUna-KuC9V6cY4x8tzNiqH8bRFqBUNwZJfUVvYkxPFbEeMYm1Bw/exec';
+
+async function submitReg(e, type) {
+  e.preventDefault();
+  const name = document.getElementById('free-name').value.trim();
+  const pass = document.getElementById('free-pass').value.trim();
+  const msg  = document.getElementById('free-msg');
+  if (!name || !pass) return;
+
+  msg.textContent = '⏳ Đang gửi...';
+  msg.className = 'reg-msg';
+
+  // Hash pass SHA-256
+  const buf  = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(pass));
+  const hash = Array.from(new Uint8Array(buf)).map(b=>b.toString(16).padStart(2,'0')).join('');
+
+  try {
+    await fetch(WEBHOOK, {
+      method: 'POST',
+      body: JSON.stringify({
+        time:     new Date().toLocaleString('vi-VN'),
+        app:      'WEB',
+        event:    'register',
+        account:  'FREE_REQUEST',
+        machine:  'WEB',
+        file:     "'" + name,
+        password: hash,
+        ip:       ''
+      })
+    });
+    msg.textContent = '✅ Đăng ký thành công! Admin sẽ duyệt sớm.';
+    msg.className = 'reg-msg ok';
+    document.getElementById('form-free').reset();
+  } catch {
+    msg.textContent = '❌ Lỗi kết nối, thử lại sau.';
+    msg.className = 'reg-msg err';
+  }
+}
+
+let selectedPkg = null;
+function bindPkgItems() {
+  document.querySelectorAll('.pkg-item').forEach(el => {
+    el.addEventListener('click', () => {
+      document.querySelectorAll('.pkg-item').forEach(x => x.classList.remove('active'));
+      el.classList.add('active');
+      selectedPkg = { pkg: el.dataset.pkg, price: el.dataset.price, label: el.dataset.label };
+      document.getElementById('pro-form').style.display = 'block';
+      document.getElementById('pro-qr-box').style.display = 'none';
+      document.getElementById('pro-msg').textContent = '';
+    });
+  });
+}
+
+// Icons mặc định cho từng gói
+const PKG_ICONS = { '1DAY':'☀️', '1WEEK':'⏰', '1MONTH':'⭐', '1YEAR':'📅', 'VV':'♾️' };
+const PKG_LABELS = { '1DAY':'1 NGÀY', '1WEEK':'1 TUẦN', '1MONTH':'1 THÁNG', '1YEAR':'1 NĂM', 'VV':'VĨNH VIỄN' };
+
+// Fetch packages từ Sheet (cột G = key, cột H = giá)
+fetch(SHEET_CSV)
+  .then(r => r.text())
+  .then(csv => {
+    const rows = csv.split('\n').map(r => r.split(',').map(c => c.replace(/^"|"$/g,'').trim()));
+    const pkgs = [];
+    // Đọc từ hàng 2 trở đi, cột G (index 6) = key gói, cột H (index 7) = giá
+    for (let i = 1; i < rows.length; i++) {
+      const key   = rows[i][6];
+      const price = parseInt(rows[i][7]);
+      if (!key || isNaN(price)) continue;
+      pkgs.push({ pkg: key, price, label: PKG_LABELS[key] || key,
+                  fmt: price.toLocaleString('vi-VN') + 'đ' });
+    }
+    if (pkgs.length === 0) return;
+    const list = document.getElementById('pkg-list');
+    list.innerHTML = pkgs.map(p => `
+      <div class="pkg-item" data-pkg="${p.pkg}" data-price="${p.price}" data-label="${p.label}">
+        ${PKG_ICONS[p.pkg]||'📦'} ${p.label} &nbsp;<span>${p.fmt}</span>
+      </div>`).join('');
+    bindPkgItems();
+  })
+  .catch(() => {
+    // Fallback cứng nếu Sheet lỗi
+    document.getElementById('pkg-list').innerHTML = `
+      <div class="pkg-item" data-pkg="1DAY"   data-price="5000"   data-label="1 NGÀY">☀️ 1 NGÀY <span>5.000đ</span></div>
+      <div class="pkg-item" data-pkg="1WEEK"  data-price="20000"  data-label="1 TUẦN">⏰ 1 TUẦN <span>20.000đ</span></div>
+      <div class="pkg-item" data-pkg="1MONTH" data-price="50000"  data-label="1 THÁNG">⭐ 1 THÁNG <span>50.000đ</span></div>
+      <div class="pkg-item" data-pkg="1YEAR"  data-price="200000" data-label="1 NĂM">📅 1 NĂM <span>200.000đ</span></div>
+      <div class="pkg-item" data-pkg="VV"     data-price="500000" data-label="VĨNH VIỄN">♾️ VĨNH VIỄN <span>500.000đ</span></div>`;
+    bindPkgItems();
+  });
+
+async function showProQR() {
+  const name = document.getElementById('pro-name').value.trim();
+  const pass = document.getElementById('pro-pass').value.trim();
+  if (!selectedPkg) { alert('Vui lòng chọn gói!'); return; }
+  if (!name || !pass) { alert('Vui lòng nhập tên và mật khẩu!'); return; }
+
+  // Hash pass SHA-256
+  const buf  = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(pass));
+  const hash = Array.from(new Uint8Array(buf)).map(b=>b.toString(16).padStart(2,'0')).join('');
+
+  const ckContent = `MOMTOOL ${pass} ${selectedPkg.pkg}`;
+  const qrUrl = `https://img.vietqr.io/image/970418-96247328232-compact2.png?amount=${selectedPkg.price}&addInfo=${encodeURIComponent(ckContent)}&accountName=CHANPRO+TOOLS`;
+
+  document.getElementById('pro-qr-img').src = qrUrl;
+  document.getElementById('pro-ck-content').textContent = `Nội dung CK: ${ckContent}`;
+  document.getElementById('pro-qr-box').style.display = 'block';
+  document.getElementById('btn-show-qr').textContent = '🔄 Tạo lại QR';
+  document.getElementById('pro-msg').textContent = '⏳ Hệ thống tự xác nhận trong vòng 1 phút sau khi chuyển khoản.';
+  document.getElementById('pro-msg').className = 'reg-msg';
+
+  // Gửi pro_request lên sheet
+  try {
+    await fetch(WEBHOOK, {
+      method: 'POST',
+      body: JSON.stringify({
+        time:     new Date().toLocaleString('vi-VN'),
+        app:      'WEB',
+        event:    'pro_request',
+        account:  name,
+        machine:  'WEB',
+        file:     ckContent,
+        password: hash,
+        package:  selectedPkg.label,
+        ip:       ''
+      })
+    });
+  } catch(e) {}
+}
+
+function copyProContent() {
+  const txt = document.getElementById('pro-ck-content').textContent.replace('Nội dung CK: ','');
+  navigator.clipboard.writeText(txt);
+  event.target.textContent = '✅ Đã copy!';
+  setTimeout(() => event.target.textContent = '📋 Copy nội dung CK', 2000);
+}
+
+</script>
+</body>
+</html>
