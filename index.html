@@ -573,22 +573,14 @@ fetch(SHEET_CSV)
   .catch(() => {}); // Nếu lỗi thì giữ link mặc định
 
 function toggleTicker() {
-  const wrap = document.getElementById('ticker-text-wrap');
-  const stat = document.getElementById('ticker-static');
   const btn  = document.getElementById('ticker-toggle');
   const inner = document.getElementById('ticker-inner');
-  if (inner.style.animationPlayState === 'paused') {
-    inner.style.animationPlayState = 'running';
-    wrap.style.display = 'block';
-    stat.style.display = 'none';
-    btn.textContent = '🔔';
-    btn.title = 'Tắt thông báo';
-  } else {
-    inner.style.animationPlayState = 'paused';
-    btn.textContent = '🔕';
-    btn.title = 'Bật thông báo';
-  }
+  const paused = inner.style.animationPlayState === 'paused';
+  inner.style.animationPlayState = paused ? 'running' : 'paused';
+  btn.textContent = paused ? '🔔' : '🔕';
+  btn.title = paused ? 'Tắt thông báo' : 'Bật thông báo';
 }
+function tickerPrev() {
   if (!window.tickerNotices || !window.tickerNotices.length) return;
   window.tickerIndex = (window.tickerIndex - 1 + window.tickerNotices.length) % window.tickerNotices.length;
   showStaticNotice();
