@@ -820,8 +820,7 @@ async function showProQR() {
     pollCount++;
     if (pollCount > 20) { clearInterval(pollTimer); return; }
     try {
-      const proUrl = SHEET_CSV.replace(/gid=\d+/, 'gid=30069422');
-      const r = await fetch(proUrl + '&t=' + Date.now());
+      const proUrl = SHEET_CSV.replace(/gid=\d+/, 'gid=300692422');
       const csv = await r.text();
       const rows = csv.split('\n').map(r => r.split(',').map(c => c.replace(/^"|"$/g,'').trim()));
       for (const row of rows) {
@@ -908,19 +907,24 @@ async function doLogin() {
 
   // Fetch PRO sheet riêng để check
   try {
-    const proUrl = SHEET_CSV.replace('gid=837279903','gid=30069422');
-    const r = await fetch(proUrl + '&t=' + Date.now());
-    const csv = await r.text();
-    const rows = csv.split('\n').map(r => r.split(',').map(c => c.replace(/^"|"$/g,'').trim()));
-    for (let i = 0; i < rows.length; i++) {
-      const rowPass = (rows[i][4] || '').trim();   // cột E: có thể plain text hoặc hash
-      const rowOk   = (rows[i][5] || '').toUpperCase();
-      const rowName = (rows[i][1] || '').trim();
+    const proUrl = SHEET_CSV.replace(/gid=\d+/, 'gid=300692422');
+    const freeUrl = SHEET_CSV.replace(/gid=\d+/, 'gid=905885944');
+    // Fetch song song cả 2 sheet
+    const [rPro, rFree] = await Promise.all([
+      fetch(proUrl + '&t=' + Date.now()),
+      fetch(freeUrl + '&t=' + Date.now())
+    ]);
+    const [csvPro, csvFree] = await Promise.all([rPro.text(), rFree.text()]);
+
+    // Check PRO sheet
+    const rowsPro = csvPro.split('\n').map(r => r.split(',').map(c => c.replace(/^"|"$/g,'').trim()));
+    for (let i = 0; i < rowsPro.length; i++) {
+      const rowPass = (rowsPro[i][4] || '').trim();
+      const rowOk   = (rowsPro[i][5] || '').toUpperCase();
+      const rowName = (rowsPro[i][1] || '').trim();
       if (!rowPass) continue;
-      // So sánh: hash của pass nhập == hash lưu HOẶC pass nhập == plain text lưu
       const rowHash = rowPass.length === 64 && /^[0-9a-f]+$/i.test(rowPass)
-                      ? rowPass.toLowerCase()
-                      : await sha256(rowPass);
+                      ? rowPass.toLowerCase() : await sha256(rowPass);
       if (rowHash === h) {
         const isAdmin = (i === 0 || rowName.toUpperCase() === 'ADMIN');
         const type = isAdmin ? 'ADMIN' : (rowOk === 'OK' ? 'PRO' : 'PENDING');
@@ -929,35 +933,26 @@ async function doLogin() {
           msg.textContent='⏳ Tài khoản chờ admin duyệt!';
           return;
         }
-        _wlSet('wl_name', name);
-        _wlSet('wl_type', type);
-        closeLoginModal();
-        renderUserPanel(name, type);
-        return;
+        _wlSet('wl_name', name); _wlSet('wl_type', type);
+        closeLoginModal(); renderUserPanel(name, type); return;
       }
     }
+
     // Check FREE sheet
-    const freeUrl = SHEET_CSV.replace('gid=837279903','gid=905885944');
-    const r2 = await fetch(freeUrl + '&t=' + Date.now());
-    const csv2 = await r2.text();
-    const rows2 = csv2.split('\n').map(r => r.split(',').map(c => c.replace(/^"|"$/g,'').trim()));
-    for (let i = 1; i < rows2.length; i++) {
-      const rowPass = (rows2[i][2] || '').trim();  // cột C
+    const rowsFree = csvFree.split('\n').map(r => r.split(',').map(c => c.replace(/^"|"$/g,'').trim()));
+    for (let i = 1; i < rowsFree.length; i++) {
+      const rowPass = (rowsFree[i][2] || '').trim();
       if (!rowPass) continue;
       const rowHash = rowPass.length === 64 && /^[0-9a-f]+$/i.test(rowPass)
-                      ? rowPass.toLowerCase()
-                      : await sha256(rowPass);
+                      ? rowPass.toLowerCase() : await sha256(rowPass);
       if (rowHash === h) {
-        _wlSet('wl_name', name);
-        _wlSet('wl_type', 'FREE');
-        closeLoginModal();
-        renderUserPanel(name, 'FREE');
-        return;
+        _wlSet('wl_name', name); _wlSet('wl_type', 'FREE');
+        closeLoginModal(); renderUserPanel(name, 'FREE'); return;
       }
     }
     msg.style.color='#e74c3c'; msg.textContent='❌ Sai tên hoặc mật khẩu!';
   } catch(e) {
-    msg.style.color='#e74c3c'; msg.textContent='❌ Lỗi kết nối, thử lại sau.';
+    msg.style.color='#e74c3c'; msg.textContent='❌ Lỗi kết nối: ' + e.message;
   }
 }
 
@@ -1039,16 +1034,16 @@ function autoLoginAfterReg(name, pass, type) {
 
 // ── Visitor counter ──
 (function() {
-  fetch('https://api.countapi.xyz/hit/khoiphuctool.github.io/visits')
+  fetch('https://api.counterapi.dev/v1/khoiphuctool/visits/up')
     .then(r => r.json())
     .then(data => {
-      const total = data.value || 0;
+      const total = data.count || data.value || 0;
       document.getElementById('visitor-count').textContent =
         `👁 ${total.toLocaleString('vi-VN')} lượt truy cập`;
     })
     .catch(() => {
-      document.getElementById('visitor-count').innerHTML =
-        `<img src="https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https%3A%2F%2Fkhoiphuctool.github.io%2Fkhoiphuctool&count_bg=%2327AE60&title_bg=%23555555&icon=eye.svg&icon_color=%23FFFFFF&title=l%C6%B0%E1%BB%A3t+xem&edge_flat=true" alt="visitor count" style="height:22px;vertical-align:middle;">`;
+      // Fallback: hiện text tĩnh
+      document.getElementById('visitor-count').textContent = '👁 Đang tải...';
     });
 })();
 
