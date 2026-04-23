@@ -305,12 +305,15 @@
 </nav>
 
 <!-- MODAL ĐĂNG NHẬP -->
-<div id="login-modal" onclick="if(event.target===this)closeLoginModal()" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.55);z-index:999;align-items:center;justify-content:center;">
-  <div style="background:white;border-radius:16px;padding:32px 28px;width:340px;max-width:95vw;box-shadow:0 8px 40px rgba(0,0,0,0.2);">
+<div id="login-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.55);z-index:999;align-items:center;justify-content:center;">
+  <div id="login-box" style="background:white;border-radius:16px;padding:32px 28px;width:340px;max-width:95vw;box-shadow:0 8px 40px rgba(0,0,0,0.2);">
     <h3 style="margin-bottom:6px;color:#2c3e50;">🔑 Đăng nhập</h3>
     <p style="font-size:0.85rem;color:#888;margin-bottom:18px;">Dùng tài khoản FREE hoặc PRO</p>
     <input type="text" id="login-name" placeholder="Tên / SĐT" style="width:100%;padding:10px 12px;border:1.5px solid #e0e0e0;border-radius:8px;font-size:0.95rem;margin-bottom:10px;box-sizing:border-box;outline:none;">
-    <input type="password" id="login-pass" placeholder="Mật khẩu" onkeydown="if(event.key==='Enter')doLogin()" style="width:100%;padding:10px 12px;border:1.5px solid #e0e0e0;border-radius:8px;font-size:0.95rem;margin-bottom:14px;box-sizing:border-box;outline:none;">
+    <div style="position:relative;margin-bottom:14px;">
+      <input type="password" id="login-pass" placeholder="Mật khẩu" onkeydown="if(event.key==='Enter')doLogin()" style="width:100%;padding:10px 40px 10px 12px;border:1.5px solid #e0e0e0;border-radius:8px;font-size:0.95rem;box-sizing:border-box;outline:none;">
+      <span onclick="toggleLoginPass()" style="position:absolute;right:12px;top:50%;transform:translateY(-50%);cursor:pointer;font-size:1.1rem;user-select:none;" id="login-eye">👁</span>
+    </div>
     <div id="login-msg" style="font-size:0.85rem;min-height:18px;margin-bottom:10px;font-weight:600;"></div>
     <div style="display:flex;gap:10px;">
       <button onclick="doLogin()" style="flex:1;background:#27ae60;color:white;border:none;padding:11px;border-radius:8px;font-weight:700;cursor:pointer;font-size:0.95rem;">✅ Đăng nhập</button>
@@ -1001,12 +1004,23 @@ function doLogout() {
 }
 
 function showLoginModal() {
-  document.getElementById('login-modal').style.display = 'flex';
+  const modal = document.getElementById('login-modal');
+  modal.style.display = 'flex';
+  // Đóng khi click ra ngoài box (không phải bên trong)
+  modal.onmousedown = function(e) {
+    if (!document.getElementById('login-box').contains(e.target)) closeLoginModal();
+  };
   setTimeout(() => document.getElementById('login-name').focus(), 100);
 }
 function closeLoginModal() {
   document.getElementById('login-modal').style.display = 'none';
   document.getElementById('login-msg').textContent = '';
+}
+function toggleLoginPass() {
+  const inp = document.getElementById('login-pass');
+  const eye = document.getElementById('login-eye');
+  if (inp.type === 'password') { inp.type = 'text'; eye.textContent = '🙈'; }
+  else { inp.type = 'password'; eye.textContent = '👁'; }
 }
 
 // Tự đăng nhập sau khi đăng ký thành công
