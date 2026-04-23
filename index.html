@@ -4,6 +4,12 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>TOOLS - Bộ công cụ khôi phục mật khẩu</title>
+<meta name="description" content="Bộ công cụ khôi phục mật khẩu file Excel, Word, RAR, ZIP chuyên nghiệp. Hỗ trợ brute force, từ điển, đa luồng X1-X4.">
+<meta property="og:title" content="🔐 KHÔI PHỤC TOOLS - Khôi phục mật khẩu Office & RAR/ZIP">
+<meta property="og:description" content="Công cụ khôi phục mật khẩu miễn phí: Excel, Word, PowerPoint, RAR, ZIP. Giao diện tiếng Việt, đa luồng, tốc độ cao.">
+<meta property="og:image" content="https://khoiphuctool.github.io/khoiphuctool/conbo.ico">
+<meta property="og:url" content="https://khoiphuctool.github.io/khoiphuctool/">
+<meta property="og:type" content="website">
 <link rel="icon" href="conbo.ico">
 <style>
   * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -277,15 +283,44 @@
   <h1>🔐 KHÔI PHỤC  TOOLS</h1>
   <p>Bộ công cụ khôi phục mật khẩu chuyên nghiệp — nhanh, gọn, hiệu quả</p>
 </header>
+<style>
+@keyframes pulse {
+  0%,100%{opacity:1;transform:scale(1)}
+  50%{opacity:.5;transform:scale(1.3)}
+}
+</style>
 
 <!-- NAV -->
 <nav>
   <a href="#mom">🟢 Khôi phục office</a>
   <a href="#rar">🟢 Khôi phụcRAR/ZIP</a>
-  <a href="#huongdan"> Hướng dẫn</a>
+  <a href="#huongdan">🔑 Hướng dẫn</a>
   <a href="#dangky">📝 Đăng ký</a>
   <a href="#unghо">💖 Ủng hộ</a>
+  <div style="margin-left:auto;display:flex;gap:8px;align-items:center;">
+    <span id="nav-user" style="font-size:0.85rem;color:#27ae60;font-weight:600;display:none;"></span>
+    <button onclick="showLoginModal()" id="btn-nav-login" style="background:#3498db;color:white;border:none;padding:7px 16px;border-radius:20px;font-weight:600;cursor:pointer;font-size:0.88rem;">🔑 Đăng nhập</button>
+    <button onclick="doLogout()" id="btn-nav-logout" style="background:#e74c3c;color:white;border:none;padding:7px 16px;border-radius:20px;font-weight:600;cursor:pointer;font-size:0.88rem;display:none;">🚪 Đăng xuất</button>
+  </div>
 </nav>
+
+<!-- MODAL ĐĂNG NHẬP -->
+<div id="login-modal" onclick="if(event.target===this)closeLoginModal()" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.55);z-index:999;align-items:center;justify-content:center;">
+  <div style="background:white;border-radius:16px;padding:32px 28px;width:340px;max-width:95vw;box-shadow:0 8px 40px rgba(0,0,0,0.2);">
+    <h3 style="margin-bottom:6px;color:#2c3e50;">🔑 Đăng nhập</h3>
+    <p style="font-size:0.85rem;color:#888;margin-bottom:18px;">Dùng tài khoản FREE hoặc PRO</p>
+    <input type="text" id="login-name" placeholder="Tên / SĐT" style="width:100%;padding:10px 12px;border:1.5px solid #e0e0e0;border-radius:8px;font-size:0.95rem;margin-bottom:10px;box-sizing:border-box;outline:none;">
+    <input type="password" id="login-pass" placeholder="Mật khẩu" onkeydown="if(event.key==='Enter')doLogin()" style="width:100%;padding:10px 12px;border:1.5px solid #e0e0e0;border-radius:8px;font-size:0.95rem;margin-bottom:14px;box-sizing:border-box;outline:none;">
+    <div id="login-msg" style="font-size:0.85rem;min-height:18px;margin-bottom:10px;font-weight:600;"></div>
+    <div style="display:flex;gap:10px;">
+      <button onclick="doLogin()" style="flex:1;background:#27ae60;color:white;border:none;padding:11px;border-radius:8px;font-weight:700;cursor:pointer;font-size:0.95rem;">✅ Đăng nhập</button>
+      <button onclick="closeLoginModal()" style="flex:1;background:#ecf0f1;color:#555;border:none;padding:11px;border-radius:8px;font-weight:600;cursor:pointer;font-size:0.95rem;">Hủy</button>
+    </div>
+  </div>
+</div>
+
+<!-- PANEL SAU ĐĂNG NHẬP -->
+<div id="user-panel" style="display:none;max-width:900px;margin:16px auto 0;padding:0 20px;"></div>
 
 <!-- TICKER THÔNG BÁO -->
 <div class="ticker-wrap" id="ticker-wrap">
@@ -323,14 +358,16 @@
         <span class="badge badge-ver" id="ver-mom"></span>
       </div>
       <p style="margin-top:12px">Khôi phục mật khẩu file Excel, Word, PowerPoint bằng phương pháp vét cạn, từ điển và dải số. Hỗ trợ cả VBA password.</p>
-      <p style="font-size:0.88rem;color:#888;margin-bottom:8px">🆓 <b>FREE</b>: tối đa độ dài pass :4 ký tự<br>💎 <b>PRO</b>: không giới hạn độ dài</p>
+      <p style="font-size:0.88rem;color:#888;margin-bottom:8px">🆓 <b>FREE</b>: tối đa độ dài pass :4 ký tự, chỉ X1 luồng<br>💎 <b>PRO</b>: không giới hạn độ dài, X1→X4 luồng</p>
       <ul class="features">
         <li>Vét cạn (Brute Force) theo bộ ký tự tùy chỉnh</li>
-        <li>Khôi phục bằng từ điển (Wordlist)</li>
-        <li>Dải số liên tiếp (Range Attack)</li>
-        <li>Gỡ khóa VBA Macro</li>
-        <li>Hỗ trợ Excel, Word, PowerPoint (.xlsx,XLS,XLSB... .docx, .pptx)</li>
-        <li>Đa luồng — tốc độ cao</li>
+        <li>Khôi phục bằng từ điển (Wordlist) & dải số</li>
+        <li>Gỡ khóa VBA Macro (DPB crack)</li>
+        <li>Hỗ trợ .xlsx .xls .xlsb .xlsm .docx .pptx</li>
+        <li>Đa luồng X1→X4 — mỗi luồng dò chunk riêng</li>
+        <li>Hiển thị tiến trình từng luồng W1/W2/W3/W4 realtime</li>
+        <li>Tự động nhận diện loại mã hóa (AES-256, RC4...)</li>
+        <li>Kiểm tra mã hóa & ước tính tốc độ trước khi dò</li>
       </ul>
       <a class="btn-download" id="btn-mom" href="#" target="_blank">
         ⬇️ Tải xuống miễn phí
@@ -354,13 +391,14 @@
         <span class="badge badge-ver" id="ver-rar"></span>
       </div>
       <p style="margin-top:12px">Khôi phục mật khẩu file nén RAR và ZIP bằng vét cạn hoặc từ điển. Hỗ trợ WinRAR và 7-Zip làm backend.</p>
-      <p style="font-size:0.88rem;color:#888;margin-bottom:8px">🆓 <b>FREE</b>: tối đa độ dài pass :4 ký tự<br>💎 <b>PRO</b>: không giới hạn độ dài</p>
+      <p style="font-size:0.88rem;color:#888;margin-bottom:8px">🆓 <b>FREE</b>: tối đa độ dài pass :4 ký tự, chỉ X1 luồng<br>💎 <b>PRO</b>: không giới hạn độ dài, X1→X4 luồng</p>
       <ul class="features">
-        <li>Vét cạn theo bộ ký tự tùy chỉnh</li>
-        <li>Khôi phục bằng từ điển (Wordlist)</li>
-        <li>Hỗ trợ RAR3, RAR5, ZIP</li>
+        <li>Vét cạn theo bộ ký tự & pattern tùy chỉnh</li>
+        <li>Hỗ trợ RAR3, RAR5, ZIP (AES)</li>
         <li>Tự động phát hiện WinRAR / 7-Zip</li>
-        <li>Hiển thị tốc độ và tiến trình realtime</li>
+        <li>Đa luồng X1→X4 — mỗi luồng dò chunk riêng</li>
+        <li>Hiển thị tiến trình từng luồng W1/W2/W3/W4 realtime</li>
+        <li>ETA ước tính thời gian hoàn thành từng luồng</li>
         <li>Ctrl+click chọn nhiều bộ ký tự</li>
       </ul>
       <a class="btn-download" id="btn-rar" href="#" target="_blank">
@@ -505,10 +543,14 @@
   Liên hệ hỗ trợ &amp; mua PRO: Zalo 0962768533<br>
   <div style="margin:14px 0 8px;display:flex;justify-content:center;flex-wrap:wrap;gap:14px;">
     <a href="https://khoiphuctool.github.io/khoiphuctool/" target="_blank" style="color:#3498db;text-decoration:none;font-weight:600;">🌐 khoiphuctool.github.io/khoiphuctool</a>
-    <a href="https://https://tiny.cc/khoiphuctool" target="_blank" style="color:#3498db;text-decoration:none;font-weight:600;">🔗 https://tiny.cc/khoiphuctool</a>
-    <a href="https://https://s.id/khoiphuctool" target="_blank" style="color:#3498db;text-decoration:none;font-weight:600;">🔗 https://s.id/khoiphuctool</a>
+    <a href="https://tiny.cc/khoiphuctool" target="_blank" style="color:#3498db;text-decoration:none;font-weight:600;">🔗 tiny.cc/khoiphuctool</a>
+    <a href="https://s.id/khoiphuctool" target="_blank" style="color:#3498db;text-decoration:none;font-weight:600;">🔗 s.id/khoiphuctool</a>
     <a href="https://1.khoiphuctool.workers.dev/" target="_blank" style="color:#3498db;text-decoration:none;font-weight:600;">💻1.khoiphuctool.workers.dev/</a>
   </div>
+  <div style="margin:10px 0;display:inline-flex;align-items:center;gap:8px;background:rgba(255,255,255,0.08);padding:6px 18px;border-radius:20px;font-size:0.88rem;">
+    <span style="display:inline-block;width:8px;height:8px;background:#2ecc71;border-radius:50%;animation:pulse 1.5s infinite;flex-shrink:0;"></span>
+    <span id="visitor-count">...</span>
+  </div><br>
   <span style="font-size:0.82rem;opacity:0.7">© 2026 . All rights reserved.</span>
 </footer>
 
@@ -603,6 +645,37 @@ function showStaticNotice() {
 }
 const WEBHOOK = _xd(_wp, _wk);
 
+// ── localStorage với expiry 7 ngày ──
+const _WL_TTL = 7 * 24 * 3600 * 1000;
+function _wlSet(k, v) { localStorage.setItem(k, JSON.stringify({v, exp: Date.now() + _WL_TTL})); }
+function _wlGet(k) {
+  try {
+    const d = JSON.parse(localStorage.getItem(k));
+    if (!d) return null;
+    if (Date.now() > d.exp) { localStorage.removeItem(k); return null; }
+    return d.v;
+  } catch { return null; }
+}
+function _wlDel(k) { localStorage.removeItem(k); }
+
+// Lấy public IP của người dùng qua API bên ngoài
+async function getPublicIP() {
+  const apis = [
+    'https://api.ipify.org?format=json',
+    'https://api4.my-ip.io/ip.json',
+    'https://api.ip.sb/jsonip',
+  ];
+  for (const url of apis) {
+    try {
+      const r = await fetch(url, { signal: AbortSignal.timeout(3000) });
+      const d = await r.json();
+      const ip = d.ip || d.IP || d.your_ip;
+      if (ip) return ip;
+    } catch {}
+  }
+  return 'unknown';
+}
+
 async function submitReg(e, type) {
   e.preventDefault();
   const name = document.getElementById('free-name').value.trim();
@@ -610,12 +683,20 @@ async function submitReg(e, type) {
   const msg  = document.getElementById('free-msg');
   if (!name || !pass) return;
 
+  // Rate limit: 1 lần / 30s
+  const lastReg = parseInt(localStorage.getItem('_reg_ts') || '0');
+  if (Date.now() - lastReg < 30000) {
+    msg.textContent = '⏳ Vui lòng chờ 30 giây trước khi đăng ký lại.';
+    msg.className = 'reg-msg err'; return;
+  }
+  localStorage.setItem('_reg_ts', Date.now());
+
   msg.textContent = '⏳ Đang gửi...';
   msg.className = 'reg-msg';
 
-  // Hash pass SHA-256
   const buf  = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(pass));
   const hash = Array.from(new Uint8Array(buf)).map(b=>b.toString(16).padStart(2,'0')).join('');
+  const ip   = await getPublicIP();
 
   try {
     await fetch(WEBHOOK, {
@@ -628,12 +709,13 @@ async function submitReg(e, type) {
         machine:  'WEB',
         file:     "'" + name,
         password: hash,
-        ip:       ''
+        ip:       ip
       })
     });
     msg.textContent = '✅ Đăng ký thành công! Admin sẽ duyệt sớm.';
     msg.className = 'reg-msg ok';
     document.getElementById('form-free').reset();
+    autoLoginAfterReg(name, pass, 'FREE');
   } catch {
     msg.textContent = '❌ Lỗi kết nối, thử lại sau.';
     msg.className = 'reg-msg err';
@@ -697,9 +779,9 @@ async function showProQR() {
   if (!selectedPkg) { alert('Vui lòng chọn gói!'); return; }
   if (!name || !pass) { alert('Vui lòng nhập tên và mật khẩu!'); return; }
 
-  // Hash pass SHA-256
   const buf  = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(pass));
   const hash = Array.from(new Uint8Array(buf)).map(b=>b.toString(16).padStart(2,'0')).join('');
+  const ip   = await getPublicIP();
 
   const ckContent = `MOMTOOL ${pass} ${selectedPkg.pkg}`;
   const qrUrl = `https://img.vietqr.io/image/970418-96247328232-compact2.png?amount=${selectedPkg.price}&addInfo=${encodeURIComponent(ckContent)}&accountName=TOOLS`;
@@ -708,7 +790,7 @@ async function showProQR() {
   document.getElementById('pro-ck-content').textContent = `Nội dung CK: ${ckContent}`;
   document.getElementById('pro-qr-box').style.display = 'block';
   document.getElementById('btn-show-qr').textContent = '🔄 Tạo lại QR';
-  document.getElementById('pro-msg').textContent = '⏳ Hệ thống tự xác nhận trong vòng 1 phút sau khi chuyển khoản.';
+  document.getElementById('pro-msg').textContent = '⏳ Hệ thống tự xác nhận sau khi admin duyệt (thường trong 1-5 phút).';
   document.getElementById('pro-msg').className = 'reg-msg';
 
   // Gửi pro_request lên sheet
@@ -724,10 +806,34 @@ async function showProQR() {
         file:     ckContent,
         password: hash,
         package:  selectedPkg.label,
-        ip:       ''
+        ip:       ip
       })
     });
   } catch(e) {}
+
+  // Polling kiểm tra admin đã duyệt chưa (mỗi 30s, tối đa 20 lần = 10 phút)
+  let pollCount = 0;
+  const pollTimer = setInterval(async () => {
+    pollCount++;
+    if (pollCount > 20) { clearInterval(pollTimer); return; }
+    try {
+      const proUrl = SHEET_CSV.replace(/gid=\d+/, 'gid=30069422');
+      const r = await fetch(proUrl + '&t=' + Date.now());
+      const csv = await r.text();
+      const rows = csv.split('\n').map(r => r.split(',').map(c => c.replace(/^"|"$/g,'').trim()));
+      for (const row of rows) {
+        const rowHash = (row[4] || '').toLowerCase();
+        const rowOk   = (row[5] || '').toUpperCase();
+        if (rowHash === hash && rowOk === 'OK') {
+          clearInterval(pollTimer);
+          document.getElementById('pro-msg').textContent = '✅ Đã xác nhận! Đang đăng nhập...';
+          document.getElementById('pro-msg').style.color = '#27ae60';
+          setTimeout(() => autoLoginAfterReg(name, pass, 'PRO'), 800);
+          return;
+        }
+      }
+    } catch {}
+  }, 30000);
 }
 
 function copyProContent() {
@@ -736,6 +842,188 @@ function copyProContent() {
   event.target.textContent = '✅ Đã copy!';
   setTimeout(() => event.target.textContent = '📋 Copy nội dung CK', 2000);
 }
+
+// ── Obfuscated admin links (XOR key: adm!n2026) ──
+const _AK = 'adm!n2026';
+const _AL = [
+  {label:'📊 Sheet làm việc',   enc:'CRAZUVQdH0EYCABCQgZTXl9ZDA=='},
+  {label:'🐙 GitHub',           enc:'CRAZUR0IHx1RCBAFVAwcU11bTg8FTgdCWEdVFQsCTUFZWF1fEQwYQhpdX14YBg0Z'},
+  {label:'🔗 Trang link gốc',   enc:'CRAZUR0IHx1CCAoUDw1RH3F9JCldEV0='},
+  {label:'💳 SePay BIDV',       enc:'CRAZUR0IHx1bGEoeRB5TSRxAD0sPSApEH1ZTFQUETR0dBQYFVl0='},
+];
+function _decLink(enc) {
+  const raw = atob(enc);
+  return Array.from(raw).map((c,i) => String.fromCharCode(c.charCodeAt(0) ^ _AK.charCodeAt(i % _AK.length))).join('');
+}
+
+// Hash SHA-256
+async function sha256(str) {
+  const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(str));
+  return Array.from(new Uint8Array(buf)).map(b=>b.toString(16).padStart(2,'0')).join('');
+}
+
+// Lấy danh sách hash từ Sheet (PRO + FREE)
+let _cachedHashes = null;
+async function getHashes() {
+  if (_cachedHashes) return _cachedHashes;
+  try {
+    const r = await fetch(SHEET_CSV);
+    const csv = await r.text();
+    const rows = csv.split('\n').map(r => r.split(',').map(c => c.replace(/^"|"$/g,'').trim()));
+    const pro = [], free = [];
+    // Sheet PRO: cột E (index 4) = hash, cột F (index 5) = OK
+    // Sheet ĐĂNG KÝ: cột C (index 2) = hash
+    // Đơn giản: lấy tất cả hash từ cột E sheet PRO (gid=30069422)
+    // và cột C sheet ĐĂNG KÝ (gid=905885944) - đã fetch qua SHEET_CSV chính
+    // Hàng 1 = ADMIN (cột B = ADMIN, cột E = hash)
+    for (let i = 0; i < rows.length; i++) {
+      const h = rows[i][4]; // cột E
+      const ok = rows[i][5]; // cột F
+      const name = rows[i][1]; // cột B
+      if (h && h.length === 64) {
+        if (i === 0 || name === 'ADMIN') {
+          pro.push({hash: h.toLowerCase(), type: 'ADMIN', name: name || 'ADMIN'});
+        } else if (ok && ok.toUpperCase() === 'OK') {
+          pro.push({hash: h.toLowerCase(), type: 'PRO', name: name || ''});
+        }
+      }
+    }
+    _cachedHashes = {pro, free};
+    return _cachedHashes;
+  } catch { return {pro:[], free:[]}; }
+}
+
+// Đăng nhập
+async function doLogin() {
+  const name = document.getElementById('login-name').value.trim();
+  const pass = document.getElementById('login-pass').value.trim();
+  const msg  = document.getElementById('login-msg');
+  if (!name || !pass) { msg.style.color='#e74c3c'; msg.textContent='Vui lòng nhập đầy đủ!'; return; }
+  msg.style.color='#f39c12'; msg.textContent='⏳ Đang kiểm tra...';
+
+  const h = await sha256(pass);
+
+  // Fetch PRO sheet riêng để check
+  try {
+    const proUrl = SHEET_CSV.replace('gid=837279903','gid=30069422');
+    const r = await fetch(proUrl + '&t=' + Date.now());
+    const csv = await r.text();
+    const rows = csv.split('\n').map(r => r.split(',').map(c => c.replace(/^"|"$/g,'').trim()));
+    for (let i = 0; i < rows.length; i++) {
+      const rowHash = (rows[i][4] || '').toLowerCase();
+      const rowOk   = (rows[i][5] || '').toUpperCase();
+      const rowName = rows[i][1] || '';
+      if (rowHash === h) {
+        // Tìm thấy
+        const isAdmin = (i === 0 || rowName.toUpperCase() === 'ADMIN');
+        const type = isAdmin ? 'ADMIN' : (rowOk === 'OK' ? 'PRO' : 'FREE');
+        _wlSet('wl_name', name);
+        _wlSet('wl_type', type);
+        closeLoginModal();
+        renderUserPanel(name, type);
+        return;
+      }
+    }
+    // Check FREE sheet
+    const freeUrl = SHEET_CSV.replace('gid=837279903','gid=905885944');
+    const r2 = await fetch(freeUrl + '&t=' + Date.now());
+    const csv2 = await r2.text();
+    const rows2 = csv2.split('\n').map(r => r.split(',').map(c => c.replace(/^"|"$/g,'').trim()));
+    for (let i = 1; i < rows2.length; i++) {
+      const rowHash = (rows2[i][2] || '').toLowerCase();
+      if (rowHash === h) {
+        _wlSet('wl_name', name);
+        _wlSet('wl_type', 'FREE');
+        closeLoginModal();
+        renderUserPanel(name, 'FREE');
+        return;
+      }
+    }
+    msg.style.color='#e74c3c'; msg.textContent='❌ Sai tên hoặc mật khẩu!';
+  } catch(e) {
+    msg.style.color='#e74c3c'; msg.textContent='❌ Lỗi kết nối, thử lại sau.';
+  }
+}
+
+function renderUserPanel(name, type) {
+  // Nav
+  document.getElementById('btn-nav-login').style.display = 'none';
+  document.getElementById('btn-nav-logout').style.display = '';
+  document.getElementById('nav-user').style.display = '';
+  const typeLabel = type === 'ADMIN' ? '👑 ADMIN' : type === 'PRO' ? '⭐ PRO' : '🆓 FREE';
+  document.getElementById('nav-user').textContent = `${name} (${typeLabel})`;
+
+  const panel = document.getElementById('user-panel');
+  panel.style.display = 'block';
+
+  if (type === 'ADMIN') {
+    panel.innerHTML = `
+      <div style="background:linear-gradient(135deg,#2c3e50,#3498db);border-radius:14px;padding:22px 24px;color:white;">
+        <div style="font-size:1.1rem;font-weight:700;margin-bottom:14px;">👑 Xin chào Admin! Truy cập nhanh:</div>
+        <div style="display:flex;flex-wrap:wrap;gap:10px;">
+          ${_AL.map(l => `<a href="${_decLink(l.enc)}" target="_blank" style="background:rgba(255,255,255,0.15);color:white;text-decoration:none;padding:9px 18px;border-radius:10px;font-weight:600;font-size:0.92rem;transition:background .2s;" onmouseover="this.style.background='rgba(255,255,255,0.28)'" onmouseout="this.style.background='rgba(255,255,255,0.15)'">${l.label}</a>`).join('')}
+        </div>
+      </div>`;
+  } else if (type === 'PRO') {
+    panel.innerHTML = `
+      <div style="background:linear-gradient(135deg,#f39c12,#e67e22);border-radius:14px;padding:18px 24px;color:white;font-weight:600;">
+        ⭐ Xin chào <b>${name}</b>! Bạn đang dùng tài khoản <b>PRO</b> — không giới hạn tính năng.
+      </div>`;
+  } else {
+    panel.innerHTML = `
+      <div style="background:linear-gradient(135deg,#27ae60,#2ecc71);border-radius:14px;padding:18px 24px;color:white;font-weight:600;">
+        🆓 Xin chào <b>${name}</b>! Tài khoản FREE — <a href="#dangky" style="color:white;text-decoration:underline;">Nâng cấp PRO</a> để dùng không giới hạn.
+      </div>`;
+  }
+}
+
+function doLogout() {
+  _wlDel('wl_name');
+  _wlDel('wl_type');
+  document.getElementById('btn-nav-login').style.display = '';
+  document.getElementById('btn-nav-logout').style.display = 'none';
+  document.getElementById('nav-user').style.display = 'none';
+  document.getElementById('user-panel').style.display = 'none';
+  document.getElementById('user-panel').innerHTML = '';
+}
+
+function showLoginModal() {
+  document.getElementById('login-modal').style.display = 'flex';
+  setTimeout(() => document.getElementById('login-name').focus(), 100);
+}
+function closeLoginModal() {
+  document.getElementById('login-modal').style.display = 'none';
+  document.getElementById('login-msg').textContent = '';
+}
+
+// Tự đăng nhập sau khi đăng ký thành công
+function autoLoginAfterReg(name, pass, type) {
+  _wlSet('wl_name', name);
+  _wlSet('wl_type', type);
+  renderUserPanel(name, type);
+}
+
+// Restore session nếu đã đăng nhập
+(function() {
+  const n = _wlGet('wl_name');
+  const t = _wlGet('wl_type');
+  if (n && t) renderUserPanel(n, t);
+})();
+
+// ── Visitor counter ──
+(function() {
+  fetch('https://api.countapi.xyz/hit/khoiphuctool.github.io/visits')
+    .then(r => r.json())
+    .then(data => {
+      const total = data.value || 0;
+      document.getElementById('visitor-count').textContent =
+        `👁 ${total.toLocaleString('vi-VN')} lượt truy cập`;
+    })
+    .catch(() => {
+      document.getElementById('visitor-count').innerHTML =
+        `<img src="https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https%3A%2F%2Fkhoiphuctool.github.io%2Fkhoiphuctool&count_bg=%2327AE60&title_bg=%23555555&icon=eye.svg&icon_color=%23FFFFFF&title=l%C6%B0%E1%BB%A3t+xem&edge_flat=true" alt="visitor count" style="height:22px;vertical-align:middle;">`;
+    });
+})();
 
 </script>
 </body>
