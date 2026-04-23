@@ -552,7 +552,7 @@
   </div>
   <div style="margin:10px 0;display:inline-flex;align-items:center;gap:8px;background:rgba(255,255,255,0.08);padding:6px 18px;border-radius:20px;font-size:0.88rem;">
     <span style="display:inline-block;width:8px;height:8px;background:#2ecc71;border-radius:50%;animation:pulse 1.5s infinite;flex-shrink:0;"></span>
-    <span id="visitor-count">...</span>
+    <span id="visitor-count"><img src="https://hits.sh/khoiphuctool.github.io/khoiphuctool.svg?label=l%C6%B0%E1%BB%A3t+xem&color=27ae60&labelColor=2c3e50" alt="visitor count" style="height:20px;vertical-align:middle;border-radius:4px;"></span>
   </div><br>
   <span style="font-size:0.82rem;opacity:0.7">© 2026 . All rights reserved.</span>
 </footer>
@@ -821,6 +821,7 @@ async function showProQR() {
     if (pollCount > 20) { clearInterval(pollTimer); return; }
     try {
       const proUrl = SHEET_CSV.replace(/gid=\d+/, 'gid=300692422');
+      const r = await fetch(proUrl + '&t=' + Date.now());
       const csv = await r.text();
       const rows = csv.split('\n').map(r => r.split(',').map(c => c.replace(/^"|"$/g,'').trim()));
       for (const row of rows) {
@@ -909,7 +910,6 @@ async function doLogin() {
   try {
     const proUrl = SHEET_CSV.replace(/gid=\d+/, 'gid=300692422');
     const freeUrl = SHEET_CSV.replace(/gid=\d+/, 'gid=905885944');
-    // Fetch song song cả 2 sheet
     const [rPro, rFree] = await Promise.all([
       fetch(proUrl + '&t=' + Date.now()),
       fetch(freeUrl + '&t=' + Date.now())
@@ -1034,15 +1034,15 @@ function autoLoginAfterReg(name, pass, type) {
 
 // ── Visitor counter ──
 (function() {
-  fetch('https://api.counterapi.dev/v1/khoiphuctool/visits/up')
+  // Dùng hits.sh - đơn giản, miễn phí, trả về JSON
+  fetch('https://hits.sh/khoiphuctool.github.io/khoiphuctool.json')
     .then(r => r.json())
     .then(data => {
-      const total = data.count || data.value || 0;
+      const total = data.total || data.count || 0;
       document.getElementById('visitor-count').textContent =
-        `👁 ${total.toLocaleString('vi-VN')} lượt truy cập`;
+        `👁 ${Number(total).toLocaleString('vi-VN')} lượt truy cập`;
     })
     .catch(() => {
-      // Fallback: hiện text tĩnh
       document.getElementById('visitor-count').textContent = '👁 Đang tải...';
     });
 })();
