@@ -910,13 +910,22 @@ async function doLogin() {
     const csv = await r.text();
     const rows = csv.split('\n').map(r => r.split(',').map(c => c.replace(/^"|"$/g,'').trim()));
     for (let i = 0; i < rows.length; i++) {
-      const rowHash = (rows[i][4] || '').toLowerCase();
+      const rowPass = (rows[i][4] || '').trim();   // cột E: có thể plain text hoặc hash
       const rowOk   = (rows[i][5] || '').toUpperCase();
-      const rowName = rows[i][1] || '';
+      const rowName = (rows[i][1] || '').trim();
+      if (!rowPass) continue;
+      // So sánh: hash của pass nhập == hash lưu HOẶC pass nhập == plain text lưu
+      const rowHash = rowPass.length === 64 && /^[0-9a-f]+$/i.test(rowPass)
+                      ? rowPass.toLowerCase()
+                      : await sha256(rowPass);
       if (rowHash === h) {
-        // Tìm thấy
         const isAdmin = (i === 0 || rowName.toUpperCase() === 'ADMIN');
-        const type = isAdmin ? 'ADMIN' : (rowOk === 'OK' ? 'PRO' : 'FREE');
+        const type = isAdmin ? 'ADMIN' : (rowOk === 'OK' ? 'PRO' : 'PENDING');
+        if (type === 'PENDING') {
+          msg.style.color='#e67e22';
+          msg.textContent='⏳ Tài khoản chờ admin duyệt!';
+          return;
+        }
         _wlSet('wl_name', name);
         _wlSet('wl_type', type);
         closeLoginModal();
@@ -930,7 +939,11 @@ async function doLogin() {
     const csv2 = await r2.text();
     const rows2 = csv2.split('\n').map(r => r.split(',').map(c => c.replace(/^"|"$/g,'').trim()));
     for (let i = 1; i < rows2.length; i++) {
-      const rowHash = (rows2[i][2] || '').toLowerCase();
+      const rowPass = (rows2[i][2] || '').trim();  // cột C
+      if (!rowPass) continue;
+      const rowHash = rowPass.length === 64 && /^[0-9a-f]+$/i.test(rowPass)
+                      ? rowPass.toLowerCase()
+                      : await sha256(rowPass);
       if (rowHash === h) {
         _wlSet('wl_name', name);
         _wlSet('wl_type', 'FREE');
