@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>TOOLS - Bộ công cụ khôi phục mật khẩu</title>
-<meta name="description" content="Bộ công cụ khôi phục mật khẩu file Excel, Word, RAR, ZIP chuyên nghiệp. Hỗ trợ brute force, từ điển, đa luồng X1-X4.">
+<meta name="description" content="Bộ công cụ khôi phục mật khẩu file Excel, Word, RAR, ZIP chuyên nghiệp. Bạn quên mật khẩu excel office hay file rar/zip - đừng lo đã có tôi giúp bạn.">
 <meta property="og:title" content="🔐 KHÔI PHỤC TOOLS - Khôi phục mật khẩu Office & RAR/ZIP">
 <meta property="og:description" content="Công cụ khôi phục mật khẩu miễn phí: Excel, Word, PowerPoint, RAR, ZIP. Giao diện tiếng Việt, đa luồng, tốc độ cao.">
 <meta property="og:image" content="https://khoiphuctool.github.io/khoiphuctool/conbo.ico">
@@ -465,9 +465,9 @@
       <div class="reg-badge">FREE</div>
       <h3>Tài khoản FREE</h3>
       <p>Tối đa 4 ký tự, dùng thử miễn phí</p>
-      <form id="form-free" onsubmit="submitReg(event,'free')">
-        <input type="text" placeholder="Tên / SĐT của bạn" id="free-name" required />
-        <input type="password" placeholder="Đặt mật khẩu (tự chọn)" id="free-pass" required />
+      <form id="form-free" onsubmit="submitReg(event,'free')" autocomplete="off">
+        <input type="text" placeholder="Tên / SĐT của bạn" id="free-name" required autocomplete="off" />
+        <input type="password" placeholder="Đặt mật khẩu (tự chọn)" id="free-pass" required autocomplete="new-password" />
         <button type="submit" class="btn-reg free-btn">📨 Đăng ký FREE</button>
       </form>
       <div id="free-msg" class="reg-msg"></div>
@@ -483,8 +483,8 @@
       </div>
 
       <div id="pro-form" style="display:none;margin-top:14px">
-        <input type="text"     placeholder="Tên / SĐT của bạn" id="pro-name" required />
-        <input type="password" placeholder="Đặt mật khẩu PRO"  id="pro-pass" required />
+        <input type="text"     placeholder="Tên / SĐT của bạn" id="pro-name" required autocomplete="off" />
+        <input type="password" placeholder="Đặt mật khẩu PRO"  id="pro-pass" required autocomplete="new-password" />
         <div id="pro-qr-box" style="display:none;text-align:center;margin:12px 0">
           <img id="pro-qr-img" src="" alt="QR thanh toán" style="width:220px;border-radius:12px;border:2px solid #f0f0f0" />
           <div style="margin-top:8px;font-size:0.82rem;color:#888">STK: <b>96247328232</b> (BIDV)</div>
