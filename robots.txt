@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://khoiphuctool.github.io/khoiphuctool/sitemap.xml
