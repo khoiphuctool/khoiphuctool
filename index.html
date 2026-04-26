@@ -70,8 +70,8 @@
 
   /* CARDS */
   .cards {
-    max-width: 800px; margin: 50px auto; padding: 0 20px;
-    display: grid; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+    max-width: 1200px; margin: 50px auto; padding: 0 20px;
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
     gap: 28px;
   }
   .card {
@@ -134,6 +134,11 @@
   .hash  .card-header h3 { color: #2980b9; }
   .hash  .features li::before { color: #2980b9; }
   .hash  .btn-download { background: linear-gradient(135deg,#2980b9,#3498db); }
+
+  .kpt   .card-icon { background: #f3e5f5; }
+  .kpt   .card-header h3 { color: #8e24aa; }
+  .kpt   .features li::before { color: #8e24aa; }
+  .kpt   .btn-download { background: linear-gradient(135deg,#8e24aa,#ab47bc); }
 
   /* HOW IT WORKS */
   .how { max-width: 900px; margin: 20px auto 60px; padding: 0 20px; }
@@ -318,6 +323,7 @@
 <nav>
   <a href="#mom">🟢 Khôi phục office</a>
   <a href="#rar">🟢 Khôi phụcRAR/ZIP</a>
+  <a href="#kpt">🟣 KhoiPhucTool</a>
   <a href="#huongdan">🔑 Hướng dẫn</a>
   <a href="#dangky">📝 Đăng ký</a>
   <a href="#unghо">💖 Ủng hộ</a>
@@ -375,7 +381,7 @@
       <div class="card-icon">🟢</div>
       <div>
         <h3>Khôi phục Pass Office</h3>
-        <span id="sub-mom">MÕM Tool</span>
+        <span id="sub-mom">Khôi phục Office</span>
       </div>
     </div>
     <div class="card-body">
@@ -436,6 +442,44 @@
 
   <!-- AUTO HASH ẨN - sắp ra mắt -->
 
+  <!-- KHOIPHUCTOOL -->
+  <div class="card kpt" id="kpt">
+    <div class="card-header">
+      <div class="card-icon">🟣</div>
+      <div>
+        <h3>KhoiPhucTool</h3>
+        <span id="sub-kpt">KhoiPhucTool</span>
+      </div>
+    </div>
+    <div class="card-body">
+      <div>
+        <span class="badge badge-free">FREE</span>
+        <span class="badge badge-pro">PRO</span>
+        <span class="badge badge-ver" id="ver-kpt"></span>
+      </div>
+      <p style="margin-top:12px">Bộ công cụ khôi phục mật khẩu tổng hợp — gộp đầy đủ tính năng Office, RAR/ZIP và nhiều hơn nữa trong một ứng dụng duy nhất.</p>
+      <p style="font-size:0.88rem;color:#888;margin-bottom:8px">🆓 <b>FREE</b>: tối đa độ dài pass 4 ký tự, chỉ X1 luồng<br>💎 <b>PRO</b>: không giới hạn độ dài, X1→X4 luồng</p>
+      <ul class="features">
+        <li>Gộp tất cả tính năng trong một app duy nhất</li>
+        <li>Khôi phục Excel, Word, PowerPoint, RAR, ZIP</li>
+        <li>Vét cạn theo bộ ký tự & pattern tùy chỉnh</li>
+        <li>Khôi phục bằng từ điển (Wordlist) & dải số</li>
+        <li>Gỡ khóa VBA Macro (DPB crack)</li>
+        <li>Hỗ trợ .xlsx .xls .xlsb .xlsm .docx .pptx</li>
+        <li>Hỗ trợ RAR3, RAR5, ZIP (AES) — tự phát hiện WinRAR / 7-Zip</li>
+        <li>Đa luồng X1→X4 — mỗi luồng dò chunk riêng</li>
+        <li>Hiển thị tiến trình từng luồng W1/W2/W3/W4 realtime</li>
+        <li>ETA ước tính thời gian hoàn thành từng luồng</li>
+        <li>Tự động nhận diện loại mã hóa (AES-256, RC4...)</li>
+        <li>Kiểm tra mã hóa & ước tính tốc độ trước khi dò</li>
+        <li>Giao diện tiếng Việt, không cần cài đặt</li>
+      </ul>
+      <a class="btn-download" id="btn-kpt" href="#" target="_blank">
+        ⬇️ Tải xuống miễn phí
+      </a>
+    </div>
+  </div>
+
 </div>
 
 <!-- HOW IT WORKS -->
@@ -486,7 +530,7 @@
     <details style="background:white;border-radius:12px;padding:18px 20px;box-shadow:0 2px 10px rgba(0,0,0,0.07);cursor:pointer;" itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
       <summary style="font-weight:700;color:#2c3e50;font-size:1rem;" itemprop="name">Làm thế nào để khôi phục mật khẩu file Excel bị quên?</summary>
       <div style="margin-top:10px;color:#555;font-size:0.92rem;line-height:1.7;" itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
-        <span itemprop="text">Tải MÕM Tool về máy, chọn file Excel cần khôi phục, nhập bộ ký tự có thể có trong mật khẩu, chọn độ dài và bấm Bắt đầu. Tool sẽ tự động thử tất cả các tổ hợp cho đến khi tìm được mật khẩu đúng.</span>
+        <span itemprop="text">Tải KhoiPhucTool về máy, chọn file Excel cần khôi phục, nhập bộ ký tự có thể có trong mật khẩu, chọn độ dài và bấm Bắt đầu. Tool sẽ tự động thử tất cả các tổ hợp cho đến khi tìm được mật khẩu đúng.</span>
       </div>
     </details>
     <details style="background:white;border-radius:12px;padding:18px 20px;box-shadow:0 2px 10px rgba(0,0,0,0.07);cursor:pointer;" itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
@@ -639,22 +683,32 @@ fetch(SHEET_CSV)
     // Hàng 3 (index 2): J = index 9 → version MOM
     // Hàng 4 (index 3): J = index 9 → link RARZIP
     // Hàng 5 (index 4): J = index 9 → version RARZIP
+    // Hàng 6 (index 5): J = index 9 → link KhoiPhucTool
+    // Hàng 7 (index 6): J = index 9 → version KhoiPhucTool
     const momLink = rows[1]?.[9];
     const momVer  = rows[2]?.[9];
     const rarLink = rows[3]?.[9];
     const rarVer  = rows[4]?.[9];
+    const kptLink = rows[5]?.[9];
+    const kptVer  = rows[6]?.[9];
 
     if (momLink) document.getElementById('btn-mom').href = momLink;
     else document.getElementById('btn-mom').style.display = 'none';
     if (momVer) {
       document.getElementById('ver-mom').textContent = 'v' + momVer;
-      document.getElementById('sub-mom').textContent = 'MÕM Tool v' + momVer;
+      document.getElementById('sub-mom').textContent = 'Khôi phục Office v' + momVer;
     }
     if (rarLink) document.getElementById('btn-rar').href = rarLink;
     else document.getElementById('btn-rar').style.display = 'none';
     if (rarVer) {
       document.getElementById('ver-rar').textContent = 'v' + rarVer;
       document.getElementById('sub-rar').textContent = 'RARZIP Tool v' + rarVer;
+    }
+    if (kptLink) document.getElementById('btn-kpt').href = kptLink;
+    else document.getElementById('btn-kpt').style.display = 'none';
+    if (kptVer) {
+      document.getElementById('ver-kpt').textContent = 'v' + kptVer;
+      document.getElementById('sub-kpt').textContent = 'KhoiPhucTool v' + kptVer;
     }
 
     // Cột I (index 8) toàn bộ, bỏ ô trống
@@ -844,7 +898,8 @@ async function showProQR() {
   const hash = Array.from(new Uint8Array(buf)).map(b=>b.toString(16).padStart(2,'0')).join('');
   const ip   = await getPublicIP();
 
-  const ckContent = `MOMTOOL ${pass} ${selectedPkg.pkg}`;
+  const passB64 = btoa(pass);
+  const ckContent = `KHOIPHUCTOOL ${passB64} ${selectedPkg.pkg}`;
   const qrUrl = `https://img.vietqr.io/image/970418-96247328232-compact2.png?amount=${selectedPkg.price}&addInfo=${encodeURIComponent(ckContent)}&accountName=TOOLS`;
 
   document.getElementById('pro-qr-img').src = qrUrl;
