@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hướng dẫn dùng RARZIP Tool - Khôi phục mật khẩu RAR ZIP</title>
+<meta name="description" content="Hướng dẫn chi tiết cách dùng RARZIP Tool để khôi phục mật khẩu file RAR, ZIP. Brute force, pattern, đa luồng X1-X4, hỗ trợ WinRAR và 7-Zip.">
+<meta name="keywords" content="hướng dẫn khôi phục mật khẩu rar, cách dùng rarzip tool, crack pass rar hướng dẫn, mở khóa file rar step by step">
+<link rel="canonical" href="https://khoiphuctool.github.io/khoiphuctool/huong-dan-rarzip.html">
+<link rel="icon" href="conbo.ico">
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { font-family:'Segoe UI',sans-serif; background:#f0f4f8; color:#2c3e50; }
+  nav { background:white; box-shadow:0 2px 8px rgba(0,0,0,0.08); display:flex; flex-wrap:wrap; gap:8px; padding:12px 20px; position:sticky; top:0; z-index:100; }
+  nav a { text-decoration:none; color:#2c3e50; font-weight:600; padding:6px 16px; border-radius:20px; font-size:0.9rem; transition:all .2s; }
+  nav a:hover { background:#e67e22; color:white; }
+  .hero { background:linear-gradient(135deg,#e67e22,#f39c12); color:white; text-align:center; padding:50px 20px 40px; }
+  .hero h1 { font-size:2rem; margin-bottom:10px; }
+  .hero p { font-size:1rem; opacity:0.9; }
+  .content { max-width:860px; margin:40px auto; padding:0 20px; }
+  .section { background:white; border-radius:14px; padding:28px; margin-bottom:24px; box-shadow:0 2px 12px rgba(0,0,0,0.07); }
+  .section h2 { font-size:1.3rem; color:#e67e22; margin-bottom:16px; padding-bottom:10px; border-bottom:2px solid #fff3e0; }
+  .section h3 { font-size:1.05rem; color:#2c3e50; margin:16px 0 8px; }
+  .section p { color:#555; line-height:1.75; margin-bottom:12px; font-size:0.95rem; }
+  .section ul, .section ol { padding-left:22px; color:#555; line-height:1.9; font-size:0.95rem; }
+  .tip { background:#fff3e0; border-left:4px solid #e67e22; border-radius:8px; padding:12px 16px; margin:14px 0; font-size:0.9rem; color:#2c3e50; }
+  .warn { background:#fff8e1; border-left:4px solid #f39c12; border-radius:8px; padding:12px 16px; margin:14px 0; font-size:0.9rem; color:#555; }
+  .step-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); gap:14px; margin-top:14px; }
+  .step-card { background:#f8f9fa; border-radius:10px; padding:16px; text-align:center; }
+  .step-num { width:36px; height:36px; background:#e67e22; color:white; border-radius:50%; display:flex; align-items:center; justify-content:center; font-weight:700; margin:0 auto 10px; }
+  .step-card h4 { font-size:0.95rem; margin-bottom:6px; }
+  .step-card p { font-size:0.85rem; color:#666; }
+  .btn-dl { display:inline-block; background:linear-gradient(135deg,#e67e22,#f39c12); color:white; text-decoration:none; padding:12px 28px; border-radius:10px; font-weight:700; margin-top:10px; }
+  .toc { background:#f8f9fa; border-radius:10px; padding:18px 22px; margin-bottom:24px; }
+  .toc h3 { font-size:1rem; margin-bottom:10px; color:#2c3e50; }
+  .toc a { display:block; color:#e67e22; text-decoration:none; padding:3px 0; font-size:0.9rem; }
+  .toc a:hover { text-decoration:underline; }
+  footer { background:#2c3e50; color:#bdc3c7; text-align:center; padding:24px; font-size:0.85rem; margin-top:40px; }
+  footer a { color:#3498db; text-decoration:none; }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="/khoiphuctool/">🏠 Trang chủ</a>
+  <a href="huong-dan-mom.html">📗 MÕM Tool</a>
+  <a href="huong-dan-rarzip.html" style="background:#e67e22;color:white;">📙 RARZIP Tool</a>
+  <a href="huong-dan-khoiphuctool.html">🟣 KhoiPhucTool V2</a>
+  <a href="tags.html">🏷️ Từ khóa</a>
+</nav>
+
+<div class="hero">
+  <h1>📙 Hướng dẫn RARZIP Tool</h1>
+  <p>Khôi phục mật khẩu file RAR và ZIP — đầy đủ từ A đến Z</p>
+</div>
+
+<div class="content">
+
+  <div class="toc">
+    <h3>📋 Mục lục</h3>
+    <a href="#gioi-thieu">1. Giới thiệu RARZIP Tool</a>
+    <a href="#yeu-cau">2. Yêu cầu hệ thống</a>
+    <a href="#tai-ve">3. Tải về và đăng nhập</a>
+    <a href="#chon-file">4. Chọn file và cấu hình</a>
+    <a href="#brute-force">5. Chế độ Vét cạn (Brute Force)</a>
+    <a href="#pattern">6. Chế độ Pattern</a>
+    <a href="#da-luong">7. Đa luồng X1-X4</a>
+    <a href="#meo">8. Mẹo và lưu ý</a>
+  </div>
+
+  <div class="section" id="gioi-thieu">
+    <h2>1. Giới thiệu RARZIP Tool</h2>
+    <p>RARZIP Tool khôi phục mật khẩu file nén RAR (RAR3, RAR5) và ZIP bằng phương pháp vét cạn hoặc pattern. Chạy trực tiếp trên Windows, không cần cài đặt.</p>
+    <p><strong>Hỗ trợ:</strong> .rar (RAR3, RAR5), .zip (bao gồm AES-256)</p>
+    <p><strong>Backend:</strong> WinRAR (UnRAR.exe) hoặc 7-Zip (7z.exe)</p>
+    <div class="tip">💡 Tool tự động phát hiện WinRAR hoặc 7-Zip đã cài trên máy.</div>
+  </div>
+
+  <div class="section" id="yeu-cau">
+    <h2>2. Yêu cầu hệ thống</h2>
+    <ul>
+      <li>Windows 7/8/10/11 (64-bit khuyến nghị)</li>
+      <li><strong>WinRAR</strong> hoặc <strong>7-Zip</strong> đã cài đặt (để xử lý file RAR)</li>
+      <li>File ZIP thuần: không cần phần mềm thêm</li>
+    </ul>
+    <div class="warn">⚠️ Nếu không có WinRAR hoặc 7-Zip, tool chỉ hỗ trợ file ZIP (không hỗ trợ RAR).</div>
+  </div>
+
+  <div class="section" id="tai-ve">
+    <h2>3. Tải về và đăng nhập</h2>
+    <div class="step-grid">
+      <div class="step-card"><div class="step-num">1</div><h4>Tải file .exe</h4><p>Nhấn nút tải xuống trên trang chủ</p></div>
+      <div class="step-card"><div class="step-num">2</div><h4>Mở file</h4><p>Double-click để chạy, không cần cài đặt</p></div>
+      <div class="step-card"><div class="step-num">3</div><h4>Đăng nhập</h4><p>Nhập mật khẩu tài khoản FREE hoặc PRO</p></div>
+      <div class="step-card"><div class="step-num">4</div><h4>Kiểm tra backend</h4><p>Tool hiện WinRAR/7-Zip đã phát hiện</p></div>
+    </div>
+    <a href="/khoiphuctool/#rar" class="btn-dl" id="btn-dl-rar">⬇️ Tải RARZIP Tool <span id="ver-rar-hd"></span></a>
+  </div>
+
+  <div class="section" id="chon-file">
+    <h2>4. Chọn file và cấu hình</h2>
+    <ol>
+      <li>Nhấn <strong>📂 Browse</strong> hoặc kéo thả file RAR/ZIP vào ô chọn file</li>
+      <li>Kiểm tra đường dẫn UnRAR.exe / 7z.exe (tự động điền nếu đã cài)</li>
+      <li>Chọn số luồng X1-X4 theo sức máy</li>
+      <li>Cấu hình bộ ký tự và độ dài</li>
+    </ol>
+  </div>
+
+  <div class="section" id="brute-force">
+    <h2>5. Chế độ Vét cạn (Brute Force)</h2>
+    <p>Thử tất cả tổ hợp ký tự trong bộ ký tự đã chọn.</p>
+    <ol>
+      <li>Chọn bộ ký tự: 0-9, a-z, A-Z, ký tự đặc biệt (@) hoặc Tất cả</li>
+      <li>Đặt độ dài tối thiểu và tối đa</li>
+      <li>Nhấn <strong>▶️ Bắt đầu</strong></li>
+    </ol>
+    <div class="tip">💡 Ctrl+click để chọn nhiều bộ ký tự cùng lúc. Ví dụ: 0-9 + a-z.</div>
+  </div>
+
+  <div class="section" id="pattern">
+    <h2>6. Chế độ Pattern</h2>
+    <p>Dùng khi biết một phần mật khẩu. Dấu <code>*</code> đại diện cho ký tự chưa biết.</p>
+    <h3>Ví dụ:</h3>
+    <ul>
+      <li><code>abc*</code> → thử abc0, abc1, ..., abcz (1 ký tự chưa biết)</li>
+      <li><code>2024**</code> → thử 202400, 202401, ..., 2024zz (2 ký tự chưa biết)</li>
+      <li><code>*pass*</code> → thử 0pass0, 0pass1, ..., zpassz</li>
+    </ul>
+    <div class="tip">💡 Pattern ưu tiên hơn cấu hình độ dài. Nếu nhập pattern thì độ dài bị bỏ qua.</div>
+  </div>
+
+  <div class="section" id="da-luong">
+    <h2>7. Đa luồng X1-X4</h2>
+    <p>Chia danh sách mật khẩu thành các chunk, mỗi luồng xử lý 1 chunk song song — giống như mở nhiều app cùng lúc nhưng trong 1 app duy nhất.</p>
+    <ul>
+      <li><strong>X1</strong> — 1 luồng, dùng 1 nhân CPU. FREE + PRO, phù hợp máy yếu hoặc CPU 2 nhân</li>
+      <li><strong>X2</strong> — 2 luồng, dùng 2 nhân CPU. Nhanh ~2x. Cần CPU ≥ 2 nhân</li>
+      <li><strong>X3</strong> — 3 luồng, dùng 3 nhân CPU. Cần CPU ≥ 4 nhân</li>
+      <li><strong>X4</strong> — 4 luồng, dùng 4 nhân CPU. Nhanh nhất. Cần CPU ≥ 4 nhân, chỉ PRO</li>
+    </ul>
+    <div class="tip">💡 Kiểm tra số nhân CPU: Chuột phải Taskbar → Task Manager → Performance → CPU → xem "Cores". CPU 4 nhân trở lên mới nên dùng X4.</div>
+    <p>Mỗi luồng hiển thị: <strong>W1, W2, W3, W4</strong> với candidate đang thử, số đã thử / tổng, thời gian đã chạy, ETA và %.</p>
+    <div class="warn">⚠️ Dùng X4 trên CPU 2 nhân không nhanh hơn X2, thậm chí chậm hơn. Chọn số luồng ≤ số nhân CPU thực tế.</div>
+  </div>
+
+  <div class="section" id="meo">
+    <h2>8. Mẹo và lưu ý</h2>
+    <ul>
+      <li>File RAR5 (WinRAR 5+) dùng AES-256 → chậm hơn RAR3</li>
+      <li>File ZIP với AES-256 cần 7-Zip để xử lý đúng</li>
+      <li>Biết mật khẩu là số → chỉ dùng bộ ký tự <strong>0-9</strong></li>
+      <li>Biết một phần → dùng <strong>Pattern</strong> để giảm không gian tìm kiếm</li>
+      <li>Tắt antivirus tạm thời nếu tool bị chặn (false positive)</li>
+      <li>Dùng X4 trên máy có CPU 4+ core để tối đa tốc độ</li>
+    </ul>
+    <div class="warn">⚠️ Chỉ dùng để khôi phục mật khẩu của chính bạn. Không dùng để truy cập trái phép.</div>
+  </div>
+
+</div>
+
+<footer>
+  <strong>KHÔI PHỤC TOOLS</strong> — Liên hệ: Zalo 0962768533<br>
+  <a href="/khoiphuctool/">🏠 Trang chủ</a> &nbsp;|&nbsp;
+  <a href="huong-dan-mom.html">📗 Hướng dẫn MÕM</a> &nbsp;|&nbsp;
+  <a href="huong-dan-rarzip.html">📙 Hướng dẫn RARZIP</a> &nbsp;|&nbsp;
+  <a href="huong-dan-khoiphuctool.html">🟣 Hướng dẫn KPT V2</a> &nbsp;|&nbsp;
+  <a href="tags.html">🏷️ Từ khóa</a>
+</footer>
+
+<script>
+(function(){
+  const _uk=['Kx9mPz','7rNqLb','Bv3Wts','Hn5Yqr','Qd8Fcp'];
+  const _up=[[42,48,107,93,51,50,6,78,117,20,105,17,41,74,119,23,28,23,47,14,91,95,52,9,17,43,12,7,50,72,123,14],[84,65,12,8,22,53,113,25,45,67,36,14,109,42,28,11,0,80,102,4,3,38,36,11,84,52,62,39,29,12,97,3],[33,68,105,46,23,43,42,64,87,15,38,31,27,46,121,15,23,30,58,64,124,3,38,11,13,49,121,25,22,59,8,3],[28,58,99,44,18,53,56,8,123,107,55,42,44,4,116,47,43,65,18,30,80,48,72,66,43,58,12,105,18,42,47,87],[51,87,110,118,44,29,31,30,92,47,57,30,48,51,105,127,44,52,28,87,117,44,0,69,30,48,121,60]];
+  function _xd(p,k){return p.map((a,i)=>{const b=a.map((c,j)=>String.fromCharCode(c^k[i].charCodeAt(j%k[i].length))).join('');return atob(b);}).join('');}
+  fetch(_xd(_up,_uk)).then(r=>r.text()).then(csv=>{
+    const rows=csv.split('\n').map(r=>r.replace(/\r/g,'').split(',').map(c=>c.replace(/^"|"$/g,'').trim()));
+    const link=rows[3]?.[9], ver=rows[4]?.[9];
+    if(link){const b=document.getElementById('btn-dl-rar');if(b){b.href=link;b.target='_blank';}}
+    if(ver){const v=document.getElementById('ver-rar-hd');if(v)v.textContent='v'+ver;}
+  }).catch(()=>{});
+})();
+</script>
+</body>
+</html>
