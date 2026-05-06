@@ -518,7 +518,7 @@
   <div style="display:flex;flex-wrap:wrap;justify-content:center;gap:12px;margin-top:24px;">
     <a href="huong-dan-mom.html" style="display:inline-flex;align-items:center;gap:8px;background:linear-gradient(135deg,#27ae60,#2ecc71);color:white;text-decoration:none;padding:11px 22px;border-radius:10px;font-weight:700;font-size:0.95rem;">📗 Hướng dẫn MÕM Tool</a>
     <a href="huong-dan-rarzip.html" style="display:inline-flex;align-items:center;gap:8px;background:linear-gradient(135deg,#e67e22,#f39c12);color:white;text-decoration:none;padding:11px 22px;border-radius:10px;font-weight:700;font-size:0.95rem;">📙 Hướng dẫn RARZIP Tool</a>
-    <a href="huong-dan-khoiphuctool.html" style="display:inline-flex;align-items:center;gap:8px;background:linear-gradient(135deg,#8e24aa,#ab47bc);color:white;text-decoration:none;padding:11px 22px;border-radius:10px;font-weight:700;font-size:0.95rem;">🟣 Hướng dẫn KhoiPhucTool V2</a>
+    <a href="huong-dan-khoiphuctool.html" style="display:inline-flex;align-items:center;gap:8px;background:linear-gradient(135deg,#8e24aa,#ab47bc);color:white;text-decoration:none;padding:11px 22px;border-radius:10px;font-weight:700;font-size:0.95rem;">🟣 Hướng dẫn KhoiPhucTool <span id="btn-kpt-guide-ver"></span></a>
   </div>
 </div>
 
@@ -724,6 +724,8 @@ fetch(SHEET_CSV)
     if (kptVer) {
       document.getElementById('ver-kpt').textContent = 'v' + kptVer;
       document.getElementById('sub-kpt').textContent = 'KhoiPhucTool v' + kptVer;
+      const g = document.getElementById('btn-kpt-guide-ver');
+      if (g) g.textContent = kptVer;
     }
 
     // Cột I (index 8) toàn bộ, bỏ ô trống
