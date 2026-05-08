@@ -392,16 +392,18 @@
         <span class="badge badge-ver" id="ver-mom"></span>
       </div>
       <p style="margin-top:12px">Khôi phục mật khẩu file Excel, Word, PowerPoint bằng phương pháp vét cạn, từ điển và dải số. Hỗ trợ cả VBA password.</p>
-      <p style="font-size:0.88rem;color:#888;margin-bottom:8px">🆓 <b>FREE</b>: tối đa độ dài pass :4 ký tự, chỉ X1 luồng<br>💎 <b>PRO</b>: không giới hạn độ dài, X1→X4 luồng</p>
+      <p style="font-size:0.88rem;color:#888;margin-bottom:8px">🆓 <b>FREE</b>: tối đa độ dài pass 4 ký tự, chỉ X1 luồng<br>💎 <b>PRO</b>: không giới hạn độ dài, X1→X8 luồng</p>
       <ul class="features">
         <li>Vét cạn (Brute Force) theo bộ ký tự tùy chỉnh</li>
         <li>Khôi phục bằng từ điển (Wordlist) & dải số</li>
         <li>Gỡ khóa VBA Macro (DPB crack)</li>
         <li>Hỗ trợ .xlsx .xls .xlsb .xlsm .docx .pptx</li>
-        <li>Đa luồng X1→X4 — mỗi luồng dò chunk riêng</li>
-        <li>Hiển thị tiến trình từng luồng W1/W2/W3/W4 realtime</li>
+        <li>Đa luồng X1→X8 — mỗi luồng dò chunk riêng</li>
+        <li>Tạm dừng / tiếp tục từng luồng riêng lẻ</li>
+        <li>Hiển thị tiến trình & timer từng luồng W1-W8 realtime</li>
         <li>Tự động nhận diện loại mã hóa (AES-256, RC4...)</li>
         <li>Kiểm tra mã hóa & ước tính tốc độ trước khi dò</li>
+        <li>Tự động đăng nhập, nhớ chế độ online/offline</li>
       </ul>
       <a class="btn-download" id="btn-mom" href="#" target="_blank">
         ⬇️ Tải xuống miễn phí
@@ -425,15 +427,17 @@
         <span class="badge badge-ver" id="ver-rar"></span>
       </div>
       <p style="margin-top:12px">Khôi phục mật khẩu file nén RAR và ZIP bằng vét cạn hoặc từ điển. Hỗ trợ WinRAR và 7-Zip làm backend.</p>
-      <p style="font-size:0.88rem;color:#888;margin-bottom:8px">🆓 <b>FREE</b>: tối đa độ dài pass :4 ký tự, chỉ X1 luồng<br>💎 <b>PRO</b>: không giới hạn độ dài, X1→X4 luồng</p>
+      <p style="font-size:0.88rem;color:#888;margin-bottom:8px">🆓 <b>FREE</b>: tối đa độ dài pass 4 ký tự, chỉ X1 luồng<br>💎 <b>PRO</b>: không giới hạn độ dài, X1→X8 luồng</p>
       <ul class="features">
         <li>Vét cạn theo bộ ký tự & pattern tùy chỉnh</li>
         <li>Hỗ trợ RAR3, RAR5, ZIP (AES)</li>
         <li>Tự động phát hiện WinRAR / 7-Zip</li>
-        <li>Đa luồng X1→X4 — mỗi luồng dò chunk riêng</li>
-        <li>Hiển thị tiến trình từng luồng W1/W2/W3/W4 realtime</li>
+        <li>Đa luồng X1→X8 — mỗi luồng dò chunk riêng</li>
+        <li>Tạm dừng / tiếp tục từng luồng riêng lẻ</li>
+        <li>Hiển thị tiến trình & timer từng luồng W1-W8 realtime</li>
         <li>ETA ước tính thời gian hoàn thành từng luồng</li>
         <li>Ctrl+click chọn nhiều bộ ký tự</li>
+        <li>Tự động đăng nhập, nhớ chế độ online/offline</li>
       </ul>
       <a class="btn-download" id="btn-rar" href="#" target="_blank">
         ⬇️ Tải xuống miễn phí
@@ -469,8 +473,8 @@
         <li>Hỗ trợ .xlsx .xls .xlsb .xlsm .docx .pptx</li>
         <li>Hỗ trợ RAR3, RAR5, ZIP (AES) — tự phát hiện WinRAR / 7-Zip</li>
         <li>Đa luồng X1→X8 — mỗi luồng dò chunk riêng</li>
-        <li>Tạm dừng / tiếp tục từng luồng riêng lẻ</li>
-        <li>Hiển thị tiến trình từng luồng W1-W8 realtime</li>
+        <li>Tạm dừng / tiếp tục từng luồng riêng lẻ (per-worker)</li>
+        <li>Hiển thị tiến trình & timer từng luồng W1-W8 realtime</li>
         <li>ETA ước tính thời gian hoàn thành từng luồng</li>
         <li>Tự động nhận diện loại mã hóa (AES-256, RC4...)</li>
         <li>Kiểm tra mã hóa & ước tính tốc độ trước khi dò</li>
@@ -518,7 +522,7 @@
   <div style="display:flex;flex-wrap:wrap;justify-content:center;gap:12px;margin-top:24px;">
     <a href="huong-dan-mom.html" style="display:inline-flex;align-items:center;gap:8px;background:linear-gradient(135deg,#27ae60,#2ecc71);color:white;text-decoration:none;padding:11px 22px;border-radius:10px;font-weight:700;font-size:0.95rem;">📗 Hướng dẫn MÕM Tool</a>
     <a href="huong-dan-rarzip.html" style="display:inline-flex;align-items:center;gap:8px;background:linear-gradient(135deg,#e67e22,#f39c12);color:white;text-decoration:none;padding:11px 22px;border-radius:10px;font-weight:700;font-size:0.95rem;">📙 Hướng dẫn RARZIP Tool</a>
-    <a href="huong-dan-khoiphuctool.html" style="display:inline-flex;align-items:center;gap:8px;background:linear-gradient(135deg,#8e24aa,#ab47bc);color:white;text-decoration:none;padding:11px 22px;border-radius:10px;font-weight:700;font-size:0.95rem;">🟣 Hướng dẫn KhoiPhucTool <span id="btn-kpt-guide-ver"></span></a>
+    <a href="huong-dan-khoiphuctool.html" style="display:inline-flex;align-items:center;gap:8px;background:linear-gradient(135deg,#8e24aa,#ab47bc);color:white;text-decoration:none;padding:11px 22px;border-radius:10px;font-weight:700;font-size:0.95rem;">🟣 Hướng dẫn KhoiPhucTool</a>
   </div>
 </div>
 
@@ -550,7 +554,7 @@
     <details style="background:white;border-radius:12px;padding:18px 20px;box-shadow:0 2px 10px rgba(0,0,0,0.07);cursor:pointer;" itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
       <summary style="font-weight:700;color:#2c3e50;font-size:1rem;" itemprop="name">Tài khoản FREE có giới hạn gì?</summary>
       <div style="margin-top:10px;color:#555;font-size:0.92rem;line-height:1.7;" itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
-        <span itemprop="text">Tài khoản FREE giới hạn độ dài mật khẩu tối đa 4 ký tự và chỉ dùng 1 luồng (X1). Tài khoản PRO không giới hạn độ dài và hỗ trợ đến 4 luồng song song (X4) để tăng tốc độ.</span>
+        <span itemprop="text">Tài khoản FREE giới hạn độ dài mật khẩu tối đa 4 ký tự và chỉ dùng 1 luồng (X1). Tài khoản PRO không giới hạn độ dài và hỗ trợ đến 8 luồng song song (X8) để tăng tốc độ.</span>
       </div>
     </details>
     <details style="background:white;border-radius:12px;padding:18px 20px;box-shadow:0 2px 10px rgba(0,0,0,0.07);cursor:pointer;" itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
@@ -710,22 +714,20 @@ fetch(SHEET_CSV)
     if (momLink) document.getElementById('btn-mom').href = momLink;
     else document.getElementById('btn-mom').style.display = 'none';
     if (momVer) {
-      document.getElementById('ver-mom').textContent = 'v' + momVer;
-      document.getElementById('sub-mom').textContent = 'Khôi phục Office v' + momVer;
+      document.getElementById('ver-mom').textContent = momVer;
+      document.getElementById('sub-mom').textContent = 'Khôi phục Office ' + momVer;
     }
     if (rarLink) document.getElementById('btn-rar').href = rarLink;
     else document.getElementById('btn-rar').style.display = 'none';
     if (rarVer) {
-      document.getElementById('ver-rar').textContent = 'v' + rarVer;
-      document.getElementById('sub-rar').textContent = 'RARZIP Tool v' + rarVer;
+      document.getElementById('ver-rar').textContent = rarVer;
+      document.getElementById('sub-rar').textContent = 'RARZIP Tool ' + rarVer;
     }
     if (kptLink) document.getElementById('btn-kpt').href = kptLink;
     else document.getElementById('btn-kpt').style.display = 'none';
     if (kptVer) {
-      document.getElementById('ver-kpt').textContent = 'v' + kptVer;
-      document.getElementById('sub-kpt').textContent = 'KhoiPhucTool v' + kptVer;
-      const g = document.getElementById('btn-kpt-guide-ver');
-      if (g) g.textContent = kptVer;
+      document.getElementById('ver-kpt').textContent = kptVer;
+      document.getElementById('sub-kpt').textContent = 'KhoiPhucTool ' + kptVer;
     }
 
     // Cột I (index 8) toàn bộ, bỏ ô trống

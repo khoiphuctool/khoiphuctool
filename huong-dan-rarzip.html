@@ -131,17 +131,17 @@
   </div>
 
   <div class="section" id="da-luong">
-    <h2>7. Đa luồng X1-X4</h2>
+    <h2>7. Đa luồng X1-X8 & tạm dừng từng luồng</h2>
     <p>Chia danh sách mật khẩu thành các chunk, mỗi luồng xử lý 1 chunk song song — giống như mở nhiều app cùng lúc nhưng trong 1 app duy nhất.</p>
     <ul>
       <li><strong>X1</strong> — 1 luồng, dùng 1 nhân CPU. FREE + PRO, phù hợp máy yếu hoặc CPU 2 nhân</li>
       <li><strong>X2</strong> — 2 luồng, dùng 2 nhân CPU. Nhanh ~2x. Cần CPU ≥ 2 nhân</li>
-      <li><strong>X3</strong> — 3 luồng, dùng 3 nhân CPU. Cần CPU ≥ 4 nhân</li>
-      <li><strong>X4</strong> — 4 luồng, dùng 4 nhân CPU. Nhanh nhất. Cần CPU ≥ 4 nhân, chỉ PRO</li>
+      <li><strong>X3/X4/X5</strong> — 3-5 luồng. Cần CPU ≥ 4 nhân, chỉ PRO</li>
+      <li><strong>X6/X7/X8</strong> — 6-8 luồng. Nhanh nhất. Cần CPU ≥ 6 nhân, chỉ PRO</li>
     </ul>
-    <div class="tip">💡 Kiểm tra số nhân CPU: Chuột phải Taskbar → Task Manager → Performance → CPU → xem "Cores". CPU 4 nhân trở lên mới nên dùng X4.</div>
-    <p>Mỗi luồng hiển thị: <strong>W1, W2, W3, W4</strong> với candidate đang thử, số đã thử / tổng, thời gian đã chạy, ETA và %.</p>
-    <div class="warn">⚠️ Dùng X4 trên CPU 2 nhân không nhanh hơn X2, thậm chí chậm hơn. Chọn số luồng ≤ số nhân CPU thực tế.</div>
+    <div class="tip">💡 Kiểm tra số nhân CPU: Chuột phải Taskbar → Task Manager → Performance → CPU → xem "Cores". Chọn số luồng ≤ số nhân CPU thực tế.</div>
+    <p>Mỗi luồng hiển thị: <strong>W1-W8</strong> với candidate đang thử, số đã thử / tổng, timer riêng, ETA và %. Có thể tạm dừng/tiếp tục từng luồng riêng lẻ bằng nút ⏸/▶.</p>
+    <div class="warn">⚠️ Dùng X8 trên CPU 4 nhân không nhanh hơn X4, thậm chí chậm hơn. Chọn số luồng ≤ số nhân CPU thực tế.</div>
   </div>
 
   <div class="section" id="meo">
@@ -177,7 +177,7 @@
     const rows=csv.split('\n').map(r=>r.replace(/\r/g,'').split(',').map(c=>c.replace(/^"|"$/g,'').trim()));
     const link=rows[3]?.[9], ver=rows[4]?.[9];
     if(link){const b=document.getElementById('btn-dl-rar');if(b){b.href=link;b.target='_blank';}}
-    if(ver){const v=document.getElementById('ver-rar-hd');if(v)v.textContent='v'+ver;}
+    if(ver){const v=document.getElementById('ver-rar-hd');if(v)v.textContent=ver;}
   }).catch(()=>{});
 })();
 </script>

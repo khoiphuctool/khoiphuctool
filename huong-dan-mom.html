@@ -160,17 +160,17 @@
 
   <!-- ĐA LUỒNG -->
   <div class="section" id="da-luong">
-    <h2>8. Đa luồng X1-X4</h2>
+    <h2>8. Đa luồng X1-X8 & tạm dừng từng luồng</h2>
     <p>Chia toàn bộ candidates thành các chunk, mỗi luồng xử lý 1 chunk song song — giống như mở nhiều app cùng lúc nhưng trong 1 app duy nhất.</p>
     <ul>
       <li><strong>X1</strong> — 1 luồng, dùng 1 nhân CPU. Phù hợp máy yếu, CPU 2 nhân, hoặc tài khoản FREE</li>
       <li><strong>X2</strong> — 2 luồng, dùng 2 nhân CPU. Nhanh ~2x so với X1. Cần CPU ≥ 2 nhân</li>
-      <li><strong>X3</strong> — 3 luồng, dùng 3 nhân CPU. Cần CPU ≥ 4 nhân (để còn 1 nhân cho hệ thống)</li>
-      <li><strong>X4</strong> — 4 luồng, dùng 4 nhân CPU. Nhanh nhất. Cần CPU ≥ 4 nhân, chỉ PRO</li>
+      <li><strong>X3/X4/X5</strong> — 3-5 luồng. Cần CPU ≥ 4 nhân, chỉ PRO</li>
+      <li><strong>X6/X7/X8</strong> — 6-8 luồng. Nhanh nhất. Cần CPU ≥ 6 nhân, chỉ PRO</li>
     </ul>
-    <div class="tip">💡 Kiểm tra số nhân CPU: Chuột phải vào Taskbar → Task Manager → tab Performance → CPU → xem "Cores". CPU 4 nhân trở lên mới nên dùng X4.</div>
-    <div class="tip">💡 Mỗi luồng hiển thị riêng W1, W2, W3, W4 với candidate đang thử, tiến độ và ETA. Luồng nào tìm thấy sẽ hiện ✅ TÌM THẤY!</div>
-    <div class="warn">⚠️ Dùng X4 trên CPU 2 nhân sẽ không nhanh hơn X2, thậm chí chậm hơn do overhead. Chọn số luồng ≤ số nhân CPU thực tế.</div>
+    <div class="tip">💡 Kiểm tra số nhân CPU: Chuột phải vào Taskbar → Task Manager → tab Performance → CPU → xem "Cores". Chọn số luồng ≤ số nhân CPU thực tế.</div>
+    <div class="tip">💡 Mỗi luồng hiển thị riêng W1-W8 với candidate đang thử, tiến độ, timer riêng và ETA. Có thể tạm dừng/tiếp tục từng luồng riêng lẻ bằng nút ⏸/▶. Luồng nào tìm thấy sẽ hiện ✅ TÌM THẤY!</div>
+    <div class="warn">⚠️ Dùng X8 trên CPU 4 nhân sẽ không nhanh hơn X4, thậm chí chậm hơn do overhead. Chọn số luồng ≤ số nhân CPU thực tế.</div>
   </div>
 
   <!-- MẸO -->
@@ -213,7 +213,7 @@
     }
     if(ver){
       const v=document.getElementById('ver-mom-hd');
-      if(v) v.textContent='v'+ver;
+      if(v) v.textContent=ver;
     }
   }).catch(()=>{});
 })();
