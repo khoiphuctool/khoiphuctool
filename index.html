@@ -11,7 +11,7 @@
 <link rel="canonical" href="https://khoiphuctool.github.io/khoiphuctool/">
 <meta property="og:title" content="Khôi phục mật khẩu Excel Word RAR ZIP - TOOLS miễn phí">
 <meta property="og:description" content="Công cụ khôi phục mật khẩu file Excel, Word, PowerPoint, RAR, ZIP miễn phí. Hỗ trợ brute force, từ điển, đa luồng. Tải về dùng ngay.">
-<meta property="og:image" content="https://khoiphuctool.github.io/khoiphuctool/conbo.ico">
+<meta property="og:image" content="https://khoiphuctool.github.io/khoiphuctool/LOGO.png">
 <meta property="og:url" content="https://khoiphuctool.github.io/khoiphuctool/">
 <meta property="og:type" content="website">
 <meta property="og:locale" content="vi_VN">
@@ -41,7 +41,8 @@
 
   /* HEADER */
   header {
-    background: linear-gradient(135deg, #2c3e50 0%, #3498db 100%);
+    background: linear-gradient(135deg, rgba(44,62,80,0.85) 0%, rgba(52,152,219,0.85) 100%),
+                url('LOGO0.png') center/cover no-repeat;
     color: white; text-align: center; padding: 60px 20px 50px;
   }
   header h1 { font-size: 2.8rem; font-weight: 700; letter-spacing: 2px; }
@@ -309,8 +310,13 @@
 
 <!-- HEADER -->
 <header>
-  <h1>🔐 KHÔI PHỤC  TOOLS</h1>
-  <p>Bộ công cụ khôi phục mật khẩu chuyên nghiệp — nhanh, gọn, hiệu quả</p>
+  <div style="display:flex;align-items:center;justify-content:center;gap:20px;flex-wrap:wrap;">
+    <img src="LOGO.png" alt="KhoiPhucTool Logo" style="width:200px;height:200px;object-fit:contain;border-radius:50%;box-shadow:0 4px 20px rgba(0,0,0,0.4);border:3px solid rgba(255,255,255,0.3);">
+    <div style="text-align:left;">
+      <h1 style="font-size:2.4rem;margin:0;letter-spacing:2px;text-shadow:0 2px 8px rgba(0,0,0,0.4);">KHÔI PHỤC TOOLS</h1>
+      <p style="margin:8px 0 0;opacity:0.9;font-size:1rem;">Bộ công cụ khôi phục mật khẩu chuyên nghiệp — nhanh, gọn, hiệu quả</p>
+    </div>
+  </div>
 </header>
 <style>
 @keyframes pulse {
@@ -321,7 +327,10 @@
 
 <!-- NAV -->
 <nav>
-  <a href="/khoiphuctool/">🏠 Trang chủ</a>
+  <a href="/khoiphuctool/" style="display:inline-flex;align-items:center;gap:6px;">
+    <img src="LOGO.png" alt="KPT" style="width:28px;height:28px;border-radius:50%;object-fit:cover;">
+    🏠 Trang chủ
+  </a>
   <a href="#mom">🟢 Khôi phục office</a>
   <a href="#rar">🟢 Khôi phụcRAR/ZIP</a>
   <a href="#kpt">🟣 KhoiPhucTool</a>
@@ -329,8 +338,10 @@
   <a href="#dangky">📝 Đăng ký</a>
   <a href="#unghо">💖 Ủng hộ</a>
   <div style="margin-left:auto;display:flex;gap:8px;align-items:center;">
+    <a href="https://tiktok.com/@khoiphuctool.github.io" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:5px;background:#010101;color:white;text-decoration:none;padding:7px 14px;border-radius:20px;font-weight:600;font-size:0.88rem;">🎵 TikTok</a>
     <span id="nav-user" style="font-size:0.85rem;color:#27ae60;font-weight:600;display:none;"></span>
     <button onclick="showLoginModal()" id="btn-nav-login" style="background:#3498db;color:white;border:none;padding:7px 16px;border-radius:20px;font-weight:600;cursor:pointer;font-size:0.88rem;">🔑 Đăng nhập</button>
+    <a href="#dangky" id="btn-nav-register" style="background:#27ae60;color:white;text-decoration:none;padding:7px 16px;border-radius:20px;font-weight:600;font-size:0.88rem;">📝 Đăng ký FREE</a>
     <button onclick="doLogout()" id="btn-nav-logout" style="background:#e74c3c;color:white;border:none;padding:7px 16px;border-radius:20px;font-weight:600;cursor:pointer;font-size:0.88rem;display:none;">🚪 Đăng xuất</button>
   </div>
 </nav>
@@ -492,6 +503,24 @@
 <!-- HOW IT WORKS -->
 <div class="how" id="huongdan">
   <h2>📖 Hướng dẫn sử dụng</h2>
+
+  <!-- VIDEO TIKTOK NHÚNG — hiện trước steps -->
+  <div style="display:flex;justify-content:center;margin-bottom:32px;" id="tiktok-video-wrap">
+    <div style="max-width:340px;width:100%;border-radius:16px;overflow:hidden;box-shadow:0 4px 20px rgba(0,0,0,0.12);">
+      <video
+        id="kpt-video"
+        src="KPT.mp4"
+        style="width:100%;border-radius:16px;display:block;"
+        autoplay
+        muted
+        loop
+        playsinline
+        controls
+      ></video>
+    </div>
+  </div>
+  <p style="text-align:center;font-size:0.85rem;color:#888;margin-top:-20px;margin-bottom:28px;">📱 Video hướng dẫn thực tế — <a href="https://www.tiktok.com/@khoiphuctool.github.io/video/7637746426339970312" target="_blank" rel="noopener" style="color:#3498db;">Xem trên TikTok</a></p>
+
   <div class="steps">
     <div class="step">
       <div class="step-num">1</div>
@@ -523,7 +552,10 @@
     <a href="huong-dan-mom.html" style="display:inline-flex;align-items:center;gap:8px;background:linear-gradient(135deg,#27ae60,#2ecc71);color:white;text-decoration:none;padding:11px 22px;border-radius:10px;font-weight:700;font-size:0.95rem;">📗 Hướng dẫn MÕM Tool</a>
     <a href="huong-dan-rarzip.html" style="display:inline-flex;align-items:center;gap:8px;background:linear-gradient(135deg,#e67e22,#f39c12);color:white;text-decoration:none;padding:11px 22px;border-radius:10px;font-weight:700;font-size:0.95rem;">📙 Hướng dẫn RARZIP Tool</a>
     <a href="huong-dan-khoiphuctool.html" style="display:inline-flex;align-items:center;gap:8px;background:linear-gradient(135deg,#8e24aa,#ab47bc);color:white;text-decoration:none;padding:11px 22px;border-radius:10px;font-weight:700;font-size:0.95rem;">🟣 Hướng dẫn KhoiPhucTool</a>
+    <a href="https://vt.tiktok.com/ZS9nccdvM/" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:8px;background:linear-gradient(135deg,#010101,#2d2d2d);color:white;text-decoration:none;padding:11px 22px;border-radius:10px;font-weight:700;font-size:0.95rem;">▶️ Xem video hướng dẫn TikTok</a>
   </div>
+
+
 </div>
 
 <!-- NOTICE -->
@@ -660,12 +692,13 @@
 </div>
 <footer>
   <strong>KHOIPHUCTOOLS</strong><br>
-  Liên hệ hỗ trợ &amp; mua PRO: Zalo 0962768533 - khoiphuctool@gmail.com<br>
+  Liên hệ hỗ trợ &amp; mua PRO: Zalo 0962768533 - khoiphuctool@gmail.com &nbsp;|&nbsp; <a href="https://tiktok.com/@khoiphuctool.github.io" target="_blank" rel="noopener" style="color:#e74c3c;text-decoration:none;font-weight:600;">🎵 TikTok @khoiphuctool</a><br>
   <div style="margin:14px 0 8px;display:flex;justify-content:center;flex-wrap:wrap;gap:14px;">
     <a href="https://khoiphuctool.github.io/khoiphuctool/" target="_blank" style="color:#3498db;text-decoration:none;font-weight:600;">🌐 khoiphuctool.github.io/khoiphuctool</a>
     <a href="https://tiny.cc/khoiphuctool" target="_blank" style="color:#3498db;text-decoration:none;font-weight:600;">🔗 tiny.cc/khoiphuctool</a>
     <a href="https://s.id/khoiphuctool" target="_blank" style="color:#3498db;text-decoration:none;font-weight:600;">🔗 s.id/khoiphuctool</a>
     <a href="https://1.khoiphuctool.workers.dev/" target="_blank" style="color:#3498db;text-decoration:none;font-weight:600;">💻1.khoiphuctool.workers.dev/</a>
+    <a href="https://tiktok.com/@khoiphuctool.github.io" target="_blank" rel="noopener" style="color:#e74c3c;text-decoration:none;font-weight:600;">🎵 TikTok @khoiphuctool</a>
   </div>
   <span style="font-size:0.82rem;opacity:0.7">© 2026 . All rights reserved</span>
   <br><a href="tags.html" style="color:#7f8c8d;font-size:0.78rem;text-decoration:none;opacity:0.6;">🏷️ Từ khóa</a>
