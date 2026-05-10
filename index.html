@@ -70,23 +70,69 @@
   /* NAV */
   nav {
     background: white; box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-    display: flex; flex-direction: column;
+    display: flex; align-items: center; justify-content: space-between;
     padding: 8px 16px; position: sticky; top: 0; z-index: 100;
   }
-  .nav-row1 {
-    display: flex; align-items: center; gap: 4px;
-    flex-wrap: wrap; justify-content: center;
+  /* Logo bên trái nav */
+  .nav-brand {
+    display: flex; align-items: center; gap: 8px;
+    text-decoration: none; color: #2c3e50; font-weight: 700; font-size: 0.9rem;
+    flex-shrink: 0;
   }
-  .nav-row2 {
-    display: flex; align-items: center; justify-content: center;
-    gap: 6px; padding: 6px 0 2px; flex-wrap: wrap;
+  .nav-brand img { width: 28px; height: 28px; border-radius: 50%; object-fit: cover; }
+
+  /* Hamburger button */
+  .nav-toggle {
+    display: none; flex-direction: column; gap: 5px;
+    background: none; border: none; cursor: pointer; padding: 4px;
   }
+  .nav-toggle span {
+    display: block; width: 24px; height: 2px;
+    background: #2c3e50; border-radius: 2px; transition: all .3s;
+  }
+
+  /* Menu desktop */
+  .nav-menu {
+    display: flex; align-items: center; gap: 4px; flex-wrap: wrap;
+    justify-content: center; flex: 1;
+  }
+  .nav-actions {
+    display: flex; align-items: center; gap: 6px; flex-shrink: 0;
+  }
+  .nav-row1, .nav-row2 { display: contents; }
+
   nav a {
     text-decoration: none; color: #2c3e50; font-weight: 600;
-    padding: 5px 12px; border-radius: 20px; transition: all .2s;
+    padding: 5px 10px; border-radius: 20px; transition: all .2s;
     font-size: 0.82rem; white-space: nowrap;
   }
   nav a:hover { background: #3498db; color: white; }
+
+  /* MOBILE NAV */
+  @media(max-width: 768px) {
+    nav { flex-wrap: nowrap; padding: 8px 12px; }
+    .nav-toggle { display: flex; }
+    .nav-menu {
+      display: none; position: absolute; top: 100%; left: 0; right: 0;
+      background: white; flex-direction: column; align-items: stretch;
+      padding: 12px 16px; gap: 6px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.12);
+      border-top: 1px solid #eee;
+    }
+    .nav-menu.open { display: flex; }
+    .nav-menu a {
+      padding: 10px 14px; border-radius: 10px; font-size: 0.9rem;
+      border-bottom: 1px solid #f0f0f0;
+    }
+    .nav-menu a:last-child { border-bottom: none; }
+    .nav-actions {
+      flex-wrap: wrap; justify-content: center;
+      border-top: 1px solid #eee; padding-top: 8px; margin-top: 4px;
+    }
+    .nav-actions a, .nav-actions button {
+      font-size: 0.78rem !important; padding: 5px 10px !important;
+    }
+  }
 
   /* HERO SECTION */
   .hero {
@@ -342,6 +388,10 @@
     0%,100% { box-shadow: 0 0 8px rgba(231,76,60,0.6); }
     50%      { box-shadow: 0 0 18px rgba(243,156,18,0.9); }
   }
+  /* Hamburger open state */
+  .nav-toggle.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+  .nav-toggle.open span:nth-child(2) { opacity: 0; }
+  .nav-toggle.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
   }
 </style>
 </head>
@@ -453,27 +503,33 @@
 
 <!-- NAV -->
 <nav>
-  <!-- Tầng 1: Menu links -->
-  <div class="nav-row1">
-    <a href="/khoiphuctool/" style="display:inline-flex;align-items:center;gap:4px;">
-      <img src="LOGO.png" alt="KPT" style="width:22px;height:22px;border-radius:50%;object-fit:cover;">
-      🏠 Trang chủ
-    </a>
+  <!-- Logo brand -->
+  <a href="/khoiphuctool/" class="nav-brand">
+    <img src="LOGO.png" alt="KPT">
+    KhoiPhucTool
+  </a>
+
+  <!-- Hamburger (mobile) -->
+  <button class="nav-toggle" onclick="toggleNav()" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+
+  <!-- Menu links + actions gộp chung -->
+  <div class="nav-menu" id="nav-menu">
     <a href="#mom">🟢 Office</a>
     <a href="#rar">🟢 RAR/ZIP</a>
-    <a href="#kpt"><img src="LOGO.png" style="width:26px;height:26px;vertical-align:middle;margin-right:3px;border-radius:50%;"> KhoiPhucTool</a>
+    <a href="#kpt"><img src="LOGO.png" style="width:16px;height:16px;vertical-align:middle;border-radius:50%;margin-right:3px;"> KhoiPhucTool</a>
     <a href="#huongdan">📖 Hướng dẫn</a>
     <a href="#dangky">📝 Đăng ký</a>
     <a href="#unghо">💖 Ủng hộ</a>
     <a href="su-kien.html" style="background:linear-gradient(135deg,#e74c3c,#f39c12);color:white;animation:navGlow 2s ease-in-out infinite;">🎁 Sự kiện PRO 5 ngày</a>
-  </div>
-  <!-- Tầng 2: Action buttons -->
-  <div class="nav-row2">
-    <a href="https://tiktok.com/@khoiphuctool.github.io" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:4px;background:#010101;color:white;text-decoration:none;padding:5px 12px;border-radius:20px;font-weight:600;font-size:0.78rem;">🎵 TikTok</a>
-    <span id="nav-user" style="font-size:0.78rem;color:#27ae60;font-weight:700;display:none;max-width:120px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;"></span>
-    <button onclick="showLoginModal()" id="btn-nav-login" style="background:#3498db;color:white;border:none;padding:5px 12px;border-radius:20px;font-weight:600;cursor:pointer;font-size:0.78rem;">🔑 Đăng nhập</button>
-    <a href="#dangky" id="btn-nav-register" style="background:#27ae60;color:white;text-decoration:none;padding:5px 12px;border-radius:20px;font-weight:600;font-size:0.78rem;">📝 Đăng ký FREE</a>
-    <button onclick="doLogout()" id="btn-nav-logout" style="background:#e74c3c;color:white;border:none;padding:5px 12px;border-radius:20px;font-weight:600;cursor:pointer;font-size:0.78rem;display:none;">🚪 Đăng xuất</button>
+    <div class="nav-actions">
+      <a href="https://tiktok.com/@khoiphuctool.github.io" target="_blank" rel="noopener" style="background:#010101;color:white;">🎵 TikTok</a>
+      <span id="nav-user" style="font-size:0.78rem;color:#27ae60;font-weight:700;display:none;max-width:100px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;"></span>
+      <button onclick="showLoginModal()" id="btn-nav-login" style="background:#3498db;color:white;border:none;padding:5px 12px;border-radius:20px;font-weight:600;cursor:pointer;font-size:0.78rem;">🔑 Đăng nhập</button>
+      <a href="#dangky" id="btn-nav-register" style="background:#27ae60;color:white;text-decoration:none;padding:5px 12px;border-radius:20px;font-weight:600;font-size:0.78rem;">📝 Đăng ký FREE</a>
+      <button onclick="doLogout()" id="btn-nav-logout" style="background:#e74c3c;color:white;border:none;padding:5px 12px;border-radius:20px;font-weight:600;cursor:pointer;font-size:0.78rem;display:none;">🚪 Đăng xuất</button>
+    </div>
   </div>
 </nav>
 
@@ -1383,6 +1439,20 @@ function autoLoginAfterReg(name, pass, type) {
 })();
 
 
+// HAMBURGER NAV
+function toggleNav() {
+  const menu = document.getElementById('nav-menu');
+  const toggle = document.querySelector('.nav-toggle');
+  menu.classList.toggle('open');
+  toggle.classList.toggle('open');
+}
+// Đóng menu khi click link
+document.querySelectorAll('#nav-menu a').forEach(a => {
+  a.addEventListener('click', () => {
+    document.getElementById('nav-menu').classList.remove('open');
+    document.querySelector('.nav-toggle').classList.remove('open');
+  });
+});
 
 </script>
 </body>
