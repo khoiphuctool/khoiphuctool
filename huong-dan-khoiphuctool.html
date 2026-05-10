@@ -10,9 +10,23 @@
 <link rel="icon" href="LOGO.png" type="image/png"><style>
   * { margin:0; padding:0; box-sizing:border-box; }
   body { font-family:'Segoe UI',sans-serif; background:#f0f4f8; color:#2c3e50; }
-  nav { background:white; box-shadow:0 2px 8px rgba(0,0,0,0.08); display:flex; flex-wrap:wrap; gap:8px; padding:12px 20px; position:sticky; top:0; z-index:100; }
-  nav a { text-decoration:none; color:#2c3e50; font-weight:600; padding:6px 16px; border-radius:20px; font-size:0.9rem; transition:all .2s; }
+  nav { background:white; box-shadow:0 2px 8px rgba(0,0,0,0.08); display:flex; align-items:center; justify-content:space-between; padding:8px 16px; position:sticky; top:0; z-index:100; flex-wrap:nowrap; }
+  nav a { text-decoration:none; color:#2c3e50; font-weight:600; padding:6px 14px; border-radius:20px; font-size:0.88rem; transition:all .2s; white-space:nowrap; }
   nav a:hover { background:#8e24aa; color:white; }
+  .nav-brand { font-weight:700; font-size:0.95rem; display:flex; align-items:center; gap:6px; flex-shrink:0; }
+  .nav-toggle { display:none; flex-direction:column; gap:5px; background:none; border:none; cursor:pointer; padding:4px; flex-shrink:0; }
+  .nav-toggle span { display:block; width:24px; height:2px; background:#2c3e50; border-radius:2px; transition:all .3s; }
+  .nav-toggle.open span:nth-child(1) { transform:translateY(7px) rotate(45deg); }
+  .nav-toggle.open span:nth-child(2) { opacity:0; }
+  .nav-toggle.open span:nth-child(3) { transform:translateY(-7px) rotate(-45deg); }
+  .nav-links { display:flex; align-items:center; gap:6px; flex-wrap:wrap; }
+  @media(max-width:768px){
+    .nav-toggle { display:flex; }
+    .nav-links { display:none; position:absolute; top:100%; left:0; right:0; background:white; flex-direction:column; align-items:stretch; padding:10px 16px; gap:4px; box-shadow:0 8px 20px rgba(0,0,0,0.12); border-top:1px solid #eee; }
+    .nav-links.open { display:flex; }
+    .nav-links a { padding:10px 14px; border-radius:10px; font-size:0.9rem; border-bottom:1px solid #f0f0f0; }
+    .nav-links a:last-child { border-bottom:none; }
+  }
   .hero { background:linear-gradient(135deg,#8e24aa,#ab47bc); color:white; text-align:center; padding:50px 20px 40px; }
   .hero h1 { font-size:2rem; margin-bottom:10px; }
   .hero p { font-size:1rem; opacity:0.9; }
@@ -54,11 +68,16 @@
 <body>
 
 <nav>
-  <a href="/khoiphuctool/">🏠 Trang chủ</a>
-  <a href="huong-dan-mom.html">📗 MÕM Tool</a>
-  <a href="huong-dan-rarzip.html">📙 RARZIP Tool</a>
-  <a href="huong-dan-khoiphuctool.html" style="background:#8e24aa;color:white;"><img src="LOGO.png" style="width:26px;height:26px;vertical-align:middle;margin-right:3px;border-radius:50%;"> KhoiPhucTool <span id="nav-kpt-ver">V5</span></a>
-  <a href="tags.html">🏷️ Từ khóa</a>
+  <a href="/khoiphuctool/" class="nav-brand">🏠 KhoiPhucTool</a>
+  <button class="nav-toggle" onclick="this.classList.toggle('open');document.getElementById('nav-links-kpt').classList.toggle('open')" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+  <div class="nav-links" id="nav-links-kpt">
+    <a href="huong-dan-mom.html">📗 MÕM Tool</a>
+    <a href="huong-dan-rarzip.html">📙 RARZIP Tool</a>
+    <a href="huong-dan-khoiphuctool.html" style="background:#8e24aa;color:white;"><img src="LOGO.png" style="width:16px;height:16px;vertical-align:middle;border-radius:50%;margin-right:3px;"> KhoiPhucTool V5</a>
+    <a href="tags.html">🏷️ Từ khóa</a>
+  </div>
 </nav>
 
 <div class="hero">
