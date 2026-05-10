@@ -67,12 +67,6 @@
   header h1 { font-size: 2.8rem; font-weight: 700; letter-spacing: 2px; }
   header p { font-size: 1.1rem; margin-top: 12px; opacity: 0.85; }
 
-  @media(max-width:600px){
-    header { padding: 30px 16px 24px; }
-    header h1 { font-size: 1.9rem; }
-    nav { flex-wrap: wrap; }
-  }
-
   /* NAV */
   nav {
     background: white; box-shadow: 0 2px 8px rgba(0,0,0,0.08);
@@ -334,8 +328,19 @@
   .ticker-static { display: none; flex: 1; text-align: center; padding: 0 10px; }
 
   @media(max-width:600px){
+    header { padding: 30px 16px 24px; }
+    header h1 { font-size: 1.9rem; }
     .nav-row1, .nav-row2 { gap: 3px; }
     nav a { font-size: 0.75rem; padding: 4px 8px; }
+  }
+
+  @keyframes pulse {
+    0%,100%{opacity:1;transform:scale(1)}
+    50%{opacity:.5;transform:scale(1.3)}
+  }
+  @keyframes navGlow {
+    0%,100% { box-shadow: 0 0 8px rgba(231,76,60,0.6); }
+    50%      { box-shadow: 0 0 18px rgba(243,156,18,0.9); }
   }
   }
 </style>
@@ -445,12 +450,6 @@
     </div>
   </div>
 </header>
-<style>
-@keyframes pulse {
-  0%,100%{opacity:1;transform:scale(1)}
-  50%{opacity:.5;transform:scale(1.3)}
-}
-</style>
 
 <!-- NAV -->
 <nav>
@@ -463,7 +462,7 @@
     <a href="#mom">🟢 Office</a>
     <a href="#rar">🟢 RAR/ZIP</a>
     <a href="#kpt"><img src="LOGO.png" style="width:26px;height:26px;vertical-align:middle;margin-right:3px;border-radius:50%;"> KhoiPhucTool</a>
-    <a href="#huongdan">🔑 Hướng dẫn</a>
+    <a href="#huongdan">📖 Hướng dẫn</a>
     <a href="#dangky">📝 Đăng ký</a>
     <a href="#unghо">💖 Ủng hộ</a>
     <a href="su-kien.html" style="background:linear-gradient(135deg,#e74c3c,#f39c12);color:white;animation:navGlow 2s ease-in-out infinite;">🎁 Sự kiện PRO 5 ngày</a>
@@ -477,12 +476,6 @@
     <button onclick="doLogout()" id="btn-nav-logout" style="background:#e74c3c;color:white;border:none;padding:5px 12px;border-radius:20px;font-weight:600;cursor:pointer;font-size:0.78rem;display:none;">🚪 Đăng xuất</button>
   </div>
 </nav>
-<style>
-@keyframes navGlow {
-  0%,100% { box-shadow: 0 0 8px rgba(231,76,60,0.6); }
-  50%      { box-shadow: 0 0 18px rgba(243,156,18,0.9); }
-}
-</style>
 
 <!-- MODAL ĐĂNG NHẬP -->
 <div id="login-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.55);z-index:999;align-items:center;justify-content:center;">
@@ -1394,6 +1387,10 @@ function autoLoginAfterReg(name, pass, type) {
 </script>
 </body>
 </html>
+
+
+
+
 
 
 
