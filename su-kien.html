@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🎁 Sự Kiện Tặng PRO 1 Ngày - KhoiPhucTool</title>
+<meta name="description" content="Follow TikTok KhoiPhucTool - Nhận ngay 1 ngày tài khoản PRO miễn phí!">
+<link rel="icon" href="khoiphuctool.ico">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'Segoe UI', sans-serif; background: #0f0c29; color: white; overflow-x: hidden; }
+
+  /* PARTICLES BG */
+  .bg-anim {
+    position: fixed; inset: 0; z-index: 0;
+    background: linear-gradient(135deg, #0f0c29 0%, #302b63 50%, #24243e 100%);
+    overflow: hidden;
+  }
+  .bg-anim::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: radial-gradient(ellipse at 20% 50%, rgba(120,40,200,0.3) 0%, transparent 60%),
+                radial-gradient(ellipse at 80% 20%, rgba(52,152,219,0.25) 0%, transparent 50%),
+                radial-gradient(ellipse at 60% 80%, rgba(231,76,60,0.15) 0%, transparent 50%);
+    animation: bgPulse 6s ease-in-out infinite alternate;
+  }
+  @keyframes bgPulse {
+    0%   { opacity: 0.7; }
+    100% { opacity: 1; }
+  }
+
+  .wrap { position: relative; z-index: 1; }
+
+  /* HEADER */
+  header {
+    text-align: center; padding: 40px 20px 30px;
+  }
+  .logo-wrap {
+    display: inline-flex; align-items: center; gap: 14px;
+    background: rgba(255,255,255,0.07); border: 1px solid rgba(255,255,255,0.15);
+    border-radius: 50px; padding: 10px 24px; margin-bottom: 30px;
+    backdrop-filter: blur(10px);
+  }
+  .logo-wrap img { width: 36px; height: 36px; border-radius: 50%; object-fit: cover; }
+  .logo-wrap span { font-weight: 700; font-size: 1rem; color: #ccc; }
+
+  /* BADGE SỰ KIỆN */
+  .event-badge {
+    display: inline-block;
+    background: linear-gradient(135deg, #f39c12, #e74c3c);
+    color: white; font-size: 0.82rem; font-weight: 700;
+    padding: 5px 16px; border-radius: 20px; letter-spacing: 1px;
+    text-transform: uppercase; margin-bottom: 18px;
+    animation: badgePulse 2s ease-in-out infinite;
+    box-shadow: 0 0 20px rgba(231,76,60,0.5);
+  }
+  @keyframes badgePulse {
+    0%,100% { box-shadow: 0 0 20px rgba(231,76,60,0.5); }
+    50%      { box-shadow: 0 0 40px rgba(231,76,60,0.9); }
+  }
+
+  /* TITLE */
+  .main-title {
+    font-size: clamp(2rem, 6vw, 3.5rem);
+    font-weight: 900; line-height: 1.15;
+    background: linear-gradient(135deg, #f39c12, #e74c3c, #9b59b6, #3498db);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 16px;
+    animation: titleShine 3s linear infinite;
+    background-size: 200% auto;
+  }
+  @keyframes titleShine {
+    0%   { background-position: 0% center; }
+    100% { background-position: 200% center; }
+  }
+
+  .sub-title {
+    font-size: 1.15rem; color: rgba(255,255,255,0.75);
+    max-width: 560px; margin: 0 auto 10px; line-height: 1.7;
+  }
+
+  /* COUNTDOWN */
+  .countdown-wrap {
+    max-width: 500px; margin: 30px auto;
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.12);
+    border-radius: 20px; padding: 20px 24px;
+    backdrop-filter: blur(10px);
+  }
+  .countdown-label { font-size: 0.82rem; color: #f39c12; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 14px; }
+  .countdown-boxes { display: flex; justify-content: center; gap: 12px; }
+  .cd-box {
+    background: rgba(255,255,255,0.08); border-radius: 12px;
+    padding: 14px 18px; min-width: 70px; text-align: center;
+    border: 1px solid rgba(255,255,255,0.1);
+  }
+  .cd-num { font-size: 2rem; font-weight: 900; color: #f39c12; line-height: 1; }
+  .cd-unit { font-size: 0.72rem; color: #aaa; margin-top: 4px; text-transform: uppercase; letter-spacing: 1px; }
+
+  /* MAIN CARD */
+  .main-card {
+    max-width: 780px; margin: 0 auto 40px; padding: 0 20px;
+  }
+
+  .prize-box {
+    background: linear-gradient(135deg, rgba(155,89,182,0.25), rgba(52,152,219,0.2));
+    border: 2px solid rgba(155,89,182,0.5);
+    border-radius: 24px; padding: 36px 32px;
+    text-align: center; margin-bottom: 28px;
+    position: relative; overflow: hidden;
+    backdrop-filter: blur(10px);
+  }
+  .prize-box::before {
+    content: '';
+    position: absolute; top: -50%; left: -50%;
+    width: 200%; height: 200%;
+    background: conic-gradient(transparent, rgba(155,89,182,0.1), transparent 30%);
+    animation: rotate 8s linear infinite;
+  }
+  @keyframes rotate { 100% { transform: rotate(360deg); } }
+
+  .prize-icon { font-size: 4rem; margin-bottom: 14px; display: block; animation: bounce 2s ease-in-out infinite; }
+  @keyframes bounce {
+    0%,100% { transform: translateY(0); }
+    50%      { transform: translateY(-10px); }
+  }
+  .prize-title { font-size: 1.6rem; font-weight: 800; margin-bottom: 8px; color: #f1c40f; }
+  .prize-desc  { font-size: 1rem; color: rgba(255,255,255,0.8); line-height: 1.6; }
+
+  /* PRO FEATURES */
+  .pro-features {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 14px; margin-bottom: 28px;
+  }
+  .pro-feat {
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 14px; padding: 16px 18px;
+    display: flex; align-items: flex-start; gap: 12px;
+    backdrop-filter: blur(6px);
+    transition: transform .2s, border-color .2s;
+  }
+  .pro-feat:hover { transform: translateY(-3px); border-color: rgba(155,89,182,0.5); }
+  .pro-feat-icon { font-size: 1.5rem; flex-shrink: 0; }
+  .pro-feat h4 { font-size: 0.95rem; font-weight: 700; margin-bottom: 4px; color: #f1c40f; }
+  .pro-feat p  { font-size: 0.82rem; color: rgba(255,255,255,0.65); line-height: 1.5; }
+
+  /* STEPS */
+  .steps-section {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 24px; padding: 32px 28px; margin-bottom: 28px;
+    backdrop-filter: blur(10px);
+  }
+  .steps-title { font-size: 1.3rem; font-weight: 800; margin-bottom: 24px; text-align: center; color: #f1c40f; }
+  .steps-list { display: flex; flex-direction: column; gap: 16px; }
+  .step-item {
+    display: flex; align-items: flex-start; gap: 16px;
+    background: rgba(255,255,255,0.04); border-radius: 14px; padding: 16px 18px;
+    border: 1px solid rgba(255,255,255,0.07);
+    transition: background .2s;
+  }
+  .step-item:hover { background: rgba(255,255,255,0.08); }
+  .step-num {
+    width: 40px; height: 40px; border-radius: 50%; flex-shrink: 0;
+    background: linear-gradient(135deg, #9b59b6, #3498db);
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 900; font-size: 1.1rem;
+    box-shadow: 0 4px 15px rgba(155,89,182,0.4);
+  }
+  .step-content h4 { font-size: 1rem; font-weight: 700; margin-bottom: 4px; }
+  .step-content p  { font-size: 0.88rem; color: rgba(255,255,255,0.65); line-height: 1.5; }
+  .step-content a  { color: #3498db; text-decoration: none; font-weight: 600; }
+  .step-content a:hover { text-decoration: underline; }
+
+  /* CTA BUTTONS */
+  .cta-wrap { display: flex; flex-direction: column; gap: 14px; align-items: center; margin-bottom: 28px; }
+  .btn-tiktok {
+    display: inline-flex; align-items: center; gap: 10px;
+    background: linear-gradient(135deg, #010101, #2d2d2d);
+    color: white; text-decoration: none;
+    padding: 16px 36px; border-radius: 50px;
+    font-weight: 800; font-size: 1.1rem;
+    border: 2px solid rgba(255,255,255,0.15);
+    transition: all .2s; width: 100%; max-width: 360px; justify-content: center;
+    box-shadow: 0 8px 30px rgba(0,0,0,0.4);
+  }
+  .btn-tiktok:hover { transform: translateY(-3px); box-shadow: 0 12px 40px rgba(0,0,0,0.6); border-color: rgba(255,255,255,0.35); }
+
+  .btn-zalo {
+    display: inline-flex; align-items: center; gap: 10px;
+    background: linear-gradient(135deg, #0068ff, #0052cc);
+    color: white; text-decoration: none;
+    padding: 16px 36px; border-radius: 50px;
+    font-weight: 800; font-size: 1.1rem;
+    transition: all .2s; width: 100%; max-width: 360px; justify-content: center;
+    box-shadow: 0 8px 30px rgba(0,104,255,0.4);
+  }
+  .btn-zalo:hover { transform: translateY(-3px); box-shadow: 0 12px 40px rgba(0,104,255,0.6); }
+
+  /* NOTE */
+  .note-box {
+    background: rgba(243,156,18,0.1);
+    border: 1px solid rgba(243,156,18,0.3);
+    border-radius: 14px; padding: 18px 20px;
+    font-size: 0.88rem; color: rgba(255,255,255,0.75); line-height: 1.7;
+    margin-bottom: 28px;
+  }
+  .note-box strong { color: #f39c12; }
+
+  /* BACK LINK */
+  .back-link {
+    text-align: center; padding: 20px;
+  }
+  .back-link a {
+    color: rgba(255,255,255,0.5); text-decoration: none; font-size: 0.9rem;
+    transition: color .2s;
+  }
+  .back-link a:hover { color: white; }
+
+  /* FLOATING STARS */
+  .star {
+    position: fixed; pointer-events: none; z-index: 0;
+    font-size: 1rem; opacity: 0;
+    animation: floatStar linear infinite;
+  }
+  @keyframes floatStar {
+    0%   { opacity: 0; transform: translateY(0) rotate(0deg); }
+    10%  { opacity: 0.8; }
+    90%  { opacity: 0.4; }
+    100% { opacity: 0; transform: translateY(-100vh) rotate(720deg); }
+  }
+
+  @media(max-width:600px){
+    .prize-box { padding: 24px 18px; }
+    .steps-section { padding: 24px 16px; }
+    .cd-box { min-width: 56px; padding: 10px 12px; }
+    .cd-num { font-size: 1.6rem; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ANIMATED BG -->
+<div class="bg-anim"></div>
+
+<!-- FLOATING STARS -->
+<div id="stars"></div>
+
+<div class="wrap">
+
+  <!-- HEADER -->
+  <header>
+    <div class="logo-wrap">
+      <img src="LOGO.png" alt="KhoiPhucTool">
+      <span>KhoiPhucTool</span>
+    </div>
+    <div>
+      <div class="event-badge">🔥 Sự kiện đặc biệt</div>
+    </div>
+    <h1 class="main-title">Follow TikTok<br>Nhận Ngay PRO 1 Ngày!</h1>
+    <p class="sub-title">Trải nghiệm toàn bộ tính năng PRO không giới hạn — hoàn toàn miễn phí, chỉ cần một cú follow!</p>
+
+    <!-- COUNTDOWN -->
+    <div class="countdown-wrap">
+      <div class="countdown-label">⏳ Sự kiện kết thúc sau</div>
+      <div class="countdown-boxes">
+        <div class="cd-box"><div class="cd-num" id="cd-days">--</div><div class="cd-unit">Ngày</div></div>
+        <div class="cd-box"><div class="cd-num" id="cd-hours">--</div><div class="cd-unit">Giờ</div></div>
+        <div class="cd-box"><div class="cd-num" id="cd-mins">--</div><div class="cd-unit">Phút</div></div>
+        <div class="cd-box"><div class="cd-num" id="cd-secs">--</div><div class="cd-unit">Giây</div></div>
+      </div>
+    </div>
+  </header>
+
+  <!-- MAIN CONTENT -->
+  <div class="main-card">
+
+    <!-- PRIZE -->
+    <div class="prize-box">
+      <span class="prize-icon">🎁</span>
+      <div class="prize-title">Tặng 1 Ngày Tài Khoản PRO</div>
+      <div class="prize-desc">Mở khóa toàn bộ sức mạnh của KhoiPhucTool — không giới hạn độ dài mật khẩu, tối đa 8 luồng song song, tốc độ vượt trội so với FREE.</div>
+    </div>
+
+    <!-- PRO FEATURES -->
+    <div class="pro-features">
+      <div class="pro-feat">
+        <div class="pro-feat-icon">⚡</div>
+        <div>
+          <h4>Đa luồng X1 → X8</h4>
+          <p>Tăng tốc độ dò mật khẩu lên đến 8 lần so với tài khoản FREE</p>
+        </div>
+      </div>
+      <div class="pro-feat">
+        <div class="pro-feat-icon">🔓</div>
+        <div>
+          <h4>Không giới hạn độ dài</h4>
+          <p>FREE chỉ dò tối đa 4 ký tự — PRO không có giới hạn</p>
+        </div>
+      </div>
+      <div class="pro-feat">
+        <div class="pro-feat-icon">📁</div>
+        <div>
+          <h4>Hỗ trợ mọi định dạng</h4>
+          <p>Excel, Word, PowerPoint, RAR3, RAR5, ZIP — tất cả trong một</p>
+        </div>
+      </div>
+      <div class="pro-feat">
+        <div class="pro-feat-icon">⏱️</div>
+        <div>
+          <h4>ETA realtime</h4>
+          <p>Ước tính thời gian hoàn thành từng luồng W1–W8 theo thời gian thực</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- STEPS -->
+    <div class="steps-section">
+      <div class="steps-title">🚀 Nhận PRO chỉ 3 bước đơn giản</div>
+      <div class="steps-list">
+
+        <div class="step-item">
+          <div class="step-num">1</div>
+          <div class="step-content">
+            <h4>🎵 Follow TikTok của mình</h4>
+            <p>Nhấn nút bên dưới để truy cập TikTok và bấm Follow tài khoản <strong>@khoiphuctool.github.io</strong></p>
+          </div>
+        </div>
+
+        <div class="step-item">
+          <div class="step-num">2</div>
+          <div class="step-content">
+            <h4>📸 Chụp ảnh chứng minh đã Follow</h4>
+            <p>Chụp màn hình trang TikTok của mình với trạng thái <strong>"Đang theo dõi"</strong> rõ ràng</p>
+          </div>
+        </div>
+
+        <div class="step-item">
+          <div class="step-num">3</div>
+          <div class="step-content">
+            <h4>💬 Gửi ảnh vào nhóm Zalo</h4>
+            <p>Tham gia nhóm Zalo và up ảnh chứng minh. Mình sẽ <strong>duyệt thủ công</strong> và kích hoạt PRO cho bạn ngay! 👉 <a href="https://zalo.me/g/lxgfrxckiypqg7w5ptpd" target="_blank" rel="noopener">Tham gia nhóm Zalo</a></p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- CTA -->
+    <div class="cta-wrap">
+      <a href="https://tiktok.com/@khoiphuctool.github.io" target="_blank" rel="noopener" class="btn-tiktok">
+        🎵 Follow TikTok ngay
+      </a>
+      <a href="https://zalo.me/g/lxgfrxckiypqg7w5ptpd" target="_blank" rel="noopener" class="btn-zalo">
+        💬 Tham gia nhóm Zalo
+      </a>
+    </div>
+
+    <!-- NOTE -->
+    <div class="note-box">
+      <strong>📌 Lưu ý:</strong><br>
+      • Mỗi tài khoản chỉ được nhận <strong>1 lần</strong> trong chương trình này.<br>
+      • Ảnh chứng minh phải hiển thị rõ tên tài khoản TikTok và trạng thái <strong>"Đang theo dõi"</strong>.<br>
+      • Sau khi duyệt, PRO sẽ được kích hoạt trong vòng <strong>24 giờ</strong>.<br>
+      • Chương trình có thể kết thúc bất kỳ lúc nào khi đủ số lượng.
+    </div>
+
+  </div>
+
+  <!-- BACK -->
+  <div class="back-link">
+    <a href="index.html">← Quay về trang chủ</a>
+  </div>
+
+</div>
+
+<script>
+  // COUNTDOWN — đặt ngày kết thúc sự kiện (30 ngày từ hôm nay)
+  const endDate = new Date();
+  endDate.setDate(endDate.getDate() + 30);
+
+  function updateCountdown() {
+    const now  = new Date();
+    const diff = endDate - now;
+    if (diff <= 0) {
+      document.getElementById('cd-days').textContent  = '00';
+      document.getElementById('cd-hours').textContent = '00';
+      document.getElementById('cd-mins').textContent  = '00';
+      document.getElementById('cd-secs').textContent  = '00';
+      return;
+    }
+    const d = Math.floor(diff / 86400000);
+    const h = Math.floor((diff % 86400000) / 3600000);
+    const m = Math.floor((diff % 3600000)  / 60000);
+    const s = Math.floor((diff % 60000)    / 1000);
+    document.getElementById('cd-days').textContent  = String(d).padStart(2,'0');
+    document.getElementById('cd-hours').textContent = String(h).padStart(2,'0');
+    document.getElementById('cd-mins').textContent  = String(m).padStart(2,'0');
+    document.getElementById('cd-secs').textContent  = String(s).padStart(2,'0');
+  }
+  updateCountdown();
+  setInterval(updateCountdown, 1000);
+
+  // FLOATING STARS
+  const starsWrap = document.getElementById('stars');
+  const starChars = ['✦','✧','⭐','💫','✨','🌟'];
+  for (let i = 0; i < 20; i++) {
+    const s = document.createElement('div');
+    s.className = 'star';
+    s.textContent = starChars[Math.floor(Math.random() * starChars.length)];
+    s.style.left     = Math.random() * 100 + 'vw';
+    s.style.top      = Math.random() * 100 + 'vh';
+    s.style.fontSize = (0.6 + Math.random() * 1.2) + 'rem';
+    s.style.animationDuration  = (8 + Math.random() * 12) + 's';
+    s.style.animationDelay     = (Math.random() * 10) + 's';
+    starsWrap.appendChild(s);
+  }
+</script>
+</body>
+</html>
