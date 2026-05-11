@@ -779,7 +779,7 @@
         <li>Tray icon — ẩn xuống khay, hotkey F9</li>
         <li>Giao diện đa theme, tự lưu cấu hình</li>
       </ul>
-      <a class="btn-download" href="https://drive.google.com/file/d/1slHgDmTI2gxzqdU7CF0XsjbfjRvMYOVk/view?usp=drive_link" target="_blank" rel="noopener">
+      <a class="btn-download" id="btn-trau" href="#" target="_blank" rel="noopener">
         ⬇️ Tải xuống V6
       </a>
     </div>
@@ -1030,6 +1030,8 @@ fetch(SHEET_CSV)
     const rarVer  = rows[4]?.[9];
     const kptLink = rows[5]?.[9];
     const kptVer  = rows[6]?.[9];
+    const trauLink = rows[7]?.[9];
+    const trauVer  = rows[8]?.[9];
 
     if (momLink) document.getElementById('btn-mom').href = momLink;
     else document.getElementById('btn-mom').style.display = 'none';
@@ -1048,6 +1050,18 @@ fetch(SHEET_CSV)
     if (kptVer) {
       document.getElementById('ver-kpt').textContent = kptVer;
       document.getElementById('sub-kpt').textContent = 'KhoiPhucTool ' + kptVer;
+    }
+    // Con Trâu — lấy từ Sheet, ẩn nút nếu chưa có
+    const trauBtn = document.getElementById('btn-trau');
+    if (trauBtn) {
+      if (trauLink) trauBtn.href = trauLink;
+      else trauBtn.style.display = 'none';
+      if (trauVer) {
+        const el = document.getElementById('ver-trau');
+        if (el) el.textContent = trauVer;
+        const sub = document.getElementById('sub-trau');
+        if (sub) sub.textContent = 'Con Trâu Tool ' + trauVer;
+      }
     }
 
     // Cột I (index 8) toàn bộ, bỏ ô trống
