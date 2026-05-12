@@ -40,7 +40,14 @@
 </script>
 <style>
   * { margin: 0; padding: 0; box-sizing: border-box; }
-  body { font-family: 'Segoe UI', sans-serif; background: #f0f4f8; color: #2c3e50; }
+  /* Không đặt overflow-x trên html/body — sẽ làm hỏng position:sticky của nav */
+  html {
+    -webkit-text-size-adjust: 100%;
+  }
+  body {
+    font-family: 'Segoe UI', sans-serif; background: #f0f4f8; color: #2c3e50;
+    max-width: 100%;
+  }
 
   /* ANIMATED BG CANVAS */
   #bg-canvas {
@@ -197,14 +204,34 @@
 
   /* MOBILE NAV */
   @media(max-width: 900px) {
-    nav { padding: 0 14px; }
-    .nav-toggle { display: flex; }
+    nav {
+      padding: 8px 12px;
+      flex-wrap: wrap;
+      align-items: center;
+      height: auto;
+      min-height: 52px;
+      row-gap: 6px;
+    }
+    .nav-brand {
+      order: 1;
+      max-width: calc(100% - 52px);
+      min-width: 0;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      border-right: none;
+      margin-right: 0;
+      padding-right: 8px;
+    }
+    .nav-toggle { display: flex; order: 2; margin-left: auto; flex-shrink: 0; }
     .nav-menu {
-      display: none; position: absolute; top: 52px; left: 0; right: 0;
+      display: none; order: 3;
+      position: absolute; top: 100%; left: 0; right: 0;
       background: white; flex-direction: column; align-items: stretch;
       padding: 8px 12px 12px; gap: 2px;
       box-shadow: 0 8px 24px rgba(0,0,0,0.12);
       border-top: 2px solid #3498db;
+      z-index: 101;
     }
     .nav-menu.open { display: flex; }
     .nav-menu > a {
@@ -213,12 +240,30 @@
     }
     .nav-menu > a:hover { background: #f0f7ff; }
     .nav-actions {
-      flex-wrap: wrap; justify-content: center;
-      border-left: none; border-top: 1px solid #eee;
-      padding: 10px 0 4px; margin: 4px 0 0; height: auto;
+      order: 4;
+      flex: 1 1 100%;
+      width: 100%;
+      max-width: 100%;
+      flex-wrap: wrap;
+      justify-content: center;
+      align-content: flex-start;
+      gap: 6px;
+      border-left: none;
+      border-top: 1px solid #eee;
+      padding: 8px 0 4px;
+      margin: 0;
+      margin-top: 4px;
+      height: auto;
+      min-width: 0;
     }
-    /* Trong mobile, actions hiện trong menu */
-    .nav-menu.open ~ .nav-actions { display: none; }
+    .nav-actions a, .nav-actions button {
+      white-space: normal;
+      text-align: center;
+      flex: 1 1 auto;
+      min-width: min(140px, 46%);
+      max-width: 100%;
+      justify-content: center;
+    }
     .nav-menu .nav-actions-mobile { display: flex; flex-wrap: wrap; gap: 6px; justify-content: center; padding-top: 8px; border-top: 1px solid #eee; margin-top: 4px; }
   }
 
@@ -230,10 +275,18 @@
   .hero h2 { font-size: 1.8rem; color: #2c3e50; margin-bottom: 14px; }
   .hero p { font-size: 1.05rem; color: #555; line-height: 1.7; max-width: 680px; margin: 0 auto; }
 
+  .hero-intro-cols {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr));
+    gap: 16px;
+    text-align: left;
+  }
+
   /* CARDS */
   .cards {
     max-width: 1200px; margin: 50px auto; padding: 0 20px;
-    display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr));
     gap: 28px;
   }
   .card {
@@ -310,7 +363,11 @@
   /* HOW IT WORKS */
   .how { max-width: 900px; margin: 20px auto 60px; padding: 0 20px; }
   .how h2 { text-align: center; font-size: 1.6rem; margin-bottom: 30px; color: #2c3e50; }
-  .steps { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; }
+  .steps {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 200px), 1fr));
+    gap: 20px;
+  }
   .step {
     background: white; border-radius: 14px; padding: 24px 20px;
     text-align: center; box-shadow: 0 2px 12px rgba(0,0,0,0.07);
@@ -343,7 +400,9 @@
   .register-section h2 { font-size: 1.6rem; margin-bottom: 10px; color: #2c3e50; }
   .register-section > p { color: #666; margin-bottom: 28px; font-size: 0.95rem; }
   .reg-cards {
-    display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr));
+    gap: 24px;
   }
   .reg-card {
     background: white; border-radius: 16px;
@@ -404,7 +463,9 @@
   .donate h2 { font-size: 1.6rem; margin-bottom: 10px; color: #2c3e50; }
   .donate > p { color: #666; margin-bottom: 28px; font-size: 0.95rem; }
   .donate-cards {
-    display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr));
+    gap: 24px;
   }
   .donate-card {
     background: white; border-radius: 16px;
@@ -461,7 +522,7 @@
   }
   .ticker-inner span { margin: 0 60px; }
   @keyframes ticker-scroll {
-    0%   { transform: translateX(100vw); }
+    0%   { transform: translateX(100%); }
     100% { transform: translateX(-100%); }
   }
   .ticker-static { display: none; flex: 1; text-align: center; padding: 0 10px; }
@@ -471,11 +532,16 @@
     header h1 { font-size: 1.9rem; }
     .header-brand { gap: 12px; }
     .header-brand-logo { width: 120px; height: 120px; }
-    .header-brand-text { text-align: center; }
+    .header-brand-text { text-align: center; word-break: break-word; overflow-wrap: anywhere; }
     .header-brand-text h1 { font-size: 1.75rem; letter-spacing: 1px; }
     .header-brand-text p { font-size: 0.92rem; }
     .nav-row1, .nav-row2 { gap: 3px; }
     nav a { font-size: 0.75rem; padding: 4px 8px; }
+    .hero, .notice, .how, .register-section, .donate { padding-left: 16px; padding-right: 16px; }
+    .cards { padding-left: 16px; padding-right: 16px; }
+    .card-header { flex-wrap: wrap; }
+    .hero-intro-cols { grid-template-columns: 1fr; }
+    .hero h2 { overflow-wrap: anywhere; word-break: break-word; }
   }
 
   @keyframes pulse {
@@ -683,7 +749,7 @@
     </div>
 
     <!-- Các dòng giới thiệu -->
-    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:16px;text-align:left;">
+    <div class="hero-intro-cols">
 
       <div style="background:white;border-radius:14px;padding:18px 20px;box-shadow:0 2px 12px rgba(0,0,0,0.06);display:flex;gap:14px;align-items:flex-start;">
         <span style="font-size:1.8rem;flex-shrink:0;">😰</span>
