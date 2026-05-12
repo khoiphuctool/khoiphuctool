@@ -5,8 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>🎁 Sự Kiện Tặng PRO 5 Ngày - KhoiPhucTool</title>
 <meta name="description" content="Follow TikTok KhoiPhucTool - Nhận ngay 5 ngày tài khoản PRO miễn phí!">
-<link rel="icon" href="LOGO.png" type="image/png">
-<style>
+<link rel="icon" href="LOGO.png" type="image/png"><style>
   * { margin: 0; padding: 0; box-sizing: border-box; }
   body { font-family: 'Segoe UI', sans-serif; background: #0f0c29; color: white; overflow-x: hidden; }
 
@@ -90,6 +89,13 @@
   }
   .countdown-label { font-size: 0.82rem; color: #f39c12; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 14px; }
   .countdown-boxes { display: flex; justify-content: center; gap: 12px; }
+  .countdown-dates { margin-top: 16px; text-align: center; }
+  .countdown-end-note {
+    margin: 10px 0 0; font-size: 0.92rem; color: rgba(255,255,255,0.82);
+    line-height: 1.55;
+  }
+  .countdown-dates .countdown-end-note:first-child { margin-top: 0; }
+  .countdown-end-note strong { color: #2ecc71; font-weight: 700; }
   .cd-box {
     background: rgba(255,255,255,0.08); border-radius: 12px;
     padding: 14px 18px; min-width: 70px; text-align: center;
@@ -271,6 +277,10 @@
         <div class="cd-box"><div class="cd-num" id="cd-mins">--</div><div class="cd-unit">Phút</div></div>
         <div class="cd-box"><div class="cd-num" id="cd-secs">--</div><div class="cd-unit">Giây</div></div>
       </div>
+      <div class="countdown-dates">
+        <p class="countdown-end-note" id="event-start-display"></p>
+        <p class="countdown-end-note" id="event-end-display"></p>
+      </div>
     </div>
   </header>
 
@@ -429,12 +439,40 @@
 </div>
 
 <script>
-  // COUNTDOWN — đặt ngày kết thúc sự kiện (30 ngày từ hôm nay)
-  const endDate = new Date();
-  endDate.setDate(endDate.getDate() + 30);
+  // Chỉ sửa ngày bắt đầu; kết thúc = bắt đầu + EVENT_DURATION_DAYS (30 × 24 giờ, ổn định với VN không DST).
+  const EVENT_START_ISO = '2026-05-09T00:00:00+07:00';
+  const EVENT_DURATION_DAYS = 30;
+
+  const VN_TZ = 'Asia/Ho_Chi_Minh';
+  const MS_PER_DAY = 86400000;
+  const startDate = new Date(EVENT_START_ISO);
+  const endDate = new Date(startDate.getTime() + EVENT_DURATION_DAYS * MS_PER_DAY);
+
+  /** Hiển thị dd/mm/yyyy — HH:mm theo giờ Việt Nam. */
+  function formatVNDateTime(isoOrDate) {
+    const d = isoOrDate instanceof Date ? isoOrDate : new Date(isoOrDate);
+    const dParts = new Intl.DateTimeFormat('en-GB', {
+      timeZone: VN_TZ, day: '2-digit', month: '2-digit', year: 'numeric'
+    }).formatToParts(d);
+    const tParts = new Intl.DateTimeFormat('en-GB', {
+      timeZone: VN_TZ, hour: '2-digit', minute: '2-digit', hour12: false
+    }).formatToParts(d);
+    const get = (parts, type) => parts.find((p) => p.type === type)?.value ?? '';
+    const dateStr =
+      `${get(dParts, 'day').padStart(2, '0')}/${get(dParts, 'month').padStart(2, '0')}/${get(dParts, 'year')}`;
+    const hh = get(tParts, 'hour').padStart(2, '0');
+    const mm = get(tParts, 'minute').padStart(2, '0');
+    return `${dateStr} — ${hh}:${mm}`;
+  }
+
+  document.getElementById('event-start-display').innerHTML =
+    '🚀 Ngày giờ <strong>bắt đầu</strong> sự kiện: <strong>' + formatVNDateTime(EVENT_START_ISO) + '</strong> (giờ Việt Nam, UTC+7)';
+  document.getElementById('event-end-display').innerHTML =
+    '📅 Ngày giờ <strong>kết thúc</strong> sự kiện: <strong>' + formatVNDateTime(endDate) + '</strong> (giờ Việt Nam, UTC+7)';
 
   function updateCountdown() {
     const now  = new Date();
+    // Đếm tới mốc kết thúc = ngày bắt đầu + 30 ngày (không phụ thuộc “hôm nay”).
     const diff = endDate - now;
     if (diff <= 0) {
       document.getElementById('cd-days').textContent  = '00';
@@ -539,5 +577,9 @@
 
 </body>
 </html>
+
+
+
+
 
 
