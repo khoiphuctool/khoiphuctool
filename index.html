@@ -560,6 +560,98 @@
 </head>
 <body>
 
+<!-- POPUP Điều Khoản Sử Dụng -->
+<div id="tos-overlay" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.65);z-index:9999;align-items:center;justify-content:center;padding:16px;">
+  <div style="background:white;border-radius:20px;max-width:560px;width:100%;max-height:90vh;display:flex;flex-direction:column;box-shadow:0 20px 60px rgba(0,0,0,0.3);overflow:hidden;">
+    <!-- Header -->
+    <div style="background:linear-gradient(135deg,#2c3e50,#3498db);color:white;padding:20px 24px;flex-shrink:0;">
+      <div style="font-size:1.3rem;font-weight:800;margin-bottom:4px;">📋 Điều Khoản Sử Dụng</div>
+      <div style="font-size:0.85rem;opacity:0.85;">Vui lòng đọc và chấp nhận trước khi đăng ký</div>
+    </div>
+    <!-- Nội dung cuộn -->
+    <div style="overflow-y:auto;padding:20px 24px;flex:1;font-size:0.88rem;color:#444;line-height:1.75;">
+      <p style="margin-bottom:12px;">Bằng việc đăng ký tài khoản <strong>KhoiPhucTool</strong>, bạn xác nhận đã đọc, hiểu và đồng ý với các điều khoản sau:</p>
+
+      <div style="background:#fff8e1;border-left:3px solid #f39c12;border-radius:0 8px 8px 0;padding:10px 14px;margin-bottom:14px;">
+        <strong>⚠️ Mục đích sử dụng hợp pháp</strong><br>
+        Các công cụ này chỉ dành cho việc khôi phục mật khẩu <strong>file của chính bạn</strong>. Nghiêm cấm sử dụng để truy cập trái phép vào tài khoản hoặc file của người khác.
+      </div>
+
+      <div style="background:#fff5f5;border-left:3px solid #e74c3c;border-radius:0 8px 8px 0;padding:10px 14px;margin-bottom:14px;">
+        <strong>⛔ Giới hạn trách nhiệm</strong><br>
+        Tác giả không chịu trách nhiệm về bất kỳ thiệt hại nào phát sinh từ việc sử dụng sai mục đích hoặc mất dữ liệu trong quá trình sử dụng.
+      </div>
+
+      <div style="background:#e8f5e9;border-left:3px solid #27ae60;border-radius:0 8px 8px 0;padding:10px 14px;margin-bottom:14px;">
+        <strong>✅ Tài khoản & bảo mật</strong><br>
+        Không chia sẻ tài khoản PRO cho người khác. Tác giả có quyền khóa tài khoản nếu phát hiện vi phạm.
+      </div>
+
+      <div style="background:#e3f2fd;border-left:3px solid #2196f3;border-radius:0 8px 8px 0;padding:10px 14px;margin-bottom:14px;">
+        <strong>💳 Chính sách hoàn tiền</strong><br>
+        Gói PRO không hoàn tiền sau khi đã kích hoạt. Liên hệ hỗ trợ: Zalo <strong>0816499746</strong>.
+      </div>
+
+      <p style="font-size:0.82rem;color:#888;">Xem đầy đủ: <a href="dieu-khoan.html" target="_blank" style="color:#3498db;font-weight:600;">Điều Khoản Sử Dụng đầy đủ →</a></p>
+    </div>
+    <!-- Footer checkbox + nút -->
+    <div style="padding:16px 24px;border-top:1px solid #eee;flex-shrink:0;background:#fafafa;">
+      <label style="display:flex;align-items:flex-start;gap:10px;cursor:pointer;margin-bottom:14px;">
+        <input type="checkbox" id="tos-check" style="width:18px;height:18px;margin-top:2px;accent-color:#27ae60;cursor:pointer;flex-shrink:0;">
+        <span style="font-size:0.88rem;color:#444;line-height:1.5;">Tôi đã đọc và <strong>đồng ý</strong> với Điều Khoản Sử Dụng của KhoiPhucTool. Tôi xác nhận chỉ sử dụng công cụ cho mục đích hợp pháp.</span>
+      </label>
+      <div style="display:flex;gap:10px;">
+        <button id="tos-accept" onclick="acceptTos()" disabled
+          style="flex:1;background:#ccc;color:white;border:none;padding:12px;border-radius:10px;font-weight:700;font-size:0.95rem;cursor:not-allowed;transition:all .2s;">
+          ✅ Đồng ý & Tiếp tục
+        </button>
+        <a href="about:blank" onclick="window.history.back();return false;"
+          style="flex:0 0 auto;background:#ecf0f1;color:#555;border:none;padding:12px 18px;border-radius:10px;font-weight:600;font-size:0.9rem;cursor:pointer;text-decoration:none;display:flex;align-items:center;">
+          Từ chối
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+// Kích hoạt nút khi tick checkbox
+document.addEventListener('DOMContentLoaded', function() {
+  const chk = document.getElementById('tos-check');
+  const btn = document.getElementById('tos-accept');
+  if (chk && btn) {
+    chk.addEventListener('change', function() {
+      if (this.checked) {
+        btn.disabled = false;
+        btn.style.background = 'linear-gradient(135deg,#27ae60,#2ecc71)';
+        btn.style.cursor = 'pointer';
+      } else {
+        btn.disabled = true;
+        btn.style.background = '#ccc';
+        btn.style.cursor = 'not-allowed';
+      }
+    });
+  }
+});
+let _tosCallback = null;
+function showTos(callback) {
+  _tosCallback = callback || null;
+  const chk = document.getElementById('tos-check');
+  const btn = document.getElementById('tos-accept');
+  if (chk) { chk.checked = false; }
+  if (btn) { btn.disabled = true; btn.style.background = '#ccc'; btn.style.cursor = 'not-allowed'; }
+  document.getElementById('tos-overlay').style.display = 'flex';
+}
+function closeTos() {
+  document.getElementById('tos-overlay').style.display = 'none';
+  _tosCallback = null;
+}
+function acceptTos() {
+  closeTos();
+  if (typeof _tosCallback === 'function') _tosCallback();
+}
+</script>
+
 <!-- ANIMATED BACKGROUND CANVAS -->
 <canvas id="bg-canvas"></canvas>
 <script>
@@ -1140,6 +1232,9 @@
 <footer>
   <strong>KHOIPHUCTOOLS</strong><br>
   Liên hệ hỗ trợ &amp; mua PRO: Zalo 0816499746 - khoiphuctool@gmail.com &nbsp;|&nbsp; <a href="https://tiktok.com/@khoiphuctool.github.io" target="_blank" rel="noopener" style="color:#e74c3c;text-decoration:none;font-weight:600;">🎵 TikTok @khoiphuctool</a><br>
+  <div style="margin:10px 0 4px;">
+    <a href="dieu-khoan.html" style="color:#bdc3c7;text-decoration:none;font-size:0.82rem;border:1px solid rgba(255,255,255,0.2);padding:4px 12px;border-radius:20px;">📋 Điều Khoản Sử Dụng</a>
+  </div>
   <div style="margin:14px 0 8px;display:flex;justify-content:center;flex-wrap:wrap;gap:14px;">
     <a href="https://khoiphuctool.github.io/khoiphuctool/" target="_blank" style="color:#3498db;text-decoration:none;font-weight:600;">🌐 khoiphuctool.github.io/khoiphuctool</a>
     <a href="https://tiny.cc/khoiphuctool" target="_blank" style="color:#3498db;text-decoration:none;font-weight:600;">🔗 tiny.cc/khoiphuctool</a>
@@ -1311,6 +1406,11 @@ async function submitReg(e, type) {
   const msg  = document.getElementById('free-msg');
   if (!name || !pass) return;
 
+  // Hiện điều khoản trước khi đăng ký
+  showTos(function() { _doSubmitReg(name, pass, msg, type); });
+}
+
+async function _doSubmitReg(name, pass, msg, type) {
   // Rate limit: 1 lần / 30s
   const lastReg = parseInt(localStorage.getItem('_reg_ts') || '0');
   if (Date.now() - lastReg < 30000) {
@@ -1407,6 +1507,11 @@ async function showProQR() {
   if (!selectedPkg) { alert('Vui lòng chọn gói!'); return; }
   if (!name || !pass) { alert('Vui lòng nhập tên và mật khẩu!'); return; }
 
+  // Hiện điều khoản trước khi tạo QR
+  showTos(function() { _doShowProQR(name, pass); });
+}
+
+async function _doShowProQR(name, pass) {
   const buf  = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(pass));
   const hash = Array.from(new Uint8Array(buf)).map(b=>b.toString(16).padStart(2,'0')).join('');
   const ip   = await getPublicIP();
@@ -1677,6 +1782,9 @@ document.querySelectorAll('#nav-menu a').forEach(a => {
 </script>
 </body>
 </html>
+
+
+
 
 
 
