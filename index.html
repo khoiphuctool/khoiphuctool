@@ -1191,6 +1191,7 @@ function cancelTos() {
           <div style="margin-top:8px;font-size:0.82rem;color:#888">STK: <b>96247328232</b> (BIDV)</div>
           <div id="pro-ck-content" style="font-size:0.85rem;font-weight:700;color:#e67e22;margin-top:4px"></div>
           <button onclick="copyProContent()" class="btn-copy" style="margin-top:8px">📋 Copy nội dung CK</button>
+          <button onclick="checkProNow()" id="btn-check-pro" class="btn-reg" style="margin-top:8px;background:linear-gradient(135deg,#3498db,#2980b9);color:white;width:100%;">🔍 Kiểm tra đã thanh toán chưa</button>
         </div>
         <button type="button" onclick="showProQR()" class="btn-reg pro-btn" id="btn-show-qr">💳 Tạo QR thanh toán</button>
         <div id="pro-msg" class="reg-msg"></div>
@@ -1588,6 +1589,51 @@ function copyProContent() {
   navigator.clipboard.writeText(txt);
   event.target.textContent = '✅ Đã copy!';
   setTimeout(() => event.target.textContent = '📋 Copy nội dung CK', 2000);
+}
+
+async function checkProNow() {
+  const btn = document.getElementById('btn-check-pro');
+  const msg = document.getElementById('pro-msg');
+  const name = document.getElementById('pro-name').value.trim();
+  const pass = document.getElementById('pro-pass').value.trim();
+  if (!name || !pass) { msg.textContent = '⚠️ Vui lòng nhập tên và mật khẩu!'; msg.className = 'reg-msg err'; return; }
+
+  btn.disabled = true;
+  btn.textContent = '⏳ Đang kiểm tra...';
+  msg.textContent = '';
+
+  try {
+    const buf  = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(pass));
+    const hash = Array.from(new Uint8Array(buf)).map(b=>b.toString(16).padStart(2,'0')).join('');
+    const proUrl = SHEET_CSV.replace(/gid=\d+/, 'gid=300692422');
+    const r = await fetch(proUrl + '&t=' + Date.now());
+    const csv = await r.text();
+    const rows = csv.split('\n').map(r => r.split(',').map(c => c.replace(/^"|"$/g,'').trim()));
+    let found = false;
+    for (const row of rows) {
+      const rowHash = (row[4] || '').toLowerCase();
+      const rowOk   = (row[5] || '').toUpperCase();
+      if (rowHash === hash && rowOk === 'OK') {
+        found = true;
+        msg.textContent = '✅ Đã xác nhận! Đang đăng nhập...';
+        msg.className = 'reg-msg ok';
+        setTimeout(() => autoLoginAfterReg(name, pass, 'PRO'), 800);
+        break;
+      }
+    }
+    if (!found) {
+      msg.textContent = '⏳ Chưa xác nhận — Admin chưa duyệt hoặc chưa nhận được thanh toán.';
+      msg.className = 'reg-msg';
+    }
+  } catch {
+    msg.textContent = '❌ Lỗi kết nối, thử lại sau.';
+    msg.className = 'reg-msg err';
+  }
+
+  setTimeout(() => {
+    btn.disabled = false;
+    btn.textContent = '🔍 Kiểm tra đã thanh toán chưa';
+  }, 5000);
 }
 
 // ── Obfuscated admin links (XOR key: adm!n2026) ──
