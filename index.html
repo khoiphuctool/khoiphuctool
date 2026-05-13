@@ -603,12 +603,12 @@
       <div style="display:flex;gap:10px;">
         <button id="tos-accept" onclick="acceptTos()" disabled
           style="flex:1;background:#ccc;color:white;border:none;padding:12px;border-radius:10px;font-weight:700;font-size:0.95rem;cursor:not-allowed;transition:all .2s;">
-          ✅ Đồng ý & Tiếp tục
+          ✅ Đồng ý & Tiếp tục đăng ký
         </button>
-        <a href="about:blank" onclick="window.history.back();return false;"
-          style="flex:0 0 auto;background:#ecf0f1;color:#555;border:none;padding:12px 18px;border-radius:10px;font-weight:600;font-size:0.9rem;cursor:pointer;text-decoration:none;display:flex;align-items:center;">
-          Từ chối
-        </a>
+        <button onclick="cancelTos()"
+          style="flex:0 0 auto;background:#ecf0f1;color:#555;border:none;padding:12px 18px;border-radius:10px;font-weight:600;font-size:0.9rem;cursor:pointer;">
+          Hủy
+        </button>
       </div>
     </div>
   </div>
@@ -644,11 +644,23 @@ function showTos(callback) {
 }
 function closeTos() {
   document.getElementById('tos-overlay').style.display = 'none';
-  _tosCallback = null;
+  // KHÔNG xóa _tosCallback ở đây — để acceptTos dùng được
 }
 function acceptTos() {
-  closeTos();
-  if (typeof _tosCallback === 'function') _tosCallback();
+  const cb = _tosCallback; // lưu callback trước
+  _tosCallback = null;     // rồi mới xóa
+  document.getElementById('tos-overlay').style.display = 'none';
+  if (typeof cb === 'function') {
+    setTimeout(function() {
+      const dangky = document.getElementById('dangky');
+      if (dangky) dangky.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      cb();
+    }, 150);
+  }
+}
+function cancelTos() {
+  _tosCallback = null;
+  document.getElementById('tos-overlay').style.display = 'none';
 }
 </script>
 
@@ -1408,7 +1420,7 @@ async function submitReg(e, type) {
   if (!name || !pass) return;
 
   // Hiện điều khoản trước khi đăng ký
-  showTos(function() { _doSubmitReg(name, pass, msg, type); });
+  showTos(async function() { await _doSubmitReg(name, pass, msg, type); });
 }
 
 async function _doSubmitReg(name, pass, msg, type) {
@@ -1441,7 +1453,7 @@ async function _doSubmitReg(name, pass, msg, type) {
         ip:       ip
       })
     });
-    msg.textContent = '✅ Đăng ký thành công! Admin sẽ duyệt sớm.';
+    msg.textContent = '✅ Đăng ký thành công!.';
     msg.className = 'reg-msg ok';
     document.getElementById('form-free').reset();
     autoLoginAfterReg(name, pass, 'FREE');
@@ -1509,7 +1521,7 @@ async function showProQR() {
   if (!name || !pass) { alert('Vui lòng nhập tên và mật khẩu!'); return; }
 
   // Hiện điều khoản trước khi tạo QR
-  showTos(function() { _doShowProQR(name, pass); });
+  showTos(async function() { await _doShowProQR(name, pass); });
 }
 
 async function _doShowProQR(name, pass) {
