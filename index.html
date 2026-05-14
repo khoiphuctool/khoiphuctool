@@ -153,6 +153,7 @@
     text-decoration: none; color: #2c3e50; font-weight: 700; font-size: 0.92rem;
     flex-shrink: 0; padding-right: 16px;
     border-right: 1px solid #e8e8e8; margin-right: 12px; height: 100%;
+    order: 1;
   }
   .nav-brand img { width: 26px; height: 26px; border-radius: 50%; object-fit: cover; }
 
@@ -170,6 +171,7 @@
   .nav-menu {
     display: flex; align-items: center; gap: 2px;
     flex: 1; overflow: hidden;
+    order: 3;
   }
   .nav-row1, .nav-row2 { display: contents; }
 
@@ -188,6 +190,7 @@
     padding: 5px 12px !important; border-radius: 20px !important;
     animation: navGlow 2s ease-in-out infinite;
     font-size: 0.8rem !important;
+    order: 2; flex-shrink: 0;
   }
   .nav-event:hover { opacity: 0.9; color: white !important; background: linear-gradient(135deg,#c0392b,#e67e22) !important; }
 
@@ -195,12 +198,15 @@
   .nav-actions {
     display: flex; align-items: center; gap: 6px; flex-shrink: 0;
     padding-left: 12px; border-left: 1px solid #e8e8e8; margin-left: 8px; height: 100%;
+    order: 4;
   }
   .nav-actions a, .nav-actions button {
     font-size: 0.78rem !important; padding: 5px 11px !important;
     border-radius: 16px !important; font-weight: 600 !important;
     white-space: nowrap;
   }
+  /* Ẩn bản mobile của nav-actions trên desktop */
+  .nav-actions-mobile { display: none; }
 
   /* MOBILE NAV */
   @media(max-width: 900px) {
@@ -240,31 +246,17 @@
     }
     .nav-menu > a:hover { background: #f0f7ff; }
     .nav-actions {
-      order: 4;
-      flex: 1 1 100%;
-      width: 100%;
-      max-width: 100%;
-      flex-wrap: wrap;
-      justify-content: center;
-      align-content: flex-start;
-      gap: 6px;
-      border-left: none;
-      border-top: 1px solid #eee;
-      padding: 8px 0 4px;
-      margin: 0;
-      margin-top: 4px;
-      height: auto;
-      min-width: 0;
+      display: none; /* ẩn trên mobile, chỉ hiện trong hamburger menu */
     }
-    .nav-actions a, .nav-actions button {
-      white-space: normal;
-      text-align: center;
-      flex: 1 1 auto;
-      min-width: min(140px, 46%);
-      max-width: 100%;
-      justify-content: center;
+    .nav-actions-mobile {
+      display: flex; flex-wrap: wrap; gap: 6px; padding: 8px 0 4px;
+      border-top: 1px solid #eee; margin-top: 4px; justify-content: center;
     }
-    .nav-menu .nav-actions-mobile { display: flex; flex-wrap: wrap; gap: 6px; justify-content: center; padding-top: 8px; border-top: 1px solid #eee; margin-top: 4px; }
+    .nav-actions-mobile a, .nav-actions-mobile button {
+      font-size: 0.82rem !important; padding: 6px 12px !important;
+      border-radius: 16px !important; font-weight: 600 !important;
+      white-space: nowrap; text-align: center;
+    }
   }
 
   /* HERO SECTION */
@@ -317,6 +309,21 @@
     display: flex; align-items: flex-start; gap: 8px;
   }
   .features li::before { content: "✓"; font-weight: 700; flex-shrink: 0; margin-top: 1px; }
+
+  /* Features toggle — ẩn toàn bộ card-body khi collapsed */
+  .card-body { transition: none; }
+  .card.collapsed .card-body { display: none; }
+  .card-toggle-btn {
+    width: 100%; background: none; border: none; border-top: 1px solid #f0f0f0;
+    color: #3498db; font-size: 0.85rem; font-weight: 700; cursor: pointer;
+    padding: 10px 24px; text-align: center; display: flex;
+    align-items: center; justify-content: center; gap: 6px;
+    transition: background .2s;
+  }
+  .card-toggle-btn:hover { background: #f0f7ff; }
+  /* Ẩn features-wrap cũ nếu còn sót */
+  .features-wrap { position: relative; }
+  .features-toggle { display: none; }
 
   .badge {
     display: inline-block; font-size: 0.75rem; font-weight: 600;
@@ -776,6 +783,7 @@ function cancelTos() {
     <img src="LOGO.png" alt="KPT">
     🏠 Trang chủ
   </a>
+  <a href="su-kien.html" class="nav-event" style="flex-shrink:0;margin-left:8px;">🎁 TẶNG PRO 5 ngày</a>
 
   <!-- Hamburger (mobile) -->
   <button class="nav-toggle" onclick="toggleNav()" aria-label="Menu">
@@ -792,7 +800,15 @@ function cancelTos() {
     <a href="#dangky">📝 Đăng ký</a>
     <a href="#unghо">💖 Ủng hộ</a>
     <a href="dieu-khoan.html" target="_blank">📋 Điều khoản</a>
-    <a href="su-kien.html" class="nav-event">🎁 TẶNG PRO 5 ngày</a>
+    <!-- Bản mobile của nav-actions — chỉ hiện trong hamburger menu -->
+    <div class="nav-actions-mobile">
+      <a href="https://tiktok.com/@khoiphuctool.github.io" target="_blank" rel="noopener" style="background:#010101;color:white;text-decoration:none;padding:6px 12px;border-radius:16px;font-size:0.82rem;font-weight:600;display:inline-flex;align-items:center;gap:4px;">🎵 TikTok</a>
+      <a href="https://www.youtube.com/@khoiphuctool" target="_blank" rel="noopener" style="background:#ff0000;color:white;text-decoration:none;padding:6px 12px;border-radius:16px;font-size:0.82rem;font-weight:600;display:inline-flex;align-items:center;gap:4px;">▶ YouTube</a>
+      <span id="nav-user-m" style="font-size:0.82rem;color:#27ae60;font-weight:700;display:none;max-width:120px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;"></span>
+      <button onclick="showLoginModal()" id="btn-nav-login-m" style="background:#3498db;color:white;border:none;padding:6px 12px;border-radius:16px;font-weight:600;cursor:pointer;font-size:0.82rem;">🔑 Đăng nhập</button>
+      <a href="#dangky" id="btn-nav-register-m" style="background:#27ae60;color:white;text-decoration:none;padding:6px 12px;border-radius:16px;font-weight:600;font-size:0.82rem;">📝 Đăng ký FREE</a>
+      <button onclick="doLogout()" id="btn-nav-logout-m" style="background:#e74c3c;color:white;border:none;padding:6px 12px;border-radius:16px;font-weight:600;cursor:pointer;font-size:0.82rem;display:none;">🚪 Đăng xuất</button>
+    </div>
   </div>
 
   <!-- Actions bên phải (luôn hiện) -->
@@ -902,7 +918,7 @@ function cancelTos() {
 <div class="cards">
 
   <!-- MOM -->
-  <div class="card mom" id="mom">
+  <div class="card mom collapsed" id="mom">
     <div class="card-header">
       <div class="card-icon">🟢</div>
       <div>
@@ -910,6 +926,7 @@ function cancelTos() {
         <span id="sub-mom">Khôi phục Office</span>
       </div>
     </div>
+    <button class="card-toggle-btn" onclick="toggleAllCards(this)">▼ Xem chi tiết</button>
     <div class="card-body">
       <div>
         <span class="badge badge-free">FREE</span>
@@ -918,6 +935,7 @@ function cancelTos() {
       </div>
       <p style="margin-top:12px">Khôi phục mật khẩu file Excel, Word, PowerPoint bằng phương pháp vét cạn, từ điển và dải số. Hỗ trợ cả VBA password.</p>
       <p style="font-size:0.88rem;color:#888;margin-bottom:8px">🆓 <b>FREE</b>: tối đa độ dài pass 4 ký tự, chỉ X1 luồng<br>💎 <b>PRO</b>: không giới hạn độ dài, X1→X8 luồng</p>
+      <div class="features-wrap collapsed">
       <ul class="features">
         <li>Vét cạn (Brute Force) theo bộ ký tự tùy chỉnh</li>
         <li>Khôi phục bằng từ điển (Wordlist) & dải số</li>
@@ -930,6 +948,8 @@ function cancelTos() {
         <li>Kiểm tra mã hóa & ước tính tốc độ trước khi dò</li>
         <li>Tự động đăng nhập, nhớ chế độ online/offline</li>
       </ul>
+      <button class="features-toggle" onclick="toggleFeatures(this)">Xem thêm ▼</button>
+      </div>
       <a class="btn-download" id="btn-mom" href="#" target="_blank">
         ⬇️ Tải xuống miễn phí
       </a>
@@ -937,7 +957,7 @@ function cancelTos() {
   </div>
 
   <!-- RARZIP -->
-  <div class="card rar" id="rar">
+  <div class="card rar collapsed" id="rar">
     <div class="card-header">
       <div class="card-icon">🟢</div>
       <div>
@@ -945,6 +965,7 @@ function cancelTos() {
         <span id="sub-rar">RARZIP Tool</span>
       </div>
     </div>
+    <button class="card-toggle-btn" onclick="toggleAllCards(this)">▼ Xem chi tiết</button>
     <div class="card-body">
       <div>
         <span class="badge badge-free">FREE</span>
@@ -953,6 +974,7 @@ function cancelTos() {
       </div>
       <p style="margin-top:12px">Khôi phục mật khẩu file nén RAR và ZIP bằng vét cạn hoặc từ điển. Hỗ trợ WinRAR và 7-Zip làm backend.</p>
       <p style="font-size:0.88rem;color:#888;margin-bottom:8px">🆓 <b>FREE</b>: tối đa độ dài pass 4 ký tự, chỉ X1 luồng<br>💎 <b>PRO</b>: không giới hạn độ dài, X1→X8 luồng</p>
+      <div class="features-wrap collapsed">
       <ul class="features">
         <li>Vét cạn theo bộ ký tự & pattern tùy chỉnh</li>
         <li>Hỗ trợ RAR3, RAR5, ZIP (AES)</li>
@@ -964,6 +986,8 @@ function cancelTos() {
         <li>Ctrl+click chọn nhiều bộ ký tự</li>
         <li>Tự động đăng nhập, nhớ chế độ online/offline</li>
       </ul>
+      <button class="features-toggle" onclick="toggleFeatures(this)">Xem thêm ▼</button>
+      </div>
       <a class="btn-download" id="btn-rar" href="#" target="_blank">
         ⬇️ Tải xuống miễn phí
       </a>
@@ -973,7 +997,7 @@ function cancelTos() {
   <!-- AUTO HASH ẨN - sắp ra mắt -->
 
   <!-- KHOIPHUCTOOL -->
-  <div class="card kpt" id="kpt">
+  <div class="card kpt collapsed" id="kpt">
     <div class="card-header">
       <div class="card-icon"><img src="LOGO.png" alt="KhoiPhucTool" style="width:40px;height:40px;object-fit:contain;border-radius:8px;"></div>
       <div>
@@ -981,6 +1005,7 @@ function cancelTos() {
         <span id="sub-kpt">KhoiPhucTool</span>
       </div>
     </div>
+    <button class="card-toggle-btn" onclick="toggleAllCards(this)">▼ Xem chi tiết</button>
     <div class="card-body">
       <div>
         <span class="badge badge-free">FREE</span>
@@ -989,6 +1014,7 @@ function cancelTos() {
       </div>
       <p style="margin-top:12px">Bộ công cụ khôi phục mật khẩu tổng hợp — gộp đầy đủ tính năng Office, RAR/ZIP và nhiều hơn nữa trong một ứng dụng duy nhất.</p>
       <p style="font-size:0.88rem;color:#888;margin-bottom:8px">🆓 <b>FREE</b>: tối đa độ dài pass 4 ký tự, chỉ X1 luồng<br>💎 <b>PRO</b>: không giới hạn độ dài, X1→X8 luồng</p>
+      <div class="features-wrap collapsed">
       <ul class="features">
         <li>Gộp tất cả tính năng trong một app duy nhất</li>
         <li>Khôi phục Excel, Word, PowerPoint, RAR, ZIP</li>
@@ -1006,6 +1032,8 @@ function cancelTos() {
         <li>Tự động đăng nhập, nhớ chế độ online/offline</li>
         <li>Giao diện tiếng Việt, không cần cài đặt</li>
       </ul>
+      <button class="features-toggle" onclick="toggleFeatures(this)">Xem thêm ▼</button>
+      </div>
       <a class="btn-download" id="btn-kpt" href="#" target="_blank">
         ⬇️ Tải xuống miễn phí
       </a>
@@ -1013,7 +1041,7 @@ function cancelTos() {
   </div>
 
   <!-- CON TRÂU TOOL -->
-  <div class="card trau" id="trau">
+  <div class="card trau collapsed" id="trau">
     <div class="card-header">
       <div class="card-icon">🐃</div>
       <div>
@@ -1021,6 +1049,7 @@ function cancelTos() {
         <span id="sub-trau">Con Trâu Tool V6</span>
       </div>
     </div>
+    <button class="card-toggle-btn" onclick="toggleAllCards(this)">▼ Xem chi tiết</button>
     <div class="card-body">
       <div>
         <span class="badge badge-free">FREE</span>
@@ -1032,6 +1061,7 @@ function cancelTos() {
         🔑 <strong>Mật khẩu cấp 1:</strong> <code style="background:#b2ebf2;padding:1px 6px;border-radius:4px;font-weight:700;">0123</code> &nbsp;|&nbsp;
         <strong>Mật khẩu cấp 2:</strong> <code style="background:#b2ebf2;padding:1px 6px;border-radius:4px;font-weight:700;">2222</code>
       </p>
+      <div class="features-wrap collapsed">
       <ul class="features">
         <li>Đổi IP tĩnh / DHCP theo cấu hình có sẵn (IP Cỏ / IP Lock)</li>
         <li>Giả mạo MAC Address theo vendor tùy chọn</li>
@@ -1044,6 +1074,8 @@ function cancelTos() {
         <li>Tray icon — ẩn xuống khay, hotkey F9</li>
         <li>Giao diện đa theme, tự lưu cấu hình</li>
       </ul>
+      <button class="features-toggle" onclick="toggleFeatures(this)">Xem thêm ▼</button>
+      </div>
       <a class="btn-download" id="btn-trau" href="#" target="_blank" rel="noopener">
         ⬇️ Tải xuống V6
       </a>
@@ -1747,12 +1779,19 @@ async function doLogin() {
 }
 
 function renderUserPanel(name, type) {
-  // Nav
+  // Nav desktop
   document.getElementById('btn-nav-login').style.display = 'none';
   document.getElementById('btn-nav-logout').style.display = '';
+  document.getElementById('btn-nav-register').style.display = 'none';
   document.getElementById('nav-user').style.display = '';
   const typeLabel = type === 'ADMIN' ? '👑 ADMIN' : type === 'PRO' ? '⭐ PRO' : '🆓 FREE';
   document.getElementById('nav-user').textContent = `${name} (${typeLabel})`;
+  // Nav mobile
+  document.getElementById('btn-nav-login-m').style.display = 'none';
+  document.getElementById('btn-nav-logout-m').style.display = '';
+  document.getElementById('btn-nav-register-m').style.display = 'none';
+  document.getElementById('nav-user-m').style.display = '';
+  document.getElementById('nav-user-m').textContent = `${name} (${typeLabel})`;
 
   const panel = document.getElementById('user-panel');
   panel.style.display = 'block';
@@ -1781,9 +1820,16 @@ function renderUserPanel(name, type) {
 function doLogout() {
   _wlDel('wl_name');
   _wlDel('wl_type');
+  // Nav desktop
   document.getElementById('btn-nav-login').style.display = '';
   document.getElementById('btn-nav-logout').style.display = 'none';
+  document.getElementById('btn-nav-register').style.display = '';
   document.getElementById('nav-user').style.display = 'none';
+  // Nav mobile
+  document.getElementById('btn-nav-login-m').style.display = '';
+  document.getElementById('btn-nav-logout-m').style.display = 'none';
+  document.getElementById('btn-nav-register-m').style.display = '';
+  document.getElementById('nav-user-m').style.display = 'none';
   document.getElementById('user-panel').style.display = 'none';
   document.getElementById('user-panel').innerHTML = '';
 }
@@ -1822,6 +1868,27 @@ function autoLoginAfterReg(name, pass, type) {
   if (n && t) renderUserPanel(n, t);
 })();
 
+
+// CARDS TOGGLE — đồng bộ tất cả card cùng lúc
+function toggleAllCards(btn) {
+  const allCards = document.querySelectorAll('.cards .card');
+  const allBtns  = document.querySelectorAll('.card-toggle-btn');
+  const thisCard = btn.closest('.card');
+  const isCollapsed = thisCard.classList.contains('collapsed');
+  if (isCollapsed) {
+    // Mở tất cả
+    allCards.forEach(c => c.classList.remove('collapsed'));
+    allBtns.forEach(b => b.textContent = '▲ Thu gọn');
+    // Scroll về card đang bấm sau khi DOM cập nhật
+    requestAnimationFrame(() => {
+      thisCard.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
+  } else {
+    // Thu gọn tất cả
+    allCards.forEach(c => c.classList.add('collapsed'));
+    allBtns.forEach(b => b.textContent = '▼ Xem chi tiết');
+  }
+}
 
 // HAMBURGER NAV
 function toggleNav() {
