@@ -1014,6 +1014,17 @@ function cancelTos() {
       </div>
       <p style="margin-top:12px">Bộ công cụ khôi phục mật khẩu tổng hợp — gộp đầy đủ tính năng Office, RAR/ZIP và nhiều hơn nữa trong một ứng dụng duy nhất.</p>
       <p style="font-size:0.88rem;color:#888;margin-bottom:8px">🆓 <b>FREE</b>: tối đa độ dài pass 4 ký tự, chỉ X1 luồng<br>💎 <b>PRO</b>: không giới hạn độ dài, X1→X8 luồng</p>
+      <div style="background:#f3e5f5;border-left:3px solid #8e24aa;border-radius:0 8px 8px 0;padding:10px 14px;margin-bottom:10px;font-size:0.88rem;color:#2c3e50;line-height:1.75;">
+        ✨ <strong>Mới trong V6:</strong>
+        <ul style="margin:6px 0 0 16px;padding:0;">
+          <li>Hỗ trợ pass dài đến 10+ ký tự — không còn đơ/crash</li>
+          <li>Batch feeding: tự động feed candidates theo từng đợt 500K, không load toàn bộ vào RAM</li>
+          <li>ETA hiển thị đầy đủ năm-tháng-ngày-giờ khi thời gian ước tính rất lớn</li>
+          <li>Cảnh báo khi tổng candidates > 50 triệu, kèm ước tính thời gian</li>
+          <li>GUI poll tự động khởi động lại khi queue chưa sẵn sàng — không cần ấn tạm dừng/tiếp tục</li>
+          <li>Sửa lỗi crash OSError khi ETA vượt giới hạn timestamp</li>
+        </ul>
+      </div>
       <div class="features-wrap collapsed">
       <ul class="features">
         <li>Gộp tất cả tính năng trong một app duy nhất</li>
@@ -1026,7 +1037,7 @@ function cancelTos() {
         <li>Đa luồng X1→X8 — mỗi luồng dò chunk riêng</li>
         <li>Tạm dừng / tiếp tục từng luồng riêng lẻ (per-worker)</li>
         <li>Hiển thị tiến trình & timer từng luồng W1-W8 realtime</li>
-        <li>ETA ước tính thời gian hoàn thành từng luồng</li>
+        <li>ETA hiển thị năm-tháng-ngày-giờ, không bị crash khi pass dài</li>
         <li>Tự động nhận diện loại mã hóa (AES-256, RC4...)</li>
         <li>Kiểm tra mã hóa & ước tính tốc độ trước khi dò</li>
         <li>Tự động đăng nhập, nhớ chế độ online/offline</li>
