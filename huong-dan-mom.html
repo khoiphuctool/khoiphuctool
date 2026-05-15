@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Hướng dẫn dùng MÕM Tool - Khôi phục mật khẩu Excel Word PowerPoint</title>
-<meta name="description" content="Hướng dẫn chi tiết cách dùng MÕM Tool để khôi phục mật khẩu file Excel, Word, PowerPoint. Brute force, từ điển, VBA crack, đa luồng X1-X4.">
+<meta name="description" content="Hướng dẫn chi tiết cách dùng MÕM Tool để khôi phục mật khẩu file Excel, Word, PowerPoint. Brute force, từ điển, VBA crack, đa luồng X1-X8, hỗ trợ pass dài 10+ ký tự.">
 <meta name="keywords" content="hướng dẫn khôi phục mật khẩu excel, cách dùng mom tool, crack pass excel hướng dẫn, mở khóa file excel step by step">
 <link rel="canonical" href="https://khoiphuctool.github.io/khoiphuctool/huong-dan-mom.html">
 <link rel="icon" href="LOGO.png" type="image/png"><style>
@@ -78,14 +78,15 @@
   <div class="toc">
     <h3>📋 Mục lục</h3>
     <a href="#gioi-thieu">1. Giới thiệu MÕM Tool</a>
-    <a href="#tai-ve">2. Tải về và đăng nhập</a>
-    <a href="#chon-file">3. Chọn file cần khôi phục</a>
-    <a href="#brute-force">4. Chế độ Vét cạn (Brute Force)</a>
-    <a href="#tu-dien">5. Chế độ Từ điển</a>
-    <a href="#khoang-so">6. Chế độ Khoảng số</a>
-    <a href="#vba-crack">7. Gỡ khóa VBA Macro</a>
-    <a href="#da-luong">8. Đa luồng X1-X4</a>
-    <a href="#meo">9. Mẹo tăng tốc độ</a>
+    <a href="#moi">2. Tính năng cập nhật mới</a>
+    <a href="#tai-ve">3. Tải về và đăng nhập</a>
+    <a href="#chon-file">4. Chọn file cần khôi phục</a>
+    <a href="#brute-force">5. Chế độ Vét cạn (Brute Force)</a>
+    <a href="#tu-dien">6. Chế độ Từ điển</a>
+    <a href="#khoang-so">7. Chế độ Khoảng số</a>
+    <a href="#vba-crack">8. Gỡ khóa VBA Macro</a>
+    <a href="#da-luong">9. Đa luồng X1-X8</a>
+    <a href="#meo">10. Mẹo tăng tốc độ</a>
   </div>
 
   <!-- GIỚI THIỆU -->
@@ -97,9 +98,31 @@
     <div class="tip">💡 Tool chạy 100% offline — file của bạn không rời khỏi máy tính.</div>
   </div>
 
+  <!-- TÍNH NĂNG MỚI -->
+  <div class="section" id="moi">
+    <h2>2. Tính năng cập nhật mới</h2>
+    <div style="background:#e8f5e9;border-left:4px solid #27ae60;border-radius:8px;padding:14px 18px;margin-bottom:14px;">
+      <strong>✅ Hỗ trợ pass dài 10+ ký tự — không còn đơ</strong>
+      <p style="margin:8px 0 0;">Phiên bản cũ bị đơ/crash khi đặt max length ≥ 10 vì cố load toàn bộ hàng tỷ candidates vào RAM. Bản mới dùng <strong>batch feeding</strong>: chia nhỏ 500K/đợt, workers xử lý xong đợt này mới lấy đợt tiếp.</p>
+    </div>
+    <div style="background:#e8f5e9;border-left:4px solid #27ae60;border-radius:8px;padding:14px 18px;margin-bottom:14px;">
+      <strong>✅ ETA hiển thị năm-tháng-ngày-giờ</strong>
+      <p style="margin:8px 0 0;">Thay vì hiển thị số ngày khổng lồ khó đọc, giờ hiển thị dạng <code>~2y 3mo 15d 8h</code> hoặc <code>~5d 14h</code> tùy độ lớn.</p>
+    </div>
+    <div style="background:#e8f5e9;border-left:4px solid #27ae60;border-radius:8px;padding:14px 18px;margin-bottom:14px;">
+      <strong>✅ Cảnh báo khi candidates > 50 triệu</strong>
+      <p style="margin:8px 0 0;">Popup cảnh báo kèm ước tính thời gian thực tế trước khi bắt đầu — giúp bạn quyết định có nên thu hẹp bộ ký tự không.</p>
+    </div>
+    <div style="background:#e8f5e9;border-left:4px solid #27ae60;border-radius:8px;padding:14px 18px;">
+      <strong>✅ GUI cập nhật ngay khi bắt đầu</strong>
+      <p style="margin:8px 0 0;">Trước đây W1-W8 không hiển thị ngay — phải ấn tạm dừng rồi tiếp tục mới thấy. Đã sửa: GUI tự chờ và cập nhật ngay.</p>
+    </div>
+    <div class="tip">💡 Dù hỗ trợ pass 10+ ký tự, brute force toàn bộ charset 62 ký tự ở độ dài 10 cần ~52 năm. Dùng <strong>Pattern</strong> nếu biết một phần để giảm xuống vài giây.</div>
+  </div>
+
   <!-- TẢI VỀ -->
   <div class="section" id="tai-ve">
-    <h2>2. Tải về và đăng nhập</h2>
+    <h2>3. Tải về và đăng nhập</h2>
     <div class="step-grid">
       <div class="step-card"><div class="step-num">1</div><h4>Tải file .exe</h4><p>Nhấn nút tải xuống trên trang chủ, lưu file về máy</p></div>
       <div class="step-card"><div class="step-num">2</div><h4>Mở file</h4><p>Double-click file .exe để chạy, không cần cài đặt</p></div>
@@ -113,7 +136,7 @@
 
   <!-- CHỌN FILE -->
   <div class="section" id="chon-file">
-    <h2>3. Chọn file cần khôi phục</h2>
+    <h2>4. Chọn file cần khôi phục</h2>
     <ol>
       <li>Nhấn nút <strong>Browse</strong> hoặc kéo thả file vào ô chọn file</li>
       <li>Chọn file Excel/Word/PowerPoint cần khôi phục mật khẩu</li>
@@ -124,7 +147,7 @@
 
   <!-- BRUTE FORCE -->
   <div class="section" id="brute-force">
-    <h2>4. Chế độ Vét cạn (Brute Force)</h2>
+    <h2>5. Chế độ Vét cạn (Brute Force)</h2>
     <p>Thử tất cả tổ hợp ký tự có thể. Phù hợp khi bạn biết mật khẩu gồm những loại ký tự nào.</p>
     <h3>Cách dùng:</h3>
     <ol>
@@ -140,7 +163,7 @@
 
   <!-- TỪ ĐIỂN -->
   <div class="section" id="tu-dien">
-    <h2>5. Chế độ Từ điển</h2>
+    <h2>6. Chế độ Từ điển</h2>
     <p>Thử các mật khẩu từ file danh sách. Nhanh hơn brute force nếu mật khẩu phổ biến.</p>
     <ol>
       <li>Chọn tab <strong>📚 Từ điển & Số</strong></li>
@@ -152,7 +175,7 @@
 
   <!-- KHOẢNG SỐ -->
   <div class="section" id="khoang-so">
-    <h2>6. Chế độ Khoảng số</h2>
+    <h2>7. Chế độ Khoảng số</h2>
     <p>Thử tất cả số trong một khoảng. Phù hợp khi mật khẩu là số (ngày sinh, năm, mã số...).</p>
     <ol>
       <li>Chọn tab <strong>📚 Từ điển & Số</strong></li>
@@ -163,7 +186,7 @@
 
   <!-- VBA CRACK -->
   <div class="section" id="vba-crack">
-    <h2>7. Gỡ khóa VBA Macro</h2>
+    <h2>8. Gỡ khóa VBA Macro</h2>
     <p>Dành cho file .xlsm, .xlsb, .xls có VBA bị khóa (không xem/sửa được code).</p>
     <ol>
       <li>Chọn file Excel có VBA ở ô chọn file trên</li>
@@ -179,7 +202,7 @@
 
   <!-- ĐA LUỒNG -->
   <div class="section" id="da-luong">
-    <h2>8. Đa luồng X1-X8 & tạm dừng từng luồng</h2>
+    <h2>9. Đa luồng X1-X8 & tạm dừng từng luồng</h2>
     <p>Chia toàn bộ candidates thành các chunk, mỗi luồng xử lý 1 chunk song song — giống như mở nhiều app cùng lúc nhưng trong 1 app duy nhất.</p>
     <ul>
       <li><strong>X1</strong> — 1 luồng, dùng 1 nhân CPU. Phù hợp máy yếu, CPU 2 nhân, hoặc tài khoản FREE</li>
@@ -194,7 +217,7 @@
 
   <!-- MẸO -->
   <div class="section" id="meo">
-    <h2>9. Mẹo tăng tốc độ</h2>
+    <h2>10. Mẹo tăng tốc độ</h2>
     <ul>
       <li>Biết mật khẩu có số → chỉ dùng bộ ký tự <strong>0-9</strong></li>
       <li>Biết độ dài → đặt min = max = độ dài đó</li>
@@ -212,7 +235,7 @@
   <a href="/khoiphuctool/">🏠 Trang chủ</a> &nbsp;|&nbsp;
   <a href="huong-dan-mom.html">📗 Hướng dẫn MÕM</a> &nbsp;|&nbsp;
   <a href="huong-dan-rarzip.html">📙 Hướng dẫn RARZIP</a> &nbsp;|&nbsp;
-  <a href="huong-dan-khoiphuctool.html"><img src="LOGO.png" style="width:26px;height:26px;vertical-align:middle;margin-right:3px;border-radius:50%;"> Hướng dẫn KPT V2</a> &nbsp;|&nbsp;
+  <a href="huong-dan-khoiphuctool.html"><img src="LOGO.png" style="width:26px;height:26px;vertical-align:middle;margin-right:3px;border-radius:50%;"> Hướng dẫn KPT V6</a> &nbsp;|&nbsp;
   <a href="tags.html">🏷️ Từ khóa</a>
 </footer>
 
