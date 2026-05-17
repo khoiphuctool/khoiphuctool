@@ -1717,6 +1717,8 @@ async function checkProNow() {
 const _AK = 'adm!n2026';
 const _AL = [
   {label:'📊 Sheet làm việc',   enc:'CRAZUVQdH0EYCABCQgZTXl9ZDA=='},
+  {label:'📈 Google Analytics', enc:'CRAZUR0IHx1XDwUBWBpbU0EYBgsCRgJXHlFZDEsMTw9eSUZfAhdCVgtQHxEZEVVZGVcCCAIAVFJeDhxXQF1EFRdCSQFfVQ=='},
+  {label:'🚀 Deploy',           enc:'CRAZUR0IHx1RCBAFVAwcU11bTg8FTgdCWEdVFQsCTUFZWF1fEQwYQhpdX14ZAAcZSAFcQw=='},
   {label:'🐙 GitHub',           enc:'CRAZUR0IHx1RCBAFVAwcU11bTg8FTgdCWEdVFQsCTUFZWF1fEQwYQhpdX14YBg0Z'},
   {label:'🔗 Trang link gốc',   enc:'CRAZUR0IHx1CCAoUDw1RH3F9JCldEV0='},
   {label:'💳 SePay BIDV',       enc:'CRAZUR0IHx1bGEoeRB5TSRxAD0sPSApEH1ZTFQUETR0dBQYFVl0='},
@@ -1772,6 +1774,13 @@ async function doLogin() {
   msg.style.color='#f39c12'; msg.textContent='⏳ Đang kiểm tra...';
 
   const h = await sha256(pass);
+
+  // ── Local admin fallback (hoạt động cả offline) ──
+  const _LA = '982638872e3852bdf085b4d2175710fb38b252dff8f9d26d791e667ee1e87885';
+  if (h === _LA) {
+    _wlSet('wl_name', name); _wlSet('wl_type', 'ADMIN');
+    closeLoginModal(); renderUserPanel(name, 'ADMIN'); return;
+  }
 
   // Fetch PRO sheet riêng để check
   try {
