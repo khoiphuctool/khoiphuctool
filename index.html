@@ -208,6 +208,8 @@
     order: 2; flex-shrink: 0;
   }
   .nav-event:hover { opacity: 0.9; color: white !important; background: linear-gradient(135deg,#c0392b,#e67e22) !important; }
+  /* Ẩn link sự kiện trong hamburger trên desktop */
+  .nav-menu-event-only { display: none !important; }
 
   /* Actions bên phải */
   .nav-actions {
@@ -226,50 +228,55 @@
   /* MOBILE NAV */
   @media(max-width: 900px) {
     nav {
-      padding: 8px 12px;
-      flex-wrap: wrap;
+      padding: 0 12px;
+      flex-wrap: nowrap;
       align-items: center;
-      height: auto;
-      min-height: 52px;
-      row-gap: 6px;
+      height: 52px;
     }
     .nav-brand {
       order: 1;
-      max-width: calc(100% - 52px);
+      flex: 1;
       min-width: 0;
       overflow: hidden;
       text-overflow: ellipsis;
       white-space: nowrap;
       border-right: none;
       margin-right: 0;
-      padding-right: 8px;
+      padding-right: 0;
+      font-size: 0.85rem;
     }
-    .nav-toggle { display: flex; order: 2; margin-left: auto; flex-shrink: 0; }
+    /* Ẩn nút sự kiện trên mobile — đã có trong hamburger */
+    /* .nav-event giữ hiện để user thấy ngay trên nav bar mobile */    .nav-toggle { display: flex; order: 2; flex-shrink: 0; margin-left: 8px; }
+    /* Menu dropdown */
     .nav-menu {
       display: none; order: 3;
-      position: absolute; top: 100%; left: 0; right: 0;
+      position: fixed; top: 52px; left: 0; right: 0; bottom: 0;
       background: white; flex-direction: column; align-items: stretch;
-      padding: 8px 12px 12px; gap: 2px;
+      padding: 8px 16px 24px; gap: 2px;
       box-shadow: 0 8px 24px rgba(0,0,0,0.12);
       border-top: 2px solid #3498db;
       z-index: 101;
+      overflow-y: auto;
     }
     .nav-menu.open { display: flex; }
     .nav-menu > a {
-      padding: 10px 14px; border-radius: 10px; font-size: 0.9rem;
-      color: #2c3e50; font-weight: 600;
+      padding: 12px 14px; border-radius: 10px; font-size: 0.95rem;
+      color: #2c3e50; font-weight: 600; border-bottom: 1px solid #f5f5f5;
     }
+    .nav-menu > a:last-of-type { border-bottom: none; }
     .nav-menu > a:hover { background: #f0f7ff; }
-    .nav-actions {
-      display: none; /* ẩn trên mobile, chỉ hiện trong hamburger menu */
-    }
+    /* Ẩn nav-actions desktop trên mobile */
+    .nav-actions { display: none !important; }
+    /* Hiện link sự kiện trong hamburger trên mobile */
+    .nav-menu-event-only { display: block !important; }
     .nav-actions-mobile {
-      display: flex; flex-wrap: wrap; gap: 6px; padding: 8px 0 4px;
-      border-top: 1px solid #eee; margin-top: 4px; justify-content: center;
+      display: flex; flex-wrap: wrap; gap: 8px;
+      padding: 12px 0 4px; border-top: 2px solid #eee;
+      margin-top: 8px; justify-content: center;
     }
     .nav-actions-mobile a, .nav-actions-mobile button {
-      font-size: 0.82rem !important; padding: 6px 12px !important;
-      border-radius: 16px !important; font-weight: 600 !important;
+      font-size: 0.88rem !important; padding: 8px 16px !important;
+      border-radius: 20px !important; font-weight: 600 !important;
       white-space: nowrap; text-align: center;
     }
   }
@@ -813,7 +820,7 @@ function cancelTos() {
   <!-- Menu links -->
   <div class="nav-menu" id="nav-menu">
     <a href="#mom">🟢 Office</a>
-    <a href="#rar">🟢 RAR/ZIP</a>
+    <a href="#rar">&#128230; RAR/ZIP/7z</a>
     <a href="#kpt"><img src="LOGO.png" style="width:16px;height:16px;vertical-align:middle;border-radius:50%;margin-right:3px;"> KhoiPhucTool</a>
     <a href="#trau">🐃 ConTrâu</a>
     <a href="#huongdan">📖 Hướng dẫn</a>
