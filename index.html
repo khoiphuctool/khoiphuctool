@@ -2,6 +2,7 @@
 <html lang="vi">
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <!-- Google Analytics -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-R50KDN2TCB"></script>
 <script>
@@ -159,6 +160,7 @@
     display: flex; align-items: center;
     padding: 0 20px; position: sticky; top: 0; z-index: 100;
     height: 52px; gap: 0;
+    position: sticky; /* đảm bảo nav-menu absolute định vị đúng */
   }
   /* Logo bên trái nav */
   .nav-brand {
@@ -560,8 +562,13 @@
     .hero, .notice, .how, .register-section, .donate { padding-left: 16px; padding-right: 16px; }
     .cards { padding-left: 16px; padding-right: 16px; }
     .card-header { flex-wrap: wrap; }
+    .card-icon { width: 44px; height: 44px; font-size: 1.4rem; }
     .hero-intro-cols { grid-template-columns: 1fr; }
     .hero h2 { overflow-wrap: anywhere; word-break: break-word; }
+    #user-panel { padding: 0 12px; }
+    .donate-cards, .reg-cards { grid-template-columns: 1fr; }
+    .qr-code { width: 180px; }
+    .steps { grid-template-columns: 1fr 1fr; }
   }
 
   @keyframes pulse {
@@ -836,8 +843,8 @@ function cancelTos() {
 </nav>
 
 <!-- MODAL ĐĂNG NHẬP -->
-<div id="login-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.55);z-index:999;align-items:center;justify-content:center;">
-  <div id="login-box" style="background:white;border-radius:16px;padding:32px 28px;width:340px;max-width:95vw;box-shadow:0 8px 40px rgba(0,0,0,0.2);">
+<div id="login-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.55);z-index:999;align-items:center;justify-content:center;padding:16px;">
+  <div id="login-box" style="background:white;border-radius:16px;padding:32px 28px;width:340px;max-width:100%;box-shadow:0 8px 40px rgba(0,0,0,0.2);">
     <h3 style="margin-bottom:6px;color:#2c3e50;">🔑 Đăng nhập</h3>
     <p style="font-size:0.85rem;color:#888;margin-bottom:18px;">Dùng tài khoản FREE hoặc PRO</p>
     <input type="text" id="login-name" placeholder="Tên / SĐT" style="width:100%;padding:10px 12px;border:1.5px solid #e0e0e0;border-radius:8px;font-size:0.95rem;margin-bottom:10px;box-sizing:border-box;outline:none;">
