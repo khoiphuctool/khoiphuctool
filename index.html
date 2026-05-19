@@ -312,7 +312,10 @@
   .card-header {
     padding: 28px 24px 20px;
     display: flex; align-items: center; gap: 16px;
+    cursor: pointer;
+    transition: opacity .15s;
   }
+  .card-header:hover { opacity: 0.85; }
   .card-icon {
     width: 56px; height: 56px; border-radius: 14px;
     display: flex; align-items: center; justify-content: center;
@@ -915,7 +918,12 @@ function cancelTos() {
       </div>
 
       <div style="background:white;border-radius:14px;padding:18px 20px;box-shadow:0 2px 12px rgba(0,0,0,0.06);display:flex;gap:14px;align-items:flex-start;">
-        <span style="font-size:1.8rem;flex-shrink:0;">🇻🇳</span>
+        <span style="font-size:1.8rem;flex-shrink:0;line-height:1;">
+          <svg width="36" height="24" viewBox="0 0 36 24" xmlns="http://www.w3.org/2000/svg" style="border-radius:3px;display:block;">
+            <rect width="36" height="24" fill="#DA251D"/>
+            <polygon points="18,4 20.9,13.1 30,13.1 22.5,18.6 25.4,27.7 18,22.2 10.6,27.7 13.5,18.6 6,13.1 15.1,13.1" fill="#FFFF00" transform="scale(0.72) translate(7,1)"/>
+          </svg>
+        </span>
         <div>
           <div style="font-weight:700;color:#2c3e50;margin-bottom:4px;">Làm bởi người Việt, cho người Việt</div>
           <div style="font-size:0.9rem;color:#666;line-height:1.6;">Giao diện tiếng Việt 100%, hỗ trợ tận tình qua Zalo — không lo bị bỏ lại một mình.</div>
@@ -945,7 +953,7 @@ function cancelTos() {
 
   <!-- MOM -->
   <div class="card mom collapsed" id="mom">
-    <div class="card-header">
+    <div class="card-header" onclick="var b=document.getElementById('btn-mom');if(b&&b.href&&b.href!='#')window.open(b.href,'_blank');" title="Nhấn để tải xuống">
       <div class="card-icon">🟢</div>
       <div>
         <h3>Khôi phục Pass Office</h3>
@@ -994,7 +1002,7 @@ function cancelTos() {
 
   <!-- RARZIP -->
   <div class="card rar collapsed" id="rar">
-    <div class="card-header">
+    <div class="card-header" onclick="var b=document.getElementById('btn-rar');if(b&&b.href&&b.href!='#')window.open(b.href,'_blank');" title="Nhấn để tải xuống">
       <div class="card-icon">🟢</div>
       <div>
         <h3>Khôi phục RAR / ZIP / 7z</h3>
@@ -1045,7 +1053,7 @@ function cancelTos() {
 
   <!-- KHOIPHUCTOOL -->
   <div class="card kpt collapsed" id="kpt">
-    <div class="card-header">
+    <div class="card-header" onclick="var b=document.getElementById('btn-kpt');if(b&&b.href&&b.href!='#')window.open(b.href,'_blank');" title="Nhấn để tải xuống">
       <div class="card-icon"><img src="LOGO.png" alt="KhoiPhucTool" style="width:40px;height:40px;object-fit:contain;border-radius:8px;"></div>
       <div>
         <h3>KhoiPhucTool</h3>
@@ -1100,7 +1108,7 @@ function cancelTos() {
 
   <!-- CON TRÂU TOOL -->
   <div class="card trau collapsed" id="trau">
-    <div class="card-header">
+    <div class="card-header" onclick="var b=document.getElementById('btn-trau');if(b&&b.href&&b.href!='#')window.open(b.href,'_blank');" title="Nhấn để tải xuống">
       <div class="card-icon">🐃</div>
       <div>
         <h3>Quản Lý File Con Trâu</h3>
@@ -1730,7 +1738,7 @@ async function checkProNow() {
 // ── Obfuscated admin links (XOR key: adm!n2026) ──
 const _AK = 'adm!n2026';
 const _AL = [
-  {label:'📊 Sheet làm việc',   enc:'CRAZUVQdH0EYCABCQgZTXl9ZDA=='},
+  {label:'📊 Sheet làm việc',   enc:'CRAZUVQdH0ZfDx1DQg0dQ1pTBBABVw=='},
   {label:'📈 Google Analytics', enc:'CRAZUR0IHx1XDwUBWBpbU0EYBgsCRgJXHlFZDEsMTw9eSUZfAhdCVgtQHxEZEVVZGVcCCAIAVFJeDhxXQF1EFRdCSQFfVQ=='},
   {label:'🚀 Deploy',           enc:'CRAZUR0IHx1RCBAFVAwcU11bTg8FTgdCWEdVFQsCTUFZWF1fEQwYQhpdX14ZAAcZSAFcQw=='},
   {label:'🐙 GitHub',           enc:'CRAZUR0IHx1RCBAFVAwcU11bTg8FTgdCWEdVFQsCTUFZWF1fEQwYQhpdX14YBg0Z'},
