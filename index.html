@@ -282,7 +282,7 @@
 
   /* HERO SECTION */
   .hero {
-    max-width: 900px; margin: 50px auto 0; padding: 0 20px;
+    max-width: 100%; margin: 50px auto 0; padding: 0 40px;
     text-align: center;
   }
   .hero h2 { font-size: 1.8rem; color: #2c3e50; margin-bottom: 14px; }
@@ -290,17 +290,23 @@
 
   .hero-intro-cols {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr));
+    grid-template-columns: repeat(4, 1fr);
     gap: 16px;
     text-align: left;
+  }
+  @media(max-width: 1000px) {
+    .hero-intro-cols { grid-template-columns: repeat(2, 1fr); }
   }
 
   /* CARDS */
   .cards {
-    max-width: 1200px; margin: 50px auto; padding: 0 20px;
+    max-width: 100%; margin: 50px auto; padding: 0 40px;
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr));
+    grid-template-columns: repeat(4, 1fr);
     gap: 28px;
+  }
+  @media(max-width: 1000px) {
+    .cards { grid-template-columns: repeat(2, 1fr); padding: 0 20px; }
   }
   .card {
     background: white; border-radius: 16px;
@@ -392,12 +398,15 @@
   .trau  .btn-download { background: linear-gradient(135deg,#00838f,#26c6da); }
 
   /* HOW IT WORKS */
-  .how { max-width: 900px; margin: 20px auto 60px; padding: 0 20px; }
+  .how { max-width: 100%; margin: 20px auto 60px; padding: 0 40px; }
   .how h2 { text-align: center; font-size: 1.6rem; margin-bottom: 30px; color: #2c3e50; }
   .steps {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(min(100%, 200px), 1fr));
+    grid-template-columns: repeat(5, 1fr);
     gap: 20px;
+  }
+  @media(max-width: 1000px) {
+    .steps { grid-template-columns: repeat(3, 1fr); }
   }
   .step {
     background: white; border-radius: 14px; padding: 24px 20px;
@@ -569,7 +578,7 @@
     .nav-row1, .nav-row2 { gap: 3px; }
     nav a { font-size: 0.75rem; padding: 4px 8px; }
     .hero, .notice, .how, .register-section, .donate { padding-left: 16px; padding-right: 16px; }
-    .cards { padding-left: 16px; padding-right: 16px; }
+    .cards { padding-left: 16px; padding-right: 16px; grid-template-columns: 1fr; }
     .card-header { flex-wrap: wrap; }
     .card-icon { width: 44px; height: 44px; font-size: 1.4rem; }
     .hero-intro-cols { grid-template-columns: 1fr; }
@@ -822,7 +831,7 @@ function cancelTos() {
   <!-- Menu links -->
   <div class="nav-menu" id="nav-menu">
     <a href="#mom">🟢 Office</a>
-    <a href="#rar">&#128230; RAR/ZIP/7z</a>
+    <a href="#rar">🟢 RAR/ZIP/7z</a>
     <a href="#kpt"><img src="LOGO.png" style="width:16px;height:16px;vertical-align:middle;border-radius:50%;margin-right:3px;"> KhoiPhucTool</a>
     <a href="#trau">🐃 ConTrâu</a>
     <a href="#huongdan">📖 Hướng dẫn</a>
@@ -889,14 +898,35 @@ function cancelTos() {
   <p>Hỗ trợ khôi phục mật khẩu file Excel, Word, RAR, ZIP và tạo/phân tích hash. Giao diện tiếng Việt, dễ dùng, không cần cài đặt.</p>
 
   <!-- INTRO TYPEWRITER -->
-  <div style="margin-top:36px;max-width:720px;margin-left:auto;margin-right:auto;">
+  <div style="margin-top:36px;max-width:100%;">
 
     <!-- Quote nổi bật -->
-    <div style="background:linear-gradient(135deg,rgba(52,152,219,0.1),rgba(26,188,156,0.08));border-left:4px solid #3498db;border-radius:0 14px 14px 0;padding:18px 22px;margin-bottom:24px;text-align:left;">
-      <p style="font-size:1.1rem;font-weight:600;color:#2c3e50;line-height:1.6;margin:0;">
-        "Bạn quên mật khẩu rồi à? <span style="color:#3498db;">Đừng lo — đã có tôi!</span>"
+    <div style="background:linear-gradient(135deg,rgba(52,152,219,0.1),rgba(26,188,156,0.08)); border-left:4px solid #3498db; border-radius:0 14px 14px 0; padding:18px 22px; margin-bottom:24px; display:flex; justify-content:center; align-items:center;">
+      <p class="responsive-quote" style="font-weight:600; color:#db1009; line-height:1.6; margin:0; text-align:center;">
+        "Bạn quên mật khẩu rồi à? <span style="color:#0990eb;">Đừng lo đã có tôi!. đăng ký 1 tài khoản dùng chung các app khôi phục</span>"
       </p>
     </div>
+
+    <style>
+      /* Trên PC (Màn hình từ 992px trở lên): Ép font nhỏ lại tí và bắt buộc 1 dòng */
+      @media (min-width: 992px) {
+        .responsive-quote {
+          font-size: 1rem !important; /* Giảm nhẹ từ 1.1rem xuống 1rem để vừa khít container */
+          white-space: nowrap; /* Ép chết trên 1 dòng */
+        }
+      }
+      /* Trên Mobile và Máy tính bảng (Dưới 992px): Cho phép xuống dòng tự do */
+      @media (max-width: 991px) {
+        .responsive-quote {
+          font-size: 1.1rem;
+          word-break: break-word;
+        }
+      }
+    </style>
+
+
+
+
 
     <!-- Các dòng giới thiệu -->
     <div class="hero-intro-cols">
@@ -942,7 +972,7 @@ function cancelTos() {
 
     <!-- Dòng kết -->
     <div style="margin-top:24px;padding:16px 20px;background:linear-gradient(135deg,#27ae60,#2ecc71);border-radius:14px;color:white;font-weight:600;font-size:1rem;text-align:center;">
-      🎯 Hàng nghìn file đã được khôi phục — <span style="opacity:0.9;font-weight:400;">lượt bạn tiếp theo thôi!</span>
+      🎯 CHỌN FILE ĐỂ TẢI XUỐNG DÙNG NGAY — <span style="opacity:0.9;font-weight:400;">CÁC app đều chung tài khoản chung 1 sever( trừ app con trâu )!</span>
     </div>
 
   </div>
