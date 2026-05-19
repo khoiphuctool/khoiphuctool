@@ -160,7 +160,6 @@
     display: flex; align-items: center;
     padding: 0 20px; position: sticky; top: 0; z-index: 100;
     height: 52px; gap: 0;
-    position: sticky; /* đảm bảo nav-menu absolute định vị đúng */
   }
   /* Logo bên trái nav */
   .nav-brand {
@@ -250,7 +249,7 @@
     /* Menu dropdown */
     .nav-menu {
       display: none; order: 3;
-      position: fixed; top: 52px; left: 0; right: 0; bottom: 0;
+      position: absolute; top: 100%; left: 0; right: 0; max-height: 80vh;
       background: white; flex-direction: column; align-items: stretch;
       padding: 8px 16px 24px; gap: 2px;
       box-shadow: 0 8px 24px rgba(0,0,0,0.12);
@@ -868,7 +867,7 @@ function cancelTos() {
 </div>
 
 <!-- PANEL SAU ĐĂNG NHẬP -->
-<div id="user-panel" style="display:none;max-width:900px;margin:16px auto 0;padding:0 20px;"></div>
+<div id="user-panel" style="display:none;max-width:900px;margin:16px auto 0;padding:0 20px;position:relative;z-index:10;"></div>
 
 <!-- TICKER THÔNG BÁO -->
 <div class="ticker-wrap" id="ticker-wrap">
@@ -926,7 +925,7 @@ function cancelTos() {
       <div style="background:white;border-radius:14px;padding:18px 20px;box-shadow:0 2px 12px rgba(0,0,0,0.06);display:flex;gap:14px;align-items:flex-start;">
         <span style="font-size:1.8rem;flex-shrink:0;">🆓</span>
         <div>
-          <div style="font-weight:700;color:#2c3e50;margin-bottom:4px;">Miễn phí là thật, không lừa đâu!</div>
+          <div style="font-weight:700;color:#2c3e50;margin-bottom:4px;">đăng ký pro để được full chức năng!</div>
           <div style="font-size:0.9rem;color:#666;line-height:1.6;">Tài khoản FREE dùng được ngay, không cần trả tiền. PRO chỉ khi bạn cần thêm sức mạnh thôi.</div>
         </div>
       </div>
@@ -1677,9 +1676,10 @@ async function _doShowProQR(name, pass) {
 
 function copyProContent() {
   const txt = document.getElementById('pro-ck-content').textContent.replace('Nội dung CK: ','');
+  const btn = event.currentTarget || event.target;
   navigator.clipboard.writeText(txt);
-  event.target.textContent = '✅ Đã copy!';
-  setTimeout(() => event.target.textContent = '📋 Copy nội dung CK', 2000);
+  btn.textContent = '✅ Đã copy!';
+  setTimeout(() => { btn.textContent = '📋 Copy nội dung CK'; }, 2000);
 }
 
 async function checkProNow() {
@@ -1866,10 +1866,10 @@ function renderUserPanel(name, type) {
 
   if (type === 'ADMIN') {
     panel.innerHTML = `
-      <div style="background:linear-gradient(135deg,#2c3e50,#3498db);border-radius:14px;padding:22px 24px;color:white;">
-        <div style="font-size:1.1rem;font-weight:700;margin-bottom:14px;">👑 Xin chào Admin! Truy cập nhanh:</div>
-        <div style="display:flex;flex-wrap:wrap;gap:10px;">
-          ${_AL.map(l => `<a href="${_decLink(l.enc)}" target="_blank" style="background:rgba(255,255,255,0.15);color:white;text-decoration:none;padding:9px 18px;border-radius:10px;font-weight:600;font-size:0.92rem;transition:background .2s;" onmouseover="this.style.background='rgba(255,255,255,0.28)'" onmouseout="this.style.background='rgba(255,255,255,0.15)'">${l.label}</a>`).join('')}
+      <div style="background:linear-gradient(135deg,#2c3e50,#3498db);border-radius:14px;padding:16px 20px;color:white;">
+        <div style="font-size:1rem;font-weight:700;margin-bottom:10px;">👑 Xin chào Admin! Truy cập nhanh:</div>
+        <div style="display:flex;flex-wrap:nowrap;gap:8px;overflow-x:auto;padding-bottom:4px;">
+          ${_AL.map(l => `<a href="${_decLink(l.enc)}" target="_blank" style="background:rgba(255,255,255,0.15);color:white;text-decoration:none;padding:7px 14px;border-radius:8px;font-weight:600;font-size:0.82rem;white-space:nowrap;flex-shrink:0;transition:background .2s;" onmouseover="this.style.background='rgba(255,255,255,0.28)'" onmouseout="this.style.background='rgba(255,255,255,0.15)'">${l.label}</a>`).join('')}
         </div>
       </div>`;
   } else if (type === 'PRO') {
@@ -1904,15 +1904,15 @@ function doLogout() {
 
 function showLoginModal() {
   const modal = document.getElementById('login-modal');
-  modal.style.display = 'flex';
-  // Đóng khi click ra ngoài box (không phải bên trong)
+  modal.style.cssText = 'display:flex;visibility:visible;pointer-events:auto;position:fixed;inset:0;background:rgba(0,0,0,0.55);z-index:999;align-items:center;justify-content:center;padding:16px;';
   modal.onmousedown = function(e) {
     if (!document.getElementById('login-box').contains(e.target)) closeLoginModal();
   };
   setTimeout(() => document.getElementById('login-name').focus(), 100);
 }
 function closeLoginModal() {
-  document.getElementById('login-modal').style.display = 'none';
+  const modal = document.getElementById('login-modal');
+  modal.style.cssText = 'display:none;visibility:hidden;pointer-events:none;position:fixed;inset:0;z-index:999;';
   document.getElementById('login-msg').textContent = '';
 }
 function toggleLoginPass() {
