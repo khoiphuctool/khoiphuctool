@@ -576,7 +576,7 @@
   .ticker-text-wrap { flex: 1; overflow: hidden; }
   .ticker-inner {
     display: inline-block;
-    animation: ticker-scroll 30s linear infinite;
+    animation: ticker-scroll 45s linear infinite;
   }
   .ticker-inner span { margin: 0 60px; }
   @keyframes ticker-scroll {
@@ -905,6 +905,7 @@ function cancelTos() {
 <!-- TICKER THÔNG BÁO -->
 <div class="ticker-wrap" id="ticker-wrap">
   <button class="ticker-btn" onclick="tickerPrev()">◀</button>
+  <button class="ticker-btn" onclick="showTicker()" id="ticker-view-btn" style="background:#3498db;color:white;">Xem thông báo</button>
   <div class="ticker-text-wrap" id="ticker-text-wrap">
     <div class="ticker-inner" id="ticker-inner"><span>⏳ Đang tải thông báo...</span></div>
   </div>
@@ -1496,8 +1497,9 @@ fetch(SHEET_CSV)
       const tickerInner = document.getElementById('ticker-inner');
       tickerInner.innerHTML = notices.map(m => `<span>${m}</span>`).join('');
       const totalLen = notices.join('   ').length;
-      const duration = Math.max(20, totalLen * 0.18);
+      const duration = Math.max(40, totalLen * 0.35);
       tickerInner.style.animationDuration = duration + 's';
+      tickerInner.style.animationTimingFunction = 'linear';
       tickerInner.style.animation = 'none';
       // restart animation so new content scrolls immediately
       requestAnimationFrame(() => {
@@ -1514,6 +1516,23 @@ function toggleTicker() {
   inner.style.animationPlayState = paused ? 'running' : 'paused';
   btn.textContent = paused ? '🔔' : '🔕';
   btn.title = paused ? 'Tắt thông báo' : 'Bật thông báo';
+}
+function showTicker() {
+  const textWrap = document.getElementById('ticker-text-wrap');
+  const staticBox = document.getElementById('ticker-static');
+  const inner = document.getElementById('ticker-inner');
+  const viewBtn = document.getElementById('ticker-view-btn');
+
+  if (textWrap && staticBox && inner) {
+    textWrap.style.display = 'block';
+    staticBox.style.display = 'none';
+    inner.style.animationPlayState = 'running';
+  }
+  if (viewBtn) {
+    viewBtn.textContent = 'Đang xem';
+    viewBtn.disabled = true;
+    viewBtn.style.opacity = '0.65';
+  }
 }
 function tickerPrev() {
   if (!window.tickerNotices || !window.tickerNotices.length) return;
