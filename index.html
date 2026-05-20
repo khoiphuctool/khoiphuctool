@@ -1484,20 +1484,25 @@ fetch(SHEET_CSV)
       }
     }
 
-    // Cột I (index 8) toàn bộ, bỏ ô trống
-    const notices = [];
-    for (let i = 1; i < rows.length; i++) {
-      const msg = rows[i] && rows[i][8];
-      if (msg && msg.trim()) notices.push(msg.trim());
-    }
+    // Cột I (index 8) toàn bộ, bỏ ô trống và whitespace
+    const notices = rows
+      .slice(1)
+      .map(row => String((row && row[8]) || '').trim())
+      .filter(msg => msg.length > 0);
+
     if (notices.length > 0) {
       window.tickerNotices = notices;
       window.tickerIndex = 0;
-      document.getElementById('ticker-inner').innerHTML =
-        notices.map(m => `<span>${m}</span>`).join('');
+      const tickerInner = document.getElementById('ticker-inner');
+      tickerInner.innerHTML = notices.map(m => `<span>${m}</span>`).join('');
       const totalLen = notices.join('   ').length;
       const duration = Math.max(20, totalLen * 0.18);
-      document.getElementById('ticker-inner').style.animationDuration = duration + 's';
+      tickerInner.style.animationDuration = duration + 's';
+      tickerInner.style.animation = 'none';
+      // restart animation so new content scrolls immediately
+      requestAnimationFrame(() => {
+        tickerInner.style.animation = '';
+      });
     }
   })
   .catch(() => {}); // Nếu lỗi thì giữ link mặc định
