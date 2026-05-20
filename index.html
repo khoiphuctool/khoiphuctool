@@ -139,6 +139,22 @@
   }
   header > * { position: relative; z-index: 1; }
   header h1 { font-size: 2.8rem; font-weight: 700; letter-spacing: 2px; }
+  .main-title {
+    font-size: clamp(2rem, 6vw, 3.5rem);
+    font-weight: 900;
+    line-height: 1.15;
+    background: linear-gradient(135deg, #f39c12, #e74c3c, #9b59b6, #3498db);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 16px;
+    animation: titleShine 3s linear infinite;
+    background-size: 200% auto;
+  }
+  @keyframes titleShine {
+    0%   { background-position: 0% center; }
+    100% { background-position: 200% center; }
+  }
   header p { font-size: 1.1rem; margin-top: 12px; opacity: 0.85; }
   .header-brand {
     display:flex; align-items:center; justify-content:center; gap:20px; flex-wrap:wrap;
@@ -808,7 +824,7 @@ function cancelTos() {
   <div class="header-brand">
     <img src="LOGO.png" alt="KhoiPhucTool Logo" class="header-brand-logo">
     <div class="header-brand-text">
-      <h1>KHÔI PHỤC TOOLS</h1>
+      <h1 class="main-title">KHÔI PHỤC TOOLS</h1>
       <p>Bộ công cụ khôi phục mật khẩu chuyên nghiệp — nhanh, gọn, hiệu quả</p>
     </div>
   </div>
@@ -1087,7 +1103,7 @@ function cancelTos() {
       <div class="card-icon"><img src="LOGO.png" alt="KhoiPhucTool" style="width:40px;height:40px;object-fit:contain;border-radius:8px;"></div>
       <div>
         <h3>KhoiPhucTool</h3>
-        <span id="sub-kpt">KhoiPhucTool</span>
+        <span id="sub-kpt">gộp office và Rarzip tool</span>
       </div>
     </div>
     <button class="card-toggle-btn" onclick="toggleAllCards(this)">▼ Xem chi tiết và tải xuống</button>
