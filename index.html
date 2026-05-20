@@ -71,17 +71,18 @@
 
   /* HEADER */
   header {
-    background: linear-gradient(135deg, rgba(20,40,60,0.92) 0%, rgba(30,100,160,0.88) 100%),
+    background: linear-gradient(180deg, rgba(8,8,24,0.92) 0%, rgba(8,8,24,0.96) 100%),
                 url('LOGO0.png') center/cover no-repeat;
+    background-blend-mode: multiply;
     color: white; text-align: center; padding: 60px 20px 50px;
     position: relative; overflow: hidden;
   }
   header::before {
     content: '';
     position: absolute; inset: 0;
-    background: radial-gradient(ellipse at 30% 50%, rgba(52,152,219,0.35) 0%, transparent 60%),
-                radial-gradient(ellipse at 75% 30%, rgba(26,188,156,0.25) 0%, transparent 50%);
-    animation: headerGlow 5s ease-in-out infinite alternate;
+    background: radial-gradient(circle at 30% 50%, rgba(255,255,255,0.08) 0%, transparent 30%),
+                radial-gradient(circle at 80% 20%, rgba(255,255,255,0.05) 0%, transparent 20%);
+    animation: headerGlow 6s ease-in-out infinite alternate;
   }
   @keyframes headerGlow {
     0%   { opacity: 0.6; }
@@ -165,9 +166,10 @@
   }
   .header-brand-text { text-align:left; }
   .header-brand-text h1 {
-    font-size:2.4rem; margin:0; letter-spacing:2px; text-shadow:0 2px 8px rgba(0,0,0,0.4);
+    font-size: 3.2rem; margin: 0; letter-spacing: 1px;
+    text-shadow: 0 2px 20px rgba(0,0,0,0.35);
   }
-  .header-brand-text p { margin:8px 0 0; opacity:0.9; font-size:1rem; }
+  .header-brand-text p { margin: 10px 0 0; opacity: 0.9; font-size: 1rem; color: rgba(255,255,255,0.9); }
 
   /* NAV */
   nav {
@@ -826,6 +828,7 @@ function cancelTos() {
     <div class="header-brand-text">
       <h1 class="main-title">KHÔI PHỤC TOOLS</h1>
       <p>Bộ công cụ khôi phục mật khẩu chuyên nghiệp — nhanh, gọn, hiệu quả</p>
+      
     </div>
   </div>
 </header>
@@ -857,6 +860,7 @@ function cancelTos() {
     <!-- Bản mobile của nav-actions — chỉ hiện trong hamburger menu -->
     <div class="nav-actions-mobile">
       <a href="https://tiktok.com/@khoiphuctool.github.io" target="_blank" rel="noopener" style="background:#010101;color:white;text-decoration:none;padding:6px 12px;border-radius:16px;font-size:0.82rem;font-weight:600;display:inline-flex;align-items:center;gap:4px;">🎵 TikTok</a>
+      <a href="https://zalo.me/g/lxgfrxckiypqg7w5ptpd" target="_blank" rel="noopener" style="background:linear-gradient(135deg,#0068ff,#0052cc);color:white;text-decoration:none;padding:6px 12px;border-radius:16px;font-size:0.82rem;font-weight:600;display:inline-flex;align-items:center;gap:6px;">💬 Zalo nhóm</a>
       <a href="https://www.youtube.com/@khoiphuctool" target="_blank" rel="noopener" style="background:#ff0000;color:white;text-decoration:none;padding:6px 12px;border-radius:16px;font-size:0.82rem;font-weight:600;display:inline-flex;align-items:center;gap:4px;">▶ YouTube</a>
       <span id="nav-user-m" style="font-size:0.82rem;color:#27ae60;font-weight:700;display:none;max-width:120px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;"></span>
       <button onclick="showLoginModal()" id="btn-nav-login-m" style="background:#3498db;color:white;border:none;padding:6px 12px;border-radius:16px;font-weight:600;cursor:pointer;font-size:0.82rem;">🔑 Đăng nhập</button>
@@ -868,6 +872,7 @@ function cancelTos() {
   <!-- Actions bên phải (luôn hiện) -->
   <div class="nav-actions">
     <a href="https://tiktok.com/@khoiphuctool.github.io" target="_blank" rel="noopener" style="background:#010101;color:white;text-decoration:none;padding:5px 11px;border-radius:16px;font-size:0.78rem;font-weight:600;display:inline-flex;align-items:center;gap:4px;">🎵 TikTok</a>
+    <a href="https://zalo.me/g/lxgfrxckiypqg7w5ptpd" target="_blank" rel="noopener" style="background:linear-gradient(135deg,#0068ff,#0052cc);color:white;text-decoration:none;padding:5px 11px;border-radius:16px;font-size:0.78rem;font-weight:600;display:inline-flex;align-items:center;gap:6px;">💬 Zalo</a>
     <a href="https://www.youtube.com/@khoiphuctool" target="_blank" rel="noopener" style="background:#ff0000;color:white;text-decoration:none;padding:5px 11px;border-radius:16px;font-size:0.78rem;font-weight:600;display:inline-flex;align-items:center;gap:4px;">▶ YouTube</a>
     <span id="nav-user" style="font-size:0.78rem;color:#27ae60;font-weight:700;display:none;max-width:100px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;"></span>
     <button onclick="showLoginModal()" id="btn-nav-login" style="background:#3498db;color:white;border:none;padding:5px 12px;border-radius:16px;font-weight:600;cursor:pointer;font-size:0.78rem;">🔑 Đăng nhập</button>
@@ -910,8 +915,8 @@ function cancelTos() {
 
 <!-- HERO -->
 <div class="hero">
-  <h2>Công cụ khôi phục mật khẩu miễn phí</h2>
-  <p>Hỗ trợ khôi phục mật khẩu file Excel, Word, RAR, ZIP và tạo/phân tích hash. Giao diện tiếng Việt, dễ dùng, không cần cài đặt.</p>
+  <h2>Phần Mềm Khôi Phục Mật Khẩu Siêu Tốc</h2>
+  <p>Giải pháp an toàn, mạnh mẽ giúp bạn tìm lại mật khẩu các file văn bản và file nén bị quên. Không cần cài đặt, tải về giải nén là sử dụng được ngay.</p>
 
   <!-- INTRO TYPEWRITER -->
   <div style="margin-top:36px;max-width:100%;">
@@ -1257,9 +1262,11 @@ function cancelTos() {
 <!-- NOTICE -->
 <div class="notice">
   <div class="notice-box">
-    <strong>⚠️ Lưu ý:</strong> Các công cụ này chỉ dành cho mục đích <strong>khôi phục mật khẩu của chính bạn</strong>. 
-    Không sử dụng để truy cập trái phép vào tài khoản hoặc file của người khác. 
-    Tác giả không chịu trách nhiệm về việc sử dụng sai mục đích.
+    <strong>⚠️ LƯU Ý QUAN TRỌNG TRƯỚC KHI DÙNG:</strong><br>
+    - Phần mềm hoạt động theo phương thức <strong>Brute-Force (Thử sai liên tục)</strong> kết hợp thuật toán tối ưu phần cứng. Do đó, tốc độ tìm ra mật khẩu phụ thuộc hoàn toàn vào <strong>độ dài/độ khó của mật khẩu</strong> và <strong>cấu hình CPU máy tính của bạn</strong>.<br>
+    - Nếu mật khẩu ngắn (dưới 6 ký tự chỉ có số), phần mềm có thể tìm ra ngay lập tức trong vài giây hoặc vài phút.<br>
+    - Đối với mật khẩu quá dài và phức tạp (Ví dụ: <code>Abc@123456$#</code>), thời gian dò có thể lên tới nhiều ngày hoặc bất khả thi nếu không dùng bản PRO tích hợp siêu từ điển thông minh.<br>
+    - <strong>Bảo mật:</strong> Mọi thao tác tính toán đều diễn ra trực tiếp trên máy của bạn (Offline), công cụ không gửi bất kỳ dữ liệu nào lên mạng, cam kết không lộ thông tin file.
   </div>
 </div>
 
@@ -1347,8 +1354,8 @@ function cancelTos() {
 
 <!-- DONATE -->
 <div class="donate" id="unghо">
-  <h2>💖 Ủng hộ tác giả</h2>
-  <p>Nếu công cụ hữu ích, bạn có thể ủng hộ tác giả để duy trì và phát triển thêm tính năng mới.</p>
+  <h2>💖 Ủng hộ tác giả ☕ Thanh Toán Qua QR-Code</h2>
+  <p>Nếu công cụ giúp ích cho công việc của bạn, hãy mời tác giả một ly cà phê hoặc thanh toán gói bản quyền PRO theo thông tin dưới đây nhé!</p>
   <div class="donate-cards">
 
     <div class="donate-card">
