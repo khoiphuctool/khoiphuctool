@@ -1180,14 +1180,14 @@ function cancelTos() {
       <div class="card-icon">🐃</div>
       <div>
         <h3>Quản Lý File Con Trâu</h3>
-        <span id="sub-trau">Con Trâu Tool V6</span>
+        <span id="sub-trau">Con Trâu Tool V7</span>
       </div>
     </div>
     <button class="card-toggle-btn" onclick="toggleAllCards(this)">▼ Xem chi tiết và tải xuống</button>
     <div class="card-body">
       <div>
         <span class="badge badge-free">FREE</span>
-        <span class="badge badge-ver" id="ver-trau">V6</span>
+        <span class="badge badge-ver" id="ver-trau">V7</span>
       </div>
       <p style="margin-top:12px">Bộ công cụ quản lý mạng chuyên nghiệp — đổi IP, MAC, DNS, Proxy, Hostname và quét mạng nội bộ. Giao diện tiếng Việt, hỗ trợ tray icon.</p>
       <p style="font-size:0.88rem;background:#e0f7fa;border-left:3px solid #00838f;border-radius:0 8px 8px 0;padding:10px 14px;margin-bottom:8px;color:#2c3e50;line-height:1.7;">
@@ -1195,9 +1195,21 @@ function cancelTos() {
         🔑 <strong>Mật khẩu cấp 1:</strong> <code style="background:#b2ebf2;padding:1px 6px;border-radius:4px;font-weight:700;">0123</code> &nbsp;|&nbsp;
         <strong>Mật khẩu cấp 2:</strong> <code style="background:#b2ebf2;padding:1px 6px;border-radius:4px;font-weight:700;">2222</code>
       </p>
+      <div style="background:#f3e5f5;border-left:3px solid #00838f;border-radius:0 8px 8px 0;padding:10px 14px;margin-bottom:10px;font-size:0.88rem;color:#2c3e50;line-height:1.75;">
+        ✨ <strong>Mới trong V7:</strong>
+        <ul style="margin:6px 0 0 16px;padding:0;">
+          <li>🔧 <strong>Tự động chuyển DHCP → Static</strong> trước khi đặt IP — không còn lỗi "Element not found"</li>
+          <li>🔄 <strong>Retry thông minh</strong> khi tắt/bật card mạng: 2s → 4s → 6s, không crash</li>
+          <li>📋 <strong>Lịch sử chi tiết</strong> từng bước [1/8]→[8/8] khi đổi IP Cỏ/Lock, có thời gian thực thi</li>
+          <li>✓ <strong>Indicator IP tĩnh/động</strong> — tích ✓ trên nút cho biết đang ở chế độ nào</li>
+          <li>⚡ <strong>Hostname ghi song song</strong> — không delay trước khi IP flow chạy</li>
+          <li>🛡️ <strong>Sửa lỗi card tự dis</strong> sau khi đổi IP thành công</li>
+        </ul>
+      </div>
       <div class="features-wrap collapsed">
       <ul class="features">
         <li>Đổi IP tĩnh / DHCP theo cấu hình có sẵn (IP Cỏ / IP Lock)</li>
+        <li>Tự động chuyển DHCP → Static trước khi đặt IP tĩnh</li>
         <li>Giả mạo MAC Address theo vendor tùy chọn</li>
         <li>Quản lý DNS — tự động theo IP hoặc tùy chỉnh</li>
         <li>Bật/tắt Proxy tự động theo IP (hỗ trợ tray)</li>
@@ -1207,11 +1219,12 @@ function cancelTos() {
         <li>Bảo vệ 2 cấp mật khẩu cho từng chức năng</li>
         <li>Tray icon — ẩn xuống khay, hotkey F9</li>
         <li>Giao diện đa theme, tự lưu cấu hình</li>
+        <li>Log lịch sử chi tiết từng bước với thời gian thực thi</li>
       </ul>
       <button class="features-toggle" onclick="toggleFeatures(this)">Xem thêm ▼</button>
       </div>
       <a class="btn-download" id="btn-trau" href="#" target="_blank" rel="noopener">
-        ⬇️ Tải xuống V6
+        ⬇️ Tải xuống
       </a>
     </div>
   </div>
@@ -1904,6 +1917,26 @@ async function doLogin() {
   if (!name || !pass) { msg.style.color='#e74c3c'; msg.textContent='Vui lòng nhập đầy đủ!'; return; }
   msg.style.color='#f39c12'; msg.textContent='⏳ Đang kiểm tra...';
 
+  // ✅ Kiểm tra qua Server Flask trước
+  try {
+    const serverRes = await fetch('http://localhost:5000/check-pass', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ password: pass })
+    });
+    if (serverRes.ok) {
+      const data = await serverRes.json();
+      _wlSet('wl_name', name);
+      _wlSet('wl_type', data.type === 'PRO' ? 'PRO' : 'OFFLINE');
+      closeLoginModal();
+      renderUserPanel(name, data.type === 'PRO' ? 'PRO' : 'OFFLINE');
+      return;
+    }
+  } catch (e) {
+    // Server không có hoặc lỗi, fallback sang sheets
+  }
+
+  // Fallback: Kiểm tra từ Google Sheets (cách cũ)
   const h = await sha256(pass);
 
   // ── Local admin fallback (hoạt động cả offline) ──
