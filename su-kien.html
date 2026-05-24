@@ -294,6 +294,14 @@
 
   <!-- MAIN CONTENT -->
   <div class="main-card">
+    <!-- BANNER KẾT THÚC -->
+    <div id="ended-banner" style="display:none;background:linear-gradient(135deg,rgba(99,110,114,0.3),rgba(45,52,54,0.4));border:2px solid rgba(255,255,255,0.15);border-radius:20px;padding:28px 24px;text-align:center;margin-bottom:28px;backdrop-filter:blur(10px);">
+      <div style="font-size:3rem;margin-bottom:12px;">🔒</div>
+      <div style="font-size:1.4rem;font-weight:800;color:#dfe6e9;margin-bottom:10px;">Sự kiện đã kết thúc</div>
+      <div style="font-size:0.95rem;color:rgba(255,255,255,0.6);line-height:1.7;">Cảm ơn tất cả mọi người đã tham gia!<br>Theo dõi trang chủ để cập nhật sự kiện tiếp theo.</div>
+      <a href="index.html" style="display:inline-block;margin-top:18px;background:linear-gradient(135deg,#3498db,#2980b9);color:white;text-decoration:none;padding:12px 28px;border-radius:50px;font-weight:700;font-size:0.95rem;"> Về trang chủ</a>
+    </div>
+
 
     <!-- PRIZE -->
     <div class="prize-box">
@@ -449,7 +457,7 @@
 <script>
   // Chỉ sửa ngày bắt đầu; kết thúc = bắt đầu + EVENT_DURATION_DAYS (30 × 24 giờ, ổn định với VN không DST).
   const EVENT_START_ISO = '2026-05-09T00:00:00+07:00';
-  const EVENT_DURATION_DAYS = 30;
+  const EVENT_DURATION_DAYS = 15;
 
   const VN_TZ = 'Asia/Ho_Chi_Minh';
   const MS_PER_DAY = 86400000;
@@ -478,17 +486,19 @@
   document.getElementById('event-end-display').innerHTML =
     '📅 Ngày giờ <strong>kết thúc</strong> sự kiện: <strong>' + formatVNDateTime(endDate) + '</strong> (giờ Việt Nam, UTC+7)';
 
+  function showEnded() {
+    ['cd-days','cd-hours','cd-mins','cd-secs'].forEach(function(id){document.getElementById(id).textContent='00';});
+    var b=document.getElementById('ended-banner'); if(b) b.style.display='block';
+    var cta=document.querySelector('.cta-wrap'); if(cta) cta.style.display='none';
+    var steps=document.querySelector('.steps-section'); if(steps) steps.style.opacity='0.4';
+    var badge=document.querySelector('.event-badge'); if(badge){badge.textContent=' Sự kiện đã kết thúc';badge.style.background='linear-gradient(135deg,#636e72,#2d3436)';badge.style.animation='none';badge.style.boxShadow='none';}
+    var lbl=document.querySelector('.countdown-label'); if(lbl) lbl.textContent=' Sự kiện đã kết thúc';
+  }
   function updateCountdown() {
     const now  = new Date();
     // Đếm tới mốc kết thúc = ngày bắt đầu + 30 ngày (không phụ thuộc “hôm nay”).
     const diff = endDate - now;
-    if (diff <= 0) {
-      document.getElementById('cd-days').textContent  = '00';
-      document.getElementById('cd-hours').textContent = '00';
-      document.getElementById('cd-mins').textContent  = '00';
-      document.getElementById('cd-secs').textContent  = '00';
-      return;
-    }
+    if (diff <= 0) { showEnded(); return; }
     const d = Math.floor(diff / 86400000);
     const h = Math.floor((diff % 86400000) / 3600000);
     const m = Math.floor((diff % 3600000)  / 60000);

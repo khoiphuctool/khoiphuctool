@@ -795,6 +795,45 @@ function cancelTos() {
 
   for (let i = 0; i < 80; i++) particles.push(new Particle());
 
+  // Star particles — ký tự ✧ bay lên
+  const STAR_CHARS = ['✧','✦','✨','⋆','💫'];
+  class StarParticle {
+    constructor() { this.reset(true); }
+    reset(init) {
+      this.x     = Math.random() * W;
+      this.y     = init ? Math.random() * H : H + 20;
+      this.char  = STAR_CHARS[Math.floor(Math.random() * STAR_CHARS.length)];
+      this.size  = 10 + Math.random() * 14;
+      this.vy    = -(0.2 + Math.random() * 0.5);
+      this.vx    = (Math.random() - 0.5) * 0.3;
+      this.alpha = 0;
+      this.maxA  = 0.12 + Math.random() * 0.18;
+      this.rot   = (Math.random() - 0.5) * 0.02;
+      this.angle = Math.random() * Math.PI * 2;
+      this.color = COLORS[Math.floor(Math.random() * COLORS.length)];
+      this.phase = Math.random() * Math.PI * 2;
+    }
+    update() {
+      this.y     += this.vy;
+      this.angle += this.rot;
+      this.x     += this.vx + Math.sin(this.phase + Date.now() * 0.0008) * 0.25;
+      this.alpha  = Math.min(this.alpha + 0.003, this.maxA);
+      if (this.y < -20) this.reset(false);
+    }
+    draw() {
+      ctx.save();
+      ctx.globalAlpha = this.alpha;
+      ctx.font = `${this.size}px serif`;
+      ctx.fillStyle = this.color + '1)';
+      ctx.translate(this.x, this.y);
+      ctx.rotate(this.angle);
+      ctx.fillText(this.char, -this.size * 0.3, this.size * 0.35);
+      ctx.restore();
+    }
+  }
+  const stars = [];
+  for (let i = 0; i < 30; i++) stars.push(new StarParticle());
+
   // Vẽ gradient nền
   function drawBg() {
     const t = Date.now() * 0.0003;
@@ -830,6 +869,7 @@ function cancelTos() {
     drawBg();
     drawGrid();
     particles.forEach(p => { p.update(); p.draw(); });
+    stars.forEach(s => { s.update(); s.draw(); });
     requestAnimationFrame(animate);
   }
   animate();
