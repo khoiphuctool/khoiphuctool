@@ -1127,14 +1127,15 @@ function cancelTos() {
       <p style="margin-top:12px">Khôi phục mật khẩu file nén <strong>RAR, ZIP và 7z</strong> bằng vét cạn hoặc pattern. Hỗ trợ WinRAR và 7-Zip làm backend.</p>
       <p style="font-size:0.88rem;color:#888;margin-bottom:8px">🆓 <b>FREE</b>: tối đa độ dài pass 4 ký tự, chỉ X1 luồng<br>💎 <b>PRO</b>: không giới hạn độ dài, X1→X8 luồng</p>
       <div style="background:#fff3e0;border-left:3px solid #e67e22;border-radius:0 8px 8px 0;padding:10px 14px;margin-bottom:10px;font-size:0.88rem;color:#2c3e50;line-height:1.75;">
-        ✨ <strong>Cập nhật mới nhất:</strong>
+        ✨ <strong>Mới trong 3.9-2:</strong>
         <ul style="margin:6px 0 0 16px;padding:0;">
+          <li>🔧 <strong>Sửa lỗi ZIP nén bằng WinRAR không dò được</strong> — giờ ưu tiên 7z → UnRAR → Python zipfile</li>
+          <li>🔧 <strong>Sửa lỗi 7z returncode=1</strong> (warning) bị hiểu nhầm là sai password — không bỏ sót password đúng</li>
+          <li>✅ ZIP AES-256 (WinRAR) dò được khi có UnRAR.exe, không cần cài 7-Zip</li>
+          <li>📊 Label backend hiển thị đúng tool đang dùng cho từng loại file</li>
           <li>🆕 <strong>Hỗ trợ file .7z</strong> — tự động dùng 7z.exe, WinRAR không can thiệp</li>
           <li>🔍 Nhận dạng file qua <strong>magic bytes</strong> — đúng dù đổi tên đuôi</li>
-          <li>Khi chọn file .7z → tự điền 7z.exe vào ô tool, cảnh báo nếu chọn sai</li>
           <li>Hỗ trợ pass dài 10+ ký tự — không còn đơ/crash</li>
-          <li>ETA hiển thị năm-tháng-ngày-giờ khi thời gian ước tính lớn</li>
-          <li>Cảnh báo khi tổng candidates > 50 triệu</li>
         </ul>
       </div>
       <div class="features-wrap collapsed">
@@ -1178,14 +1179,16 @@ function cancelTos() {
       <p style="margin-top:12px">Bộ công cụ khôi phục mật khẩu tổng hợp — gộp đầy đủ tính năng Office, RAR/ZIP/<strong>7z</strong> và nhiều hơn nữa trong một ứng dụng duy nhất.</p>
       <p style="font-size:0.88rem;color:#888;margin-bottom:8px">🆓 <b>FREE</b>: tối đa độ dài pass 4 ký tự, chỉ X1 luồng<br>💎 <b>PRO</b>: không giới hạn độ dài, X1→X8 luồng</p>
       <div style="background:#f3e5f5;border-left:3px solid #8e24aa;border-radius:0 8px 8px 0;padding:10px 14px;margin-bottom:10px;font-size:0.88rem;color:#2c3e50;line-height:1.75;">
-        ✨ <strong>Mới trong V6.1:</strong>
+        ✨ <strong>Mới trong V6.2:</strong>
         <ul style="margin:6px 0 0 16px;padding:0;">
+          <li>🔧 <strong>Sửa lỗi ZIP nén bằng WinRAR không dò được</strong> — ưu tiên 7z → UnRAR → Python zipfile</li>
+          <li>🔧 <strong>Sửa lỗi 7z returncode=1</strong> (warning) bị hiểu nhầm là sai password</li>
+          <li>✅ ZIP AES-256 (WinRAR) dò được khi có UnRAR.exe, không cần cài 7-Zip</li>
+          <li>📊 Label backend ZIP/RAR hiển thị đúng tool đang dùng</li>
           <li>🆕 <strong>Hỗ trợ file .7z</strong> — tự động dùng 7z.exe, WinRAR không can thiệp</li>
           <li>🔍 Nhận dạng file qua <strong>magic bytes</strong> — đúng dù đổi tên đuôi</li>
-          <li>Phát hiện tự động 7z.exe trong thư mục cài đặt phổ biến</li>
           <li>Hỗ trợ pass dài 10+ ký tự — batch feeding 500K, không load toàn bộ vào RAM</li>
           <li>ETA hiển thị đầy đủ năm-tháng-ngày-giờ khi thời gian ước tính rất lớn</li>
-          <li>Cảnh báo khi tổng candidates > 50 triệu, kèm ước tính thời gian</li>
         </ul>
       </div>
       <div class="features-wrap collapsed">
