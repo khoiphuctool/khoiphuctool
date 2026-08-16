@@ -1198,8 +1198,10 @@ function cancelTos() {
       <p style="margin-top:12px">Bộ công cụ khôi phục mật khẩu tổng hợp — gộp đầy đủ tính năng Office, RAR/ZIP/<strong>7z</strong> và nhiều hơn nữa trong một ứng dụng duy nhất.</p>
       <p style="font-size:0.88rem;color:#888;margin-bottom:8px">🆓 <b>FREE</b>: tối đa độ dài pass 4 ký tự, chỉ X1 luồng<br>💎 <b>PRO</b>: không giới hạn độ dài, X1→X8 luồng</p>
       <div style="background:#f3e5f5;border-left:3px solid #8e24aa;border-radius:0 8px 8px 0;padding:10px 14px;margin-bottom:10px;font-size:0.88rem;color:#2c3e50;line-height:1.75;">
-        ✨ <strong>Mới trong V6.4:</strong>
+        ✨ <strong>Mới trong V6.5:</strong>
         <ul style="margin:6px 0 0 16px;padding:0;">
+          <li>📦 Thêm 3 gói mới: 2 tháng, 3 tháng, 6 tháng</li>
+          <li>📄 Tính năng tự động xuất password tìm được vào file TXT (có thể bật/tắt)</li>
           <li>🔧 Sửa lỗi pass FREE offline báo sai sau khi đăng ký</li>
           <li>🔧 Sửa lỗi ZIP nén bằng WinRAR không dò được</li>
           <li>🔧 Sửa lỗi 7z returncode=1 bị hiểu nhầm là sai password</li>
@@ -1757,6 +1759,7 @@ function bindPkgItems() {
 
 // Icons mặc định cho từng gói
 const PKG_ICONS = {
+  '1H':    '⚡',
   '1DAY':  '☀️',
   '1WEEK': '⏰',
   '1MONTH':'⭐',
@@ -1768,6 +1771,7 @@ const PKG_ICONS = {
 };
 
 const PKG_LABELS = {
+  '1H':    '1 GIỜ',
   '1DAY':  '1 NGÀY',
   '1WEEK': '1 TUẦN',
   '1MONTH':'1 THÁNG',
@@ -1803,14 +1807,15 @@ fetch(SHEET_CSV)
   .catch(() => {
     // Fallback cứng nếu Sheet lỗi — cập nhật giá mặc định
     document.getElementById('pkg-list').innerHTML = `
-      <div class="pkg-item" data-pkg="1DAY"   data-price="5555"    data-label="1 NGÀY">☀️ 1 NGÀY <span>5.555đ</span></div>
-      <div class="pkg-item" data-pkg="1WEEK"  data-price="22000"   data-label="1 TUẦN">⏰ 1 TUẦN <span>22.000đ</span></div>
+      <div class="pkg-item" data-pkg="1H"     data-price="5555"    data-label="1 GIỜ">⚡ 1 GIỜ <span>5.555đ</span></div>
+      <div class="pkg-item" data-pkg="1DAY"   data-price="10000"   data-label="1 NGÀY">☀️ 1 NGÀY <span>10.000đ</span></div>
+      <div class="pkg-item" data-pkg="1WEEK"  data-price="30000"   data-label="1 TUẦN">⏰ 1 TUẦN <span>30.000đ</span></div>
       <div class="pkg-item" data-pkg="1MONTH" data-price="55000"   data-label="1 THÁNG">⭐ 1 THÁNG <span>55.000đ</span></div>
       <div class="pkg-item" data-pkg="2MONTH" data-price="100000"  data-label="2 THÁNG">🌙 2 THÁNG <span>100.000đ</span></div>
       <div class="pkg-item" data-pkg="3MONTH" data-price="160000"  data-label="3 THÁNG">🚀 3 THÁNG <span>160.000đ</span></div>
       <div class="pkg-item" data-pkg="6MONTH" data-price="320000"  data-label="6 THÁNG">💎 6 THÁNG <span>320.000đ</span></div>
       <div class="pkg-item" data-pkg="1YEAR"  data-price="530000"  data-label="1 NĂM">📅 1 NĂM <span>530.000đ</span></div>
-      <div class="pkg-item" data-pkg="VV"     data-price="1530000" data-label="VĨNH VIỄN">♾️ VĨNH VIỄN <span>1.530.000đ</span></div>`;
+      <div class="pkg-item" data-pkg="VV"     data-price="1530000" data-label="VĨNH VIỄN">♾️ VĨNH VIỄN <span>2.530.000đ</span></div>`;
     bindPkgItems();
   });
 
