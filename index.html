@@ -296,7 +296,17 @@
       border-radius: 20px !important; font-weight: 600 !important;
       white-space: nowrap; text-align: center;
     }
+    /* Giải trí dropdown (mobile) */
+    .entertain-menu.mobile { display: none; width: 100%; gap:8px; flex-direction:column; }
+    .entertain-menu.mobile a { display: inline-flex; justify-content:center; padding:8px 12px; border-radius:12px; text-decoration:none; color:white; font-weight:600; }
+    .entertain-btn { cursor:pointer; border:none; background:linear-gradient(135deg,#6a1b9a,#8e24aa); color:white; padding:6px 12px; border-radius:16px; font-weight:600; display:inline-flex; align-items:center; gap:6px; }
   }
+
+  /* Giải trí dropdown (desktop) */
+  .entertain { position: relative; }
+  .entertain-menu { display: none; position: absolute; right: 0; top: calc(100% + 8px); background: white; box-shadow: 0 8px 24px rgba(0,0,0,0.12); border-radius: 10px; padding: 8px; min-width:180px; z-index: 200; }
+  .entertain-menu a { display: flex; gap:8px; align-items:center; padding:8px 10px; color:#2c3e50; text-decoration:none; border-radius:8px; font-weight:600; }
+  .entertain-menu a:hover { background:#f0f7ff; color:#2980b9; }
 
   /* HERO SECTION */
   .hero {
@@ -918,6 +928,15 @@ function cancelTos() {
       <a href="https://tiktok.com/@khoiphuctool.github.io" target="_blank" rel="noopener" style="background:#010101;color:white;text-decoration:none;padding:6px 12px;border-radius:16px;font-size:0.82rem;font-weight:600;display:inline-flex;align-items:center;gap:4px;">🎵 TikTok</a>
       <a href="https://zalo.me/g/lxgfrxckiypqg7w5ptpd" target="_blank" rel="noopener" style="background:linear-gradient(135deg,#0068ff,#0052cc);color:white;text-decoration:none;padding:6px 12px;border-radius:16px;font-size:0.82rem;font-weight:600;display:inline-flex;align-items:center;gap:6px;">💬 Zalo nhóm</a>
       <a href="https://www.youtube.com/@khoiphuctool" target="_blank" rel="noopener" style="background:#ff0000;color:white;text-decoration:none;padding:6px 12px;border-radius:16px;font-size:0.82rem;font-weight:600;display:inline-flex;align-items:center;gap:4px;">▶ YouTube</a>
+      <div style="width:100%;display:flex;justify-content:center;">
+        <div class="entertain" style="width:100%;max-width:220px;">
+          <button id="btn-entertain-m" class="entertain-btn" aria-expanded="false">🎮 Giải trí ▾</button>
+          <div id="entertain-menu-m" class="entertain-menu mobile" style="display:none;margin-top:8px;">
+            <a href="https://khoiphuctool.github.io/caro/" target="_blank" rel="noopener" style="background:linear-gradient(135deg,#6a1b9a,#8e24aa);">🎮 Chơi cờ Caro</a>
+            <a href="https://khoiphuctool.github.io/THUOC/" target="_blank" rel="noopener" style="background:linear-gradient(135deg,#00bcd4,#00838f);">📏 Thước</a>
+          </div>
+        </div>
+      </div>
       <span id="nav-user-m" style="font-size:0.82rem;color:#27ae60;font-weight:700;display:none;max-width:120px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;"></span>
       <button onclick="showLoginModal()" id="btn-nav-login-m" style="background:#3498db;color:white;border:none;padding:6px 12px;border-radius:16px;font-weight:600;cursor:pointer;font-size:0.82rem;">🔑 Đăng nhập</button>
       <a href="#dangky" id="btn-nav-register-m" style="background:#27ae60;color:white;text-decoration:none;padding:6px 12px;border-radius:16px;font-weight:600;font-size:0.82rem;">📝 Đăng ký FREE</a>
@@ -930,6 +949,13 @@ function cancelTos() {
     <a href="https://tiktok.com/@khoiphuctool.github.io" target="_blank" rel="noopener" style="background:#010101;color:white;text-decoration:none;padding:5px 11px;border-radius:16px;font-size:0.78rem;font-weight:600;display:inline-flex;align-items:center;gap:4px;">🎵 TikTok</a>
     <a href="https://zalo.me/g/lxgfrxckiypqg7w5ptpd" target="_blank" rel="noopener" style="background:linear-gradient(135deg,#0068ff,#0052cc);color:white;text-decoration:none;padding:5px 11px;border-radius:16px;font-size:0.78rem;font-weight:600;display:inline-flex;align-items:center;gap:6px;">💬 Zalo</a>
     <a href="https://www.youtube.com/@khoiphuctool" target="_blank" rel="noopener" style="background:#ff0000;color:white;text-decoration:none;padding:5px 11px;border-radius:16px;font-size:0.78rem;font-weight:600;display:inline-flex;align-items:center;gap:4px;">▶ YouTube</a>
+    <div class="entertain" style="margin-left:6px;">
+      <button id="btn-entertain" class="entertain-btn" aria-expanded="false">🎮 Giải trí ▾</button>
+      <div id="entertain-menu" class="entertain-menu">
+        <a href="https://khoiphuctool.github.io/caro/" target="_blank" rel="noopener">🎮 Chơi cờ Caro</a>
+        <a href="https://khoiphuctool.github.io/THUOC/" target="_blank" rel="noopener">📏 Thước</a>
+      </div>
+    </div>
     <span id="nav-user" style="font-size:0.78rem;color:#27ae60;font-weight:700;display:none;max-width:100px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;"></span>
     <button onclick="showLoginModal()" id="btn-nav-login" style="background:#3498db;color:white;border:none;padding:5px 12px;border-radius:16px;font-weight:600;cursor:pointer;font-size:0.78rem;">🔑 Đăng nhập</button>
     <a href="#dangky" id="btn-nav-register" style="background:#27ae60;color:white;text-decoration:none;padding:5px 12px;border-radius:16px;font-weight:600;font-size:0.78rem;">📝 Đăng ký FREE</a>
@@ -1730,8 +1756,27 @@ function bindPkgItems() {
 }
 
 // Icons mặc định cho từng gói
-const PKG_ICONS = { '1DAY':'☀️', '1WEEK':'⏰', '1MONTH':'⭐', '1YEAR':'📅', 'VV':'♾️' };
-const PKG_LABELS = { '1DAY':'1 NGÀY', '1WEEK':'1 TUẦN', '1MONTH':'1 THÁNG', '1YEAR':'1 NĂM', 'VV':'VĨNH VIỄN' };
+const PKG_ICONS = {
+  '1DAY':  '☀️',
+  '1WEEK': '⏰',
+  '1MONTH':'⭐',
+  '2MONTH':'🌙',
+  '3MONTH':'🚀',
+  '6MONTH':'💎',
+  '1YEAR': '📅',
+  'VV':    '♾️'
+};
+
+const PKG_LABELS = {
+  '1DAY':  '1 NGÀY',
+  '1WEEK': '1 TUẦN',
+  '1MONTH':'1 THÁNG',
+  '2MONTH':'2 THÁNG',
+  '3MONTH':'3 THÁNG',
+  '6MONTH':'6 THÁNG',
+  '1YEAR': '1 NĂM',
+  'VV':    'VĨNH VIỄN'
+};
 
 // Fetch packages từ Sheet (cột G = key, cột H = giá)
 fetch(SHEET_CSV)
@@ -1756,13 +1801,16 @@ fetch(SHEET_CSV)
     bindPkgItems();
   })
   .catch(() => {
-    // Fallback cứng nếu Sheet lỗi
+    // Fallback cứng nếu Sheet lỗi — cập nhật giá mặc định
     document.getElementById('pkg-list').innerHTML = `
-      <div class="pkg-item" data-pkg="1DAY"   data-price="5000"   data-label="1 NGÀY">☀️ 1 NGÀY <span>5.000đ</span></div>
-      <div class="pkg-item" data-pkg="1WEEK"  data-price="20000"  data-label="1 TUẦN">⏰ 1 TUẦN <span>20.000đ</span></div>
-      <div class="pkg-item" data-pkg="1MONTH" data-price="50000"  data-label="1 THÁNG">⭐ 1 THÁNG <span>50.000đ</span></div>
-      <div class="pkg-item" data-pkg="1YEAR"  data-price="200000" data-label="1 NĂM">📅 1 NĂM <span>200.000đ</span></div>
-      <div class="pkg-item" data-pkg="VV"     data-price="500000" data-label="VĨNH VIỄN">♾️ VĨNH VIỄN <span>500.000đ</span></div>`;
+      <div class="pkg-item" data-pkg="1DAY"   data-price="5555"    data-label="1 NGÀY">☀️ 1 NGÀY <span>5.555đ</span></div>
+      <div class="pkg-item" data-pkg="1WEEK"  data-price="22000"   data-label="1 TUẦN">⏰ 1 TUẦN <span>22.000đ</span></div>
+      <div class="pkg-item" data-pkg="1MONTH" data-price="55000"   data-label="1 THÁNG">⭐ 1 THÁNG <span>55.000đ</span></div>
+      <div class="pkg-item" data-pkg="2MONTH" data-price="100000"  data-label="2 THÁNG">🌙 2 THÁNG <span>100.000đ</span></div>
+      <div class="pkg-item" data-pkg="3MONTH" data-price="160000"  data-label="3 THÁNG">🚀 3 THÁNG <span>160.000đ</span></div>
+      <div class="pkg-item" data-pkg="6MONTH" data-price="320000"  data-label="6 THÁNG">💎 6 THÁNG <span>320.000đ</span></div>
+      <div class="pkg-item" data-pkg="1YEAR"  data-price="530000"  data-label="1 NĂM">📅 1 NĂM <span>530.000đ</span></div>
+      <div class="pkg-item" data-pkg="VV"     data-price="1530000" data-label="VĨNH VIỄN">♾️ VĨNH VIỄN <span>1.530.000đ</span></div>`;
     bindPkgItems();
   });
 
@@ -2153,6 +2201,40 @@ document.querySelectorAll('#nav-menu a').forEach(a => {
     document.querySelector('.nav-toggle').classList.remove('open');
   });
 });
+
+// Giải trí dropdown toggle (desktop + mobile)
+(function(){
+  const btn = document.getElementById('btn-entertain');
+  const menu = document.getElementById('entertain-menu');
+  const btnm = document.getElementById('btn-entertain-m');
+  const menum = document.getElementById('entertain-menu-m');
+
+  function closeAll() {
+    if (menu) { menu.style.display = 'none'; btn && btn.setAttribute('aria-expanded','false'); }
+    if (menum) { menum.style.display = 'none'; btnm && btnm.setAttribute('aria-expanded','false'); }
+  }
+
+  if (btn) {
+    btn.addEventListener('click', function(e){
+      e.stopPropagation();
+      if (menu.style.display === 'block') { menu.style.display = 'none'; btn.setAttribute('aria-expanded','false'); }
+      else { closeAll(); menu.style.display = 'block'; btn.setAttribute('aria-expanded','true'); }
+    });
+  }
+
+  if (btnm) {
+    btnm.addEventListener('click', function(e){
+      e.stopPropagation();
+      if (menum.style.display === 'flex' || menum.style.display === 'block') { menum.style.display = 'none'; btnm.setAttribute('aria-expanded','false'); }
+      else { closeAll(); menum.style.display = 'flex'; btnm.setAttribute('aria-expanded','true'); }
+    });
+  }
+
+  document.addEventListener('click', function(e){
+    if (!e.target.closest || !e.target.closest('.entertain')) closeAll();
+  });
+  window.addEventListener('resize', closeAll);
+})();
 
 </script>
 </body>
