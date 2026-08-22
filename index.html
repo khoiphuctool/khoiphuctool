@@ -328,9 +328,9 @@
 
   /* CARDS */
   .cards {
-    max-width: 100%; margin: 50px auto; padding: 0 40px;
+    max-width: 900px; margin: 50px auto; padding: 0 40px;
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(2, 1fr);
     gap: 28px;
   }
   @media(max-width: 1000px) {
@@ -400,16 +400,6 @@
   .btn-download:hover { opacity: 0.88; transform: scale(1.02); }
 
   /* màu riêng từng card */
-  .mom   .card-icon { background: #e8f5e9; }
-  .mom   .card-header h3 { color: #27ae60; }
-  .mom   .features li::before { color: #27ae60; }
-  .mom   .btn-download { background: linear-gradient(135deg,#27ae60,#2ecc71); }
-
-  .rar   .card-icon { background: #fff3e0; }
-  .rar   .card-header h3 { color: #e67e22; }
-  .rar   .features li::before { color: #e67e22; }
-  .rar   .btn-download { background: linear-gradient(135deg,#e67e22,#f39c12); }
-
   .hash  .card-icon { background: #e3f2fd; }
   .hash  .card-header h3 { color: #2980b9; }
   .hash  .features li::before { color: #2980b9; }
@@ -915,8 +905,6 @@ function cancelTos() {
 
   <!-- Menu links -->
   <div class="nav-menu" id="nav-menu">
-    <a href="#mom">🟢 Office</a>
-    <a href="#rar">🟢 RAR/ZIP/7z</a>
     <a href="#kpt"><img src="LOGO.png" style="width:16px;height:16px;vertical-align:middle;border-radius:50%;margin-right:3px;"> KhoiPhucTool</a>
     <a href="#trau">🐃 ConTrâu</a>
     <a href="#huongdan">📖 Hướng dẫn</a>
@@ -1085,98 +1073,6 @@ function cancelTos() {
 <!-- CARDS -->
 <div class="cards">
 
-  <!-- MOM -->
-  <div class="card mom collapsed" id="mom">
-    <div class="card-header" onclick="var b=document.getElementById('btn-mom');if(b&&b.href&&b.href!='#')window.open(b.href,'_blank');" title="Nhấn để tải xuống">
-      <div class="card-icon">🟢</div>
-      <div>
-        <h3>Khôi phục Pass Office</h3>
-        <span id="sub-mom">Khôi phục Office</span>
-      </div>
-    </div>
-    <button class="card-toggle-btn" onclick="toggleAllCards(this)">▼ Xem chi tiết và tải xuống</button>
-    <div class="card-body">
-      <div>
-        <span class="badge badge-free">FREE</span>
-        <span class="badge badge-pro">PRO</span>
-        <span class="badge badge-ver" id="ver-mom"></span>
-      </div>
-      <p style="margin-top:12px">Khôi phục mật khẩu file Excel, Word, PowerPoint bằng phương pháp vét cạn, từ điển và dải số. Hỗ trợ cả VBA password.</p>
-      <p style="font-size:0.88rem;color:#888;margin-bottom:8px">🆓 <b>FREE</b>: tối đa độ dài pass 4 ký tự, chỉ X1 luồng<br>💎 <b>PRO</b>: không giới hạn độ dài, X1→X8 luồng</p>
-      <div style="background:#e8f5e9;border-left:3px solid #27ae60;border-radius:0 8px 8px 0;padding:10px 14px;margin-bottom:10px;font-size:0.88rem;color:#2c3e50;line-height:1.75;">
-        ✨ <strong>Mới trong 3.6-V2:</strong>
-        <ul style="margin:6px 0 0 16px;padding:0;">
-          <li>🔧 Sửa lỗi pass FREE offline báo sai sau khi đăng ký</li>
-        </ul>
-      </div>
-      <div class="features-wrap collapsed">
-      <ul class="features">
-        <li>Vét cạn (Brute Force) theo bộ ký tự tùy chỉnh</li>
-        <li>Khôi phục bằng từ điển (Wordlist) & dải số</li>
-        <li>Gỡ khóa VBA Macro (DPB crack)</li>
-        <li>Hỗ trợ .xlsx .xls .xlsb .xlsm .docx .pptx</li>
-        <li>Đa luồng X1→X8 — mỗi luồng dò chunk riêng</li>
-        <li>Tạm dừng / tiếp tục từng luồng riêng lẻ</li>
-        <li>Hiển thị tiến trình & timer từng luồng W1-W8 realtime</li>
-        <li>ETA hiển thị năm-tháng-ngày-giờ, không crash khi pass dài</li>
-        <li>Tự động nhận diện loại mã hóa (AES-256, RC4...)</li>
-        <li>Kiểm tra mã hóa & ước tính tốc độ trước khi dò</li>
-        <li>Tự động đăng nhập, nhớ chế độ online/offline</li>
-      </ul>
-      <button class="features-toggle" onclick="toggleFeatures(this)">Xem thêm ▼</button>
-      </div>
-      <a class="btn-download" id="btn-mom" href="#" target="_blank">
-        ⬇️ Tải xuống miễn phí
-      </a>
-    </div>
-  </div>
-
-  <!-- RARZIP -->
-  <div class="card rar collapsed" id="rar">
-    <div class="card-header" onclick="var b=document.getElementById('btn-rar');if(b&&b.href&&b.href!='#')window.open(b.href,'_blank');" title="Nhấn để tải xuống">
-      <div class="card-icon">🟢</div>
-      <div>
-        <h3>Khôi phục RAR / ZIP / 7z</h3>
-        <span id="sub-rar">RARZIP Tool</span>
-      </div>
-    </div>
-    <button class="card-toggle-btn" onclick="toggleAllCards(this)">▼ Xem chi tiết và tải xuống</button>
-    <div class="card-body">
-      <div>
-        <span class="badge badge-free">FREE</span>
-        <span class="badge badge-pro">PRO</span>
-        <span class="badge badge-ver" id="ver-rar"></span>
-      </div>
-      <p style="margin-top:12px">Khôi phục mật khẩu file nén <strong>RAR, ZIP và 7z</strong> bằng vét cạn hoặc pattern. Hỗ trợ WinRAR và 7-Zip làm backend.</p>
-      <p style="font-size:0.88rem;color:#888;margin-bottom:8px">🆓 <b>FREE</b>: tối đa độ dài pass 4 ký tự, chỉ X1 luồng<br>💎 <b>PRO</b>: không giới hạn độ dài, X1→X8 luồng</p>
-      <div style="background:#fff3e0;border-left:3px solid #e67e22;border-radius:0 8px 8px 0;padding:10px 14px;margin-bottom:10px;font-size:0.88rem;color:#2c3e50;line-height:1.75;">
-        ✨ <strong>Mới trong 3.9-4:</strong>
-        <ul style="margin:6px 0 0 16px;padding:0;">
-          <li>🔧 Sửa lỗi pass FREE offline báo sai sau khi đăng ký</li>
-          <li>🔧 Sửa lỗi ZIP nén bằng WinRAR không dò được</li>
-          <li>🔧 Sửa lỗi 7z returncode=1 bị hiểu nhầm là sai password</li>
-        </ul>
-      </div>
-      <div class="features-wrap collapsed">
-      <ul class="features">
-        <li>Hỗ trợ <strong>RAR3, RAR5, ZIP (AES), 7z</strong></li>
-        <li>Vét cạn theo bộ ký tự & pattern tùy chỉnh (dùng * cho ký tự bất kỳ)</li>
-        <li>Tự động phát hiện WinRAR / 7-Zip — file .7z bắt buộc dùng 7z.exe</li>
-        <li>Đa luồng X1→X8 — mỗi luồng dò chunk riêng</li>
-        <li>Tạm dừng / tiếp tục từng luồng riêng lẻ</li>
-        <li>Hiển thị tiến trình & timer từng luồng W1-W8 realtime</li>
-        <li>Drag & Drop file trực tiếp vào cửa sổ</li>
-        <li>Ctrl+click chọn nhiều bộ ký tự</li>
-        <li>Tự động đăng nhập, nhớ chế độ online/offline</li>
-      </ul>
-      <button class="features-toggle" onclick="toggleFeatures(this)">Xem thêm ▼</button>
-      </div>
-      <a class="btn-download" id="btn-rar" href="#" target="_blank">
-        ⬇️ Tải xuống miễn phí
-      </a>
-    </div>
-  </div>
-
   <!-- AUTO HASH ẨN - sắp ra mắt -->
 
   <!-- KHOIPHUCTOOL -->
@@ -1185,7 +1081,7 @@ function cancelTos() {
       <div class="card-icon"><img src="LOGO.png" alt="KhoiPhucTool" style="width:40px;height:40px;object-fit:contain;border-radius:8px;"></div>
       <div>
         <h3>KhoiPhucTool</h3>
-        <span id="sub-kpt">gộp office và Rarzip tool</span>
+        <span id="sub-kpt">Khôi phục Office, RAR/ZIP/7z tất cả trong một</span>
       </div>
     </div>
     <button class="card-toggle-btn" onclick="toggleAllCards(this)">▼ Xem chi tiết và tải xuống</button>
@@ -1339,8 +1235,6 @@ function cancelTos() {
     </div>
   </div>
   <div style="display:flex;flex-wrap:wrap;justify-content:center;gap:12px;margin-top:24px;">
-    <a href="huong-dan-mom.html" style="display:inline-flex;align-items:center;gap:8px;background:linear-gradient(135deg,#27ae60,#2ecc71);color:white;text-decoration:none;padding:11px 22px;border-radius:10px;font-weight:700;font-size:0.95rem;">📗 Hướng dẫn MÕM Tool</a>
-    <a href="huong-dan-rarzip.html" style="display:inline-flex;align-items:center;gap:8px;background:linear-gradient(135deg,#e67e22,#f39c12);color:white;text-decoration:none;padding:11px 22px;border-radius:10px;font-weight:700;font-size:0.95rem;">📙 Hướng dẫn RARZIP Tool</a>
     <a href="huong-dan-khoiphuctool.html" style="display:inline-flex;align-items:center;gap:8px;background:linear-gradient(135deg,#8e24aa,#ab47bc);color:white;text-decoration:none;padding:11px 22px;border-radius:10px;font-weight:700;font-size:0.95rem;"><img src="LOGO.png" style="width:26px;height:26px;vertical-align:middle;margin-right:3px;border-radius:50%;"> Hướng dẫn KhoiPhucTool</a>
     <a href="https://vt.tiktok.com/ZS9nccdvM/" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:8px;background:linear-gradient(135deg,#010101,#2d2d2d);color:white;text-decoration:none;padding:11px 22px;border-radius:10px;font-weight:700;font-size:0.95rem;">▶️ Xem video hướng dẫn TikTok</a>
   </div>
@@ -1372,7 +1266,7 @@ function cancelTos() {
     <details style="background:white;border-radius:12px;padding:18px 20px;box-shadow:0 2px 10px rgba(0,0,0,0.07);cursor:pointer;" itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
       <summary style="font-weight:700;color:#2c3e50;font-size:1rem;" itemprop="name">Tool có hỗ trợ crack pass file RAR và ZIP không?</summary>
       <div style="margin-top:10px;color:#555;font-size:0.92rem;line-height:1.7;" itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
-        <span itemprop="text">Có. RARZIP Tool hỗ trợ khôi phục mật khẩu file RAR (RAR3, RAR5) và ZIP. Cần cài WinRAR hoặc 7-Zip trên máy để tool hoạt động với file RAR.</span>
+        <span itemprop="text">Có. KhoiPhucTool hỗ trợ khôi phục mật khẩu file RAR (RAR3, RAR5), ZIP và 7z. Cần cài WinRAR hoặc 7-Zip trên máy để tool hoạt động với file RAR.</span>
       </div>
     </details>
     <details style="background:white;border-radius:12px;padding:18px 20px;box-shadow:0 2px 10px rgba(0,0,0,0.07);cursor:pointer;" itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
@@ -1555,33 +1449,13 @@ fetch(SHEET_CSV)
     const rows = csv.split('\n').map(r =>
       r.replace(/\r/g, '').split(',').map(c => c.replace(/^"|"$/g, '').trim())
     );
-    // Hàng 2 (index 1): J = index 9 → link MOM
-    // Hàng 3 (index 2): J = index 9 → version MOM
-    // Hàng 4 (index 3): J = index 9 → link RARZIP
-    // Hàng 5 (index 4): J = index 9 → version RARZIP
     // Hàng 6 (index 5): J = index 9 → link KhoiPhucTool
     // Hàng 7 (index 6): J = index 9 → version KhoiPhucTool
-    const momLink = rows[1]?.[9];
-    const momVer  = rows[2]?.[9];
-    const rarLink = rows[3]?.[9];
-    const rarVer  = rows[4]?.[9];
     const kptLink = rows[5]?.[9];
     const kptVer  = rows[6]?.[9];
     const trauLink = rows[7]?.[9];
     const trauVer  = rows[8]?.[9];
 
-    if (momLink) document.getElementById('btn-mom').href = momLink;
-    else document.getElementById('btn-mom').style.display = 'none';
-    if (momVer) {
-      document.getElementById('ver-mom').textContent = momVer;
-      document.getElementById('sub-mom').textContent = 'Khôi phục Office ' + momVer;
-    }
-    if (rarLink) document.getElementById('btn-rar').href = rarLink;
-    else document.getElementById('btn-rar').style.display = 'none';
-    if (rarVer) {
-      document.getElementById('ver-rar').textContent = rarVer;
-      document.getElementById('sub-rar').textContent = 'RARZIP Tool ' + rarVer;
-    }
     if (kptLink) document.getElementById('btn-kpt').href = kptLink;
     else document.getElementById('btn-kpt').style.display = 'none';
     if (kptVer) {
