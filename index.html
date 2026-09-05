@@ -987,7 +987,7 @@ function cancelTos() {
 <!-- HERO -->
 <div class="hero">
   <h2>Phần Mềm Khôi Phục Mật Khẩu Siêu Tốc</h2>
-  <p>Giải pháp an toàn, mạnh mẽ giúp bạn tìm lại mật khẩu các file văn bản và file nén bị quên. Không cần cài đặt, tải về giải nén là sử dụng được ngay.</p>
+  <p>Chọn đúng công cụ cho nhu cầu của bạn: AUTO_HASH V3.5 để kiểm tra mã hash, hoặc KhoiPhucTool để khôi phục mật khẩu file Office và file nén. Ứng dụng chạy trực tiếp trên Windows.</p>
 
   <!-- INTRO TYPEWRITER -->
   <div style="margin-top:36px;max-width:100%;">
@@ -1066,7 +1066,53 @@ function cancelTos() {
 <!-- CARDS -->
 <div class="cards">
 
-  <!-- AUTO HASH ẨN - sắp ra mắt -->
+  <!-- AUTO HASH -->
+  <div class="card hash" id="autohash">
+    <div class="card-header" onclick="var b=document.getElementById('btn-autohash');if(b&&b.href&&b.href!='#')window.open(b.href,'_blank');" title="Nhấn để tải xuống">
+      <div class="card-icon"><img src="LOGO.png" alt="AUTO_HASH" style="width:40px;height:40px;object-fit:contain;border-radius:8px;"></div>
+      <div>
+        <h3>AUTO_HASH</h3>
+        <span id="sub-autohash">AUTO_HASH — KHÔI PHỤC mã hash trên Windows</span>
+      </div>
+    </div>
+    <button class="card-toggle-btn" onclick="toggleAllCards(this)">▲ Thu gọn</button>
+    <div class="card-body">
+      <div>
+        <span class="badge badge-free">FREE</span>
+        <span class="badge badge-pro">PRO</span>
+        <span class="badge badge-ver" id="ver-autohash"></span>
+      </div>
+      <p style="margin-top:12px">Công cụ chuyên dụng để kiểm tra mã hash và tìm lại chuỗi đầu vào tương ứng bằng cách thử các ứng viên trên chính máy tính của bạn.</p>
+      <p style="font-size:0.88rem;color:#888;margin-bottom:8px">🆓 <b>FREE</b>: phù hợp để thử nghiệm phạm vi ngắn<br>💎 <b>PRO</b>: mở rộng giới hạn sử dụng theo tài khoản</p>
+      <div style="background:#e3f2fd;border-left:3px solid #2980b9;border-radius:0 8px 8px 0;padding:10px 14px;margin-bottom:10px;font-size:0.88rem;color:#2c3e50;line-height:1.75;">
+        ✨ <strong>Tính năng chính:</strong>
+        <ul style="margin:6px 0 0 16px;padding:0;">
+          <li>Nhập mã hash và chọn thuật toán phù hợp</li>
+          <li>Thử brute-force theo bộ ký tự, độ dài hoặc pattern</li>
+          <li>Đọc wordlist và thử nhiều thuật toán tự động</li>
+        </ul>
+      </div>
+      <div class="features-wrap collapsed">
+      <ul class="features">
+        <li>Hỗ trợ MD5, NTLM, SHA-1, SHA-2, SHA-3, BLAKE, RIPEMD-160 và SM3</li>
+        <li>Hỗ trợ SHA256x5 và SHAKE-128 / SHAKE-256</li>
+        <li>Brute-force theo bộ ký tự và độ dài tùy chọn</li>
+        <li>Pattern với ký tự đại diện <code>*</code></li>
+        <li>Wordlist từ file văn bản</li>
+        <li>Thử nhiều thuật toán song song hoặc lần lượt</li>
+        <li>Hỗ trợ salt dạng tiền tố hoặc hậu tố</li>
+        <li>Hiển thị tiến trình, tốc độ và thời gian dò</li>
+        <li>Hiển thị kết quả ngay trên giao diện</li>
+        <li>Xuất kết quả ra file <code>PASS_AUTOHASH.TXT</code></li>
+        <li>Giao diện tiếng Việt, chạy trên Windows, không cần cài đặt</li>
+      </ul>
+      <button class="features-toggle" onclick="toggleFeatures(this)">Xem thêm ▼</button>
+      </div>
+      <a class="btn-download" id="btn-autohash" href="#" target="_blank" rel="noopener">
+        ⬇️ Tải AUTO_HASH
+      </a>
+    </div>
+  </div>
 
   <!-- KHOIPHUCTOOL -->
   <div class="card kpt" id="kpt">
@@ -1442,12 +1488,27 @@ fetch(SHEET_CSV)
     const rows = csv.split('\n').map(r =>
       r.replace(/\r/g, '').split(',').map(c => c.replace(/^"|"$/g, '').trim())
     );
-    // Hàng 6 (index 5): J = index 9 → link KhoiPhucTool
+    // Hàng 10 (index 9): J = index 9 → link AUTO_HASH
+    // Hàng 11 (index 10): J = index 9 → version AUTO_HASH
+    const autohashLink = rows[9]?.[9];
+    const autohashVer  = rows[10]?.[9];
     // Hàng 7 (index 6): J = index 9 → version KhoiPhucTool
     const kptLink = rows[5]?.[9];
     const kptVer  = rows[6]?.[9];
     const trauLink = rows[7]?.[9];
     const trauVer  = rows[8]?.[9];
+
+    const autohashBtn = document.getElementById('btn-autohash');
+    if (autohashBtn) {
+      if (autohashLink) autohashBtn.href = autohashLink;
+      else autohashBtn.style.display = 'none';
+      if (autohashVer) {
+        const el = document.getElementById('ver-autohash');
+        if (el) el.textContent = autohashVer;
+        const sub = document.getElementById('sub-autohash');
+        if (sub) sub.textContent = 'AUTO_HASH ' + autohashVer + ' — Dò mã hash trên Windows';
+      }
+    }
 
     if (kptLink) document.getElementById('btn-kpt').href = kptLink;
     else document.getElementById('btn-kpt').style.display = 'none';
