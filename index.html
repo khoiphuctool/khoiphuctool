@@ -908,6 +908,7 @@ function cancelTos() {
     <a href="#kpt"><img src="LOGO.png" style="width:16px;height:16px;vertical-align:middle;border-radius:50%;margin-right:3px;"> KhoiPhucTool</a>
     <a href="#trau">🐃 ConTrâu</a>
     <a href="#huongdan">📖 Hướng dẫn</a>
+    <a href="#huongdan-gpu">🚀 GPU</a>
     <a href="#dangky">📝 Đăng ký</a>
     <a href="#unghо">💖 Ủng hộ</a>
     <a href="dieu-khoan.html" target="_blank">📋 Điều khoản</a>
@@ -1131,21 +1132,23 @@ function cancelTos() {
         <span class="badge badge-ver" id="ver-kpt"></span>
       </div>
       <p style="margin-top:12px">Bộ công cụ khôi phục mật khẩu tổng hợp — gộp đầy đủ tính năng Office, RAR/ZIP/<strong>7z</strong> và nhiều hơn nữa trong một ứng dụng duy nhất.</p>
-      <p style="font-size:0.88rem;color:#888;margin-bottom:8px">🆓 <b>FREE</b>: tối đa độ dài pass 4 ký tự, chỉ X1 luồng<br>💎 <b>PRO</b>: không giới hạn độ dài, X1→X8 luồng</p>
+      <p style="font-size:0.88rem;color:#888;margin-bottom:8px">🆓 <b>FREE</b>: tối đa độ dài pass 4 ký tự, chỉ X1 luồng<br>💎 <b>PRO</b>: không giới hạn độ dài, X1→X8 luồng, GPU (Hashcat)</p>
       <div style="background:#f3e5f5;border-left:3px solid #8e24aa;border-radius:0 8px 8px 0;padding:10px 14px;margin-bottom:10px;font-size:0.88rem;color:#2c3e50;line-height:1.75;">
-        ✨ <strong>Mới trong V6.7:</strong>
+        ✨ <strong>Mới trong V7.3:</strong>
         <ul style="margin:6px 0 0 16px;padding:0;">
+          <li>🚀 <strong>Chế độ GPU (Hashcat) 🔒PRO</strong> — tích hợp Hashcat 7.x, tốc độ dò nhanh hơn CPU nhiều lần với card đồ họa NVIDIA/AMD/Intel</li>
+          <li>🔄 <strong>AUTO engine</strong> — tự động chọn GPU nếu có Hashcat, fallback về CPU nếu không</li>
+          <li>📁 Hashcat chỉ cần đặt thư mục <code>hashcat-7.1.2/</code> cạnh file .exe là dùng được ngay</li>
           <li>🔧 Tài khoản PRO hết hạn hoặc chưa duyệt nay được dùng như tài khoản FREE thay vì bị chặn</li>
-          <li>📦 Thêm 3 gói mới: 2 tháng, 3 tháng, 6 tháng</li>
+          <li>⚡ <strong>Tải Hashcat (các tệp nhị phân):</strong> <a href="https://hashcat.net/hashcat/" target="_blank" rel="noopener" style="color:#8e24aa;font-weight:700;">hashcat.net/hashcat</a> — giải nén, đặt thư mục <code>hashcat-7.x.x/</code> cạnh file .exe là xong</li>
           <li>📄 Tự động xuất password tìm được vào file TXT (có thể bật/tắt)</li>
-          <li>🔧 Sửa lỗi pass FREE offline báo sai sau khi đăng ký</li>
-          <li>🔧 Sửa lỗi ZIP nén bằng WinRAR không dò được</li>
         </ul>
       </div>
       <div class="features-wrap collapsed">
       <ul class="features">
         <li>Gộp tất cả tính năng trong một app duy nhất</li>
         <li>Khôi phục Excel, Word, PowerPoint, RAR, ZIP, <strong>7z</strong></li>
+        <li>🚀 <strong>GPU mode (Hashcat)</strong> — dò mật khẩu bằng card đồ họa, tốc độ vượt trội (PRO)</li>
         <li>Vét cạn theo bộ ký tự & pattern tùy chỉnh</li>
         <li>Khôi phục bằng từ điển (Wordlist) & dải số</li>
         <li>Gỡ khóa VBA Macro (DPB crack)</li>
@@ -1278,6 +1281,88 @@ function cancelTos() {
     <a href="https://www.tiktok.com/@khoiphuctool" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:8px;background:linear-gradient(135deg,#010101,#2d2d2d);color:white;text-decoration:none;padding:11px 22px;border-radius:10px;font-weight:700;font-size:0.95rem;">▶️ Xem video hướng dẫn TikTok</a>
   </div>
 
+  <!-- HƯỚNG DẪN GPU / HASHCAT -->
+  <div id="huongdan-gpu" style="margin-top:40px;background:white;border-radius:16px;box-shadow:0 4px 20px rgba(0,0,0,0.08);overflow:hidden;">
+    <div style="background:linear-gradient(135deg,#1a252f,#2c3e50);color:white;padding:20px 28px;display:flex;align-items:center;gap:14px;">
+      <span style="font-size:2rem;">🚀</span>
+      <div>
+        <div style="font-size:1.1rem;font-weight:800;">Hướng dẫn dùng GPU (Hashcat) — Tăng tốc dò mật khẩu</div>
+        <div style="font-size:0.82rem;opacity:0.8;margin-top:3px;">Chỉ dành cho tài khoản PRO — hỗ trợ NVIDIA, AMD, Intel Arc</div>
+      </div>
+    </div>
+    <div style="padding:24px 28px;">
+
+      <!-- Bước 1 -->
+      <div style="display:flex;gap:16px;margin-bottom:20px;align-items:flex-start;">
+        <div style="width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,#3498db,#2c3e50);color:white;font-weight:700;font-size:1rem;display:flex;align-items:center;justify-content:center;flex-shrink:0;">1</div>
+        <div>
+          <div style="font-weight:700;color:#2c3e50;margin-bottom:4px;">Tải Hashcat về máy</div>
+          <div style="font-size:0.9rem;color:#555;line-height:1.65;margin-bottom:8px;">
+            Vào trang chính thức, tải phần <strong>hashcat binaries</strong> (các tệp nhị phân) — file .7z cho Windows:
+          </div>
+          <a href="https://hashcat.net/hashcat/" target="_blank" rel="noopener"
+             style="display:inline-flex;align-items:center;gap:6px;background:#2c3e50;color:white;text-decoration:none;padding:8px 16px;border-radius:8px;font-weight:600;font-size:0.88rem;">
+            ⬇️ Tải hashcat binaries tại hashcat.net/hashcat
+          </a>
+          <div style="margin-top:8px;font-size:0.83rem;color:#888;">
+            💡 Chọn phiên bản <strong>hashcat-7.x.x.7z</strong> (Windows binaries) — không cần cài đặt thêm gì.
+          </div>
+        </div>
+      </div>
+
+      <!-- Bước 2 -->
+      <div style="display:flex;gap:16px;margin-bottom:20px;align-items:flex-start;">
+        <div style="width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,#3498db,#2c3e50);color:white;font-weight:700;font-size:1rem;display:flex;align-items:center;justify-content:center;flex-shrink:0;">2</div>
+        <div>
+          <div style="font-weight:700;color:#2c3e50;margin-bottom:4px;">Giải nén và đặt cạnh file EXE</div>
+          <div style="font-size:0.9rem;color:#555;line-height:1.65;margin-bottom:10px;">
+            Giải nén file vừa tải, bạn sẽ có thư mục <code style="background:#f0f0f0;padding:1px 6px;border-radius:4px;">hashcat-7.x.x/</code>. Đặt thư mục đó <strong>cạnh file khoiphuctool.exe</strong>.
+          </div>
+          <!-- Sơ đồ cây thư mục -->
+          <div style="background:#1e2d3d;color:#a8d8a8;border-radius:10px;padding:14px 18px;font-family:monospace;font-size:0.85rem;line-height:1.9;">
+            <span style="color:#7ec8e3;">📁 Thư mục bất kỳ</span><br>
+            &nbsp;&nbsp;├── <span style="color:#f1c40f;">khoiphuctool.exe</span> &nbsp;<span style="color:#888;">← file chính</span><br>
+            &nbsp;&nbsp;└── <span style="color:#7ec8e3;">📁 hashcat-7.1.2/</span> &nbsp;<span style="color:#888;">← thư mục hashcat đặt cạnh</span><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;├── <span style="color:#e74c3c;">hashcat.exe</span><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;├── OpenCL/<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;└── kernels/
+          </div>
+          <div style="margin-top:8px;font-size:0.83rem;color:#888;">
+            ✅ Tên thư mục có thể là <code>hashcat-7.1.2</code>, <code>hashcat-7.2.0</code> hay <code>hashcat</code> — KPT tự tìm.
+          </div>
+        </div>
+      </div>
+
+      <!-- Bước 3 -->
+      <div style="display:flex;gap:16px;margin-bottom:20px;align-items:flex-start;">
+        <div style="width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,#3498db,#2c3e50);color:white;font-weight:700;font-size:1rem;display:flex;align-items:center;justify-content:center;flex-shrink:0;">3</div>
+        <div>
+          <div style="font-weight:700;color:#2c3e50;margin-bottom:4px;">Mở KPT và chọn chế độ GPU</div>
+          <div style="font-size:0.9rem;color:#555;line-height:1.65;">
+            Đăng nhập tài khoản <strong>PRO</strong>, tại khu vực Engine chọn <strong>GPU 🔒PRO</strong> hoặc để <strong>AUTO</strong> (tự động dùng GPU khi có Hashcat).
+          </div>
+          <div style="margin-top:10px;background:#e8f5e9;border-left:3px solid #27ae60;border-radius:0 8px 8px 0;padding:8px 12px;font-size:0.85rem;color:#2c3e50;">
+            ✅ App sẽ hiển thị tên GPU phát hiện được (ví dụ: <em>NVIDIA GeForce RTX 3060</em>) bên cạnh nút Engine.
+          </div>
+        </div>
+      </div>
+
+      <!-- Bước 4 -->
+      <div style="display:flex;gap:16px;align-items:flex-start;">
+        <div style="width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,#3498db,#2c3e50);color:white;font-weight:700;font-size:1rem;display:flex;align-items:center;justify-content:center;flex-shrink:0;">4</div>
+        <div>
+          <div style="font-weight:700;color:#2c3e50;margin-bottom:4px;">Dò mật khẩu nhanh hơn nhiều lần</div>
+          <div style="font-size:0.9rem;color:#555;line-height:1.65;">
+            Chọn file, cấu hình bộ ký tự rồi nhấn <strong>Start</strong>. GPU sẽ xử lý song song hàng chục nghìn mật khẩu/giây thay vì vài nghìn như CPU.
+          </div>
+          <div style="margin-top:10px;background:#fff3e0;border-left:3px solid #f39c12;border-radius:0 8px 8px 0;padding:8px 12px;font-size:0.83rem;color:#555;line-height:1.6;">
+            ⚠️ <strong>Lưu ý:</strong> GPU mode hỗ trợ file Office (xlsx/xls/docx/pptx) và RAR/ZIP/7z. Cần driver GPU cập nhật và OpenCL/CUDA được cài sẵn.
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
 
 </div>
 
