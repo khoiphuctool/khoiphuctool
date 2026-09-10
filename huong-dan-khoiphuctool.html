@@ -11,8 +11,8 @@
   gtag('js', new Date());
   gtag('config', 'G-R50KDN2TCB');
 </script>
-<meta name="description" content="Hướng dẫn chi tiết KhoiPhucTool v6.1 - bộ công cụ khôi phục mật khẩu tổng hợp: Excel, Word, PowerPoint, RAR, ZIP. Brute force, từ điển, VBA crack, đa luồng X1-X8, hỗ trợ pass dài 10+ ký tự.">
-<meta name="keywords" content="KhoiPhucTool v6.1 hướng dẫn, tool khôi phục mật khẩu tổng hợp, crack pass excel rar zip cùng lúc, phần mềm khôi phục mật khẩu all in one, crack pass dài 10 ký tự">
+<meta name="description" content="Hướng dẫn chi tiết KhoiPhucTool V7.3 - khôi phục mật khẩu Excel, Word, PowerPoint, RAR, ZIP, 7z. Hỗ trợ GPU (Hashcat), brute force, từ điển, VBA crack, đa luồng X1-X8.">
+<meta name="keywords" content="KhoiPhucTool V7.3 hướng dẫn, tool khôi phục mật khẩu GPU hashcat, crack pass excel rar zip gpu, phần mềm khôi phục mật khẩu all in one, tải hashcat khoiphuctool">
 <link rel="canonical" href="https://khoiphuctool.github.io/khoiphuctool/huong-dan-khoiphuctool.html">
 <link rel="icon" href="LOGO.png" type="image/png"><style>
   * { margin:0; padding:0; box-sizing:border-box; }
@@ -82,14 +82,14 @@
   <div class="nav-links" id="nav-links-kpt">
     <a href="huong-dan-mom.html">📗 MÕM Tool</a>
     <a href="huong-dan-rarzip.html">📙 RARZIP Tool</a>
-    <a href="huong-dan-khoiphuctool.html" style="background:#8e24aa;color:white;"><img src="LOGO.png" style="width:16px;height:16px;vertical-align:middle;border-radius:50%;margin-right:3px;"> KhoiPhucTool v6.1</a>
+    <a href="huong-dan-khoiphuctool.html" style="background:#8e24aa;color:white;"><img src="LOGO.png" style="width:16px;height:16px;vertical-align:middle;border-radius:50%;margin-right:3px;"> KhoiPhucTool V7.3</a>
     <a href="tags.html">🏷️ Từ khóa</a>
   </div>
 </nav>
 
 <div class="hero">
-  <h1><img src="LOGO.png" style="width:26px;height:26px;vertical-align:middle;margin-right:3px;border-radius:50%;"> Hướng dẫn KhoiPhucTool <span id="hero-kpt-ver">v6.1</span></h1>
-  <p>Bộ công cụ khôi phục mật khẩu tổng hợp — Excel, Word, RAR, ZIP tất cả trong một</p>
+  <h1><img src="LOGO.png" style="width:26px;height:26px;vertical-align:middle;margin-right:3px;border-radius:50%;"> Hướng dẫn KhoiPhucTool <span id="hero-kpt-ver">V7.3</span></h1>
+  <p>Bộ công cụ khôi phục mật khẩu tổng hợp — Excel, Word, RAR, ZIP, 7z, <strong>GPU Hashcat</strong> tất cả trong một</p>
   <span class="badge-new">✨ Phiên bản mới nhất</span>
 </div>
 
@@ -97,54 +97,57 @@
 
   <div class="toc">
     <h3>📋 Mục lục</h3>
-    <a href="#gioi-thieu">1. KhoiPhucTool <span class="kpt-ver">v6.1</span> là gì?</a>
-    <a href="#moi-v6.1">2. Tính năng mới trong v6.1</a>
+    <a href="#gioi-thieu">1. KhoiPhucTool <span class="kpt-ver">V7.3</span> là gì?</a>
+    <a href="#moi-v7.3">2. Tính năng mới trong V7.3</a>
     <a href="#so-sanh">3. So sánh với MÕM Tool và RARZIP Tool</a>
     <a href="#tai-ve">4. Tải về và đăng nhập</a>
-    <a href="#giao-dien">5. Giao diện tổng quan</a>
-    <a href="#office">6. Khôi phục mật khẩu Office (Excel, Word, PowerPoint)</a>
-    <a href="#rarzip">7. Khôi phục mật khẩu RAR/ZIP</a>
-    <a href="#vba">8. Gỡ khóa VBA Macro</a>
-    <a href="#da-luong">9. Đa luồng X1-X8 & tạm dừng từng luồng</a>
-    <a href="#meo">10. Mẹo sử dụng hiệu quả</a>
+    <a href="#gpu-hashcat">5. 🚀 Hướng dẫn dùng GPU (Hashcat) — MỚI</a>
+    <a href="#giao-dien">6. Giao diện tổng quan</a>
+    <a href="#office">7. Khôi phục mật khẩu Office (Excel, Word, PowerPoint)</a>
+    <a href="#rarzip">8. Khôi phục mật khẩu RAR/ZIP/7z</a>
+    <a href="#vba">9. Gỡ khóa VBA Macro</a>
+    <a href="#da-luong">10. Đa luồng X1-X8 & tạm dừng từng luồng</a>
+    <a href="#meo">11. Mẹo sử dụng hiệu quả</a>
   </div>
 
   <!-- GIỚI THIỆU -->
   <div class="section" id="gioi-thieu">
-    <h2>1. KhoiPhucTool <span class="kpt-ver">v6.1</span> là gì?</h2>
-    <p>KhoiPhucTool <span class="kpt-ver">v6.1</span> là phiên bản nâng cấp gộp toàn bộ tính năng của MÕM Tool và RARZIP Tool vào một ứng dụng duy nhất. Không cần mở nhiều app, không cần chuyển đổi giữa các tool.</p>
-    <div class="new">✨ <strong>Mới trong <span class="kpt-ver">v6.1</span>:</strong> Hỗ trợ pass dài 10+ ký tự không đơ, batch feeding tự động (500K/đợt), ETA hiển thị năm-tháng-ngày-giờ, cảnh báo khi candidates > 50 triệu, GUI poll tự khởi động lại — không cần ấn tạm dừng/tiếp tục.</div>
+    <h2>1. KhoiPhucTool <span class="kpt-ver">V7.3</span> là gì?</h2>
+    <p>KhoiPhucTool <span class="kpt-ver">V7.3</span> là phiên bản nâng cấp gộp toàn bộ tính năng của MÕM Tool và RARZIP Tool vào một ứng dụng duy nhất — và nay tích hợp thêm <strong>GPU engine (Hashcat 7.x)</strong> giúp dò mật khẩu nhanh hơn nhiều lần. Không cần mở nhiều app, không cần chuyển đổi giữa các tool.</p>
+    <div class="new">✨ <strong>Mới trong <span class="kpt-ver">V7.3</span>:</strong> Chế độ GPU (Hashcat) dành cho tài khoản PRO — tự động chọn GPU nếu có, fallback về CPU. Chỉ cần đặt thư mục <code>hashcat-7.x.x/</code> cạnh file .exe là dùng được ngay.</div>
     <div class="feature-grid">
       <div class="feature-item"><strong>📊 Office</strong>.xlsx .xls .xlsb .xlsm .docx .doc .pptx .ppt</div>
-      <div class="feature-item"><strong>📦 RAR/ZIP</strong>RAR3, RAR5, ZIP (AES-256)</div>
+      <div class="feature-item"><strong>📦 RAR/ZIP/7z</strong>RAR3, RAR5, ZIP (AES-256), 7z</div>
       <div class="feature-item"><strong>🔧 VBA</strong>Gỡ khóa macro Excel</div>
+      <div class="feature-item"><strong>🚀 GPU (PRO)</strong>Hashcat 7.x — NVIDIA/AMD/Intel</div>
       <div class="feature-item"><strong>⚡ Đa luồng</strong>X1 → X8 song song</div>
-      <div class="feature-item"><strong>⏸ Per-worker</strong>Pause/resume từng luồng</div>
       <div class="feature-item"><strong>📚 Từ điển</strong>Wordlist + khoảng số</div>
     </div>
   </div>
 
-  <!-- TÍNH NĂNG MỚI v6.1 -->
-  <div class="section" id="moi-v6.1">
-    <h2>2. Tính năng mới trong v6.1</h2>
-    <div class="new">🆕 <strong>v6.1 tập trung vào độ ổn định khi brute force pass dài và cải thiện trải nghiệm GUI.</strong></div>
+  <!-- TÍNH NĂNG MỚI V7.3 -->
+  <div class="section" id="moi-v7.3">
+    <h2>2. Tính năng mới trong V7.3</h2>
+    <div class="new">🆕 <strong>V7.3 bổ sung GPU engine (Hashcat) và cải thiện engine selector ngay trong giao diện.</strong></div>
 
-    <h3>✅ Hỗ trợ pass dài 10+ ký tự — không còn đơ</h3>
-    <p>Phiên bản cũ bị đơ/crash khi đặt max length ≥ 10 vì cố load toàn bộ hàng tỷ candidates vào RAM cùng lúc. v6.1 giải quyết bằng <strong>batch feeding</strong>: chia nhỏ thành từng đợt 500K candidates, workers xử lý xong đợt này mới lấy đợt tiếp theo.</p>
+    <h3>🚀 Chế độ GPU — Hashcat 7.x (PRO)</h3>
+    <p>Tích hợp Hashcat 7.x làm GPU backend. Với card đồ họa NVIDIA/AMD/Intel, tốc độ dò file Office có thể đạt hàng nghìn đến hàng chục nghìn mật khẩu/giây thay vì vài chục như CPU.</p>
 
-    <h3>✅ ETA hiển thị năm-tháng-ngày-giờ</h3>
-    <p>Thay vì hiển thị <code>~19059325337099d 17h</code> khó đọc, v6.1 hiển thị đầy đủ dạng <code>~52y 3mo 12d 8h</code>. Với pass ngắn hơn: <code>~3d 14h</code> hoặc <code>22:44:27</code>.</p>
+    <h3>🔄 AUTO engine</h3>
+    <p>Chế độ <strong>AUTO</strong> tự động phát hiện Hashcat — nếu tìm thấy thư mục <code>hashcat-7.x.x/</code> cạnh EXE thì dùng GPU, không thì fallback về CPU multiprocessing. Phù hợp cho cả máy có và không có GPU rời.</p>
 
-    <h3>✅ Cảnh báo khi candidates > 50 triệu</h3>
-    <p>Khi tổng số combinations vượt 50 triệu, app hiện popup cảnh báo kèm ước tính thời gian thực tế — giúp bạn quyết định có nên tiếp tục hay thu hẹp bộ ký tự.</p>
+    <h3>📁 Cách cài Hashcat cực đơn giản</h3>
+    <p>Tải bản <strong>hashcat binaries</strong> từ <a href="https://hashcat.net/hashcat/" target="_blank" rel="noopener" style="color:#8e24aa;font-weight:700;">hashcat.net/hashcat</a>, giải nén ra thư mục <code>hashcat-7.x.x/</code>, đặt thư mục đó <strong>cạnh file khoiphuctool.exe</strong> — không cần cài đặt thêm gì.</p>
 
-    <h3>✅ GUI poll tự khởi động lại</h3>
-    <p>Trước đây khi bắt đầu với pass dài, các W1-W8 không cập nhật ngay — phải ấn tạm dừng rồi tiếp tục mới thấy. v6.1 sửa lỗi này: GUI poll tự chờ queue sẵn sàng và tự khởi động lại.</p>
+    <h3>✅ Các cải tiến khác</h3>
+    <ul>
+      <li>Tài khoản PRO hết hạn hoặc chưa duyệt nay được dùng như FREE thay vì bị chặn</li>
+      <li>Tự động xuất password tìm được vào file TXT (có thể bật/tắt)</li>
+      <li>Sửa lỗi pass FREE offline báo sai sau khi đăng ký</li>
+      <li>Sửa lỗi ZIP nén bằng WinRAR không dò được</li>
+    </ul>
 
-    <h3>✅ Sửa lỗi crash OSError</h3>
-    <p>Lỗi <code>OSError: [Errno 22] Invalid argument</code> khi <code>time.gmtime()</code> nhận số giây quá lớn đã được xử lý hoàn toàn.</p>
-
-    <div class="tip">💡 Dù v6.1 hỗ trợ pass 10+ ký tự, thực tế brute force pass 10 ký tự với charset đầy đủ (62 ký tự) cần ~52 năm. Hãy dùng <strong>Pattern</strong> nếu biết một phần mật khẩu để giảm thời gian xuống còn vài giây.</div>
+    <div class="tip">💡 GPU mode hỗ trợ Office (xlsx/docx/pptx) và RAR/ZIP/7z. Cần driver GPU cập nhật và OpenCL/CUDA.</div>
   </div>
 
   <!-- SO SÁNH -->
@@ -170,7 +173,7 @@
         </ul>
       </div>
       <div class="compare-card c-kpt">
-        <h4><img src="LOGO.png" style="width:26px;height:26px;vertical-align:middle;margin-right:3px;border-radius:50%;"> KhoiPhucTool <span class="kpt-ver">v6.1</span></h4>
+        <h4><img src="LOGO.png" style="width:26px;height:26px;vertical-align:middle;margin-right:3px;border-radius:50%;"> KhoiPhucTool <span class="kpt-ver">V7.3</span></h4>
         <ul>
           <li>✅ Excel, Word, PPT</li>
           <li>✅ VBA Crack</li>
@@ -179,6 +182,7 @@
           <li>✅ Pause per-worker</li>
           <li>✅ Pass dài 10+ ký tự</li>
           <li>✅ ETA năm-tháng-ngày-giờ</li>
+          <li>🚀 GPU (Hashcat) — PRO</li>
         </ul>
       </div>
     </div>
@@ -195,16 +199,97 @@
       <div class="step-card"><div class="step-num">4</div><h4>Chọn loại file</h4><p>Office hoặc RAR/ZIP</p></div>
     </div>
     <div class="warn">⚠️ Cần WinRAR hoặc 7-Zip để xử lý file RAR. File ZIP không cần.</div>
-    <a href="/khoiphuctool/#kpt" class="btn-dl" id="btn-dl-kpt">⬇️ Tải KhoiPhucTool <span id="ver-kpt-hd">v6.1</span></a>
+    <a href="/khoiphuctool/#kpt" class="btn-dl" id="btn-dl-kpt">⬇️ Tải KhoiPhucTool <span id="ver-kpt-hd">V7.3</span></a>
     <a href="https://vt.tiktok.com/ZS9nccdvM/" target="_blank" rel="noopener" class="btn-dl" style="background:linear-gradient(135deg,#010101,#2d2d2d);margin-top:10px;">▶️ Xem video hướng dẫn TikTok</a>
+  </div>
+
+  <!-- GPU HASHCAT -->
+  <div class="section" id="gpu-hashcat">
+    <h2>5. 🚀 Hướng dẫn dùng GPU (Hashcat) — PRO</h2>
+    <div class="new">✨ Tính năng mới trong V7.3 — chỉ dành cho tài khoản <strong>PRO</strong>. GPU dò nhanh hơn CPU nhiều lần với card NVIDIA/AMD/Intel Arc.</div>
+
+    <h3>Bước 1: Tải Hashcat binaries (các tệp nhị phân)</h3>
+    <p>Vào trang chính thức, kéo xuống phần <strong>"hashcat binaries"</strong> và tải file <code>.7z</code> cho Windows:</p>
+    <a href="https://hashcat.net/hashcat/" target="_blank" rel="noopener"
+       style="display:inline-flex;align-items:center;gap:8px;background:#2c3e50;color:white;text-decoration:none;padding:10px 20px;border-radius:8px;font-weight:700;font-size:0.95rem;margin:8px 0 4px;">
+      ⬇️ Tải hashcat binaries tại hashcat.net/hashcat
+    </a>
+    <div class="warn" style="margin-top:10px;">⚠️ Tải đúng phần <strong>"hashcat binaries"</strong> (file .7z ~25MB) — <strong>không</strong> phải source code hay hashcat-utils. Giải nén bằng 7-Zip hoặc WinRAR.</div>
+
+    <h3>Bước 2: Đặt thư mục Hashcat cạnh file .exe</h3>
+    <p>Sau khi giải nén, bạn có thư mục <code>hashcat-7.x.x/</code> chứa <code>hashcat.exe</code> bên trong. Đặt thư mục đó <strong>cùng cấp với khoiphuctool.exe</strong>:</p>
+    <div style="background:#1e2d3d;color:#a8d8a8;border-radius:10px;padding:16px 20px;font-family:monospace;font-size:0.88rem;line-height:2;margin:12px 0;">
+      <span style="color:#7ec8e3;">📁 Thư mục bất kỳ (ví dụ: Desktop\KPT)</span><br>
+      &nbsp;&nbsp;├── <span style="color:#f1c40f;">khoiphuctool.exe</span> &nbsp;&nbsp;<span style="color:#666;">← file chính KPT</span><br>
+      &nbsp;&nbsp;└── <span style="color:#7ec8e3;">📁 hashcat-7.1.2\</span> &nbsp;&nbsp;<span style="color:#666;">← thư mục hashcat đặt cạnh</span><br>
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;├── <span style="color:#e74c3c;">hashcat.exe</span><br>
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;├── OpenCL\<br>
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;└── kernels\
+    </div>
+    <div class="tip">💡 Tên thư mục có thể là <code>hashcat-7.1.2</code>, <code>hashcat-7.2.0</code> hay chỉ <code>hashcat</code> — KPT tự tìm đúng.</div>
+
+    <h3>Bước 3: Mở KPT và chọn chế độ Engine</h3>
+    <p>Đăng nhập tài khoản <strong>PRO</strong>, tìm khu vực <strong>Engine</strong> ngay dưới ô chọn file:</p>
+    <ul style="margin-top:8px;">
+      <li><strong>AUTO</strong> — tự động dùng GPU nếu phát hiện Hashcat, fallback về CPU nếu không có. <em>Khuyến nghị cho đa số người dùng.</em></li>
+      <li><strong>CPU</strong> — luôn dùng CPU multiprocessing, bỏ qua Hashcat.</li>
+      <li><strong>GPU 🔒PRO</strong> — luôn dùng Hashcat GPU, báo lỗi nếu không tìm thấy hashcat.exe.</li>
+    </ul>
+    <div class="new">✅ App sẽ hiển thị tên GPU phát hiện được ngay bên cạnh nút Engine, ví dụ: <em>NVIDIA GeForce RTX 3060</em> hoặc <em>AMD Radeon RX 6600</em>.</div>
+
+    <h3>Bước 4: Dò mật khẩu với GPU</h3>
+    <p>Chọn file, cấu hình bộ ký tự và độ dài như thường, rồi nhấn <strong>▶️ Bắt đầu</strong>. Hashcat sẽ chạy ngầm và cập nhật tiến trình, tốc độ lên giao diện KPT.</p>
+    <div class="warn">⚠️ <strong>Yêu cầu:</strong> Driver GPU cập nhật mới nhất + OpenCL (NVIDIA/AMD) hoặc CUDA (NVIDIA). Intel Arc cần driver Intel OpenCL. Nếu GPU không được hỗ trợ, chọn AUTO để fallback về CPU.</div>
+
+    <h3>So sánh tốc độ CPU vs GPU (tham khảo)</h3>
+    <div style="overflow-x:auto;">
+      <table style="width:100%;border-collapse:collapse;font-size:0.88rem;margin-top:8px;">
+        <thead>
+          <tr style="background:#f3e5f5;">
+            <th style="padding:10px 14px;text-align:left;border-bottom:2px solid #8e24aa;">Loại file</th>
+            <th style="padding:10px 14px;text-align:center;border-bottom:2px solid #8e24aa;">CPU (8 luồng)</th>
+            <th style="padding:10px 14px;text-align:center;border-bottom:2px solid #8e24aa;">GPU (RTX 3060)</th>
+            <th style="padding:10px 14px;text-align:center;border-bottom:2px solid #8e24aa;">Nhanh hơn</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr style="border-bottom:1px solid #f0f0f0;">
+            <td style="padding:9px 14px;">Office 2013+ (.xlsx mới)</td>
+            <td style="padding:9px 14px;text-align:center;">~15 p/s</td>
+            <td style="padding:9px 14px;text-align:center;">~5.000 p/s</td>
+            <td style="padding:9px 14px;text-align:center;color:#27ae60;font-weight:700;">~330x</td>
+          </tr>
+          <tr style="border-bottom:1px solid #f0f0f0;background:#fafafa;">
+            <td style="padding:9px 14px;">Office 2010 (.xlsx cũ)</td>
+            <td style="padding:9px 14px;text-align:center;">~200 p/s</td>
+            <td style="padding:9px 14px;text-align:center;">~50.000 p/s</td>
+            <td style="padding:9px 14px;text-align:center;color:#27ae60;font-weight:700;">~250x</td>
+          </tr>
+          <tr style="border-bottom:1px solid #f0f0f0;">
+            <td style="padding:9px 14px;">Office 2007 RC4 (.xls)</td>
+            <td style="padding:9px 14px;text-align:center;">~5.000 p/s</td>
+            <td style="padding:9px 14px;text-align:center;">~2.000.000 p/s</td>
+            <td style="padding:9px 14px;text-align:center;color:#27ae60;font-weight:700;">~400x</td>
+          </tr>
+          <tr style="background:#fafafa;">
+            <td style="padding:9px 14px;">ZIP (AES-256)</td>
+            <td style="padding:9px 14px;text-align:center;">~1.000 p/s</td>
+            <td style="padding:9px 14px;text-align:center;">~300.000 p/s</td>
+            <td style="padding:9px 14px;text-align:center;color:#27ae60;font-weight:700;">~300x</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <p style="font-size:0.82rem;color:#888;margin-top:6px;">* Số liệu tham khảo, thực tế phụ thuộc vào GPU và CPU của bạn.</p>
   </div>
 
   <!-- GIAO DIỆN -->
   <div class="section" id="giao-dien">
-    <h2>5. Giao diện tổng quan</h2>
+    <h2>6. Giao diện tổng quan</h2>
     <p>Giao diện chia thành các khu vực chính:</p>
     <ul>
-      <li><strong>Chọn file:</strong> Kéo thả hoặc Browse — hỗ trợ cả Office lẫn RAR/ZIP</li>
+      <li><strong>Chọn file:</strong> Kéo thả hoặc Browse — hỗ trợ cả Office lẫn RAR/ZIP/7z</li>
+      <li><strong>Engine:</strong> Chọn AUTO / CPU / GPU 🔒PRO (mới V7.3)</li>
       <li><strong>Workers X1-X8:</strong> Chọn số luồng song song (FREE chỉ X1, PRO X1-X8)</li>
       <li><strong>Tab nội dung:</strong> Vét cạn / VBA Crack / Từ điển & Số</li>
       <li><strong>Thanh trạng thái:</strong> Candidate đang thử, thời gian, ETA, tốc độ</li>
@@ -215,7 +300,7 @@
 
   <!-- OFFICE -->
   <div class="section" id="office">
-    <h2>6. Khôi phục mật khẩu Office</h2>
+    <h2>7. Khôi phục mật khẩu Office</h2>
     <p>Hỗ trợ .xlsx, .xls, .xlsb, .xlsm, .docx, .doc, .pptx, .ppt</p>
     <h3>Các bước:</h3>
     <ol>
@@ -229,10 +314,10 @@
     <div class="tip">💡 File .xls cũ (RC4) dò rất nhanh ~5,000-20,000 pass/s. File .xlsx mới (AES-256) chậm hơn ~5-15 pass/s.</div>
   </div>
 
-  <!-- RAR/ZIP -->
+  <!-- RAR/ZIP/7z -->
   <div class="section" id="rarzip">
-    <h2>7. Khôi phục mật khẩu RAR/ZIP</h2>
-    <p>Hỗ trợ RAR3, RAR5, ZIP (bao gồm AES-256)</p>
+    <h2>8. Khôi phục mật khẩu RAR/ZIP/7z</h2>
+    <p>Hỗ trợ RAR3, RAR5, ZIP (bao gồm AES-256), 7z</p>
     <h3>Các bước:</h3>
     <ol>
       <li>Chọn file RAR hoặc ZIP ở ô chọn file</li>
@@ -246,7 +331,7 @@
 
   <!-- VBA -->
   <div class="section" id="vba">
-    <h2>8. Gỡ khóa VBA Macro</h2>
+    <h2>9. Gỡ khóa VBA Macro</h2>
     <p>Dành cho file .xlsm, .xlsb, .xls có VBA bị khóa.</p>
     <ol>
       <li>Chọn file Excel có VBA</li>
@@ -259,7 +344,7 @@
 
   <!-- ĐA LUỒNG -->
   <div class="section" id="da-luong">
-    <h2>9. Đa luồng X1-X8 & tạm dừng từng luồng</h2>
+    <h2>10. Đa luồng X1-X8 & tạm dừng từng luồng</h2>
     <p>Chia toàn bộ candidates thành các chunk, mỗi luồng xử lý 1 chunk song song — giống như mở nhiều app cùng lúc nhưng trong 1 app duy nhất.</p>
     <ul>
       <li><strong>X1</strong> — 1 luồng, dùng 1 nhân CPU. FREE + PRO, phù hợp máy yếu hoặc CPU 2 nhân</li>
@@ -276,13 +361,14 @@
 
   <!-- MẸO -->
   <div class="section" id="meo">
-    <h2>10. Mẹo sử dụng hiệu quả</h2>
+    <h2>11. Mẹo sử dụng hiệu quả</h2>
     <ul>
       <li>Biết mật khẩu là số → chỉ dùng <strong>0-9</strong>, giảm 90% thời gian</li>
       <li>Biết độ dài chính xác → đặt min = max = độ dài đó</li>
       <li>Biết một phần → dùng <strong>Pattern</strong> với <code>*</code></li>
       <li>Ctrl+click để chọn nhiều bộ ký tự cùng lúc</li>
       <li>Dùng <strong>X6-X8</strong> trên máy 6-8 core CPU để tối đa tốc độ</li>
+      <li>Hoặc bật <strong>GPU mode</strong> (PRO) để tăng tốc hàng trăm lần</li>
       <li>Pause luồng chậm, để luồng nhanh chạy tiếp — tối ưu tài nguyên</li>
       <li>Tắt các ứng dụng nặng khác khi đang dò</li>
       <li>File .xls cũ → dò nhanh hơn nhiều so với .xlsx mới</li>
@@ -298,7 +384,7 @@
   <a href="/khoiphuctool/">🏠 Trang chủ</a> &nbsp;|&nbsp;
   <a href="huong-dan-mom.html">📗 Hướng dẫn MÕM</a> &nbsp;|&nbsp;
   <a href="huong-dan-rarzip.html">📙 Hướng dẫn RARZIP</a> &nbsp;|&nbsp;
-  <a href="huong-dan-khoiphuctool.html"><img src="LOGO.png" style="width:26px;height:26px;vertical-align:middle;margin-right:3px;border-radius:50%;"> Hướng dẫn KPT v6.1</a> &nbsp;|&nbsp;
+  <a href="huong-dan-khoiphuctool.html"><img src="LOGO.png" style="width:26px;height:26px;vertical-align:middle;margin-right:3px;border-radius:50%;"> Hướng dẫn KPT V7.3</a> &nbsp;|&nbsp;
   <a href="tags.html">🏷️ Từ khóa</a>
 </footer>
 
