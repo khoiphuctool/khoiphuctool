@@ -11,8 +11,8 @@
   gtag('js', new Date());
   gtag('config', 'G-R50KDN2TCB');
 </script>
-<meta name="description" content="Hướng dẫn chi tiết KhoiPhucTool V7.3 - khôi phục mật khẩu Excel, Word, PowerPoint, RAR, ZIP, 7z. Hỗ trợ GPU (Hashcat), brute force, từ điển, VBA crack, đa luồng X1-X8.">
-<meta name="keywords" content="KhoiPhucTool V7.3 hướng dẫn, tool khôi phục mật khẩu GPU hashcat, crack pass excel rar zip gpu, phần mềm khôi phục mật khẩu all in one, tải hashcat khoiphuctool">
+<meta name="description" content="Hướng dẫn chi tiết KhoiPhucTool — khôi phục mật khẩu Excel, Word, PowerPoint, RAR, ZIP, 7z. GPU Hashcat + OpenCL Agile SHA-1/SHA-256/SHA-512 chuẩn ECMA-376. Brute force, từ điển, VBA crack, đa luồng X1-X8.">
+<meta name="keywords" content="KhoiPhucTool hướng dẫn, tool khôi phục mật khẩu GPU hashcat OpenCL, crack pass excel rar zip gpu, phần mềm khôi phục mật khẩu all in one, tải hashcat khoiphuctool, agile encryption sha1 aes128 gpu">
 <link rel="canonical" href="https://khoiphuctool.github.io/khoiphuctool/huong-dan-khoiphuctool.html">
 <link rel="icon" href="LOGO.png" type="image/png"><style>
   * { margin:0; padding:0; box-sizing:border-box; }
@@ -82,13 +82,13 @@
   <div class="nav-links" id="nav-links-kpt">
     <a href="huong-dan-mom.html">📗 MÕM Tool</a>
     <a href="huong-dan-rarzip.html">📙 RARZIP Tool</a>
-    <a href="huong-dan-khoiphuctool.html" style="background:#8e24aa;color:white;"><img src="LOGO.png" style="width:16px;height:16px;vertical-align:middle;border-radius:50%;margin-right:3px;"> KhoiPhucTool V7.3</a>
+    <a href="huong-dan-khoiphuctool.html" style="background:#8e24aa;color:white;"><img src="LOGO.png" style="width:16px;height:16px;vertical-align:middle;border-radius:50%;margin-right:3px;"> KhoiPhucTool <span class="kpt-ver" id="nav-kpt-ver">...</span></a>
     <a href="tags.html">🏷️ Từ khóa</a>
   </div>
 </nav>
 
 <div class="hero">
-  <h1><img src="LOGO.png" style="width:26px;height:26px;vertical-align:middle;margin-right:3px;border-radius:50%;"> Hướng dẫn KhoiPhucTool <span id="hero-kpt-ver">V7.3</span></h1>
+  <h1><img src="LOGO.png" style="width:26px;height:26px;vertical-align:middle;margin-right:3px;border-radius:50%;"> Hướng dẫn KhoiPhucTool <span id="hero-kpt-ver" class="kpt-ver">...</span></h1>
   <p>Bộ công cụ khôi phục mật khẩu tổng hợp — Excel, Word, RAR, ZIP, 7z, <strong>GPU Hashcat</strong> tất cả trong một</p>
   <span class="badge-new">✨ Phiên bản mới nhất</span>
 </div>
@@ -97,8 +97,8 @@
 
   <div class="toc">
     <h3>📋 Mục lục</h3>
-    <a href="#gioi-thieu">1. KhoiPhucTool <span class="kpt-ver">V7.3</span> là gì?</a>
-    <a href="#moi-v7.3">2. Tính năng mới trong V7.3</a>
+    <a href="#gioi-thieu">1. KhoiPhucTool <span class="kpt-ver">...</span> là gì?</a>
+    <a href="#moi-kpt">2. Tính năng mới phiên bản này</a>
     <a href="#so-sanh">3. So sánh với MÕM Tool và RARZIP Tool</a>
     <a href="#tai-ve">4. Tải về và đăng nhập</a>
     <a href="#gpu-hashcat">5. 🚀 Hướng dẫn dùng GPU (Hashcat) — MỚI</a>
@@ -112,23 +112,36 @@
 
   <!-- GIỚI THIỆU -->
   <div class="section" id="gioi-thieu">
-    <h2>1. KhoiPhucTool <span class="kpt-ver">V7.3</span> là gì?</h2>
-    <p>KhoiPhucTool <span class="kpt-ver">V7.3</span> là phiên bản nâng cấp gộp toàn bộ tính năng của MÕM Tool và RARZIP Tool vào một ứng dụng duy nhất — và nay tích hợp thêm <strong>GPU engine (Hashcat 7.x)</strong> giúp dò mật khẩu nhanh hơn nhiều lần. Không cần mở nhiều app, không cần chuyển đổi giữa các tool.</p>
-    <div class="new">✨ <strong>Mới trong <span class="kpt-ver">V7.3</span>:</strong> Chế độ GPU (Hashcat) dành cho tài khoản PRO — tự động chọn GPU nếu có, fallback về CPU. Chỉ cần đặt thư mục <code>hashcat-7.x.x/</code> cạnh file .exe là dùng được ngay.</div>
+    <h2>1. KhoiPhucTool <span class="kpt-ver">...</span> là gì?</h2>
+    <p>KhoiPhucTool <span class="kpt-ver">...</span> là phiên bản nâng cấp gộp toàn bộ tính năng của MÕM Tool và RARZIP Tool vào một ứng dụng duy nhất — với <strong>GPU engine kép</strong>: Hashcat 7.x (brute-force nhanh) và OpenCL kernel nội bộ (Office Agile SHA-1/SHA-256/SHA-512 chuẩn ECMA-376). Không cần mở nhiều app, không cần chuyển đổi giữa các tool.</p>
+    <div class="new">✨ <strong>Mới trong <span class="kpt-ver">...</span>:</strong> Sửa đúng thuật toán <strong>Office Agile Encryption SHA-1 + AES-128</strong> trên GPU/OpenCL — đúng ECMA-376 / MS-OFFCRYPTO spec. Không còn lỗi blockKey bytes sai, không còn padding giả. Thêm CPU reference implementation và 51 test vectors tự động.</div>
     <div class="feature-grid">
       <div class="feature-item"><strong>📊 Office</strong>.xlsx .xls .xlsb .xlsm .docx .doc .pptx .ppt</div>
       <div class="feature-item"><strong>📦 RAR/ZIP/7z</strong>RAR3, RAR5, ZIP (AES-256), 7z</div>
       <div class="feature-item"><strong>🔧 VBA</strong>Gỡ khóa macro Excel</div>
-      <div class="feature-item"><strong>🚀 GPU (PRO)</strong>Hashcat 7.x — NVIDIA/AMD/Intel</div>
-      <div class="feature-item"><strong>⚡ Đa luồng</strong>X1 → X8 song song</div>
-      <div class="feature-item"><strong>📚 Từ điển</strong>Wordlist + khoảng số</div>
+      <div class="feature-item"><strong>🚀 GPU Hashcat (PRO)</strong>Hashcat 7.x — NVIDIA/AMD/Intel</div>
+      <div class="feature-item"><strong>⚡ GPU OpenCL (PRO)</strong>Agile SHA-1/SHA-256/SHA-512 kernel nội bộ</div>
+      <div class="feature-item"><strong>🧵 Đa luồng</strong>X1 → X8 song song</div>
     </div>
   </div>
 
-  <!-- TÍNH NĂNG MỚI V7.3 -->
-  <div class="section" id="moi-v7.3">
-    <h2>2. Tính năng mới trong V7.3</h2>
-    <div class="new">🆕 <strong>V7.3 bổ sung GPU engine (Hashcat) và cải thiện engine selector ngay trong giao diện.</strong></div>
+  <!-- TÍNH NĂNG MỚI -->
+  <div class="section" id="moi-kpt">
+    <h2>2. Tính năng mới trong <span class="kpt-ver">...</span></h2>
+    <div class="new">🆕 <strong><span class="kpt-ver">...</span> bổ sung sửa đúng thuật toán Office Agile Encryption SHA-1 + AES-128 trên GPU/OpenCL, GPU engine Hashcat và cải thiện engine selector ngay trong giao diện.</strong></div>
+
+    <h3>🔐 Sửa đúng Office Agile SHA-1 + AES-128 GPU/OpenCL — MỚI</h3>
+    <p>Phiên bản này fix lỗi nghiêm trọng trong GPU kernel cho <strong>Microsoft Office Agile Encryption (ECMA-376)</strong> với SHA-1 + AES-128. Kernel cũ dùng blockKey bytes sai thứ tự (little-endian nhầm), gây ra kết quả sai hoàn toàn khi dò mật khẩu file xlsx/docx mới.</p>
+    <div class="new">
+      ✅ <strong>Đã sửa trong phiên bản này:</strong>
+      <ul style="margin:8px 0 0 16px;padding:0;line-height:2;">
+        <li>BlockKey bytes đúng: <code>FE A7 D2 76 3B 4B 9E 79</code> và <code>D7 AA 0F 6D 30 61 34 4E</code> (xác nhận từ Hashcat m09500)</li>
+        <li>Bỏ hoàn toàn padding giả (<code>b'\x00'*n</code>) trong <code>encryptedVerifierHashValue</code></li>
+        <li>Parser validate đúng: reject nếu <code>keyBits≠128</code>, <code>saltSize≠16</code>, hoặc dữ liệu ngắn hơn spec</li>
+        <li>CPU reference implementation đúng chuẩn để so sánh với GPU</li>
+        <li>51 test vectors tự động: SHA-1 NIST, AES-128 NIST, KDF, verify đúng/sai password, no false positive</li>
+      </ul>
+    </div>
 
     <h3>🚀 Chế độ GPU — Hashcat 7.x (PRO)</h3>
     <p>Tích hợp Hashcat 7.x làm GPU backend. Với card đồ họa NVIDIA/AMD/Intel, tốc độ dò file Office có thể đạt hàng nghìn đến hàng chục nghìn mật khẩu/giây thay vì vài chục như CPU.</p>
@@ -173,7 +186,7 @@
         </ul>
       </div>
       <div class="compare-card c-kpt">
-        <h4><img src="LOGO.png" style="width:26px;height:26px;vertical-align:middle;margin-right:3px;border-radius:50%;"> KhoiPhucTool <span class="kpt-ver">V7.3</span></h4>
+        <h4><img src="LOGO.png" style="width:26px;height:26px;vertical-align:middle;margin-right:3px;border-radius:50%;"> KhoiPhucTool <span class="kpt-ver">...</span></h4>
         <ul>
           <li>✅ Excel, Word, PPT</li>
           <li>✅ VBA Crack</li>
@@ -182,7 +195,8 @@
           <li>✅ Pause per-worker</li>
           <li>✅ Pass dài 10+ ký tự</li>
           <li>✅ ETA năm-tháng-ngày-giờ</li>
-          <li>🚀 GPU (Hashcat) — PRO</li>
+          <li>🚀 GPU Hashcat — PRO</li>
+          <li>⚡ GPU OpenCL Agile — PRO</li>
         </ul>
       </div>
     </div>
@@ -199,14 +213,14 @@
       <div class="step-card"><div class="step-num">4</div><h4>Chọn loại file</h4><p>Office hoặc RAR/ZIP</p></div>
     </div>
     <div class="warn">⚠️ Cần WinRAR hoặc 7-Zip để xử lý file RAR. File ZIP không cần.</div>
-    <a href="/khoiphuctool/#kpt" class="btn-dl" id="btn-dl-kpt">⬇️ Tải KhoiPhucTool <span id="ver-kpt-hd">V7.3</span></a>
+    <a href="/khoiphuctool/#kpt" class="btn-dl" id="btn-dl-kpt">⬇️ Tải KhoiPhucTool <span id="ver-kpt-hd" class="kpt-ver">...</span></a>
     <a href="https://vt.tiktok.com/ZS9nccdvM/" target="_blank" rel="noopener" class="btn-dl" style="background:linear-gradient(135deg,#010101,#2d2d2d);margin-top:10px;">▶️ Xem video hướng dẫn TikTok</a>
   </div>
 
   <!-- GPU HASHCAT -->
   <div class="section" id="gpu-hashcat">
     <h2>5. 🚀 Hướng dẫn dùng GPU (Hashcat) — PRO</h2>
-    <div class="new">✨ Tính năng mới trong V7.3 — chỉ dành cho tài khoản <strong>PRO</strong>. GPU dò nhanh hơn CPU nhiều lần với card NVIDIA/AMD/Intel Arc.</div>
+    <div class="new">✨ Tính năng mới trong phiên bản <span class="kpt-ver">...</span> — chỉ dành cho tài khoản <strong>PRO</strong>. GPU dò nhanh hơn CPU nhiều lần với card NVIDIA/AMD/Intel Arc.</div>
 
     <h3>Bước 1: Tải Hashcat binaries (các tệp nhị phân)</h3>
     <p>Vào trang chính thức, kéo xuống phần <strong>"hashcat binaries"</strong> và tải file <code>.7z</code> cho Windows:</p>
@@ -289,7 +303,7 @@
     <p>Giao diện chia thành các khu vực chính:</p>
     <ul>
       <li><strong>Chọn file:</strong> Kéo thả hoặc Browse — hỗ trợ cả Office lẫn RAR/ZIP/7z</li>
-      <li><strong>Engine:</strong> Chọn AUTO / CPU / GPU 🔒PRO (mới V7.3)</li>
+      <li><strong>Engine:</strong> Chọn AUTO / CPU / GPU 🔒PRO</li>
       <li><strong>Workers X1-X8:</strong> Chọn số luồng song song (FREE chỉ X1, PRO X1-X8)</li>
       <li><strong>Tab nội dung:</strong> Vét cạn / VBA Crack / Từ điển & Số</li>
       <li><strong>Thanh trạng thái:</strong> Candidate đang thử, thời gian, ETA, tốc độ</li>
@@ -384,7 +398,7 @@
   <a href="/khoiphuctool/">🏠 Trang chủ</a> &nbsp;|&nbsp;
   <a href="huong-dan-mom.html">📗 Hướng dẫn MÕM</a> &nbsp;|&nbsp;
   <a href="huong-dan-rarzip.html">📙 Hướng dẫn RARZIP</a> &nbsp;|&nbsp;
-  <a href="huong-dan-khoiphuctool.html"><img src="LOGO.png" style="width:26px;height:26px;vertical-align:middle;margin-right:3px;border-radius:50%;"> Hướng dẫn KPT V7.3</a> &nbsp;|&nbsp;
+  <a href="huong-dan-khoiphuctool.html"><img src="LOGO.png" style="width:26px;height:26px;vertical-align:middle;margin-right:3px;border-radius:50%;"> Hướng dẫn KPT <span class="kpt-ver">...</span></a> &nbsp;|&nbsp;
   <a href="tags.html">🏷️ Từ khóa</a>
 </footer>
 
@@ -395,15 +409,30 @@
   function _xd(p,k){return p.map((a,i)=>{const b=a.map((c,j)=>String.fromCharCode(c^k[i].charCodeAt(j%k[i].length))).join('');return atob(b);}).join('');}
   fetch(_xd(_up,_uk)).then(r=>r.text()).then(csv=>{
     const rows=csv.split('\n').map(r=>r.replace(/\r/g,'').split(',').map(c=>c.replace(/^"|"$/g,'').trim()));
-    // rows[5][9] = link KPT, rows[6][9] = version KPT
-    const link=rows[5]?.[9], ver=rows[6]?.[9];
-    if(link){const b=document.getElementById('btn-dl-kpt');if(b){b.href=link;b.target='_blank';}}
+    // rows[5][9] = J6 = link download KPT
+    // rows[6][9] = J7 = version KPT (ví dụ: "V7.4")
+    const link = rows[5]?.[9];
+    const ver  = rows[6]?.[9];
+    if(link){
+      const b = document.getElementById('btn-dl-kpt');
+      if(b){ b.href = link; b.target = '_blank'; }
+    }
     if(ver){
-      // Cập nhật tất cả chỗ hiển thị version
+      // Cập nhật tất cả span.kpt-ver và các id riêng lẻ
       document.querySelectorAll('.kpt-ver, #ver-kpt-hd, #nav-kpt-ver, #hero-kpt-ver')
         .forEach(el => el.textContent = ver);
-      // Cập nhật title và meta description động
-      document.title = `Hướng dẫn KhoiPhucTool ${ver} - Khôi phục mật khẩu Excel RAR ZIP Word tất cả trong một`;
+      // Cập nhật <title> động
+      document.title = `Hướng dẫn KhoiPhucTool ${ver} — Khôi phục mật khẩu Excel RAR ZIP Word tất cả trong một`;
+      // Cập nhật meta description động
+      const metaDesc = document.querySelector('meta[name="description"]');
+      if(metaDesc) metaDesc.content =
+        `Hướng dẫn chi tiết KhoiPhucTool ${ver} — khôi phục mật khẩu Excel, Word, PowerPoint, RAR, ZIP, 7z. ` +
+        `GPU Hashcat + OpenCL Agile SHA-1/SHA-256/SHA-512. Brute force, từ điển, VBA crack, đa luồng X1-X8.`;
+      // Cập nhật meta keywords động
+      const metaKw = document.querySelector('meta[name="keywords"]');
+      if(metaKw) metaKw.content =
+        `KhoiPhucTool ${ver} hướng dẫn, tool khôi phục mật khẩu GPU hashcat OpenCL, crack pass excel rar zip gpu, ` +
+        `phần mềm khôi phục mật khẩu all in one, tải hashcat khoiphuctool, agile encryption sha1 aes128 gpu`;
     }
   }).catch(()=>{});
 })();

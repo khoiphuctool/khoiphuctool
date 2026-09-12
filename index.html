@@ -1134,8 +1134,9 @@ function cancelTos() {
       <p style="margin-top:12px">Bộ công cụ khôi phục mật khẩu tổng hợp — gộp đầy đủ tính năng Office, RAR/ZIP/<strong>7z</strong> và nhiều hơn nữa trong một ứng dụng duy nhất.</p>
       <p style="font-size:0.88rem;color:#888;margin-bottom:8px">🆓 <b>FREE</b>: tối đa độ dài pass 4 ký tự, chỉ X1 luồng<br>💎 <b>PRO</b>: không giới hạn độ dài, X1→X8 luồng, GPU (Hashcat)</p>
       <div style="background:#f3e5f5;border-left:3px solid #8e24aa;border-radius:0 8px 8px 0;padding:10px 14px;margin-bottom:10px;font-size:0.88rem;color:#2c3e50;line-height:1.75;">
-        ✨ <strong>Mới trong V7.3:</strong>
+        ✨ <strong>Mới trong <span class="kpt-ver-index">phiên bản này</span>:</strong>
         <ul style="margin:6px 0 0 16px;padding:0;">
+          <li>🔐 <strong>Sửa đúng Office Agile SHA-1 + AES-128 GPU/OpenCL</strong> — blockKey bytes đúng chuẩn ECMA-376, bỏ padding giả, 51 test vectors tự động PASS</li>
           <li>🚀 <strong>Chế độ GPU (Hashcat) 🔒PRO</strong> — tích hợp Hashcat 7.x, tốc độ dò nhanh hơn CPU nhiều lần với card đồ họa NVIDIA/AMD/Intel</li>
           <li>🔄 <strong>AUTO engine</strong> — tự động chọn GPU nếu có Hashcat, fallback về CPU nếu không</li>
           <li>📁 Hashcat chỉ cần đặt thư mục <code>hashcat-7.1.2/</code> cạnh file .exe là dùng được ngay</li>
@@ -1149,6 +1150,7 @@ function cancelTos() {
         <li>Gộp tất cả tính năng trong một app duy nhất</li>
         <li>Khôi phục Excel, Word, PowerPoint, RAR, ZIP, <strong>7z</strong></li>
         <li>🚀 <strong>GPU mode (Hashcat)</strong> — dò mật khẩu bằng card đồ họa, tốc độ vượt trội (PRO)</li>
+        <li>⚡ <strong>GPU OpenCL Agile</strong> — SHA-1/SHA-256/SHA-512 + AES kernel nội bộ, đúng ECMA-376 spec (PRO)</li>
         <li>Vét cạn theo bộ ký tự & pattern tùy chỉnh</li>
         <li>Khôi phục bằng từ điển (Wordlist) & dải số</li>
         <li>Gỡ khóa VBA Macro (DPB crack)</li>
@@ -1600,6 +1602,8 @@ fetch(SHEET_CSV)
     if (kptVer) {
       document.getElementById('ver-kpt').textContent = kptVer;
       document.getElementById('sub-kpt').textContent = 'KhoiPhucTool ' + kptVer;
+      // Cập nhật span "Mới trong phiên bản này" trong card
+      document.querySelectorAll('.kpt-ver-index').forEach(el => el.textContent = kptVer);
     }
     // Con Trâu — lấy từ Sheet, ẩn nút nếu chưa có
     const trauBtn = document.getElementById('btn-trau');
