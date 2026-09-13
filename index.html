@@ -1136,7 +1136,7 @@ function cancelTos() {
       <div style="background:#f3e5f5;border-left:3px solid #8e24aa;border-radius:0 8px 8px 0;padding:10px 14px;margin-bottom:10px;font-size:0.88rem;color:#2c3e50;line-height:1.75;">
         ✨ <strong>Mới trong <span class="kpt-ver-index">phiên bản này</span>:</strong>
         <ul style="margin:6px 0 0 16px;padding:0;">
-          <li>🔐 <strong>Sửa đúng Office Agile SHA-1 + AES-128 GPU/OpenCL</strong> — blockKey bytes đúng chuẩn ECMA-376, bỏ padding giả, 51 test vectors tự động PASS</li>
+          <li>🔐 <strong>Sửa đúng Office Agile SHA-1 + AES-128 GPU/OpenCL</strong> — blockKey bytes đúng chuẩn ECMA-376, bỏ padding giả, 57 kiểm tra tự động PASS</li>
           <li>🚀 <strong>Chế độ GPU (Hashcat) 🔒PRO</strong> — tích hợp Hashcat 7.x, tốc độ dò nhanh hơn CPU nhiều lần với card đồ họa NVIDIA/AMD/Intel</li>
           <li>🔄 <strong>AUTO engine</strong> — tự động chọn GPU nếu có Hashcat, fallback về CPU nếu không</li>
           <li>📁 Hashcat chỉ cần đặt thư mục <code>hashcat-7.1.2/</code> cạnh file .exe là dùng được ngay</li>
@@ -1150,7 +1150,7 @@ function cancelTos() {
         <li>Gộp tất cả tính năng trong một app duy nhất</li>
         <li>Khôi phục Excel, Word, PowerPoint, RAR, ZIP, <strong>7z</strong></li>
         <li>🚀 <strong>GPU mode (Hashcat)</strong> — dò mật khẩu bằng card đồ họa, tốc độ vượt trội (PRO)</li>
-        <li>⚡ <strong>GPU OpenCL Agile</strong> — SHA-1/SHA-256/SHA-512 + AES kernel nội bộ, đúng ECMA-376 spec (PRO)</li>
+        <li>⚡ <strong>GPU OpenCL Agile</strong> — kernel nội bộ cho SHA-1/SHA-256; SHA-512 dùng Hashcat khi mode tương thích (PRO)</li>
         <li>Vét cạn theo bộ ký tự & pattern tùy chỉnh</li>
         <li>Khôi phục bằng từ điển (Wordlist) & dải số</li>
         <li>Gỡ khóa VBA Macro (DPB crack)</li>
@@ -1159,6 +1159,7 @@ function cancelTos() {
         <li>File .7z bắt buộc dùng 7z.exe — WinRAR không can thiệp</li>
         <li>Đa luồng X1→X8 — mỗi luồng dò chunk riêng</li>
         <li>Tạm dừng / tiếp tục từng luồng riêng lẻ (per-worker)</li>
+        <li>Tự lưu phiên, cấu hình và vị trí để tiếp tục sau khi tạm dừng hoặc mở lại app</li>
         <li>Hiển thị tiến trình & timer từng luồng W1-W8 realtime</li>
         <li>Tự động nhận diện loại mã hóa (AES-256, RC4...)</li>
         <li>Kiểm tra mã hóa & ước tính tốc độ trước khi dò</li>

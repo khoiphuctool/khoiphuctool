@@ -11,7 +11,7 @@
   gtag('js', new Date());
   gtag('config', 'G-R50KDN2TCB');
 </script>
-<meta name="description" content="Hướng dẫn chi tiết KhoiPhucTool — khôi phục mật khẩu Excel, Word, PowerPoint, RAR, ZIP, 7z. GPU Hashcat + OpenCL Agile SHA-1/SHA-256/SHA-512 chuẩn ECMA-376. Brute force, từ điển, VBA crack, đa luồng X1-X8.">
+<meta name="description" content="Hướng dẫn chi tiết KhoiPhucTool — khôi phục mật khẩu Excel, Word, PowerPoint, RAR, ZIP, 7z. GPU Hashcat và OpenCL Agile SHA-1/SHA-256 chuẩn ECMA-376. Brute force, từ điển, VBA crack, đa luồng X1-X8.">
 <meta name="keywords" content="KhoiPhucTool hướng dẫn, tool khôi phục mật khẩu GPU hashcat OpenCL, crack pass excel rar zip gpu, phần mềm khôi phục mật khẩu all in one, tải hashcat khoiphuctool, agile encryption sha1 aes128 gpu">
 <link rel="canonical" href="https://khoiphuctool.github.io/khoiphuctool/huong-dan-khoiphuctool.html">
 <link rel="icon" href="LOGO.png" type="image/png"><style>
@@ -107,20 +107,21 @@
     <a href="#rarzip">8. Khôi phục mật khẩu RAR/ZIP/7z</a>
     <a href="#vba">9. Gỡ khóa VBA Macro</a>
     <a href="#da-luong">10. Đa luồng X1-X8 & tạm dừng từng luồng</a>
-    <a href="#meo">11. Mẹo sử dụng hiệu quả</a>
+    <a href="#resume">11. Tạm dừng và tiếp tục phiên dò</a>
+    <a href="#meo">12. Mẹo sử dụng hiệu quả</a>
   </div>
 
   <!-- GIỚI THIỆU -->
   <div class="section" id="gioi-thieu">
     <h2>1. KhoiPhucTool <span class="kpt-ver">...</span> là gì?</h2>
-    <p>KhoiPhucTool <span class="kpt-ver">...</span> là phiên bản nâng cấp gộp toàn bộ tính năng của MÕM Tool và RARZIP Tool vào một ứng dụng duy nhất — với <strong>GPU engine kép</strong>: Hashcat 7.x (brute-force nhanh) và OpenCL kernel nội bộ (Office Agile SHA-1/SHA-256/SHA-512 chuẩn ECMA-376). Không cần mở nhiều app, không cần chuyển đổi giữa các tool.</p>
-    <div class="new">✨ <strong>Mới trong <span class="kpt-ver">...</span>:</strong> Sửa đúng thuật toán <strong>Office Agile Encryption SHA-1 + AES-128</strong> trên GPU/OpenCL — đúng ECMA-376 / MS-OFFCRYPTO spec. Không còn lỗi blockKey bytes sai, không còn padding giả. Thêm CPU reference implementation và 51 test vectors tự động.</div>
+    <p>KhoiPhucTool <span class="kpt-ver">...</span> là phiên bản nâng cấp gộp toàn bộ tính năng của MÕM Tool và RARZIP Tool vào một ứng dụng duy nhất — với <strong>GPU engine kép</strong>: Hashcat 7.x cho các mode được Hashcat hỗ trợ và OpenCL kernel nội bộ cho Office Agile SHA-1/SHA-256. Không cần mở nhiều app, không cần chuyển đổi giữa các tool.</p>
+    <div class="new">✨ <strong>Mới trong <span class="kpt-ver">...</span>:</strong> Sửa đúng thuật toán <strong>Office Agile Encryption SHA-1 + AES-128</strong> trên GPU/OpenCL — đúng ECMA-376 / MS-OFFCRYPTO spec. Không còn lỗi blockKey bytes sai, không còn padding giả. Bộ test hiện tại có 57 kiểm tra tự động.</div>
     <div class="feature-grid">
       <div class="feature-item"><strong>📊 Office</strong>.xlsx .xls .xlsb .xlsm .docx .doc .pptx .ppt</div>
       <div class="feature-item"><strong>📦 RAR/ZIP/7z</strong>RAR3, RAR5, ZIP (AES-256), 7z</div>
       <div class="feature-item"><strong>🔧 VBA</strong>Gỡ khóa macro Excel</div>
       <div class="feature-item"><strong>🚀 GPU Hashcat (PRO)</strong>Hashcat 7.x — NVIDIA/AMD/Intel</div>
-      <div class="feature-item"><strong>⚡ GPU OpenCL (PRO)</strong>Agile SHA-1/SHA-256/SHA-512 kernel nội bộ</div>
+      <div class="feature-item"><strong>⚡ GPU OpenCL (PRO)</strong>Agile SHA-1/SHA-256 kernel nội bộ; SHA-512 dùng Hashcat khi mode tương thích</div>
       <div class="feature-item"><strong>🧵 Đa luồng</strong>X1 → X8 song song</div>
     </div>
   </div>
@@ -139,7 +140,7 @@
         <li>Bỏ hoàn toàn padding giả (<code>b'\x00'*n</code>) trong <code>encryptedVerifierHashValue</code></li>
         <li>Parser validate đúng: reject nếu <code>keyBits≠128</code>, <code>saltSize≠16</code>, hoặc dữ liệu ngắn hơn spec</li>
         <li>CPU reference implementation đúng chuẩn để so sánh với GPU</li>
-        <li>51 test vectors tự động: SHA-1 NIST, AES-128 NIST, KDF, verify đúng/sai password, no false positive</li>
+        <li>57 kiểm tra tự động: SHA-1 NIST, AES-128 NIST, KDF, verify đúng/sai password, GPU comparison và no false positive</li>
       </ul>
     </div>
 
@@ -160,7 +161,7 @@
       <li>Sửa lỗi ZIP nén bằng WinRAR không dò được</li>
     </ul>
 
-    <div class="tip">💡 GPU mode hỗ trợ Office (xlsx/docx/pptx) và RAR/ZIP/7z. Cần driver GPU cập nhật và OpenCL/CUDA.</div>
+    <div class="tip">💡 Hashcat xử lý các định dạng/mode được hỗ trợ như Office, RAR, ZIP, 7z. OpenCL nội bộ hiện dùng cho Agile SHA-1/SHA-256; loại mã hóa khác sẽ đi qua Hashcat hoặc CPU fallback tùy file.</div>
   </div>
 
   <!-- SO SÁNH -->
@@ -250,6 +251,7 @@
       <li><strong>GPU 🔒PRO</strong> — luôn dùng Hashcat GPU, báo lỗi nếu không tìm thấy hashcat.exe.</li>
     </ul>
     <div class="new">✅ App sẽ hiển thị tên GPU phát hiện được ngay bên cạnh nút Engine, ví dụ: <em>NVIDIA GeForce RTX 3060</em> hoặc <em>AMD Radeon RX 6600</em>.</div>
+    <div class="tip">💡 Khi dùng Hashcat GPU, chỉ cần X1 vì Hashcat tự phân phối workload trên GPU. X2-X8 dành cho CPU hoặc OpenCL SHA-1 riêng.</div>
 
     <h3>Bước 4: Dò mật khẩu với GPU</h3>
     <p>Chọn file, cấu hình bộ ký tự và độ dài như thường, rồi nhấn <strong>▶️ Bắt đầu</strong>. Hashcat sẽ chạy ngầm và cập nhật tiến trình, tốc độ lên giao diện KPT.</p>
@@ -373,9 +375,21 @@
     <div class="warn">⚠️ Dùng X8 trên CPU 4 nhân không nhanh hơn X4, thậm chí chậm hơn. Chọn số luồng ≤ số nhân CPU thực tế.</div>
   </div>
 
+  <!-- RESUME -->
+  <div class="section" id="resume">
+    <h2>11. Tạm dừng và tiếp tục phiên dò</h2>
+    <p>KPT tự lưu cấu hình, vị trí candidate đã thử và thời gian dò khi bạn tạm dừng hoặc đóng ứng dụng giữa chừng.</p>
+    <ol>
+      <li>Nhấn <strong>⏸ Tạm dừng</strong> để giữ phiên hiện tại.</li>
+      <li>Khi mở lại KPT, chọn <strong>Tiếp tục phiên trước</strong>.</li>
+      <li>Nhấn <strong>▶️ Bắt đầu</strong>; ứng dụng sẽ khôi phục bộ ký tự, độ dài, pattern hoặc khoảng số và bỏ qua candidates đã thử.</li>
+    </ol>
+    <div class="warn">⚠️ Không đổi file, bộ ký tự, độ dài hoặc khoảng số giữa hai lần chạy. Thay đổi thứ tự candidates có thể làm vị trí resume không còn chính xác.</div>
+  </div>
+
   <!-- MẸO -->
   <div class="section" id="meo">
-    <h2>11. Mẹo sử dụng hiệu quả</h2>
+    <h2>12. Mẹo sử dụng hiệu quả</h2>
     <ul>
       <li>Biết mật khẩu là số → chỉ dùng <strong>0-9</strong>, giảm 90% thời gian</li>
       <li>Biết độ dài chính xác → đặt min = max = độ dài đó</li>
@@ -427,7 +441,7 @@
       const metaDesc = document.querySelector('meta[name="description"]');
       if(metaDesc) metaDesc.content =
         `Hướng dẫn chi tiết KhoiPhucTool ${ver} — khôi phục mật khẩu Excel, Word, PowerPoint, RAR, ZIP, 7z. ` +
-        `GPU Hashcat + OpenCL Agile SHA-1/SHA-256/SHA-512. Brute force, từ điển, VBA crack, đa luồng X1-X8.`;
+        `GPU Hashcat + OpenCL Agile SHA-1/SHA-256. Brute force, từ điển, VBA crack, đa luồng X1-X8.`;
       // Cập nhật meta keywords động
       const metaKw = document.querySelector('meta[name="keywords"]');
       if(metaKw) metaKw.content =
