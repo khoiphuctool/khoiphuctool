@@ -14,81 +14,145 @@
 <meta name="description" content="Hướng dẫn chi tiết KhoiPhucTool — khôi phục mật khẩu Excel, Word, PowerPoint, RAR, ZIP, 7z. GPU Hashcat và OpenCL Agile SHA-1/SHA-256 chuẩn ECMA-376. Brute force, từ điển, VBA crack, đa luồng X1-X8.">
 <meta name="keywords" content="KhoiPhucTool hướng dẫn, tool khôi phục mật khẩu GPU hashcat OpenCL, crack pass excel rar zip gpu, phần mềm khôi phục mật khẩu all in one, tải hashcat khoiphuctool, agile encryption sha1 aes128 gpu">
 <link rel="canonical" href="https://khoiphuctool.github.io/khoiphuctool/huong-dan-khoiphuctool.html">
-<link rel="icon" href="LOGO.png" type="image/png"><style>
-  * { margin:0; padding:0; box-sizing:border-box; }
-  body { font-family:'Segoe UI',sans-serif; background:#f0f4f8; color:#2c3e50; }
-  nav { background:white; box-shadow:0 2px 8px rgba(0,0,0,0.08); display:flex; align-items:center; justify-content:space-between; padding:8px 16px; position:sticky; top:0; z-index:100; flex-wrap:nowrap; }
-  nav a { text-decoration:none; color:#2c3e50; font-weight:600; padding:6px 14px; border-radius:20px; font-size:0.88rem; transition:all .2s; white-space:nowrap; }
-  nav a:hover { background:#8e24aa; color:white; }
-  .nav-brand { font-weight:700; font-size:0.95rem; display:flex; align-items:center; gap:6px; flex-shrink:0; }
-  .nav-toggle { display:none; flex-direction:column; gap:5px; background:none; border:none; cursor:pointer; padding:4px; flex-shrink:0; }
-  .nav-toggle span { display:block; width:24px; height:2px; background:#2c3e50; border-radius:2px; transition:all .3s; }
-  .nav-toggle.open span:nth-child(1) { transform:translateY(7px) rotate(45deg); }
-  .nav-toggle.open span:nth-child(2) { opacity:0; }
-  .nav-toggle.open span:nth-child(3) { transform:translateY(-7px) rotate(-45deg); }
-  .nav-links { display:flex; align-items:center; gap:6px; flex-wrap:wrap; }
-  @media(max-width:768px){
-    .nav-toggle { display:flex; }
-    .nav-links { display:none; position:absolute; top:100%; left:0; right:0; background:white; flex-direction:column; align-items:stretch; padding:10px 16px; gap:4px; box-shadow:0 8px 20px rgba(0,0,0,0.12); border-top:1px solid #eee; }
-    .nav-links.open { display:flex; }
-    .nav-links a { padding:10px 14px; border-radius:10px; font-size:0.9rem; border-bottom:1px solid #f0f0f0; }
-    .nav-links a:last-child { border-bottom:none; }
+<link rel="icon" href="LOGO.png" type="image/png">
+<style>
+  :root {
+    --bg-main: #0f172a;
+    --bg-card: #1e293b;
+    --bg-hover: #334155;
+    --accent: #8b5cf6;
+    --accent-light: #a855f7;
+    --accent-glow: rgba(139, 92, 246, 0.35);
+    --text-main: #f8fafc;
+    --text-sub: #94a3b8;
+    --border: #334155;
+    --success: #10b981;
+    --warning: #f59e0b;
+    --danger: #ef4444;
   }
-  .hero { background:linear-gradient(135deg,#8e24aa,#ab47bc); color:white; text-align:center; padding:50px 20px 40px; }
-  .hero h1 { font-size:2rem; margin-bottom:10px; }
-  .hero p { font-size:1rem; opacity:0.9; }
-  .badge-new { background:rgba(255,255,255,0.25); padding:4px 14px; border-radius:20px; font-size:0.85rem; font-weight:700; display:inline-block; margin-top:10px; }
-  .content { max-width:860px; margin:40px auto; padding:0 20px; }
-  .section { background:white; border-radius:14px; padding:28px; margin-bottom:24px; box-shadow:0 2px 12px rgba(0,0,0,0.07); }
-  .section h2 { font-size:1.3rem; color:#8e24aa; margin-bottom:16px; padding-bottom:10px; border-bottom:2px solid #f3e5f5; }
-  .section h3 { font-size:1.05rem; color:#2c3e50; margin:16px 0 8px; }
-  .section p { color:#555; line-height:1.75; margin-bottom:12px; font-size:0.95rem; }
-  .section ul, .section ol { padding-left:22px; color:#555; line-height:1.9; font-size:0.95rem; }
-  .tip  { background:#f3e5f5; border-left:4px solid #8e24aa; border-radius:8px; padding:12px 16px; margin:14px 0; font-size:0.9rem; color:#2c3e50; }
-  .warn { background:#fff8e1; border-left:4px solid #f39c12; border-radius:8px; padding:12px 16px; margin:14px 0; font-size:0.9rem; color:#555; }
-  .new  { background:#e8f5e9; border-left:4px solid #27ae60; border-radius:8px; padding:12px 16px; margin:14px 0; font-size:0.9rem; color:#2c3e50; }
-  .compare { display:grid; grid-template-columns:1fr 1fr 1fr; gap:14px; margin-top:14px; }
-  .compare-card { border-radius:10px; padding:16px; text-align:center; }
-  .compare-card h4 { font-size:0.95rem; margin-bottom:8px; }
-  .compare-card ul { list-style:none; padding:0; font-size:0.85rem; color:#555; line-height:1.8; text-align:left; }
-  .c-mom  { background:#e8f5e9; border:2px solid #27ae60; }
-  .c-rar  { background:#fff3e0; border:2px solid #e67e22; }
-  .c-kpt  { background:#f3e5f5; border:2px solid #8e24aa; }
-  .step-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(180px,1fr)); gap:14px; margin-top:14px; }
-  .step-card { background:#f8f9fa; border-radius:10px; padding:16px; text-align:center; }
-  .step-num { width:36px; height:36px; background:#8e24aa; color:white; border-radius:50%; display:flex; align-items:center; justify-content:center; font-weight:700; margin:0 auto 10px; }
-  .step-card h4 { font-size:0.95rem; margin-bottom:6px; }
-  .step-card p { font-size:0.85rem; color:#666; }
-  .btn-dl { display:inline-block; background:linear-gradient(135deg,#8e24aa,#ab47bc); color:white; text-decoration:none; padding:12px 28px; border-radius:10px; font-weight:700; margin-top:10px; }
-  .toc { background:#f8f9fa; border-radius:10px; padding:18px 22px; margin-bottom:24px; }
-  .toc h3 { font-size:1rem; margin-bottom:10px; color:#2c3e50; }
-  .toc a { display:block; color:#8e24aa; text-decoration:none; padding:3px 0; font-size:0.9rem; }
-  .toc a:hover { text-decoration:underline; }
-  .feature-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); gap:12px; margin-top:14px; }
-  .feature-item { background:#f8f9fa; border-radius:10px; padding:14px; font-size:0.9rem; }
-  .feature-item strong { display:block; margin-bottom:4px; color:#8e24aa; }
-  footer { background:#2c3e50; color:#bdc3c7; text-align:center; padding:24px; font-size:0.85rem; margin-top:40px; }
-  footer a { color:#3498db; text-decoration:none; }
-  @media(max-width:600px){ .compare { grid-template-columns:1fr; } }
+
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; background: var(--bg-main); color: var(--text-main); line-height: 1.6; }
+
+  /* NAVIGATION */
+  nav { background: rgba(30, 41, 59, 0.85); backdrop-filter: blur(12px); border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; padding: 12px 24px; position: sticky; top: 0; z-index: 100; }
+  .nav-brand { font-weight: 700; font-size: 1.05rem; display: flex; align-items: center; gap: 8px; color: var(--text-main); text-decoration: none; }
+  .nav-brand img { width: 22px; height: 22px; border-radius: 50%; }
+  .nav-toggle { display: none; flex-direction: column; gap: 5px; background: none; border: none; cursor: pointer; padding: 4px; }
+  .nav-toggle span { display: block; width: 24px; height: 2px; background: var(--text-main); border-radius: 2px; transition: all .3s; }
+  .nav-toggle.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+  .nav-toggle.open span:nth-child(2) { opacity: 0; }
+  .nav-toggle.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+  .nav-links { display: flex; align-items: center; gap: 8px; }
+  .nav-links a { text-decoration: none; color: var(--text-sub); font-weight: 600; padding: 8px 16px; border-radius: 20px; font-size: 0.9rem; transition: all .2s; }
+  .nav-links a:hover { background: var(--bg-hover); color: var(--text-main); }
+  .nav-links a.active { background: linear-gradient(135deg, var(--accent), var(--accent-light)); color: white; box-shadow: 0 0 12px var(--accent-glow); }
+
+  @media(max-width:768px){
+    .nav-toggle { display: flex; }
+    .nav-links { display: none; position: absolute; top: 100%; left: 0; right: 0; background: var(--bg-card); flex-direction: column; align-items: stretch; padding: 16px; gap: 8px; border-bottom: 1px solid var(--border); box-shadow: 0 10px 25px rgba(0,0,0,0.5); }
+    .nav-links.open { display: flex; }
+    .nav-links a { padding: 12px; border-radius: 8px; border-bottom: 1px solid var(--border); }
+    .nav-links a:last-child { border-bottom: none; }
+  }
+
+  /* HERO */
+  .hero { background: radial-gradient(circle at top, rgba(139, 92, 246, 0.15) 0%, rgba(15, 23, 42, 0) 70%); text-align: center; padding: 60px 20px 40px; border-bottom: 1px solid var(--border); }
+  .hero h1 { font-size: 2.2rem; margin-bottom: 12px; display: flex; align-items: center; justify-content: center; gap: 10px; flex-wrap: wrap; }
+  .hero h1 img { width: 36px; height: 36px; border-radius: 50%; border: 2px solid var(--accent); }
+  .hero p { font-size: 1.05rem; color: var(--text-sub); max-width: 680px; margin: 0 auto; }
+  .badge-new { background: rgba(139, 92, 246, 0.2); border: 1px solid var(--accent); color: #c084fc; padding: 6px 16px; border-radius: 20px; font-size: 0.85rem; font-weight: 700; display: inline-block; margin-top: 16px; }
+
+  /* CONTENT STRUCTURE */
+  .content { max-width: 900px; margin: 40px auto; padding: 0 20px; }
+  .section { background: var(--bg-card); border-radius: 16px; padding: 32px; margin-bottom: 28px; border: 1px solid var(--border); box-shadow: 0 4px 20px rgba(0,0,0,0.2); }
+  .section h2 { font-size: 1.4rem; color: #c084fc; margin-bottom: 18px; padding-bottom: 10px; border-bottom: 1px solid var(--border); display: flex; align-items: center; gap: 8px; }
+  .section h3 { font-size: 1.1rem; color: var(--text-main); margin: 20px 0 10px; }
+  .section p { color: var(--text-sub); font-size: 0.98rem; margin-bottom: 12px; }
+  .section ul, .section ol { padding-left: 24px; color: var(--text-sub); font-size: 0.98rem; line-height: 1.9; }
+
+  /* CALLOUT BOXES */
+  .tip { background: rgba(139, 92, 246, 0.1); border-left: 4px solid var(--accent); border-radius: 8px; padding: 14px 18px; margin: 16px 0; font-size: 0.92rem; color: #ddd6fe; }
+  .warn { background: rgba(245, 158, 11, 0.1); border-left: 4px solid var(--warning); border-radius: 8px; padding: 14px 18px; margin: 16px 0; font-size: 0.92rem; color: #fde68a; }
+  .new { background: rgba(16, 185, 129, 0.1); border-left: 4px solid var(--success); border-radius: 8px; padding: 14px 18px; margin: 16px 0; font-size: 0.92rem; color: #a7f3d0; }
+
+  /* TOC */
+  .toc { background: var(--bg-card); border: 1px solid var(--border); border-radius: 14px; padding: 22px 26px; margin-bottom: 32px; }
+  .toc h3 { font-size: 1.1rem; margin-bottom: 14px; color: var(--text-main); }
+  .toc-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 8px; }
+  .toc a { color: var(--text-sub); text-decoration: none; padding: 6px 10px; border-radius: 6px; font-size: 0.9rem; transition: all .2s; }
+  .toc a:hover { background: var(--bg-hover); color: #c084fc; }
+
+  /* FEATURE GRID */
+  .feature-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 14px; margin-top: 16px; }
+  .feature-item { background: var(--bg-hover); border-radius: 10px; padding: 16px; border: 1px solid var(--border); font-size: 0.9rem; color: var(--text-sub); }
+  .feature-item strong { display: block; margin-bottom: 6px; color: #c084fc; font-size: 0.95rem; }
+
+  /* COMPARE CARDS */
+  .compare { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 16px; }
+  .compare-card { border-radius: 12px; padding: 20px; background: var(--bg-hover); border: 1px solid var(--border); }
+  .compare-card h4 { font-size: 1rem; margin-bottom: 12px; text-align: center; }
+  .compare-card ul { list-style: none; padding: 0; font-size: 0.88rem; color: var(--text-sub); line-height: 2; }
+  .c-mom { border-top: 4px solid #3b82f6; }
+  .c-rar { border-top: 4px solid #f97316; }
+  .c-kpt { border-top: 4px solid var(--accent); background: rgba(139, 92, 246, 0.05); }
+
+  /* STEP GRID */
+  .step-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 14px; margin: 20px 0; }
+  .step-card { background: var(--bg-hover); border-radius: 12px; padding: 20px; text-align: center; border: 1px solid var(--border); }
+  .step-num { width: 40px; height: 40px; background: var(--accent); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; margin: 0 auto 12px; box-shadow: 0 0 10px var(--accent-glow); }
+  .step-card h4 { font-size: 0.95rem; margin-bottom: 6px; color: var(--text-main); }
+  .step-card p { font-size: 0.85rem; color: var(--text-sub); }
+
+  /* BUTTONS */
+  .btn-group { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 16px; }
+  .btn-dl { display: inline-flex; align-items: center; gap: 8px; background: linear-gradient(135deg, var(--accent), var(--accent-light)); color: white; text-decoration: none; padding: 14px 28px; border-radius: 10px; font-weight: 700; font-size: 0.95rem; transition: all .2s; box-shadow: 0 4px 14px var(--accent-glow); }
+  .btn-dl:hover { transform: translateY(-2px); box-shadow: 0 6px 20px var(--accent-glow); }
+  .btn-dark { background: #1e293b; border: 1px solid var(--border); color: var(--text-main); }
+  .btn-dark:hover { background: var(--bg-hover); }
+
+  /* TABLE */
+  .table-responsive { overflow-x: auto; margin-top: 16px; border-radius: 10px; border: 1px solid var(--border); }
+  table { width: 100%; border-collapse: collapse; font-size: 0.9rem; text-align: left; }
+  th { background: var(--bg-hover); padding: 12px 16px; color: #c084fc; font-weight: 600; border-bottom: 1px solid var(--border); }
+  td { padding: 12px 16px; border-bottom: 1px solid var(--border); color: var(--text-sub); }
+  tr:last-child td { border-bottom: none; }
+  tr:nth-child(even) { background: rgba(255, 255, 255, 0.02); }
+
+  /* CODE BOX */
+  .code-block { background: #090d16; color: #a8d8a8; border-radius: 10px; padding: 18px 22px; font-family: 'Consolas', 'Fira Code', monospace; font-size: 0.88rem; line-height: 1.8; margin: 16px 0; border: 1px solid var(--border); }
+
+  /* FOOTER */
+  footer { background: var(--bg-card); border-top: 1px solid var(--border); text-align: center; padding: 32px 20px; font-size: 0.88rem; color: var(--text-sub); margin-top: 60px; }
+  footer a { color: var(--accent-light); text-decoration: none; }
+  footer a:hover { text-decoration: underline; }
+
+  @media(max-width:600px){
+    .compare { grid-template-columns: 1fr; }
+    .hero h1 { font-size: 1.6rem; }
+    .section { padding: 20px; }
+  }
 </style>
 </head>
 <body>
 
 <nav>
-  <a href="/khoiphuctool/" class="nav-brand">🏠 KhoiPhucTool</a>
+  <a href="/khoiphuctool/" class="nav-brand">
+    <img src="LOGO.png" alt="Logo"> KhoiPhucTool
+  </a>
   <button class="nav-toggle" onclick="this.classList.toggle('open');document.getElementById('nav-links-kpt').classList.toggle('open')" aria-label="Menu">
     <span></span><span></span><span></span>
   </button>
   <div class="nav-links" id="nav-links-kpt">
     <a href="huong-dan-mom.html">📗 MÕM Tool</a>
     <a href="huong-dan-rarzip.html">📙 RARZIP Tool</a>
-    <a href="huong-dan-khoiphuctool.html" style="background:#8e24aa;color:white;"><img src="LOGO.png" style="width:16px;height:16px;vertical-align:middle;border-radius:50%;margin-right:3px;"> KhoiPhucTool <span class="kpt-ver" id="nav-kpt-ver">...</span></a>
+    <a href="huong-dan-khoiphuctool.html" class="active"><img src="LOGO.png" style="width:16px;height:16px;vertical-align:middle;border-radius:50%;margin-right:3px;"> KhoiPhucTool <span class="kpt-ver" id="nav-kpt-ver">...</span></a>
     <a href="tags.html">🏷️ Từ khóa</a>
   </div>
 </nav>
 
 <div class="hero">
-  <h1><img src="LOGO.png" style="width:26px;height:26px;vertical-align:middle;margin-right:3px;border-radius:50%;"> Hướng dẫn KhoiPhucTool <span id="hero-kpt-ver" class="kpt-ver">...</span></h1>
+  <h1><img src="LOGO.png" alt="Logo"> Hướng dẫn KhoiPhucTool <span id="hero-kpt-ver" class="kpt-ver">...</span></h1>
   <p>Bộ công cụ khôi phục mật khẩu tổng hợp — Excel, Word, RAR, ZIP, 7z, <strong>GPU Hashcat</strong> tất cả trong một</p>
   <span class="badge-new">✨ Phiên bản mới nhất</span>
 </div>
@@ -96,19 +160,21 @@
 <div class="content">
 
   <div class="toc">
-    <h3>📋 Mục lục</h3>
-    <a href="#gioi-thieu">1. KhoiPhucTool <span class="kpt-ver">...</span> là gì?</a>
-    <a href="#moi-kpt">2. Tính năng mới phiên bản này</a>
-    <a href="#so-sanh">3. So sánh với MÕM Tool và RARZIP Tool</a>
-    <a href="#tai-ve">4. Tải về và đăng nhập</a>
-    <a href="#gpu-hashcat">5. 🚀 Hướng dẫn dùng GPU (Hashcat) — MỚI</a>
-    <a href="#giao-dien">6. Giao diện tổng quan</a>
-    <a href="#office">7. Khôi phục mật khẩu Office (Excel, Word, PowerPoint)</a>
-    <a href="#rarzip">8. Khôi phục mật khẩu RAR/ZIP/7z</a>
-    <a href="#vba">9. Gỡ khóa VBA Macro</a>
-    <a href="#da-luong">10. Đa luồng X1-X8 & tạm dừng từng luồng</a>
-    <a href="#resume">11. Tạm dừng và tiếp tục phiên dò</a>
-    <a href="#meo">12. Mẹo sử dụng hiệu quả</a>
+    <h3>📋 Mục lục nội dung</h3>
+    <div class="toc-grid">
+      <a href="#gioi-thieu">1. KhoiPhucTool là gì?</a>
+      <a href="#moi-kpt">2. Tính năng mới phiên bản này</a>
+      <a href="#so-sanh">3. So sánh với MÕM & RARZIP</a>
+      <a href="#tai-ve">4. Tải về và đăng nhập</a>
+      <a href="#gpu-hashcat">5. 🚀 Hướng dẫn dùng GPU (Hashcat)</a>
+      <a href="#giao-dien">6. Giao diện tổng quan</a>
+      <a href="#office">7. Khôi phục mật khẩu Office</a>
+      <a href="#rarzip">8. Khôi phục mật khẩu RAR/ZIP/7z</a>
+      <a href="#vba">9. Gỡ khóa VBA Macro</a>
+      <a href="#da-luong">10. Đa luồng X1-X8 & tạm dừng</a>
+      <a href="#resume">11. Tạm dừng và tiếp tục phiên</a>
+      <a href="#meo">12. Mẹo sử dụng hiệu quả</a>
+    </div>
   </div>
 
   <!-- GIỚI THIỆU -->
@@ -121,7 +187,7 @@
       <div class="feature-item"><strong>📦 RAR/ZIP/7z</strong>RAR3, RAR5, ZIP (AES-256), 7z</div>
       <div class="feature-item"><strong>🔧 VBA</strong>Gỡ khóa macro Excel</div>
       <div class="feature-item"><strong>🚀 GPU Hashcat (PRO)</strong>Hashcat 7.x — NVIDIA/AMD/Intel</div>
-      <div class="feature-item"><strong>⚡ GPU OpenCL (PRO)</strong>Agile SHA-1/SHA-256 kernel nội bộ; SHA-512 dùng Hashcat khi mode tương thích</div>
+      <div class="feature-item"><strong>⚡ GPU OpenCL (PRO)</strong>Agile SHA-1/SHA-256 kernel nội bộ</div>
       <div class="feature-item"><strong>🧵 Đa luồng</strong>X1 → X8 song song</div>
     </div>
   </div>
@@ -135,7 +201,7 @@
     <p>Phiên bản này fix lỗi nghiêm trọng trong GPU kernel cho <strong>Microsoft Office Agile Encryption (ECMA-376)</strong> với SHA-1 + AES-128. Kernel cũ dùng blockKey bytes sai thứ tự (little-endian nhầm), gây ra kết quả sai hoàn toàn khi dò mật khẩu file xlsx/docx mới.</p>
     <div class="new">
       ✅ <strong>Đã sửa trong phiên bản này:</strong>
-      <ul style="margin:8px 0 0 16px;padding:0;line-height:2;">
+      <ul>
         <li>BlockKey bytes đúng: <code>FE A7 D2 76 3B 4B 9E 79</code> và <code>D7 AA 0F 6D 30 61 34 4E</code> (xác nhận từ Hashcat m09500)</li>
         <li>Bỏ hoàn toàn padding giả (<code>b'\x00'*n</code>) trong <code>encryptedVerifierHashValue</code></li>
         <li>Parser validate đúng: reject nếu <code>keyBits≠128</code>, <code>saltSize≠16</code>, hoặc dữ liệu ngắn hơn spec</li>
@@ -151,7 +217,7 @@
     <p>Chế độ <strong>AUTO</strong> tự động phát hiện Hashcat — nếu tìm thấy thư mục <code>hashcat-7.x.x/</code> cạnh EXE thì dùng GPU, không thì fallback về CPU multiprocessing. Phù hợp cho cả máy có và không có GPU rời.</p>
 
     <h3>📁 Cách cài Hashcat cực đơn giản</h3>
-    <p>Tải bản <strong>hashcat binaries</strong> từ <a href="https://drive.google.com/file/d/1Kcnbods8F4EgM0PvykE7e69VSV6ignua/view?usp=drive_link" target="_blank" rel="noopener" style="color:#8e24aa;font-weight:700;">Google Drive</a>, giải nén ra thư mục <code>hashcat-7.x.x/</code>, đặt thư mục đó <strong>cạnh file khoiphuctool.exe</strong> — không cần cài đặt thêm gì.</p>
+    <p>Tải bản <strong>hashcat binaries</strong> từ <a href="https://drive.google.com/file/d/1Kcnbods8F4EgM0PvykE7e69VSV6ignua/view?usp=drive_link" target="_blank" rel="noopener" style="color:var(--accent-light);font-weight:700;">Google Drive</a>, giải nén ra thư mục <code>hashcat-7.x.x/</code>, đặt thư mục đó <strong>cạnh file khoiphuctool.exe</strong> — không cần cài đặt thêm gì.</p>
 
     <h3>✅ Các cải tiến khác</h3>
     <ul>
@@ -187,7 +253,7 @@
         </ul>
       </div>
       <div class="compare-card c-kpt">
-        <h4><img src="LOGO.png" style="width:26px;height:26px;vertical-align:middle;margin-right:3px;border-radius:50%;"> KhoiPhucTool <span class="kpt-ver">...</span></h4>
+        <h4><img src="LOGO.png" style="width:20px;height:20px;vertical-align:middle;margin-right:3px;border-radius:50%;"> KhoiPhucTool <span class="kpt-ver">...</span></h4>
         <ul>
           <li>✅ Excel, Word, PPT</li>
           <li>✅ VBA Crack</li>
@@ -201,7 +267,7 @@
         </ul>
       </div>
     </div>
-    <div class="tip">💡 Nếu chỉ cần một loại file, dùng tool chuyên biệt (MÕM hoặc RARZIP) sẽ nhẹ hơn. KhoiPhucTool v6.1 phù hợp khi cần xử lý nhiều loại file.</div>
+    <div class="tip">💡 Nếu chỉ cần một loại file, dùng tool chuyên biệt (MÕM hoặc RARZIP) sẽ nhẹ hơn. KhoiPhucTool phù hợp khi cần xử lý nhiều loại file.</div>
   </div>
 
   <!-- TẢI VỀ -->
@@ -214,8 +280,10 @@
       <div class="step-card"><div class="step-num">4</div><h4>Chọn loại file</h4><p>Office hoặc RAR/ZIP</p></div>
     </div>
     <div class="warn">⚠️ Cần WinRAR hoặc 7-Zip để xử lý file RAR. File ZIP không cần.</div>
-    <a href="/khoiphuctool/#kpt" class="btn-dl" id="btn-dl-kpt">⬇️ Tải KhoiPhucTool <span id="ver-kpt-hd" class="kpt-ver">...</span></a>
-    <a href="https://vt.tiktok.com/ZS9nccdvM/" target="_blank" rel="noopener" class="btn-dl" style="background:linear-gradient(135deg,#010101,#2d2d2d);margin-top:10px;">▶️ Xem video hướng dẫn TikTok</a>
+    <div class="btn-group">
+      <a href="/khoiphuctool/#kpt" class="btn-dl" id="btn-dl-kpt">⬇️ Tải KhoiPhucTool <span id="ver-kpt-hd" class="kpt-ver">...</span></a>
+      <a href="https://vt.tiktok.com/ZS9nccdvM/" target="_blank" rel="noopener" class="btn-dl btn-dark">▶️ Xem video TikTok</a>
+    </div>
   </div>
 
   <!-- GPU HASHCAT -->
@@ -225,29 +293,29 @@
 
     <h3>Bước 1: Tải gói Hashcat đã đóng gói sẵn</h3>
     <p>Link Google Drive bên dưới đã chứa sẵn gói Hashcat và công cụ <code>7z2hashcat</code>, dùng được ngay cho cài đặt offline:</p>
-    <a href="https://drive.google.com/file/d/1Kcnbods8F4EgM0PvykE7e69VSV6ignua/view?usp=drive_link" target="_blank" rel="noopener"
-       style="display:inline-flex;align-items:center;gap:8px;background:#2c3e50;color:white;text-decoration:none;padding:10px 20px;border-radius:8px;font-weight:700;font-size:0.95rem;margin:8px 0 4px;">
+    <a href="https://drive.google.com/file/d/1Kcnbods8F4EgM0PvykE7e69VSV6ignua/view?usp=drive_link" target="_blank" rel="noopener" class="btn-dl btn-dark" style="margin:10px 0;">
       ⬇️ Tải gói Hashcat 7z đã đóng gói
     </a>
-    <div class="warn" style="margin-top:10px;">⚠️ Giải nén file .7z bằng 7-Zip hoặc WinRAR. Bên trong sẽ có thư mục <code>hashcat-7.1.2</code> hoặc file <code>7z2hashcat64-2.0.exe</code>.</div>
-
-    <div class="tip" style="margin-top:10px;">Hướng dẫn nhanh: đặt toàn bộ thư mục <code>hashcat-7.1.2</code> cạnh <code>khoiphuctool.exe</code> hoặc copy file <code>7z2hashcat*.exe</code> vào thư mục <code>hashcat-7.1.2</code>. KPT sẽ tự tìm và sử dụng.</div>
+    <div class="warn">⚠️ Giải nén file .7z bằng 7-Zip hoặc WinRAR. Bên trong sẽ có thư mục <code>hashcat-7.1.2</code> hoặc file <code>7z2hashcat64-2.0.exe</code>.</div>
+    <div class="tip">Hướng dẫn nhanh: đặt toàn bộ thư mục <code>hashcat-7.1.2</code> cạnh <code>khoiphuctool.exe</code> hoặc copy file <code>7z2hashcat*.exe</code> vào thư mục <code>hashcat-7.1.2</code>. KPT sẽ tự tìm và sử dụng.</div>
 
     <h3>Bước 2: Đặt thư mục Hashcat cạnh file .exe</h3>
     <p>Sau khi giải nén, bạn có thư mục <code>hashcat-7.x.x/</code> chứa <code>hashcat.exe</code> bên trong. Đặt thư mục đó <strong>cùng cấp với khoiphuctool.exe</strong>:</p>
-    <div style="background:#1e2d3d;color:#a8d8a8;border-radius:10px;padding:16px 20px;font-family:monospace;font-size:0.88rem;line-height:2;margin:12px 0;">
-      <span style="color:#7ec8e3;">📁 Thư mục bất kỳ (ví dụ: Desktop\KPT)</span><br>
-      &nbsp;&nbsp;├── <span style="color:#f1c40f;">khoiphuctool.exe</span> &nbsp;&nbsp;<span style="color:#666;">← file chính KPT</span><br>
-      &nbsp;&nbsp;└── <span style="color:#7ec8e3;">📁 hashcat-7.1.2\</span> &nbsp;&nbsp;<span style="color:#666;">← thư mục hashcat đặt cạnh</span><br>
-      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;├── <span style="color:#e74c3c;">hashcat.exe</span><br>
+    
+    <div class="code-block">
+      <span style="color:#60a5fa;">📁 Thư mục bất kỳ (ví dụ: Desktop\KPT)</span><br>
+      &nbsp;&nbsp;├── <span style="color:#facc15;">khoiphuctool.exe</span> &nbsp;&nbsp;<span style="color:#64748b;">← file chính KPT</span><br>
+      &nbsp;&nbsp;└── <span style="color:#60a5fa;">📁 hashcat-7.1.2\</span> &nbsp;&nbsp;<span style="color:#64748b;">← thư mục hashcat đặt cạnh</span><br>
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;├── <span style="color:#f87171;">hashcat.exe</span><br>
       &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;├── OpenCL\<br>
       &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;└── kernels\
     </div>
+    
     <div class="tip">💡 Tên thư mục có thể là <code>hashcat-7.1.2</code>, <code>hashcat-7.2.0</code> hay chỉ <code>hashcat</code> — KPT tự tìm đúng.</div>
 
     <h3>Bước 3: Mở KPT và chọn chế độ Engine</h3>
     <p>Đăng nhập tài khoản <strong>PRO</strong>, tìm khu vực <strong>Engine</strong> ngay dưới ô chọn file:</p>
-    <ul style="margin-top:8px;">
+    <ul>
       <li><strong>AUTO</strong> — tự động dùng GPU nếu phát hiện Hashcat, fallback về CPU nếu không có. <em>Khuyến nghị cho đa số người dùng.</em></li>
       <li><strong>CPU</strong> — luôn dùng CPU multiprocessing, bỏ qua Hashcat.</li>
       <li><strong>GPU 🔒PRO</strong> — luôn dùng Hashcat GPU, báo lỗi nếu không tìm thấy hashcat.exe.</li>
@@ -260,45 +328,45 @@
     <div class="warn">⚠️ <strong>Yêu cầu:</strong> Driver GPU cập nhật mới nhất + OpenCL (NVIDIA/AMD) hoặc CUDA (NVIDIA). Intel Arc cần driver Intel OpenCL. Nếu GPU không được hỗ trợ, chọn AUTO để fallback về CPU.</div>
 
     <h3>So sánh tốc độ CPU vs GPU (tham khảo)</h3>
-    <div style="overflow-x:auto;">
-      <table style="width:100%;border-collapse:collapse;font-size:0.88rem;margin-top:8px;">
+    <div class="table-responsive">
+      <table>
         <thead>
-          <tr style="background:#f3e5f5;">
-            <th style="padding:10px 14px;text-align:left;border-bottom:2px solid #8e24aa;">Loại file</th>
-            <th style="padding:10px 14px;text-align:center;border-bottom:2px solid #8e24aa;">CPU (8 luồng)</th>
-            <th style="padding:10px 14px;text-align:center;border-bottom:2px solid #8e24aa;">GPU (RTX 3060)</th>
-            <th style="padding:10px 14px;text-align:center;border-bottom:2px solid #8e24aa;">Nhanh hơn</th>
+          <tr>
+            <th>Loại file</th>
+            <th style="text-align:center;">CPU (8 luồng)</th>
+            <th style="text-align:center;">GPU (RTX 3060)</th>
+            <th style="text-align:center;">Nhanh hơn</th>
           </tr>
         </thead>
         <tbody>
-          <tr style="border-bottom:1px solid #f0f0f0;">
-            <td style="padding:9px 14px;">Office 2013+ (.xlsx mới)</td>
-            <td style="padding:9px 14px;text-align:center;">~15 p/s</td>
-            <td style="padding:9px 14px;text-align:center;">~5.000 p/s</td>
-            <td style="padding:9px 14px;text-align:center;color:#27ae60;font-weight:700;">~330x</td>
+          <tr>
+            <td>Office 2013+ (.xlsx mới)</td>
+            <td style="text-align:center;">~15 p/s</td>
+            <td style="text-align:center;">~5.000 p/s</td>
+            <td style="text-align:center;color:var(--success);font-weight:700;">~330x</td>
           </tr>
-          <tr style="border-bottom:1px solid #f0f0f0;background:#fafafa;">
-            <td style="padding:9px 14px;">Office 2010 (.xlsx cũ)</td>
-            <td style="padding:9px 14px;text-align:center;">~200 p/s</td>
-            <td style="padding:9px 14px;text-align:center;">~50.000 p/s</td>
-            <td style="padding:9px 14px;text-align:center;color:#27ae60;font-weight:700;">~250x</td>
+          <tr>
+            <td>Office 2010 (.xlsx cũ)</td>
+            <td style="text-align:center;">~200 p/s</td>
+            <td style="text-align:center;">~50.000 p/s</td>
+            <td style="text-align:center;color:var(--success);font-weight:700;">~250x</td>
           </tr>
-          <tr style="border-bottom:1px solid #f0f0f0;">
-            <td style="padding:9px 14px;">Office 2007 RC4 (.xls)</td>
-            <td style="padding:9px 14px;text-align:center;">~5.000 p/s</td>
-            <td style="padding:9px 14px;text-align:center;">~2.000.000 p/s</td>
-            <td style="padding:9px 14px;text-align:center;color:#27ae60;font-weight:700;">~400x</td>
+          <tr>
+            <td>Office 2007 RC4 (.xls)</td>
+            <td style="text-align:center;">~5.000 p/s</td>
+            <td style="text-align:center;">~2.000.000 p/s</td>
+            <td style="text-align:center;color:var(--success);font-weight:700;">~400x</td>
           </tr>
-          <tr style="background:#fafafa;">
-            <td style="padding:9px 14px;">ZIP (AES-256)</td>
-            <td style="padding:9px 14px;text-align:center;">~1.000 p/s</td>
-            <td style="padding:9px 14px;text-align:center;">~300.000 p/s</td>
-            <td style="padding:9px 14px;text-align:center;color:#27ae60;font-weight:700;">~300x</td>
+          <tr>
+            <td>ZIP (AES-256)</td>
+            <td style="text-align:center;">~1.000 p/s</td>
+            <td style="text-align:center;">~300.000 p/s</td>
+            <td style="text-align:center;color:var(--success);font-weight:700;">~300x</td>
           </tr>
         </tbody>
       </table>
     </div>
-    <p style="font-size:0.82rem;color:#888;margin-top:6px;">* Số liệu tham khảo, thực tế phụ thuộc vào GPU và CPU của bạn.</p>
+    <p style="font-size:0.82rem;color:var(--text-sub);margin-top:8px;">* Số liệu tham khảo, thực tế phụ thuộc vào GPU và CPU của bạn.</p>
   </div>
 
   <!-- GIAO DIỆN -->
@@ -320,7 +388,7 @@
   <div class="section" id="office">
     <h2>7. Khôi phục mật khẩu Office</h2>
     <p>Hỗ trợ .xlsx, .xls, .xlsb, .xlsm, .docx, .doc, .pptx, .ppt</p>
-    <h3>Các bước:</h3>
+    <h3>Các bước thực hiện:</h3>
     <ol>
       <li>Chọn file Office ở ô trên cùng</li>
       <li>Nhấn <strong>🔍 Kiểm tra</strong> để xem loại mã hóa</li>
@@ -336,7 +404,7 @@
   <div class="section" id="rarzip">
     <h2>8. Khôi phục mật khẩu RAR/ZIP/7z</h2>
     <p>Hỗ trợ RAR3, RAR5, ZIP (bao gồm AES-256), 7z</p>
-    <h3>Các bước:</h3>
+    <h3>Các bước thực hiện:</h3>
     <ol>
       <li>Chọn file RAR hoặc ZIP ở ô chọn file</li>
       <li>Kiểm tra đường dẫn UnRAR.exe / 7z.exe (tự động điền)</li>
@@ -410,11 +478,11 @@
 </div>
 
 <footer>
-  <strong>KHÔI PHỤC TOOLS</strong> — Liên hệ: Zalo 0962768533<br>
+  <strong>KHÔI PHỤC TOOLS</strong> — Liên hệ Zalo: 0962768533<br><br>
   <a href="/khoiphuctool/">🏠 Trang chủ</a> &nbsp;|&nbsp;
   <a href="huong-dan-mom.html">📗 Hướng dẫn MÕM</a> &nbsp;|&nbsp;
   <a href="huong-dan-rarzip.html">📙 Hướng dẫn RARZIP</a> &nbsp;|&nbsp;
-  <a href="huong-dan-khoiphuctool.html"><img src="LOGO.png" style="width:26px;height:26px;vertical-align:middle;margin-right:3px;border-radius:50%;"> Hướng dẫn KPT <span class="kpt-ver">...</span></a> &nbsp;|&nbsp;
+  <a href="huong-dan-khoiphuctool.html"><img src="LOGO.png" style="width:16px;height:16px;vertical-align:middle;border-radius:50%;margin-right:3px;"> Hướng dẫn KPT <span class="kpt-ver">...</span></a> &nbsp;|&nbsp;
   <a href="tags.html">🏷️ Từ khóa</a>
 </footer>
 
@@ -425,8 +493,6 @@
   function _xd(p,k){return p.map((a,i)=>{const b=a.map((c,j)=>String.fromCharCode(c^k[i].charCodeAt(j%k[i].length))).join('');return atob(b);}).join('');}
   fetch(_xd(_up,_uk)).then(r=>r.text()).then(csv=>{
     const rows=csv.split('\n').map(r=>r.replace(/\r/g,'').split(',').map(c=>c.replace(/^"|"$/g,'').trim()));
-    // rows[5][9] = J6 = link download KPT
-    // rows[6][9] = J7 = version KPT (ví dụ: "V7.4")
     const link = rows[5]?.[9];
     const ver  = rows[6]?.[9];
     if(link){
@@ -434,17 +500,13 @@
       if(b){ b.href = link; b.target = '_blank'; }
     }
     if(ver){
-      // Cập nhật tất cả span.kpt-ver và các id riêng lẻ
       document.querySelectorAll('.kpt-ver, #ver-kpt-hd, #nav-kpt-ver, #hero-kpt-ver')
         .forEach(el => el.textContent = ver);
-      // Cập nhật <title> động
       document.title = `Hướng dẫn KhoiPhucTool ${ver} — Khôi phục mật khẩu Excel RAR ZIP Word tất cả trong một`;
-      // Cập nhật meta description động
       const metaDesc = document.querySelector('meta[name="description"]');
       if(metaDesc) metaDesc.content =
         `Hướng dẫn chi tiết KhoiPhucTool ${ver} — khôi phục mật khẩu Excel, Word, PowerPoint, RAR, ZIP, 7z. ` +
         `GPU Hashcat + OpenCL Agile SHA-1/SHA-256. Brute force, từ điển, VBA crack, đa luồng X1-X8.`;
-      // Cập nhật meta keywords động
       const metaKw = document.querySelector('meta[name="keywords"]');
       if(metaKw) metaKw.content =
         `KhoiPhucTool ${ver} hướng dẫn, tool khôi phục mật khẩu GPU hashcat OpenCL, crack pass excel rar zip gpu, ` +
@@ -455,10 +517,3 @@
 </script>
 </body>
 </html>
-
-
-
-
-
-
-
