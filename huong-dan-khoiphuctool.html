@@ -151,7 +151,7 @@
     <p>Chế độ <strong>AUTO</strong> tự động phát hiện Hashcat — nếu tìm thấy thư mục <code>hashcat-7.x.x/</code> cạnh EXE thì dùng GPU, không thì fallback về CPU multiprocessing. Phù hợp cho cả máy có và không có GPU rời.</p>
 
     <h3>📁 Cách cài Hashcat cực đơn giản</h3>
-    <p>Tải bản <strong>hashcat binaries</strong> từ <a href="https://hashcat.net/hashcat/" target="_blank" rel="noopener" style="color:#8e24aa;font-weight:700;">hashcat.net/hashcat</a>, giải nén ra thư mục <code>hashcat-7.x.x/</code>, đặt thư mục đó <strong>cạnh file khoiphuctool.exe</strong> — không cần cài đặt thêm gì.</p>
+    <p>Tải bản <strong>hashcat binaries</strong> từ <a href="https://drive.google.com/file/d/1Kcnbods8F4EgM0PvykE7e69VSV6ignua/view?usp=drive_link" target="_blank" rel="noopener" style="color:#8e24aa;font-weight:700;">Google Drive</a>, giải nén ra thư mục <code>hashcat-7.x.x/</code>, đặt thư mục đó <strong>cạnh file khoiphuctool.exe</strong> — không cần cài đặt thêm gì.</p>
 
     <h3>✅ Các cải tiến khác</h3>
     <ul>
@@ -223,18 +223,15 @@
     <h2>5. 🚀 Hướng dẫn dùng GPU (Hashcat) — PRO</h2>
     <div class="new">✨ Tính năng mới trong phiên bản <span class="kpt-ver">...</span> — chỉ dành cho tài khoản <strong>PRO</strong>. GPU dò nhanh hơn CPU nhiều lần với card NVIDIA/AMD/Intel Arc.</div>
 
-    <h3>Bước 1: Tải Hashcat binaries (các tệp nhị phân)</h3>
-    <p>Vào trang chính thức, kéo xuống phần <strong>"hashcat binaries"</strong> và tải file <code>.7z</code> cho Windows:</p>
-    <a href="https://hashcat.net/hashcat/" target="_blank" rel="noopener"
+    <h3>Bước 1: Tải gói Hashcat đã đóng gói sẵn</h3>
+    <p>Link Google Drive bên dưới đã chứa sẵn gói Hashcat và công cụ <code>7z2hashcat</code>, dùng được ngay cho cài đặt offline:</p>
+    <a href="https://drive.google.com/file/d/1Kcnbods8F4EgM0PvykE7e69VSV6ignua/view?usp=drive_link" target="_blank" rel="noopener"
        style="display:inline-flex;align-items:center;gap:8px;background:#2c3e50;color:white;text-decoration:none;padding:10px 20px;border-radius:8px;font-weight:700;font-size:0.95rem;margin:8px 0 4px;">
-      ⬇️ Tải hashcat binaries tại hashcat.net/hashcat
+      ⬇️ Tải gói Hashcat 7z đã đóng gói
     </a>
-    <div class="warn" style="margin-top:10px;">⚠️ Tải đúng phần <strong>"hashcat binaries"</strong> (file .7z ~25MB) — <strong>không</strong> phải source code hay hashcat-utils. Giải nén bằng 7-Zip hoặc WinRAR.</div>
+    <div class="warn" style="margin-top:10px;">⚠️ Giải nén file .7z bằng 7-Zip hoặc WinRAR. Bên trong sẽ có thư mục <code>hashcat-7.1.2</code> hoặc file <code>7z2hashcat64-2.0.exe</code>.</div>
 
-    <h4 style="margin-top:12px;color:#2c3e50;">TẢI 7z ĐÃ ĐÓNG GÓI SẴN (tùy chọn)</h4>
-    <p>Nếu bạn muốn dùng file 7z đã đóng gói sẵn (chứa `7z2hashcat` hoặc tiện cho cài đặt offline), có thể tải tại link sau và giải nén vào thư mục <code>hashcat-7.1.2/</code>:</p>
-    <p style="margin-top:6px;"><a href="https://drive.google.com/file/d/1MV4QWcXcrF-7jKpeqSHRwC4t8M4t8lRB/view?usp=drive_link" target="_blank" rel="noopener" style="background:#8e24aa;color:white;padding:10px 14px;border-radius:10px;text-decoration:none;font-weight:700;">⬇️ Tải 7z (Google Drive)</a></p>
-    <div class="tip" style="margin-top:10px;">Hướng dẫn nhanh: giải nén file .7z, bên trong sẽ có thư mục <code>hashcat-7.1.2</code> hoặc file <code>7z2hashcat64-2.0.exe</code>. Đặt toàn bộ thư mục <code>hashcat-7.1.2</code> cạnh <code>khoiphuctool.exe</code> hoặc copy file <code>7z2hashcat*.exe</code> vào thư mục <code>hashcat-7.1.2</code>. KPT sẽ tự tìm và sử dụng.</div>
+    <div class="tip" style="margin-top:10px;">Hướng dẫn nhanh: đặt toàn bộ thư mục <code>hashcat-7.1.2</code> cạnh <code>khoiphuctool.exe</code> hoặc copy file <code>7z2hashcat*.exe</code> vào thư mục <code>hashcat-7.1.2</code>. KPT sẽ tự tìm và sử dụng.</div>
 
     <h3>Bước 2: Đặt thư mục Hashcat cạnh file .exe</h3>
     <p>Sau khi giải nén, bạn có thư mục <code>hashcat-7.x.x/</code> chứa <code>hashcat.exe</code> bên trong. Đặt thư mục đó <strong>cùng cấp với khoiphuctool.exe</strong>:</p>
