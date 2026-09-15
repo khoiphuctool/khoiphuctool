@@ -337,7 +337,7 @@
     </p>
 
     <div class="flex flex-col sm:flex-row items-center justify-center gap-4 max-w-md mx-auto">
-      <a id="btn-dl-7z" href="https://drive.google.com/file/d/1Kcnbods8F4EgM0PvykE7e69VSV6ignua/view" target="_blank" rel="noopener" class="w-full sm:w-auto flex items-center justify-center gap-2 bg-gradient-to-r from-brand-600 to-purple-600 hover:from-brand-500 hover:to-purple-500 text-white font-bold px-6 py-3.5 rounded-xl shadow-lg shadow-brand-500/25 transition transform hover:-translate-y-0.5">
+      <a id="btn-dl-7z" href="https://drive.google.com/file/d/1Kcnbods8F4EgM0PvykE7e69VSV6ignua/view?usp=drive_link" target="_blank" rel="noopener" class="w-full sm:w-auto flex items-center justify-center gap-2 bg-gradient-to-r from-brand-600 to-purple-600 hover:from-brand-500 hover:to-purple-500 text-white font-bold px-6 py-3.5 rounded-xl shadow-lg shadow-brand-500/25 transition transform hover:-translate-y-0.5">
         <i data-lucide="download" class="w-5 h-5"></i> Tải Gói Hashcat 7z Full
       </a>
       <a href="#huongdan" class="w-full sm:w-auto flex items-center justify-center gap-2 bg-slate-800/80 hover:bg-slate-700 text-slate-200 border border-slate-700 font-semibold px-6 py-3.5 rounded-xl transition">
@@ -1059,15 +1059,16 @@
     var WEBHOOK = _decodeSheetUrl(_wp, _wk);
 
     var SYS_CFG = {
-      notice: "🎉 Cập nhật KhoiPhucTool v3.5 & AUTO_HASH v3.5 - Tối ưu GPU Hashcat & Đa luồng!",
+      notice: "🎉 TEST LOCAL KO CÓ MẠNG",
       versions: {
-        kpt: "v3.5",
-        autohash: "v3.5",
+        kpt: "v7.48",
+        autohash: "v3.9",
         trau: "V7"
       },
       links: {
         kpt_drive: "https://drive.google.com/file/d/1MV4QWcXcrF-7jKpeqSHRwC4t8M4t8lRB/view?usp=drive_link",
         kpt_mediafire: "https://www.mediafire.com/file/example_kpt/file",
+        hashcat_drive: "https://drive.google.com/file/d/1Kcnbods8F4EgM0PvykE7e69VSV6ignua/view?usp=drive_link",
         autohash_drive: "https://drive.google.com/file/d/1Kcnbods8F4EgM0PvykE7e69VSV6ignua/view?usp=drive_link",
         autohash_mediafire: "https://www.mediafire.com/file/example_autohash/file",
         trau_drive: "https://drive.google.com/file/d/1MV4QWcXcrF-7jKpeqSHRwC4t8M4t8lRB/view?usp=drive_link",
@@ -1111,8 +1112,8 @@
           var btnTrau = document.getElementById('btn-trau');
           if (btnTrau) btnTrau.href = trauLink;
 
-          var appLink = document.getElementById('btn-dl-7z');
-          if (appLink) appLink.href = kptLink;
+          var hashcatLink = document.getElementById('btn-dl-7z');
+          if (hashcatLink) hashcatLink.href = SYS_CFG.links.hashcat_drive;
 
           // ── Đọc toàn bộ cột I (index 8) làm danh sách thông báo ticker ──
           var notices = rows
