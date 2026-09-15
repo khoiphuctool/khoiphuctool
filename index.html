@@ -1379,12 +1379,12 @@
       var pass = document.getElementById('free-pass').value.trim();
       var msg = document.getElementById('free-msg');
       if (!name || !pass) return;
-      showTos(function () {
-        _doSubmitReg(name, pass, msg, type || 'FREE');
-      });
+      // Hiện điều khoản trước khi đăng ký
+      showTos(async function() { await _doSubmitReg(name, pass, msg, type || 'FREE'); });
     }
 
     async function _doSubmitReg(name, pass, msg, type) {
+      // Rate limit: 1 lần / 30s
       var lastReg = parseInt(localStorage.getItem('_reg_ts') || '0', 10);
       if (Date.now() - lastReg < 30000) {
         if (msg) {
@@ -1405,28 +1405,27 @@
       var ip = await getPublicIP();
 
       try {
+        // Gửi lên webhook (không đặt Content-Type để tương thích với Apps Script cổ)
         await fetch(WEBHOOK, {
           method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
             time: new Date().toISOString().replace('T', ' ').slice(0, 19),
             app: 'WEB',
             event: 'register',
-            account: type || 'FREE',
+            account: 'FREE_REQUEST',
             machine: 'WEB',
             file: "'" + name,
             password: hash,
             ip: ip
           })
         });
-
         if (msg) {
           msg.textContent = '✅ Đăng ký thành công!.';
           msg.className = 'text-xs text-emerald-500';
         }
         var form = document.getElementById('form-free');
         if (form) form.reset();
-        autoLoginAfterReg(name, type || 'FREE');
+        autoLoginAfterReg(name, 'FREE');
       } catch (err) {
         if (msg) {
           msg.textContent = '❌ Lỗi kết nối, thử lại sau.';
@@ -1739,11 +1738,10 @@
           msg.className = 'text-xs text-emerald-500';
         }
 
-        // Gửi pro_request lên webhook
+        // Gửi pro_request lên webhook (KHÔNG đặt Content-Type để tương thích Apps Script)
         try {
           await fetch(WEBHOOK, {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
               time:     new Date().toISOString().replace('T', ' ').slice(0, 19),
               app:      'WEB',
@@ -1759,6 +1757,32 @@
         } catch (e) {
           // Webhook lỗi không chặn UX — QR vẫn hiển thị, admin tự kiểm tra
         }
+
+        // Bắt đầu polling tự động kiểm tra sheet PRO (gid=300692422)
+        try {
+          var pollCount = 0;
+          var pollTimer = setInterval(async function() {
+            pollCount++;
+            if (pollCount > 20) { clearInterval(pollTimer); return; }
+            try {
+              var proUrl = SHEET_CSV.replace(/gid=\d+/, 'gid=300692422');
+              var r = await fetch(proUrl + '&t=' + Date.now());
+              var csv = await r.text();
+              var rows = csv.split('\n').map(function(r) { return r.replace(/\r/g,'').split(',').map(function(c){ return c.replace(/^"|"$/g,'').trim(); }); });
+              for (var ri = 0; ri < rows.length; ri++) {
+                var rowHash = (rows[ri][4] || '').toLowerCase();
+                var rowOk   = (rows[ri][5] || '').toUpperCase();
+                if (rowHash === hash && rowOk === 'OK') {
+                  clearInterval(pollTimer);
+                  var pm = document.getElementById('pro-msg');
+                  if (pm) { pm.textContent = '✅ Đã xác nhận! Đang đăng nhập...'; pm.className = 'text-xs text-emerald-500'; }
+                  setTimeout(function() { autoLoginAfterReg(name, 'PRO'); }, 800);
+                  return;
+                }
+              }
+            } catch (pollErr) { /* ignore individual poll errors */ }
+          }, 30000);
+        } catch (e) { /* ignore polling setup errors */ }
 
         // Polling tự động kiểm tra đã được duyệt chưa (mỗi 30s, tối đa 20 lần = 10 phút)
         var pollCount = 0;
