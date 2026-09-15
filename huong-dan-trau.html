@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Hướng dẫn ConTrâu V7 — công cụ quản lý mạng (đổi IP, đổi MAC, quét LAN) của KhoiPhucTool.">
+<link rel="canonical" href="https://khoiphuctool.github.io/khoiphuctool/huong-dan-trau.html">
+<link rel="icon" href="LOGO.png" type="image/png">
+<title>Hướng dẫn ConTrâu V7 — KhoiPhucTool</title>
+<style>
+  :root {
+    --bg-main: #0f172a;
+    --bg-card: #1e293b;
+    --bg-hover: #334155;
+    --accent: #8b5cf6;
+    --accent-light: #a855f7;
+    --accent-glow: rgba(139, 92, 246, 0.35);
+    --text-main: #f8fafc;
+    --text-sub: #94a3b8;
+    --border: #334155;
+    --success: #10b981;
+    --warning: #f59e0b;
+    --danger: #ef4444;
+  }
+
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; background: var(--bg-main); color: var(--text-main); line-height: 1.6; }
+
+  /* NAVIGATION */
+  nav { background: rgba(30, 41, 59, 0.85); backdrop-filter: blur(12px); border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; padding: 12px 24px; position: sticky; top: 0; z-index: 100; }
+  .nav-brand { font-weight: 700; font-size: 1.05rem; display: flex; align-items: center; gap: 8px; color: var(--text-main); text-decoration: none; }
+  .nav-brand img { width: 22px; height: 22px; border-radius: 50%; }
+  .nav-toggle { display: none; flex-direction: column; gap: 5px; background: none; border: none; cursor: pointer; padding: 4px; }
+  .nav-toggle span { display: block; width: 24px; height: 2px; background: var(--text-main); border-radius: 2px; transition: all .3s; }
+  .nav-toggle.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+  .nav-toggle.open span:nth-child(2) { opacity: 0; }
+  .nav-toggle.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+  .nav-links { display: flex; align-items: center; gap: 8px; }
+  .nav-links a { text-decoration: none; color: var(--text-sub); font-weight: 600; padding: 8px 16px; border-radius: 20px; font-size: 0.9rem; transition: all .2s; }
+  .nav-links a:hover { background: var(--bg-hover); color: var(--text-main); }
+  .nav-links a.active { background: linear-gradient(135deg, var(--accent), var(--accent-light)); color: white; box-shadow: 0 0 12px var(--accent-glow); }
+
+  @media(max-width:768px){
+    .nav-toggle { display: flex; }
+    .nav-links { display: none; position: absolute; top: 100%; left: 0; right: 0; background: var(--bg-card); flex-direction: column; align-items: stretch; padding: 16px; gap: 8px; border-bottom: 1px solid var(--border); box-shadow: 0 10px 25px rgba(0,0,0,0.5); }
+    .nav-links.open { display: flex; }
+    .nav-links a { padding: 12px; border-radius: 8px; border-bottom: 1px solid var(--border); }
+    .nav-links a:last-child { border-bottom: none; }
+  }
+
+  /* HERO */
+  .hero { background: radial-gradient(circle at top, rgba(139, 92, 246, 0.15) 0%, rgba(15, 23, 42, 0) 70%); text-align: center; padding: 60px 20px 40px; border-bottom: 1px solid var(--border); }
+  .hero h1 { font-size: 2.2rem; margin-bottom: 12px; display: flex; align-items: center; justify-content: center; gap: 10px; flex-wrap: wrap; }
+  .hero h1 img { width: 36px; height: 36px; border-radius: 50%; border: 2px solid var(--accent); }
+  .hero p { font-size: 1.05rem; color: var(--text-sub); max-width: 680px; margin: 0 auto; }
+  .badge-new { background: rgba(139, 92, 246, 0.2); border: 1px solid var(--accent); color: #c084fc; padding: 6px 16px; border-radius: 20px; font-size: 0.85rem; font-weight: 700; display: inline-block; margin-top: 16px; }
+
+  /* CONTENT STRUCTURE */
+  .content { max-width: 900px; margin: 40px auto; padding: 0 20px; }
+  .section { background: var(--bg-card); border-radius: 16px; padding: 32px; margin-bottom: 28px; border: 1px solid var(--border); box-shadow: 0 4px 20px rgba(0,0,0,0.2); }
+  .section h2 { font-size: 1.4rem; color: #c084fc; margin-bottom: 18px; padding-bottom: 10px; border-bottom: 1px solid var(--border); display: flex; align-items: center; gap: 8px; }
+  .section h3 { font-size: 1.1rem; color: var(--text-main); margin: 20px 0 10px; }
+  .section p { color: var(--text-sub); font-size: 0.98rem; margin-bottom: 12px; }
+  .section ul, .section ol { padding-left: 24px; color: var(--text-sub); font-size: 0.98rem; line-height: 1.9; }
+
+  /* CALLOUT BOXES */
+  .tip { background: rgba(139, 92, 246, 0.1); border-left: 4px solid var(--accent); border-radius: 8px; padding: 14px 18px; margin: 16px 0; font-size: 0.92rem; color: #ddd6fe; }
+  .warn { background: rgba(245, 158, 11, 0.1); border-left: 4px solid var(--warning); border-radius: 8px; padding: 14px 18px; margin: 16px 0; font-size: 0.92rem; color: #fde68a; }
+  .new { background: rgba(16, 185, 129, 0.1); border-left: 4px solid var(--success); border-radius: 8px; padding: 14px 18px; margin: 16px 0; font-size: 0.92rem; color: #a7f3d0; }
+
+  /* TOC */
+  .toc { background: var(--bg-card); border: 1px solid var(--border); border-radius: 14px; padding: 22px 26px; margin-bottom: 32px; }
+  .toc h3 { font-size: 1.1rem; margin-bottom: 14px; color: var(--text-main); }
+  .toc-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 8px; }
+  .toc a { color: var(--text-sub); text-decoration: none; padding: 6px 10px; border-radius: 6px; font-size: 0.9rem; transition: all .2s; }
+  .toc a:hover { background: var(--bg-hover); color: #c084fc; }
+
+  /* FEATURE GRID */
+  .feature-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 14px; margin-top: 16px; }
+  .feature-item { background: var(--bg-hover); border-radius: 10px; padding: 16px; border: 1px solid var(--border); font-size: 0.9rem; color: var(--text-sub); }
+  .feature-item strong { display: block; margin-bottom: 6px; color: #c084fc; font-size: 0.95rem; }
+
+  /* COMPARE CARDS */
+  .compare { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 16px; }
+  .compare-card { border-radius: 12px; padding: 20px; background: var(--bg-hover); border: 1px solid var(--border); }
+  .compare-card h4 { font-size: 1rem; margin-bottom: 12px; text-align: center; }
+  .compare-card ul { list-style: none; padding: 0; font-size: 0.9rem; color: var(--text-sub); line-height: 2; }
+  .c-mom { border-top: 4px solid #3b82f6; }
+  .c-rar { border-top: 4px solid #f97316; }
+  .c-kpt { border-top: 4px solid var(--accent); background: rgba(139, 92, 246, 0.05); }
+
+  /* STEP GRID */
+  .step-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 14px; margin: 20px 0; }
+  .step-card { background: var(--bg-hover); border-radius: 12px; padding: 20px; text-align: center; border: 1px solid var(--border); }
+  .step-num { width: 40px; height: 40px; background: var(--accent); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; margin: 0 auto 12px; box-shadow: 0 0 10px var(--accent-glow); }
+  .step-card h4 { font-size: 0.95rem; margin-bottom: 6px; color: var(--text-main); }
+  .step-card p { font-size: 0.85rem; color: var(--text-sub); }
+
+  /* BUTTONS */
+  .btn-group { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 16px; }
+  .btn-dl { display: inline-flex; align-items: center; gap: 8px; background: linear-gradient(135deg, var(--accent), var(--accent-light)); color: white; text-decoration: none; padding: 14px 28px; border-radius: 10px; font-weight: 700; font-size: 0.95rem; transition: all .2s; box-shadow: 0 4px 14px var(--accent-glow); }
+  .btn-dl:hover { transform: translateY(-2px); box-shadow: 0 6px 20px var(--accent-glow); }
+  .btn-dark { background: #1e293b; border: 1px solid var(--border); color: var(--text-main); }
+  .btn-dark:hover { background: var(--bg-hover); }
+
+  /* TABLE */
+  .table-responsive { overflow-x: auto; margin-top: 16px; border-radius: 10px; border: 1px solid var(--border); }
+  table { width: 100%; border-collapse: collapse; font-size: 0.9rem; text-align: left; }
+  th { background: var(--bg-hover); padding: 12px 16px; color: #c084fc; font-weight: 600; border-bottom: 1px solid var(--border); }
+  td { padding: 12px 16px; border-bottom: 1px solid var(--border); color: var(--text-sub); }
+  tr:last-child td { border-bottom: none; }
+  tr:nth-child(even) { background: rgba(255, 255, 255, 0.02); }
+
+  /* CODE BOX */
+  .code-block { background: #090d16; color: #a8d8a8; border-radius: 10px; padding: 18px 22px; font-family: 'Consolas', 'Fira Code', monospace; font-size: 0.88rem; line-height: 1.8; margin: 16px 0; border: 1px solid var(--border); }
+
+  /* FOOTER */
+  footer { background: var(--bg-card); border-top: 1px solid var(--border); text-align: center; padding: 32px 20px; font-size: 0.88rem; color: var(--text-sub); margin-top: 60px; }
+  footer a { color: var(--accent-light); text-decoration: none; }
+  footer a:hover { text-decoration: underline; }
+
+  @media(max-width:600px){
+    .compare { grid-template-columns: 1fr; }
+    .hero h1 { font-size: 1.6rem; }
+    .section { padding: 20px; }
+  }
+</style>
+</head>
+<body>
+  <nav>
+    <a href="/khoiphuctool/" class="nav-brand">
+      <img src="LOGO.png" alt="Logo"> KhoiPhucTool
+    </a>
+    <button class="nav-toggle" onclick="this.classList.toggle('open');document.getElementById('nav-links-kpt').classList.toggle('open')" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+    <div class="nav-links" id="nav-links-kpt">
+      <a href="huong-dan-autohash.html">📗 AutoHash</a>
+      <a href="huong-dan-trau.html" class="active">📙 ConTrâu V7</a>
+      <a href="huong-dan-khoiphuctool.html"><img src="LOGO.png" style="width:16px;height:16px;vertical-align:middle;border-radius:50%;margin-right:3px;"> KhoiPhucTool <span class="kpt-ver">...</span></a>
+      <a href="tags.html">🏷️ Từ khóa</a>
+    </div>
+  </nav>
+
+  <div class="hero">
+    <h1><img src="LOGO.png" alt="Logo"> Hướng dẫn ConTrâu V7</h1>
+    <p>ConTrâu V7 — công cụ quản lý mạng: đổi IP/MAC, cài DNS, quét LAN. Giao diện đồng bộ với trang Hướng dẫn KPT.</p>
+    <span class="badge-new">✨ Hướng dẫn</span>
+  </div>
+
+  <div class="content">
+    <div class="toc">
+      <h3>📋 Mục lục</h3>
+      <div class="toc-grid">
+        <a href="#gioi-thieu">1. Giới thiệu</a>
+        <a href="#cai-dat">2. Cài đặt & chạy</a>
+        <a href="#chuc-nang">3. Chức năng chính</a>
+        <a href="#luu-y">4. Lưu ý</a>
+      </div>
+    </div>
+
+    <div class="section" id="gioi-thieu">
+      <h2>1. Giới thiệu</h2>
+      <p>ConTrâu V7 giúp đổi cấu hình mạng nhanh chóng và kiểm soát các thiết lập mạng trên Windows.</p>
+    </div>
+
+    <div class="section" id="cai-dat">
+      <h2>2. Cài đặt & chạy</h2>
+      <p>Chạy file ConTrâu.exe với quyền Administrator để có thể thay đổi IP/MAC. Không cần cài đặt thêm thư viện.</p>
+    </div>
+
+    <div class="section" id="chuc-nang">
+      <h2>3. Chức năng chính</h2>
+      <ul>
+        <li>Đổi IP tĩnh / bật DHCP</li>
+        <li>Đổi địa chỉ MAC</li>
+        <li>Quét các IP hoạt động trong mạng LAN</li>
+        <li>Cài nhanh DNS</li>
+      </ul>
+    </div>
+
+    <div class="section" id="luu-y">
+      <h2>4. Lưu ý</h2>
+      <ul>
+        <li>Luôn chạy với quyền Administrator để thay đổi cấu hình hệ thống.</li>
+        <li>Thay đổi MAC/IP có thể gây mất kết nối — dùng cẩn trọng.</li>
+      </ul>
+    </div>
+
+  </div>
+
+  <footer>
+    <strong>KHÔI PHỤC TOOLS</strong> — Liên hệ <strong>Zalo 0816499746</strong> · <a href="mailto:khoiphuctool@gmail.com">khoiphuctool@gmail.com</a><br><br>
+    <a href="index.html">🏠 Trang chủ</a> &nbsp;|&nbsp;
+    <a href="huong-dan-autohash.html">📗 Hướng dẫn AutoHash</a> &nbsp;|&nbsp;
+    <a href="huong-dan-trau.html"><img src="LOGO.png" style="width:16px;height:16px;vertical-align:middle;border-radius:50%;margin-right:3px;"> Hướng dẫn ConTrâu</a>
+  </footer>
+</body>
+</html>
