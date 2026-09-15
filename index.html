@@ -698,7 +698,7 @@
             </div>
           </div>
 
-          <div id="pro-form" class="space-y-2">
+          <div id="pro-form" class="space-y-2 hidden">
             <input id="pro-name" type="text" placeholder="Tên / SĐT của bạn" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:border-brand-500">
             <input id="pro-pass" type="password" placeholder="Mật khẩu PRO" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:border-brand-500">
             <div id="pro-msg" class="min-h-[16px] text-xs text-slate-400"></div>
@@ -1623,6 +1623,15 @@
           if (msg) {
             msg.textContent = 'Đã chọn gói ' + selectedPkg.label + '. Bạn có thể tạo QR ngay.';
             msg.className = 'text-xs text-amber-500';
+          }
+          // Hiện khung nhập thông tin PRO (tên + mật khẩu) khi người chọn gói
+          var proForm = document.getElementById('pro-form');
+          if (proForm && proForm.classList.contains('hidden')) {
+            proForm.classList.remove('hidden');
+            var passInput = document.getElementById('pro-pass');
+            if (passInput) passInput.focus();
+            // cuộn tới khung PRO để người dùng thấy ngay
+            proForm.scrollIntoView({ behavior: 'smooth', block: 'center' });
           }
         });
       });
