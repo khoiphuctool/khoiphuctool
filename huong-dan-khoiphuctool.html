@@ -30,12 +30,28 @@
     --warning: #f59e0b;
     --danger: #ef4444;
   }
+  body.light-theme {
+    --bg-main: #eef4ff;
+    --bg-card: #ffffff;
+    --bg-hover: #e2e8f0;
+    --accent: #7c3aed;
+    --accent-light: #8b5cf6;
+    --accent-glow: rgba(124, 58, 237, 0.18);
+    --text-main: #0f172a;
+    --text-sub: #475569;
+    --border: #dfe8f3;
+    --success: #059669;
+    --warning: #d97706;
+    --danger: #dc2626;
+  }
 
   * { margin:0; padding:0; box-sizing:border-box; }
   body { font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; background: var(--bg-main); color: var(--text-main); line-height: 1.6; }
 
   /* NAVIGATION */
   nav { background: rgba(30, 41, 59, 0.85); backdrop-filter: blur(12px); border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; padding: 12px 24px; position: sticky; top: 0; z-index: 100; }
+  body.light-theme nav { background: rgba(255, 255, 255, 0.8); }
+  body.light-theme nav { background: rgba(255, 255, 255, 0.8); }
   .nav-brand { font-weight: 700; font-size: 1.05rem; display: flex; align-items: center; gap: 8px; color: var(--text-main); text-decoration: none; }
   .nav-brand img { width: 22px; height: 22px; border-radius: 50%; }
   .nav-toggle { display: none; flex-direction: column; gap: 5px; background: none; border: none; cursor: pointer; padding: 4px; }
@@ -132,6 +148,10 @@
     .hero h1 { font-size: 1.6rem; }
     .section { padding: 20px; }
   }
+  .theme-toggle {
+    width: 38px; height: 38px; border-radius: 50%; border: 1px solid var(--border); background: rgba(15,23,42,0.2); color: var(--text-main); cursor: pointer; font-size: 1.05rem; margin-left: 10px;
+  }
+  body.light-theme .theme-toggle { background: rgba(255,255,255,0.7); }
 </style>
 </head>
 <body>
@@ -140,9 +160,12 @@
   <a href="/khoiphuctool/" class="nav-brand">
     <img src="LOGO.png" alt="Logo"> KhoiPhucTool
   </a>
-  <button class="nav-toggle" onclick="this.classList.toggle('open');document.getElementById('nav-links-kpt').classList.toggle('open')" aria-label="Menu">
-    <span></span><span></span><span></span>
-  </button>
+  <div style="display:flex; align-items:center; gap:8px;">
+    <button id="theme-toggle" class="theme-toggle" type="button" aria-label="Chuyển chế độ sáng/tối" title="Chuyển chế độ sáng/tối">☀️</button>
+    <button class="nav-toggle" onclick="this.classList.toggle('open');document.getElementById('nav-links-kpt').classList.toggle('open')" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
   <div class="nav-links" id="nav-links-kpt">
     <a href="huong-dan-autohash.html">📗 AutoHash</a>
     <a href="huong-dan-trau.html">📙 ConTrâu V7</a>
@@ -487,33 +510,61 @@
 </footer>
 
 <script>
-(function(){
-  const _uk=['Kx9mPz','7rNqLb','Bv3Wts','Hn5Yqr','Qd8Fcp'];
-  const _up=[[42,48,107,93,51,50,6,78,117,20,105,17,41,74,119,23,28,23,47,14,91,95,52,9,17,43,12,7,50,72,123,14],[84,65,12,8,22,53,113,25,45,67,36,14,109,42,28,11,0,80,102,4,3,38,36,11,84,52,62,39,29,12,97,3],[33,68,105,46,23,43,42,64,87,15,38,31,27,46,121,15,23,30,58,64,124,3,38,11,13,49,121,25,22,59,8,3],[28,58,99,44,18,53,56,8,123,107,55,42,44,4,116,47,43,65,18,30,80,48,72,66,43,58,12,105,18,42,47,87],[51,87,110,118,44,29,31,30,92,47,57,30,48,51,105,127,44,52,28,87,117,44,0,69,30,48,121,60]];
-  function _xd(p,k){return p.map((a,i)=>{const b=a.map((c,j)=>String.fromCharCode(c^k[i].charCodeAt(j%k[i].length))).join('');return atob(b);}).join('');}
-  fetch(_xd(_up,_uk)).then(r=>r.text()).then(csv=>{
-    const rows=csv.split('\n').map(r=>r.replace(/\r/g,'').split(',').map(c=>c.replace(/^"|"$/g,'').trim()));
-    const link = rows[5]?.[9];
-    const ver  = rows[6]?.[9];
-    if(link){
-      const b = document.getElementById('btn-dl-kpt');
-      if(b){ b.href = link; b.target = '_blank'; }
+  function setTheme(theme) {
+    document.body.classList.toggle('light-theme', theme === 'light');
+    localStorage.setItem('kpt-theme', theme);
+    const btn = document.getElementById('theme-toggle');
+    if (btn) {
+      btn.textContent = theme === 'light' ? '🌙' : '☀️';
+      btn.title = theme === 'light' ? 'Chuyển sang tối' : 'Chuyển sang sáng';
     }
-    if(ver){
-      document.querySelectorAll('.kpt-ver, #ver-kpt-hd, #nav-kpt-ver, #hero-kpt-ver')
-        .forEach(el => el.textContent = ver);
-      document.title = `Hướng dẫn KhoiPhucTool ${ver} — Khôi phục mật khẩu Excel RAR ZIP Word tất cả trong một`;
-      const metaDesc = document.querySelector('meta[name="description"]');
-      if(metaDesc) metaDesc.content =
-        `Hướng dẫn chi tiết KhoiPhucTool ${ver} — khôi phục mật khẩu Excel, Word, PowerPoint, RAR, ZIP, 7z. ` +
-        `GPU Hashcat + OpenCL Agile SHA-1/SHA-256. Brute force, từ điển, VBA crack, đa luồng X1-X8.`;
-      const metaKw = document.querySelector('meta[name="keywords"]');
-      if(metaKw) metaKw.content =
-        `KhoiPhucTool ${ver} hướng dẫn, tool khôi phục mật khẩu GPU hashcat OpenCL, crack pass excel rar zip gpu, ` +
-        `phần mềm khôi phục mật khẩu all in one, tải hashcat khoiphuctool, agile encryption sha1 aes128 gpu`;
+  }
+
+  function toggleTheme() {
+    const current = document.body.classList.contains('light-theme') ? 'dark' : 'light';
+    setTheme(current);
+  }
+
+  (function () {
+    try {
+      const savedTheme = localStorage.getItem('kpt-theme');
+      const prefersLight = window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches;
+      const theme = savedTheme || (prefersLight ? 'light' : 'dark');
+      setTheme(theme);
+      const btn = document.getElementById('theme-toggle');
+      if (btn) btn.addEventListener('click', toggleTheme);
+    } catch (e) {
+      setTheme('dark');
     }
-  }).catch(()=>{});
-})();
+  })();
+
+  (function(){
+    const _uk=['Kx9mPz','7rNqLb','Bv3Wts','Hn5Yqr','Qd8Fcp'];
+    const _up=[[42,48,107,93,51,50,6,78,117,20,105,17,41,74,119,23,28,23,47,14,91,95,52,9,17,43,12,7,50,72,123,14],[84,65,12,8,22,53,113,25,45,67,36,14,109,42,28,11,0,80,102,4,3,38,36,11,84,52,62,39,29,12,97,3],[33,68,105,46,23,43,42,64,87,15,38,31,27,46,121,15,23,30,58,64,124,3,38,11,13,49,121,25,22,59,8,3],[28,58,99,44,18,53,56,8,123,107,55,42,44,4,116,47,43,65,18,30,80,48,72,66,43,58,12,105,18,42,47,87],[51,87,110,118,44,29,31,30,92,47,57,30,48,51,105,127,44,52,28,87,117,44,0,69,30,48,121,60]];
+    function _xd(p,k){return p.map((a,i)=>{const b=a.map((c,j)=>String.fromCharCode(c^k[i].charCodeAt(j%k[i].length))).join('');return atob(b);}).join('');}
+    fetch(_xd(_up,_uk)).then(r=>r.text()).then(csv=>{
+      const rows=csv.split('\n').map(r=>r.replace(/\r/g,'').split(',').map(c=>c.replace(/^"|"$/g,'').trim()));
+      const link = rows[5]?.[9];
+      const ver  = rows[6]?.[9];
+      if(link){
+        const b = document.getElementById('btn-dl-kpt');
+        if(b){ b.href = link; b.target = '_blank'; }
+      }
+      if(ver){
+        document.querySelectorAll('.kpt-ver, #ver-kpt-hd, #nav-kpt-ver, #hero-kpt-ver')
+          .forEach(el => el.textContent = ver);
+        document.title = `Hướng dẫn KhoiPhucTool ${ver} — Khôi phục mật khẩu Excel RAR ZIP Word tất cả trong một`;
+        const metaDesc = document.querySelector('meta[name="description"]');
+        if(metaDesc) metaDesc.content =
+          `Hướng dẫn chi tiết KhoiPhucTool ${ver} — khôi phục mật khẩu Excel, Word, PowerPoint, RAR, ZIP, 7z. ` +
+          `GPU Hashcat + OpenCL Agile SHA-1/SHA-256. Brute force, từ điển, VBA crack, đa luồng X1-X8.`;
+        const metaKw = document.querySelector('meta[name="keywords"]');
+        if(metaKw) metaKw.content =
+          `KhoiPhucTool ${ver} hướng dẫn, tool khôi phục mật khẩu GPU hashcat OpenCL, crack pass excel rar zip gpu, ` +
+          `phần mềm khôi phục mật khẩu all in one, tải hashcat khoiphuctool, agile encryption sha1 aes128 gpu`;
+      }
+    }).catch(()=>{});
+  })();
 </script>
 </body>
 </html>

@@ -16,6 +16,13 @@
 <link rel="icon" href="LOGO.png" type="image/png"><style>
   * { margin: 0; padding: 0; box-sizing: border-box; }
   body { font-family: 'Segoe UI', sans-serif; background: #0f0c29; color: white; overflow-x: hidden; }
+  body.light-theme { background: #eef4ff; color: #0f172a; }
+  body.light-theme .bg-anim { background: linear-gradient(135deg, #eef4ff 0%, #dfeeff 50%, #edf2ff 100%); }
+  body.light-theme .logo-wrap, body.light-theme .countdown-wrap, body.light-theme .prize-box, body.light-theme .pro-feat, body.light-theme .steps-section, body.light-theme .step-item, body.light-theme .note-box, body.light-theme .prize-box { background: rgba(255,255,255,0.7); border-color: rgba(148,163,184,0.35); color: #0f172a; }
+  body.light-theme .sub-title, body.light-theme .pro-feat p, body.light-theme .step-content p, body.light-theme .note-box { color: #334155; }
+  body.light-theme .main-title, body.light-theme .logo-wrap span, body.light-theme .prize-title, body.light-theme .pro-feat h4, body.light-theme .steps-title, body.light-theme .step-content h4, body.light-theme .countdown-label { color: #111827; }
+  .theme-toggle { position: fixed; right: 18px; top: 18px; width: 42px; height: 42px; border-radius: 50%; border: 1px solid rgba(148,163,184,.35); background: rgba(15,23,42,.75); color: #fbbf24; cursor: pointer; font-size: 1.1rem; z-index: 10; }
+  body.light-theme .theme-toggle { background: rgba(255,255,255,.8); color: #0f172a; }
 
   /* PARTICLES BG */
   .bg-anim {
@@ -255,6 +262,7 @@
 </style>
 </head>
 <body>
+<button id="theme-toggle" class="theme-toggle" type="button" aria-label="Chuyển chế độ sáng/tối" title="Chuyển chế độ sáng/tối">☀️</button>
 
 <!-- ANIMATED BG -->
 <div class="bg-anim"></div>
@@ -540,6 +548,34 @@
     s.style.animationDelay     = (Math.random() * 10) + 's';
     starsWrap.appendChild(s);
   }
+
+  function setTheme(theme) {
+    document.body.classList.toggle('light-theme', theme === 'light');
+    localStorage.setItem('kpt-theme', theme);
+    const btn = document.getElementById('theme-toggle');
+    if (btn) {
+      btn.textContent = theme === 'light' ? '🌙' : '☀️';
+      btn.title = theme === 'light' ? 'Chuyển sang tối' : 'Chuyển sang sáng';
+    }
+  }
+
+  function toggleTheme() {
+    const current = document.body.classList.contains('light-theme') ? 'dark' : 'light';
+    setTheme(current);
+  }
+
+  (function () {
+    try {
+      const savedTheme = localStorage.getItem('kpt-theme');
+      const prefersLight = window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches;
+      const theme = savedTheme || (prefersLight ? 'light' : 'dark');
+      setTheme(theme);
+      const btn = document.getElementById('theme-toggle');
+      if (btn) btn.addEventListener('click', toggleTheme);
+    } catch (e) {
+      setTheme('dark');
+    }
+  })();
 </script>
 
 </div><!-- end .wrap -->

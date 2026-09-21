@@ -14,6 +14,15 @@
 <link rel="canonical" href="https://khoiphuctool.github.io/khoiphuctool/tags.html">
 <style>
   body { font-family: 'Segoe UI', sans-serif; background: #f0f4f8; color: #2c3e50; padding: 40px 20px; max-width: 900px; margin: 0 auto; }
+  body.dark-theme { background: #0f172a; color: #e2e8f0; }
+  body.dark-theme p { color: #cbd5e1; }
+  body.dark-theme .tag-green { background: rgba(39,174,96,.12); color: #8ef0bf; }
+  body.dark-theme .tag-blue { background: rgba(25,118,210,.12); color: #93c5fd; }
+  body.dark-theme .tag-orange { background: rgba(230,126,34,.12); color: #fdba74; }
+  body.dark-theme .tag-red { background: rgba(198,40,40,.12); color: #fca5a5; }
+  body.dark-theme .tag-purple { background: rgba(123,31,162,.12); color: #d8b4fe; }
+  .theme-toggle { position: fixed; right: 18px; top: 18px; width: 42px; height: 42px; border-radius: 50%; border: 1px solid rgba(148,163,184,.35); background: rgba(255,255,255,.75); color: #1f2937; cursor: pointer; font-size: 1.1rem; z-index: 10; }
+  body.dark-theme .theme-toggle { background: rgba(15,23,42,.8); color: #fbbf24; }
   h1 { font-size: 1.8rem; margin-bottom: 8px; }
   p  { color: #666; margin-bottom: 30px; }
   .tags { display: flex; flex-wrap: wrap; gap: 10px; }
@@ -32,6 +41,7 @@
 </style>
 </head>
 <body>
+<button id="theme-toggle" class="theme-toggle" type="button" aria-label="Chuyển chế độ sáng/tối" title="Chuyển chế độ sáng/tối">☀️</button>
 
 <h1>🏷️ Từ khóa tìm kiếm</h1>
 <p>Các từ khóa phổ biến liên quan đến công cụ khôi phục mật khẩu</p>
@@ -127,6 +137,32 @@
 </div>
 
 <a href="/khoiphuctool/" class="back">← Về trang chủ</a>
+
+<script>
+  function setTheme(theme) {
+    document.body.classList.toggle('dark-theme', theme === 'dark');
+    localStorage.setItem('kpt-theme', theme);
+    var btn = document.getElementById('theme-toggle');
+    if (btn) {
+      btn.textContent = theme === 'dark' ? '☀️' : '🌙';
+      btn.title = theme === 'dark' ? 'Chuyển sang sáng' : 'Chuyển sang tối';
+    }
+  }
+  function toggleTheme() {
+    var current = document.body.classList.contains('dark-theme') ? 'light' : 'dark';
+    setTheme(current);
+  }
+  (function () {
+    try {
+      var savedTheme = localStorage.getItem('kpt-theme');
+      var prefersDark = window.matchMedia && !window.matchMedia('(prefers-color-scheme: light)').matches;
+      setTheme(savedTheme || (prefersDark ? 'dark' : 'light'));
+      document.getElementById('theme-toggle').addEventListener('click', toggleTheme);
+    } catch (e) {
+      setTheme('dark');
+    }
+  })();
+</script>
 
 </body>
 </html>
