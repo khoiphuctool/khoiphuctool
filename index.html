@@ -294,6 +294,30 @@
   html[data-theme="light"] #huongdan-gpu .bg-slate-900:hover {
     background: rgba(239,246,255,0.95) !important;
   }
+  html[data-theme="light"] #user-panel > div,
+  html[data-theme="light"] #user-panel .rounded-2xl,
+  html[data-theme="light"] #user-panel .bg-gradient-to-r {
+    background: linear-gradient(135deg, rgba(255,255,255,0.96), rgba(239,246,255,0.94)) !important;
+    border-color: rgba(148,163,184,0.28) !important;
+    box-shadow: 0 8px 20px rgba(59,130,246,0.08) !important;
+  }
+  html[data-theme="light"] #user-panel strong,
+  html[data-theme="light"] #user-panel .text-slate-200,
+  html[data-theme="light"] #user-panel .text-slate-300,
+  html[data-theme="light"] #user-panel .text-white,
+  html[data-theme="light"] #user-panel .text-slate-100,
+  html[data-theme="light"] #user-panel span,
+  html[data-theme="light"] #user-panel a {
+    color: #0f172a !important;
+  }
+  html[data-theme="light"] #user-panel a {
+    background: rgba(248,250,252,0.9) !important;
+    border-color: rgba(148,163,184,0.24) !important;
+  }
+  html[data-theme="light"] #user-panel a:hover {
+    background: rgba(239,246,255,0.98) !important;
+    color: #2563eb !important;
+  }
   html[data-theme="light"] footer {
     background: rgba(255,255,255,0.92) !important;
     border-top: 1px solid rgba(148,163,184,0.28) !important;
@@ -1177,8 +1201,7 @@
     (function () {
       try {
         var savedTheme = localStorage.getItem('kpt-theme');
-        var prefersLight = window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches;
-        setTheme(savedTheme || (prefersLight ? 'light' : 'dark'));
+        setTheme(savedTheme || 'dark');
       } catch (e) {
         setTheme('dark');
       }

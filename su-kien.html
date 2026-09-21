@@ -567,8 +567,7 @@
   (function () {
     try {
       const savedTheme = localStorage.getItem('kpt-theme');
-      const prefersLight = window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches;
-      const theme = savedTheme || (prefersLight ? 'light' : 'dark');
+      const theme = savedTheme || 'dark';
       setTheme(theme);
       const btn = document.getElementById('theme-toggle');
       if (btn) btn.addEventListener('click', toggleTheme);

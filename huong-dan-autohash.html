@@ -356,8 +356,7 @@
   (function () {
     try {
       var savedTheme = localStorage.getItem('kpt-theme');
-      var prefersLight = window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches;
-      setTheme(savedTheme || (prefersLight ? 'light' : 'dark'));
+      setTheme(savedTheme || 'dark');
       document.getElementById('theme-toggle').addEventListener('click', toggleTheme);
     } catch (e) {
       setTheme('dark');
