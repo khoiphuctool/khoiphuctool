@@ -1770,9 +1770,10 @@
       var confirmInput = document.getElementById('account-edit-confirm');
       var msg = document.getElementById('account-profile-msg');
 
-      var name = nameInput ? nameInput.value.trim() : '';
-      var phone = phoneInput ? phoneInput.value.trim() : '';
-      var email = emailInput ? emailInput.value.trim() : '';
+      var profile = readAccountProfile();
+      var name = (nameInput ? nameInput.value.trim() : '') || (profile.name || '');
+      var phone = (phoneInput ? phoneInput.value.trim() : '') || (profile.phone || '');
+      var email = (emailInput ? emailInput.value.trim() : '') || (profile.email || '');
       var oldPass = oldPassInput ? oldPassInput.value.trim() : '';
       var pass = passInput ? passInput.value.trim() : '';
       var confirm = confirmInput ? confirmInput.value.trim() : '';
@@ -1801,7 +1802,6 @@
         }
       }
 
-      var profile = readAccountProfile();
       var currentSavedHash = profile.passwordHash || '';
       var legacyPlainPassword = profile.password || '';
       var oldPassHash = oldPass ? await sha256(oldPass) : '';
@@ -1825,8 +1825,8 @@
       var currentType = _wlGet('wl_type') || profile.type || 'FREE';
       profile = ensureAccountMeta(profile, currentType, name);
       profile.name = name;
-      profile.phone = phone;
-      profile.email = email;
+      profile.phone = phone || profile.phone || '';
+      profile.email = email || profile.email || '';
       profile.createdAt = profile.createdAt || new Date().toISOString();
       profile.lastLoginAt = new Date().toISOString();
       profile.status = String(profile.status || getAccountStatus(currentType)).toUpperCase();
