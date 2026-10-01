@@ -1243,6 +1243,16 @@
   <!-- Footer -->
   <footer class="border-t border-slate-800/80 bg-slate-950 py-10 text-center text-xs text-slate-500 z-10 relative">
     <div class="max-w-7xl mx-auto px-4 space-y-3">
+      <!-- Online counter -->
+      <div class="flex items-center justify-center gap-2 text-xs mb-1">
+        <span class="flex h-2 w-2 relative">
+          <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+          <span class="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+        </span>
+        <span class="text-slate-400">Đang online:</span>
+        <span id="online-count" class="font-bold text-emerald-400">--</span>
+        <span class="text-slate-500">người</span>
+      </div>
       <p class="font-medium text-slate-400">© 2026 KhoiPhucTool - Bộ Công Cụ Khôi Phục Mật Khẩu Chuyên Nghiệp.</p>
       <p>Phát triển bởi cộng đồng lập trình Việt Nam. Hỗ trợ khôi phục dữ liệu an toàn &amp; hợp pháp.</p>
       <p>Liên hệ hỗ trợ &amp; mua PRO: <strong class="text-slate-300">Zalo 0816499746</strong> · <a href="mailto:khoiphuctool@gmail.com" class="text-brand-400 hover:text-brand-300 transition">khoiphuctool@gmail.com</a></p>
@@ -2784,6 +2794,86 @@
       }
       draw();
     }
+
+    // ── ONLINE PRESENCE TRACKING (Firebase REST API) ──────────────────────────
+    (function() {
+      var FB_URL = 'https://caro-fa824-default-rtdb.asia-southeast1.firebasedatabase.app';
+      var PRESENCE_PATH = '/kpt_online';
+      var HEARTBEAT_MS = 25000;   // gửi heartbeat mỗi 25s
+      var EXPIRE_MS    = 60000;   // node cũ hơn 60s = đã offline
+      var COUNT_REFRESH_MS = 15000; // cập nhật counter mỗi 15s
+
+      // Tạo session ID ngẫu nhiên cho tab này
+      var sessionId = 'web_' + Math.random().toString(36).substr(2, 12) + '_' + Date.now().toString(36);
+      var nodeUrl   = FB_URL + PRESENCE_PATH + '/' + sessionId + '.json';
+
+      function sendHeartbeat() {
+        fetch(nodeUrl, {
+          method: 'PUT',
+          mode: 'no-cors',
+          body: JSON.stringify({ ts: Date.now(), src: 'web' })
+        }).catch(function(){});
+      }
+
+      function removePresence() {
+        // Dùng sendBeacon để chạy được khi tab đóng
+        if (navigator.sendBeacon) {
+          // Firebase REST không hỗ trợ DELETE qua sendBeacon trực tiếp
+          // → dùng fetch với keepalive
+        }
+        fetch(nodeUrl + '?print=silent', {
+          method: 'DELETE',
+          mode: 'no-cors',
+          keepalive: true
+        }).catch(function(){});
+      }
+
+      function updateOnlineCount() {
+        fetch(FB_URL + PRESENCE_PATH + '.json', { method: 'GET' })
+          .then(function(r) { return r.json(); })
+          .then(function(data) {
+            if (!data) { setCount(0); return; }
+            var now = Date.now();
+            var count = 0;
+            Object.keys(data).forEach(function(key) {
+              var node = data[key];
+              if (node && node.ts && (now - node.ts) < EXPIRE_MS) count++;
+            });
+            setCount(count);
+          })
+          .catch(function() {
+            // Firebase không trả về → ẩn hoặc giữ số cũ
+          });
+      }
+
+      function setCount(n) {
+        var el = document.getElementById('online-count');
+        if (el) el.textContent = n > 0 ? n : '1';
+      }
+
+      // Bắt đầu
+      sendHeartbeat();
+      updateOnlineCount();
+      var hbInterval   = setInterval(sendHeartbeat, HEARTBEAT_MS);
+      var cntInterval  = setInterval(updateOnlineCount, COUNT_REFRESH_MS);
+
+      // Xóa presence khi đóng tab
+      window.addEventListener('beforeunload', function() {
+        clearInterval(hbInterval);
+        clearInterval(cntInterval);
+        removePresence();
+      });
+
+      // Xóa presence khi tab ẩn lâu (di động)
+      document.addEventListener('visibilitychange', function() {
+        if (document.visibilityState === 'visible') {
+          sendHeartbeat();
+          updateOnlineCount();
+        }
+      });
+    })();
+    // ─────────────────────────────────────────────────────────────────────────
+
   </script>
 </body>
 </html>
