@@ -1544,6 +1544,24 @@
       }
     }
 
+    async function passwordMatchesCandidate(candidateValue, storedValue) {
+      var candidate = String(candidateValue == null ? '' : candidateValue).trim();
+      var stored = String(storedValue == null ? '' : storedValue).trim();
+      if (!candidate || !stored) return false;
+      if (candidate === stored) return true;
+
+      var candidateLower = candidate.toLowerCase();
+      var storedLower = stored.toLowerCase();
+      if (/^[0-9a-f]{64}$/i.test(storedLower)) {
+        var candidateHash = (/^[0-9a-f]{64}$/i.test(candidateLower) ? candidateLower : (await sha256(candidate)).toLowerCase());
+        if (candidateHash === storedLower) return true;
+      }
+      if (/^[0-9a-f]{64}$/i.test(candidateLower) && /^[0-9a-f]{64}$/i.test(storedLower)) {
+        return candidateLower === storedLower;
+      }
+      return false;
+    }
+
     function getAccountStatus(type) {
       var t = String(type || 'FREE').toUpperCase();
       if (t === 'BANNED' || t === 'LOCKED' || t === 'KHOA' || t === 'KHÓA') return 'BANNED';
@@ -1807,6 +1825,15 @@
         return;
       }
 
+      // Fix 2: validate format email bằng JS
+      if (email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+        if (msg) {
+          msg.textContent = 'Email không đúng định dạng.';
+          msg.className = 'min-h-[16px] text-[11px] text-rose-500';
+        }
+        return;
+      }
+
       var profileChanged = false;
       if ((profile.name || '') !== name) profileChanged = true;
       if ((profile.email || '') !== email) profileChanged = true;
@@ -1814,6 +1841,14 @@
         if (!oldPass) {
           if (msg) {
             msg.textContent = 'Vui lòng nhập mật khẩu cũ trước khi đổi mật khẩu mới.';
+            msg.className = 'min-h-[16px] text-[11px] text-rose-500';
+          }
+          return;
+        }
+        // Fix 1: validate độ dài mật khẩu mới tối thiểu 4 ký tự
+        if (pass.length < 4) {
+          if (msg) {
+            msg.textContent = 'Mật khẩu mới phải có ít nhất 4 ký tự.';
             msg.className = 'min-h-[16px] text-[11px] text-rose-500';
           }
           return;
@@ -1839,11 +1874,23 @@
       var oldPassHash = oldPass ? await sha256(oldPass) : '';
       if (oldPass) {
         var validOldPassword = false;
-        if (currentSavedHash) {
-          validOldPassword = (oldPassHash === currentSavedHash);
-        } else if (legacyPlainPassword) {
-          validOldPassword = (oldPass === legacyPlainPassword);
+        // Fix 5: loại bỏ duplicate entries trong legacyVariants
+        var legacyVariants = [
+          currentSavedHash,
+          legacyPlainPassword,
+          profile.oldPasswordHash || '',
+          profile.newPasswordHash || ''
+        ];
+
+        for (var i = 0; i < legacyVariants.length; i++) {
+          var candidateStored = legacyVariants[i];
+          if (!candidateStored) continue;
+          if (await passwordMatchesCandidate(oldPass, candidateStored)) {
+            validOldPassword = true;
+            break;
+          }
         }
+
         if (!validOldPassword) {
           if (msg) {
             msg.textContent = 'Mật khẩu cũ không đúng.';
@@ -1855,6 +1902,10 @@
 
       var previousName = _wlGet('wl_name') || profile.name || name;
       var currentType = _wlGet('wl_type') || profile.type || 'FREE';
+
+      // Fix 4: lưu snapshot để rollback nếu server sync thất bại
+      var profileSnapshot = JSON.stringify(profile);
+
       profile = ensureAccountMeta(profile, currentType, name);
       profile.name = name;
       profile.phone = profile.phone || '';
@@ -1865,8 +1916,10 @@
       profile.packageId = profile.packageId || (currentType === 'PRO' ? 'PRO' : 'FREE');
       profile.lastDevice = (typeof navigator !== 'undefined' ? navigator.userAgent : 'WEB');
       profile.lastIp = profile.lastIp || 'unknown';
+      // Fix 3: tính newPasswordHash một lần, tái sử dụng cho cả local lẫn server payload
+      var newPasswordHash = '';
       if (pass) {
-        var newPasswordHash = await sha256(pass);
+        newPasswordHash = await sha256(pass);
         profile.passwordHash = newPasswordHash;
         delete profile.password;
       }
@@ -1886,18 +1939,23 @@
         packageId: profile.packageId || (profile.type === 'PRO' ? 'PRO' : 'FREE'),
         userId: profile.userId,
         oldPasswordHash: oldPass ? oldPassHash : '',
-        newPasswordHash: pass ? await sha256(pass) : '',
+        newPasswordHash: newPasswordHash,  // Fix 3: dùng biến đã tính, không gọi sha256 lần 3
         oldName: previousName,
         type: profile.type || 'FREE'
       });
 
-      _wlSet('wl_name', name);
-      renderUserPanel(name, profile.type || 'FREE');
+      if (!serverSaved) {
+        // Fix 4: rollback dữ liệu local về snapshot cũ khi server sync thất bại
+        try { localStorage.setItem('kpt_account_profile', profileSnapshot); } catch (e) {}
+      }
+
+      _wlSet('wl_name', serverSaved ? name : (previousName || name));
+      renderUserPanel(serverSaved ? name : (previousName || name), profile.type || 'FREE');
 
       if (msg) {
         msg.textContent = serverSaved
           ? '✅ Đã cập nhật thông tin tài khoản và đồng bộ lên hệ thống.'
-          : '❌ Không thể đồng bộ lên hệ thống. Vui lòng kiểm tra mạng hoặc webhook, dữ liệu cục bộ đã được lưu.';
+          : '❌ Không thể đồng bộ lên hệ thống. Vui lòng kiểm tra mạng hoặc webhook. Thay đổi chưa được lưu.';
         msg.className = 'min-h-[16px] text-[11px] ' + (serverSaved ? 'text-emerald-500' : 'text-rose-500');
       }
 
