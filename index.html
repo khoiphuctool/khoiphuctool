@@ -1588,6 +1588,7 @@
         var newName = profileData.name || oldName;
         var type = profileData.type || 'FREE';
         var normalizedProfile = ensureAccountMeta(profileData, type, newName);
+        var emailValue = normalizedProfile.email || profileData.mail || profileData.emailAddress || '';
         var createdAt = normalizedProfile.createdAt || new Date().toISOString();
         var lastLoginAt = normalizedProfile.lastLoginAt || new Date().toISOString();
         var status = String(normalizedProfile.status || getAccountStatus(type)).toUpperCase();
@@ -1603,7 +1604,8 @@
           account: newName,
           oldAccount: oldName,
           phone: profileData.phone || '',
-          email: normalizedProfile.email || '',
+          email: emailValue,
+          mail: emailValue,
           type: type,
           packageId: packageId,
           userId: userId,
@@ -1619,10 +1621,14 @@
           status: status,
           ip: await getPublicIP()
         };
-        await fetch(WEBHOOK, {
+        var res = await fetch(WEBHOOK, {
           method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(payload)
         });
+        if (!res || !res.ok) {
+          throw new Error('Server returned ' + (res ? res.status : 'no response'));
+        }
         return true;
       } catch (e) {
         return false;
@@ -1879,13 +1885,15 @@
       if (msg) {
         msg.textContent = serverSaved
           ? '✅ Đã cập nhật thông tin tài khoản và đồng bộ lên hệ thống.'
-          : '✅ Đã lưu thông tin tài khoản trên trình duyệt. Hệ thống server chưa phản hồi, dữ liệu sẽ được đồng bộ khi mạng ổn định.';
-        msg.className = 'min-h-[16px] text-[11px] text-emerald-500';
+          : '❌ Không thể đồng bộ lên hệ thống. Vui lòng kiểm tra mạng hoặc webhook, dữ liệu cục bộ đã được lưu.';
+        msg.className = 'min-h-[16px] text-[11px] ' + (serverSaved ? 'text-emerald-500' : 'text-rose-500');
       }
 
-      setTimeout(function () {
-        closeAccountModal();
-      }, 700);
+      if (serverSaved) {
+        setTimeout(function () {
+          closeAccountModal();
+        }, 700);
+      }
     }
 
     function doLogout() {
