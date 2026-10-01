@@ -116,11 +116,30 @@
     --panel-border: rgba(148, 163, 184, 0.28);
     --nav-bg: rgba(255, 255, 255, 0.72);
   }
+  * {
+    box-sizing: border-box;
+  }
+  html {
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+    scroll-behavior: smooth;
+  }
   body {
     background-color: var(--bg-page);
     color: var(--text-main);
     overflow-x: hidden;
     position: relative;
+    min-width: 320px;
+  }
+  img, svg, canvas, video, iframe {
+    display: block;
+    max-width: 100%;
+  }
+  button, input, textarea, select {
+    font: inherit;
+  }
+  a, button {
+    -webkit-tap-highlight-color: transparent;
   }
   .theme-toggle {
     width: 40px; height: 40px; border-radius: 999px; border: 1px solid rgba(148,163,184,.28);
@@ -348,6 +367,20 @@
     .entertain-mobile-menu { display: none; padding: 4px 0 4px 12px; }
     .entertain-mobile-menu.open { display: flex; flex-direction: column; gap: 4px; }
     .entertain-mobile-menu a { color: #cbd5e1; text-decoration: none; padding: 7px 0; }
+    #ticker-wrap { padding-left: 0.5rem; padding-right: 0.5rem; }
+    #ticker-wrap .max-w-7xl { gap: 0.5rem; }
+    nav .max-w-7xl { min-height: 58px; }
+    #nav-user { max-width: 100px; }
+    .glow-bg {
+      width: 220px !important;
+      height: 220px !important;
+      opacity: 0.18 !important;
+    }
+  }
+  @media (max-width: 480px) {
+    #ticker-wrap { font-size: 0.72rem; }
+    nav .max-w-7xl { padding-left: 0.75rem !important; padding-right: 0.75rem !important; }
+    #btn-login-header, #btn-logout-header { padding: 0.5rem 0.7rem; }
   }
   ::-webkit-scrollbar { width: 8px; }
   ::-webkit-scrollbar-track { background: #090d16; }
@@ -478,6 +511,82 @@
   </nav>
 
   <div id="user-panel" class="hidden max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-4 z-10 relative"></div>
+
+  <div id="account-modal" class="hidden fixed inset-0 bg-slate-950/80 backdrop-blur-md z-[60] flex items-start justify-center p-3 sm:p-4 overflow-y-auto">
+    <div class="w-full max-w-3xl rounded-3xl border border-slate-800 bg-slate-950/95 p-5 sm:p-6 shadow-2xl my-4 max-h-[92vh] overflow-y-auto overflow-x-hidden">
+      <div class="flex items-start justify-between gap-4">
+        <div>
+          <div class="text-[10px] uppercase tracking-[0.2em] text-slate-400 mb-2">Account</div>
+          <h3 class="text-xl font-bold text-white">Thông tin tài khoản</h3>
+        </div>
+        <button type="button" onclick="closeAccountModal()" class="text-slate-400 hover:text-white text-xl leading-none">✕</button>
+      </div>
+
+      <div class="mt-5 grid gap-5 lg:grid-cols-[1.2fr,0.8fr]">
+        <div class="space-y-4">
+          <div class="grid gap-3 sm:grid-cols-3">
+            <div class="rounded-2xl border border-slate-800 bg-slate-900/80 p-3">
+              <div class="text-[10px] uppercase tracking-[0.2em] text-slate-400">Loại TK</div>
+              <div id="account-type-value" class="mt-2 text-base font-bold text-white">FREE</div>
+            </div>
+            <div class="rounded-2xl border border-slate-800 bg-slate-900/80 p-3">
+              <div class="text-[10px] uppercase tracking-[0.2em] text-slate-400">Trạng thái</div>
+              <div id="account-status-text" class="mt-2 text-base font-bold text-emerald-400">Tài khoản miễn phí</div>
+            </div>
+            <div class="rounded-2xl border border-slate-800 bg-slate-900/80 p-3">
+              <div class="text-[10px] uppercase tracking-[0.2em] text-slate-400">Hết hạn</div>
+              <div id="account-expiry-value" class="mt-2 text-xs font-semibold text-slate-200">—</div>
+            </div>
+          </div>
+
+          <div class="rounded-2xl border border-slate-800 bg-slate-900/80 p-4">
+            <div class="flex items-center justify-between mb-3">
+              <h4 class="font-bold text-white">Lịch sử mua PRO</h4>
+              <span id="account-history-count" class="text-[10px] uppercase tracking-[0.2em] text-slate-400">0</span>
+            </div>
+            <div id="account-pro-history" class="space-y-2 text-sm text-slate-300"></div>
+          </div>
+
+          <div class="rounded-2xl border border-slate-800 bg-slate-900/80 p-4">
+            <h4 class="font-bold text-white mb-3">Thông tin bổ sung</h4>
+            <div id="account-extra-info" class="space-y-2 text-[11px] text-slate-300"></div>
+          </div>
+        </div>
+
+        <div class="rounded-2xl border border-slate-800 bg-slate-900/80 p-4">
+          <h4 class="font-bold text-white mb-3">Đổi tên / SĐT / mật khẩu</h4>
+          <form id="account-profile-form" onsubmit="saveAccountProfile(event)" class="space-y-3">
+            <div>
+              <label class="text-[11px] font-semibold text-slate-300 block mb-1">Tên tài khoản</label>
+              <input id="account-edit-name" type="text" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-sm text-white focus:outline-none focus:border-brand-500" placeholder="Tên tài khoản" autocomplete="off">
+            </div>
+            <div>
+              <label class="text-[11px] font-semibold text-slate-300 block mb-1">Số điện thoại</label>
+              <input id="account-edit-phone" type="text" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-sm text-white focus:outline-none focus:border-brand-500" placeholder="Nhập SĐT" autocomplete="off">
+            </div>
+            <div>
+              <label class="text-[11px] font-semibold text-slate-300 block mb-1">Email</label>
+              <input id="account-edit-email" type="email" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-sm text-white focus:outline-none focus:border-brand-500" placeholder="Nhập email nếu có" autocomplete="email">
+            </div>
+            <div>
+              <label class="text-[11px] font-semibold text-slate-300 block mb-1">Mật khẩu cũ</label>
+              <input id="account-edit-old-pass" type="password" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-sm text-white focus:outline-none focus:border-brand-500" placeholder="Nhập mật khẩu cũ" autocomplete="current-password">
+            </div>
+            <div>
+              <label class="text-[11px] font-semibold text-slate-300 block mb-1">Mật khẩu mới</label>
+              <input id="account-edit-pass" type="password" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-sm text-white focus:outline-none focus:border-brand-500" placeholder="Nhập mật khẩu mới" autocomplete="new-password">
+            </div>
+            <div>
+              <label class="text-[11px] font-semibold text-slate-300 block mb-1">Xác nhận mật khẩu</label>
+              <input id="account-edit-confirm" type="password" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-sm text-white focus:outline-none focus:border-brand-500" placeholder="Nhập lại mật khẩu mới" autocomplete="new-password">
+            </div>
+            <div id="account-profile-msg" class="min-h-[16px] text-[11px] text-slate-400"></div>
+            <button type="submit" class="w-full py-2.5 rounded-xl bg-gradient-to-r from-brand-600 to-purple-600 hover:from-brand-500 hover:to-purple-500 text-white font-bold text-sm transition">Lưu thay đổi</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
 
   <!-- Hero Section -->
   <header class="relative pt-12 pb-16 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto text-center z-10">
@@ -1385,13 +1494,30 @@
       var logoutBtn = document.getElementById('btn-logout-header');
       var logoutMobile = document.getElementById('btn-logout-mobile');
       var panel = document.getElementById('user-panel');
+      var profile = readAccountProfile();
+      profile = ensureAccountMeta(profile, type, name);
+      profile.name = name || profile.name || 'Khách';
+      profile.type = type || profile.type || 'FREE';
+      if (profile.type === 'PRO') {
+        var history = getProHistory();
+        if (!history.length) {
+          addProPurchaseRecord(name, 'PRO', new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString());
+        }
+      }
+      saveAccountProfileData(profile);
 
       if (desktop) {
         desktop.textContent = name + ' (' + userLabel + ')';
+        desktop.title = 'Xem thông tin tài khoản';
+        desktop.onclick = openAccountModal;
+        desktop.setAttribute('role', 'button');
         desktop.classList.remove('hidden');
       }
       if (mobile) {
         mobile.textContent = name + ' (' + userLabel + ')';
+        mobile.title = 'Xem thông tin tài khoản';
+        mobile.onclick = openAccountModal;
+        mobile.setAttribute('role', 'button');
         mobile.classList.remove('hidden');
       }
       if (registerNav) registerNav.classList.add('hidden');
@@ -1403,13 +1529,349 @@
       if (panel) {
         panel.classList.remove('hidden');
         if (type === 'ADMIN') {
-          panel.innerHTML = '<div class="rounded-2xl border border-slate-800 bg-gradient-to-r from-slate-900 to-slate-800/80 p-4 text-sm text-slate-200 shadow-lg"><div class="mb-3"><strong class="text-white">👑 Admin</strong><div class="mt-1 text-slate-300">Xin chào <span class="text-white font-semibold">' + name + '</span> — Bạn đang ở chế độ quản trị.</div></div><div class="flex flex-wrap gap-2">' + _AL.map(function (link) {
+          panel.innerHTML = '<div class="rounded-2xl border border-slate-800 bg-gradient-to-r from-slate-900 to-slate-800/80 p-4 text-sm text-slate-200 shadow-lg cursor-pointer" onclick="openAccountModal()"><div class="mb-3"><strong class="text-white">👑 Admin</strong><div class="mt-1 text-slate-300">Xin chào <span class="text-white font-semibold">' + name + '</span> — Bạn đang ở chế độ quản trị.</div></div><div class="flex flex-wrap gap-2">' + _AL.map(function (link) {
             return '<a href="' + _decLink(link.enc) + '" target="_blank" class="inline-flex items-center rounded-lg border border-slate-700 bg-slate-800/80 px-2.5 py-1.5 text-[11px] font-semibold text-slate-100 hover:border-brand-500 hover:text-white transition">' + link.label + '</a>';
           }).join('') + '</div></div>';
         } else {
-          panel.innerHTML = '<div class="rounded-2xl border border-slate-800 bg-gradient-to-r from-slate-900 to-slate-800/80 p-4 text-sm text-slate-200 shadow-lg"><strong class="text-white">' + (type === 'PRO' ? '⭐ Tài khoản PRO' : '🆓 Tài khoản FREE') + '</strong><div class="mt-1 text-slate-300">Xin chào <span class="text-white font-semibold">' + name + '</span> — ' + (type === 'PRO' ? 'Bạn đang dùng tài khoản PRO, có thể truy cập đầy đủ tính năng.' : 'Bạn đang ở tài khoản FREE, hãy nâng cấp để dùng đầy đủ.') + '</div></div>';
+          panel.innerHTML = '<div class="rounded-2xl border border-slate-800 bg-gradient-to-r from-slate-900 to-slate-800/80 p-4 text-sm text-slate-200 shadow-lg cursor-pointer" onclick="openAccountModal()"><strong class="text-white">' + (type === 'PRO' ? '⭐ Tài khoản PRO' : '🆓 Tài khoản FREE') + '</strong><div class="mt-1 text-slate-300">Xin chào <span class="text-white font-semibold">' + name + '</span> — ' + (type === 'PRO' ? 'Bạn đang dùng tài khoản PRO, có thể truy cập đầy đủ tính năng.' : 'Bạn đang ở tài khoản FREE, hãy nâng cấp để dùng đầy đủ.') + '</div></div>';
         }
       }
+    }
+
+    function readAccountProfile() {
+      try {
+        var raw = localStorage.getItem('kpt_account_profile');
+        if (!raw) return {};
+        return JSON.parse(raw) || {};
+      } catch (e) {
+        return {};
+      }
+    }
+
+    function getAccountStatus(type) {
+      var t = String(type || 'FREE').toUpperCase();
+      if (t === 'BANNED') return 'BANNED';
+      if (t === 'PENDING') return 'PENDING';
+      if (t === 'ADMIN' || t === 'PRO' || t === 'FREE') return 'ACTIVE';
+      return 'ACTIVE';
+    }
+
+    function ensureAccountMeta(profile, type, name) {
+      var data = profile || {};
+      var resolvedType = String(type || data.type || 'FREE').toUpperCase();
+      var resolvedName = String(name || data.name || 'Khách').trim();
+      data.name = resolvedName;
+      data.type = resolvedType === 'ADMIN' ? 'ADMIN' : (resolvedType === 'PRO' ? 'PRO' : 'FREE');
+      data.createdAt = data.createdAt || new Date().toISOString();
+      data.lastLoginAt = data.lastLoginAt || new Date().toISOString();
+      data.status = String(data.status || getAccountStatus(data.type)).toUpperCase();
+      data.email = data.email || '';
+      data.packageId = data.packageId || (data.type === 'PRO' ? 'PRO' : 'FREE');
+      data.userId = data.userId || 'KPT-' + (resolvedName || 'guest').toLowerCase().replace(/[^a-z0-9]/g, '') + '-' + Date.now().toString(36);
+      data.lastDevice = data.lastDevice || (typeof navigator !== 'undefined' ? navigator.userAgent : 'WEB');
+      data.lastIp = data.lastIp || 'unknown';
+      return data;
+    }
+
+    function saveAccountProfileData(data) {
+      var normalized = ensureAccountMeta(data, data && data.type, data && data.name);
+      localStorage.setItem('kpt_account_profile', JSON.stringify(normalized));
+      return normalized;
+    }
+
+    async function syncAccountProfileToServer(profileData) {
+      try {
+        var oldName = _wlGet('wl_name') || profileData.oldName || profileData.name || '';
+        var newName = profileData.name || oldName;
+        var type = profileData.type || 'FREE';
+        var normalizedProfile = ensureAccountMeta(profileData, type, newName);
+        var createdAt = normalizedProfile.createdAt || new Date().toISOString();
+        var lastLoginAt = normalizedProfile.lastLoginAt || new Date().toISOString();
+        var status = String(normalizedProfile.status || getAccountStatus(type)).toUpperCase();
+        var packageId = normalizedProfile.packageId || (type === 'PRO' ? 'PRO' : 'FREE');
+        var userId = normalizedProfile.userId || 'KPT-' + (newName || 'guest').toLowerCase().replace(/[^a-z0-9]/g, '') + '-' + Date.now().toString(36);
+        var lastDevice = normalizedProfile.lastDevice || (typeof navigator !== 'undefined' ? navigator.userAgent : 'WEB');
+        var lastIp = normalizedProfile.lastIp || 'unknown';
+        var hasPasswordChange = Boolean(profileData.newPasswordHash || profileData.password);
+        var payload = {
+          time: new Date().toISOString().replace('T', ' ').slice(0, 19),
+          app: 'WEB',
+          event: hasPasswordChange ? 'change_pass' : 'account_update',
+          account: newName,
+          oldAccount: oldName,
+          phone: profileData.phone || '',
+          email: normalizedProfile.email || '',
+          type: type,
+          packageId: packageId,
+          userId: userId,
+          machine: 'WEB',
+          lastDevice: lastDevice,
+          file: profileData.oldPasswordHash || profileData.file || '',
+          oldPasswordHash: profileData.oldPasswordHash || '',
+          newPasswordHash: profileData.newPasswordHash || '',
+          password: profileData.newPasswordHash || profileData.password || '',
+          createdAt: createdAt,
+          lastLoginAt: lastLoginAt,
+          lastIp: lastIp,
+          status: status,
+          ip: await getPublicIP()
+        };
+        await fetch(WEBHOOK, {
+          method: 'POST',
+          body: JSON.stringify(payload)
+        });
+        return true;
+      } catch (e) {
+        return false;
+      }
+    }
+
+    function getProHistory() {
+      try {
+        var history = JSON.parse(localStorage.getItem('kpt_pro_history') || '[]');
+        return Array.isArray(history) ? history : [];
+      } catch (e) {
+        return [];
+      }
+    }
+
+    function getProDurationMs(packageLabel) {
+      var label = String(packageLabel || '').toUpperCase();
+      if (label.indexOf('VĨNH') !== -1 || label.indexOf('VV') !== -1 || label.indexOf('FOREVER') !== -1) return 3650 * 24 * 60 * 60 * 1000;
+      if (label.indexOf('NĂM') !== -1 || label.indexOf('YEAR') !== -1) return 365 * 24 * 60 * 60 * 1000;
+      if (label.indexOf('THÁNG') !== -1 || label.indexOf('MONTH') !== -1) {
+        var months = parseInt(label.replace(/[^\d]/g, ''), 10) || 1;
+        return months * 30 * 24 * 60 * 60 * 1000;
+      }
+      if (label.indexOf('TUẦN') !== -1 || label.indexOf('WEEK') !== -1) return 7 * 24 * 60 * 60 * 1000;
+      if (label.indexOf('NGÀY') !== -1 || label.indexOf('DAY') !== -1) return 24 * 60 * 60 * 1000;
+      if (label.indexOf('GIỜ') !== -1 || label.indexOf('HOUR') !== -1) return 60 * 60 * 1000;
+      return 30 * 24 * 60 * 60 * 1000;
+    }
+
+    function addProPurchaseRecord(name, packageLabel, expiresAt) {
+      var history = getProHistory();
+      history.unshift({
+        name: name || _wlGet('wl_name') || 'Khách',
+        package: packageLabel || 'PRO',
+        purchasedAt: new Date().toISOString(),
+        expiresAt: expiresAt || null
+      });
+      localStorage.setItem('kpt_pro_history', JSON.stringify(history.slice(0, 20)));
+    }
+
+    function getProExpiryLabel(type) {
+      if (type !== 'PRO') return '—';
+      var history = getProHistory();
+      var activeExpiry = null;
+      var now = Date.now();
+      for (var i = 0; i < history.length; i++) {
+        var item = history[i];
+        if (!item || !item.expiresAt) continue;
+        var expiry = Number(new Date(item.expiresAt).getTime());
+        if (!isNaN(expiry) && expiry > now && (!activeExpiry || expiry > activeExpiry)) {
+          activeExpiry = expiry;
+        }
+      }
+      if (!activeExpiry) return 'Chưa có thời hạn xác định';
+      return new Date(activeExpiry).toLocaleString('vi-VN', { day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit' });
+    }
+
+    function openAccountModal() {
+      var modal = document.getElementById('account-modal');
+      if (!modal) return;
+
+      var profile = readAccountProfile();
+      var name = _wlGet('wl_name') || profile.name || 'Khách';
+      var type = _wlGet('wl_type') || profile.type || 'FREE';
+      var nameInput = document.getElementById('account-edit-name');
+      var phoneInput = document.getElementById('account-edit-phone');
+      var emailInput = document.getElementById('account-edit-email');
+      var oldPassInput = document.getElementById('account-edit-old-pass');
+      var passInput = document.getElementById('account-edit-pass');
+      var confirmInput = document.getElementById('account-edit-confirm');
+      var msg = document.getElementById('account-profile-msg');
+      var typeValue = document.getElementById('account-type-value');
+      var statusText = document.getElementById('account-status-text');
+      var expiryValue = document.getElementById('account-expiry-value');
+      var historyBox = document.getElementById('account-pro-history');
+      var historyCount = document.getElementById('account-history-count');
+      var extraInfoBox = document.getElementById('account-extra-info');
+
+      if (nameInput) nameInput.value = name;
+      if (phoneInput) phoneInput.value = profile.phone || '';
+      if (emailInput) emailInput.value = profile.email || '';
+      if (oldPassInput) oldPassInput.value = '';
+      if (passInput) passInput.value = '';
+      if (confirmInput) confirmInput.value = '';
+      if (msg) {
+        msg.textContent = '';
+        msg.className = 'min-h-[16px] text-[11px] text-slate-400';
+      }
+      if (typeValue) typeValue.textContent = type === 'ADMIN' ? 'ADMIN' : (type === 'PRO' ? 'PRO' : 'FREE');
+      if (statusText) {
+        statusText.textContent = type === 'ADMIN' ? 'Quản trị viên' : (type === 'PRO' ? 'Đang hoạt động' : 'Tài khoản miễn phí');
+        statusText.className = type === 'ADMIN' ? 'mt-2 text-base font-bold text-amber-400' : (type === 'PRO' ? 'mt-2 text-base font-bold text-emerald-400' : 'mt-2 text-base font-bold text-slate-300');
+      }
+      if (expiryValue) expiryValue.textContent = getProExpiryLabel(type);
+
+      var history = getProHistory();
+      if (historyBox) {
+        if (!history.length) {
+          historyBox.innerHTML = '<div class="rounded-xl border border-dashed border-slate-700 bg-slate-950/60 p-3 text-xs text-slate-400">Chưa có lịch sử mua PRO nào.</div>';
+        } else {
+          historyBox.innerHTML = history.slice(0, 8).map(function (item) {
+            var label = item && item.package ? item.package : 'PRO';
+            var date = item && item.purchasedAt ? new Date(item.purchasedAt).toLocaleString('vi-VN', { day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit' }) : '—';
+            var expiry = item && item.expiresAt ? new Date(item.expiresAt).toLocaleString('vi-VN', { day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit' }) : '—';
+            return '<div class="rounded-xl border border-slate-700 bg-slate-950/60 p-3"><div class="flex items-center justify-between gap-2"><span class="font-semibold text-white">' + label + '</span><span class="text-[10px] uppercase tracking-[0.2em] text-amber-400">PRO</span></div><div class="mt-1 text-[11px] text-slate-400">Mua: ' + date + '</div><div class="mt-0.5 text-[11px] text-slate-400">Hết hạn: ' + expiry + '</div></div>';
+          }).join('');
+        }
+      }
+      if (historyCount) historyCount.textContent = String(history.length || '0');
+      if (extraInfoBox) {
+        var details = [
+          ['Ngày tạo', profile.createdAt ? new Date(profile.createdAt).toLocaleString('vi-VN', { day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit' }) : '—'],
+          ['Lần đăng nhập gần nhất', profile.lastLoginAt ? new Date(profile.lastLoginAt).toLocaleString('vi-VN', { day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit' }) : '—'],
+          ['Thiết bị cuối', profile.lastDevice || '—'],
+          ['IP cuối', profile.lastIp || '—'],
+          ['Trạng thái', String(profile.status || getAccountStatus(type)).toUpperCase()],
+          ['Email', profile.email || '—'],
+          ['Package ID', profile.packageId || (type === 'PRO' ? 'PRO' : 'FREE')],
+          ['User ID', profile.userId || '—']
+        ];
+        extraInfoBox.innerHTML = details.map(function (item) {
+          return '<div class="flex items-start justify-between gap-3 border-b border-slate-800 pb-2 last:border-b-0 last:pb-0"><span class="text-slate-400">' + item[0] + '</span><span class="text-right text-slate-200 break-all font-medium">' + item[1] + '</span></div>';
+        }).join('');
+      }
+
+      modal.classList.remove('hidden');
+      modal.onclick = function (e) {
+        if (e.target === modal) closeAccountModal();
+      };
+    }
+
+    function closeAccountModal() {
+      var modal = document.getElementById('account-modal');
+      if (modal) {
+        modal.classList.add('hidden');
+        modal.onclick = null;
+      }
+    }
+
+    async function saveAccountProfile(event) {
+      if (event) event.preventDefault();
+
+      var nameInput = document.getElementById('account-edit-name');
+      var phoneInput = document.getElementById('account-edit-phone');
+      var emailInput = document.getElementById('account-edit-email');
+      var oldPassInput = document.getElementById('account-edit-old-pass');
+      var passInput = document.getElementById('account-edit-pass');
+      var confirmInput = document.getElementById('account-edit-confirm');
+      var msg = document.getElementById('account-profile-msg');
+
+      var name = nameInput ? nameInput.value.trim() : '';
+      var phone = phoneInput ? phoneInput.value.trim() : '';
+      var email = emailInput ? emailInput.value.trim() : '';
+      var oldPass = oldPassInput ? oldPassInput.value.trim() : '';
+      var pass = passInput ? passInput.value.trim() : '';
+      var confirm = confirmInput ? confirmInput.value.trim() : '';
+
+      if (!name) {
+        if (msg) {
+          msg.textContent = 'Vui lòng nhập tên tài khoản.';
+          msg.className = 'min-h-[16px] text-[11px] text-rose-500';
+        }
+        return;
+      }
+      if (pass) {
+        if (!oldPass) {
+          if (msg) {
+            msg.textContent = 'Vui lòng nhập mật khẩu cũ trước khi đổi mật khẩu mới.';
+            msg.className = 'min-h-[16px] text-[11px] text-rose-500';
+          }
+          return;
+        }
+        if (pass !== confirm) {
+          if (msg) {
+            msg.textContent = 'Mật khẩu mới và xác nhận mật khẩu không khớp.';
+            msg.className = 'min-h-[16px] text-[11px] text-rose-500';
+          }
+          return;
+        }
+      }
+
+      var profile = readAccountProfile();
+      var currentSavedHash = profile.passwordHash || '';
+      var legacyPlainPassword = profile.password || '';
+      var oldPassHash = oldPass ? await sha256(oldPass) : '';
+      if (pass) {
+        var validOldPassword = false;
+        if (currentSavedHash) {
+          validOldPassword = (oldPassHash === currentSavedHash);
+        } else if (legacyPlainPassword) {
+          validOldPassword = (oldPass === legacyPlainPassword);
+        }
+        if (!validOldPassword) {
+          if (msg) {
+            msg.textContent = 'Mật khẩu cũ không đúng.';
+            msg.className = 'min-h-[16px] text-[11px] text-rose-500';
+          }
+          return;
+        }
+      }
+
+      var previousName = _wlGet('wl_name') || profile.name || name;
+      var currentType = _wlGet('wl_type') || profile.type || 'FREE';
+      profile = ensureAccountMeta(profile, currentType, name);
+      profile.name = name;
+      profile.phone = phone;
+      profile.email = email;
+      profile.createdAt = profile.createdAt || new Date().toISOString();
+      profile.lastLoginAt = new Date().toISOString();
+      profile.status = String(profile.status || getAccountStatus(currentType)).toUpperCase();
+      profile.packageId = profile.packageId || (currentType === 'PRO' ? 'PRO' : 'FREE');
+      profile.lastDevice = (typeof navigator !== 'undefined' ? navigator.userAgent : 'WEB');
+      profile.lastIp = profile.lastIp || 'unknown';
+      if (pass) {
+        var newPasswordHash = await sha256(pass);
+        profile.passwordHash = newPasswordHash;
+        delete profile.password;
+      }
+      profile.type = currentType;
+      profile.oldName = previousName;
+      saveAccountProfileData(profile);
+
+      _wlSet('wl_name', name);
+      renderUserPanel(name, profile.type || 'FREE');
+
+      var serverSaved = await syncAccountProfileToServer({
+        name: name,
+        phone: phone,
+        email: profile.email || '',
+        createdAt: profile.createdAt,
+        lastLoginAt: profile.lastLoginAt,
+        lastDevice: profile.lastDevice || (typeof navigator !== 'undefined' ? navigator.userAgent : 'WEB'),
+        lastIp: profile.lastIp || 'unknown',
+        status: profile.status,
+        packageId: profile.packageId || (profile.type === 'PRO' ? 'PRO' : 'FREE'),
+        userId: profile.userId,
+        oldPasswordHash: oldPass ? oldPassHash : '',
+        newPasswordHash: pass ? await sha256(pass) : '',
+        oldName: previousName,
+        type: profile.type || 'FREE'
+      });
+
+      if (msg) {
+        msg.textContent = serverSaved
+          ? '✅ Đã cập nhật thông tin tài khoản và đồng bộ lên hệ thống.'
+          : '✅ Đã lưu thông tin tài khoản trên trình duyệt. Hệ thống server chưa phản hồi, dữ liệu sẽ được đồng bộ khi mạng ổn định.';
+        msg.className = 'min-h-[16px] text-[11px] text-emerald-500';
+      }
+
+      setTimeout(function () {
+        closeAccountModal();
+      }, 700);
     }
 
     function doLogout() {
@@ -1612,7 +2074,7 @@
         }
         var form = document.getElementById('form-free');
         if (form) form.reset();
-        autoLoginAfterReg(name, 'FREE');
+        autoLoginAfterReg(name, 'FREE', pass);
       } catch (err) {
         if (msg) {
           msg.textContent = '❌ Lỗi kết nối, thử lại sau.';
@@ -1621,7 +2083,23 @@
       }
     }
 
-    function autoLoginAfterReg(name, type) {
+    function autoLoginAfterReg(name, type, password) {
+      var profile = readAccountProfile();
+      profile = ensureAccountMeta(profile, type, name);
+      profile.name = name;
+      profile.type = type;
+      profile.lastLoginAt = new Date().toISOString();
+      profile.status = getAccountStatus(type);
+      profile.lastDevice = (typeof navigator !== 'undefined' ? navigator.userAgent : 'WEB');
+      if (password) {
+        sha256(password).then(function (hash) {
+          profile.passwordHash = hash;
+          delete profile.password;
+          saveAccountProfileData(profile);
+        });
+      } else {
+        saveAccountProfileData(profile);
+      }
       _wlSet('wl_name', name);
       _wlSet('wl_type', type);
       renderUserPanel(name, type);
@@ -1655,6 +2133,9 @@
         return;
       }
 
+      // ── Tính hash SHA-256 trước khi xác thực ở mọi nơi ──
+      var hash = await sha256(pass);
+
       // ── Ưu tiên xác thực qua server local nếu đang chạy ──
       try {
         var localResponse = await fetch('http://localhost:5000/check-pass', {
@@ -1667,6 +2148,17 @@
           var localType = localData.type === 'ADMIN' ? 'ADMIN' : (localData.type === 'PRO' ? 'PRO' : 'FREE');
           _wlSet('wl_name', name);
           _wlSet('wl_type', localType);
+          var profile = readAccountProfile();
+          profile = ensureAccountMeta(profile, localType, name);
+          profile.name = name;
+          profile.type = localType;
+          profile.lastLoginAt = new Date().toISOString();
+          profile.status = getAccountStatus(localType);
+          profile.lastDevice = (typeof navigator !== 'undefined' ? navigator.userAgent : 'WEB');
+          profile.lastIp = profile.lastIp || 'unknown';
+          profile.passwordHash = hash;
+          delete profile.password;
+          saveAccountProfileData(profile);
           renderUserPanel(name, localType);
           closeLoginModal();
           return;
@@ -1674,9 +2166,6 @@
       } catch (localError) {
         // Server local không chạy: tiếp tục kiểm tra offline/Google Sheets.
       }
-
-      // ── Tính hash SHA-256 ──
-      var hash = await sha256(pass);
 
       // ── Local admin hash (hoạt động offline) ──
       var _LA = '982638872e3852bdf085b4d2175710fb38b252dff8f9d26d791e667ee1e87885';
@@ -1722,6 +2211,17 @@
             }
             _wlSet('wl_name', name);
             _wlSet('wl_type', type);
+            var profile = readAccountProfile();
+            profile = ensureAccountMeta(profile, type, name);
+            profile.name = name;
+            profile.type = type;
+            profile.lastLoginAt = new Date().toISOString();
+            profile.status = getAccountStatus(type);
+            profile.lastDevice = (typeof navigator !== 'undefined' ? navigator.userAgent : 'WEB');
+            profile.lastIp = profile.lastIp || 'unknown';
+            profile.passwordHash = hash;
+            delete profile.password;
+            saveAccountProfileData(profile);
             renderUserPanel(name, type);
             closeLoginModal();
             return;
@@ -1742,6 +2242,17 @@
           if (rowHashFree === hash) {
             _wlSet('wl_name', name);
             _wlSet('wl_type', 'FREE');
+            var profile = readAccountProfile();
+            profile = ensureAccountMeta(profile, 'FREE', name);
+            profile.name = name;
+            profile.type = 'FREE';
+            profile.lastLoginAt = new Date().toISOString();
+            profile.status = getAccountStatus('FREE');
+            profile.lastDevice = (typeof navigator !== 'undefined' ? navigator.userAgent : 'WEB');
+            profile.lastIp = profile.lastIp || 'unknown';
+            profile.passwordHash = hash;
+            delete profile.password;
+            saveAccountProfileData(profile);
             renderUserPanel(name, 'FREE');
             closeLoginModal();
             return;
@@ -1913,6 +2424,7 @@
         localStorage.setItem('kpt_pending_pro_name', name);
         localStorage.setItem('kpt_pending_pro_pass', pass);
         localStorage.setItem('kpt_pending_pro_pkg', selectedPkg.label);
+        addProPurchaseRecord(name, selectedPkg.label, new Date(Date.now() + getProDurationMs(selectedPkg.label)).toISOString());
 
         // Tính hash SHA-256 của pass để gửi lên webhook (không gửi plaintext)
         var buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(pass));
@@ -1972,7 +2484,7 @@
                   clearInterval(pollTimer);
                   var pm = document.getElementById('pro-msg');
                   if (pm) { pm.textContent = '✅ Đã xác nhận! Đang đăng nhập...'; pm.className = 'text-xs text-emerald-500'; }
-                  setTimeout(function() { autoLoginAfterReg(name, 'PRO'); }, 800);
+                  setTimeout(function() { autoLoginAfterReg(name, 'PRO', pass); }, 800);
                   return;
                 }
               }
@@ -2003,6 +2515,12 @@
                   msg.textContent = '✅ Đã xác nhận thanh toán! kích hoạt tài khoản PRO THÀNH CÔNG';
                   msg.className = 'text-xs text-emerald-500';
                 }
+                var profile = readAccountProfile();
+                profile.name = name;
+                profile.type = 'PRO';
+                profile.passwordHash = hash;
+                delete profile.password;
+                saveAccountProfileData(profile);
                 _wlSet('wl_name', name);
                 _wlSet('wl_type', 'PRO');
                 setTimeout(function() { renderUserPanel(name, 'PRO'); }, 800);
@@ -2093,6 +2611,13 @@
                   msg.textContent = '✅ Đã xác nhận! Đang kích hoạt tài khoản PRO...';
                   msg.className = 'text-xs text-emerald-500';
                 }
+                addProPurchaseRecord(name, 'PRO', new Date(Date.now() + getProDurationMs('1 THÁNG')).toISOString());
+                var profile = readAccountProfile();
+                profile.name = name;
+                profile.type = 'PRO';
+                profile.passwordHash = hash;
+                delete profile.password;
+                saveAccountProfileData(profile);
                 _wlSet('wl_name', name);
                 _wlSet('wl_type', 'PRO');
                 setTimeout(function() { renderUserPanel(name, 'PRO'); }, 800);
