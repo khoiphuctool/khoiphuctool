@@ -1609,15 +1609,13 @@
           method: 'POST',
           body: JSON.stringify(payload)
         });
-        console.log('[SYNC] HTTP status:', res.status);
         if (!res.ok) return false;
         var text = '';
         try { text = await res.text(); } catch (_) {}
-        console.log('[SYNC] Response:', JSON.stringify(text));
         var t = text.trim().toUpperCase();
+        // OK = thành công, ERR:... = thất bại (sai pass / không tìm thấy)
         return t !== '' && t.indexOf('ERR') !== 0;
       } catch (e) {
-        console.error('[SYNC] Exception:', e && e.message ? e.message : String(e));
         return false;
       }
     }
@@ -1819,23 +1817,28 @@
         return;
       }
 
-      // Verify pass cũ ở local
+      // Verify pass cũ ở local NẾU CÓ lưu hash
+      // Nếu không có hash local (user cũ chưa lưu) → bỏ qua, để server quyết định
       var profile = readAccountProfile();
       var legacyVariants = [
         profile.passwordHash    || '',
         profile.password        || '',
         profile.oldPasswordHash || '',
         profile.newPasswordHash || ''
-      ];
-      var validOldPassword = false;
-      for (var i = 0; i < legacyVariants.length; i++) {
-        if (!legacyVariants[i]) continue;
-        if (await passwordMatchesCandidate(oldPass, legacyVariants[i])) { validOldPassword = true; break; }
+      ].filter(function(v) { return v !== ''; });
+
+      if (legacyVariants.length > 0) {
+        // Có hash local → verify trước để báo lỗi nhanh mà không cần gọi server
+        var validOldPassword = false;
+        for (var i = 0; i < legacyVariants.length; i++) {
+          if (await passwordMatchesCandidate(oldPass, legacyVariants[i])) { validOldPassword = true; break; }
+        }
+        if (!validOldPassword) {
+          if (msg) { msg.textContent = 'Mật khẩu cũ không đúng.'; msg.className = 'min-h-[16px] text-[11px] text-rose-500'; }
+          return;
+        }
       }
-      if (!validOldPassword) {
-        if (msg) { msg.textContent = 'Mật khẩu cũ không đúng.'; msg.className = 'min-h-[16px] text-[11px] text-rose-500'; }
-        return;
-      }
+      // Nếu không có hash local → tiếp tục gửi server, server sẽ verify
 
       // Tính hash — giống KPT: SHA256 1 vòng
       var oldPassHash = await sha256(oldPass);
@@ -1854,7 +1857,8 @@
 
       if (!serverSaved) {
         if (msg) {
-          msg.textContent = '❌ Không thể đồng bộ. Kiểm tra F12 Console để xem lỗi chi tiết.';
+          // Đọc lại console để biết response cụ thể
+          msg.textContent = '❌ Mật khẩu cũ không đúng hoặc không tìm thấy tài khoản trên hệ thống.';
           msg.className = 'min-h-[16px] text-[11px] text-rose-500';
         }
         return;
