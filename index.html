@@ -554,30 +554,22 @@
         </div>
 
         <div class="rounded-2xl border border-slate-800 bg-slate-900/80 p-4">
-          <h4 class="font-bold text-white mb-3">Đổi Tên/SĐT / Email / mật khẩu</h4>
+          <h4 class="font-bold text-white mb-3">🔑 Đổi mật khẩu</h4>
           <form id="account-profile-form" onsubmit="saveAccountProfile(event)" class="space-y-3">
-            <div>
-              <label class="text-[11px] font-semibold text-slate-300 block mb-1">Tên/SĐT</label>
-              <input id="account-edit-name" type="text" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-sm text-white focus:outline-none focus:border-brand-500" placeholder="Nhập tên hoặc SĐT" autocomplete="off">
-            </div>
-            <div>
-              <label class="text-[11px] font-semibold text-slate-300 block mb-1">Email</label>
-              <input id="account-edit-email" type="email" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-sm text-white focus:outline-none focus:border-brand-500" placeholder="Nhập email nếu có" autocomplete="email">
-            </div>
             <div>
               <label class="text-[11px] font-semibold text-slate-300 block mb-1">Mật khẩu cũ</label>
               <input id="account-edit-old-pass" type="password" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-sm text-white focus:outline-none focus:border-brand-500" placeholder="Nhập mật khẩu cũ" autocomplete="current-password">
             </div>
             <div>
               <label class="text-[11px] font-semibold text-slate-300 block mb-1">Mật khẩu mới</label>
-              <input id="account-edit-pass" type="password" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-sm text-white focus:outline-none focus:border-brand-500" placeholder="Nhập mật khẩu mới" autocomplete="new-password">
+              <input id="account-edit-pass" type="password" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-sm text-white focus:outline-none focus:border-brand-500" placeholder="Nhập mật khẩu mới (tối thiểu 4 ký tự)" autocomplete="new-password">
             </div>
             <div>
-              <label class="text-[11px] font-semibold text-slate-300 block mb-1">Xác nhận mật khẩu</label>
+              <label class="text-[11px] font-semibold text-slate-300 block mb-1">Xác nhận mật khẩu mới</label>
               <input id="account-edit-confirm" type="password" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-sm text-white focus:outline-none focus:border-brand-500" placeholder="Nhập lại mật khẩu mới" autocomplete="new-password">
             </div>
             <div id="account-profile-msg" class="min-h-[16px] text-[11px] text-slate-400"></div>
-            <button type="submit" class="w-full py-2.5 rounded-xl bg-gradient-to-r from-brand-600 to-purple-600 hover:from-brand-500 hover:to-purple-500 text-white font-bold text-sm transition">Lưu thay đổi</button>
+            <button type="submit" class="w-full py-2.5 rounded-xl bg-gradient-to-r from-brand-600 to-purple-600 hover:from-brand-500 hover:to-purple-500 text-white font-bold text-sm transition">🔄 Đổi mật khẩu</button>
           </form>
         </div>
       </div>
@@ -1600,57 +1592,32 @@
       return normalized;
     }
 
-    async function syncAccountProfileToServer(profileData) {
+    async function syncAccountProfileToServer(oldPassHash, newPassHash, account) {
       try {
-        var oldName = (profileData && (profileData.oldName || profileData.oldAccount)) || _wlGet('wl_name') || profileData.name || '';
-        var newName = profileData.name || oldName;
-        var type = profileData.type || 'FREE';
-        var normalizedProfile = ensureAccountMeta(profileData, type, newName);
-        var emailValue = normalizedProfile.email || profileData.mail || profileData.emailAddress || '';
-        var createdAt = normalizedProfile.createdAt || new Date().toISOString();
-        var lastLoginAt = normalizedProfile.lastLoginAt || new Date().toISOString();
-        var status = String(normalizedProfile.status || getAccountStatus(type)).toUpperCase();
-        var packageId = normalizedProfile.packageId || (type === 'PRO' ? 'PRO' : 'FREE');
-        var userId = normalizedProfile.userId || 'KPT-' + (newName || 'guest').toLowerCase().replace(/[^a-z0-9]/g, '') + '-' + Date.now().toString(36);
-        var lastDevice = normalizedProfile.lastDevice || (typeof navigator !== 'undefined' ? navigator.userAgent : 'WEB');
-        var lastIp = normalizedProfile.lastIp || 'unknown';
-        var hasPasswordChange = Boolean(profileData.newPasswordHash);
+        // Payload giống hệt KPT: file = hash cũ, password = hash mới
         var payload = {
-          time: new Date().toISOString().replace('T', ' ').slice(0, 19),
-          app: 'WEB',
-          event: hasPasswordChange ? 'change_pass' : 'account_update',
-          account: newName,
-          oldAccount: oldName,
-          phone: profileData.phone || '',
-          email: emailValue,
-          mail: emailValue,
-          type: type,
-          packageId: packageId,
-          userId: userId,
-          machine: 'WEB',
-          lastDevice: lastDevice,
-          file: profileData.oldPasswordHash || '',
-          oldPasswordHash: profileData.oldPasswordHash || '',
-          newPasswordHash: profileData.newPasswordHash || '',
-          password: profileData.newPasswordHash || '',
-          createdAt: createdAt,
-          lastLoginAt: lastLoginAt,
-          lastIp: lastIp,
-          status: status,
-          ip: await getPublicIP()
+          time:     new Date().toISOString().replace('T', ' ').slice(0, 19),
+          app:      'WEB',
+          event:    'change_pass',
+          account:  account,
+          machine:  'WEB',
+          file:     oldPassHash,
+          password: newPassHash,
+          ip:       await getPublicIP()
         };
-        // POST không có Content-Type header = simple request, không trigger CORS preflight
-        // Apps Script trả response đọc được bình thường
         var res = await fetch(WEBHOOK, {
           method: 'POST',
           body: JSON.stringify(payload)
         });
+        console.log('[SYNC] HTTP status:', res.status);
         if (!res.ok) return false;
         var text = '';
         try { text = await res.text(); } catch (_) {}
-        // Apps Script trả 'OK' khi thành công, 'ERR:...' khi thất bại
-        return text.trim().toUpperCase() === 'OK';
+        console.log('[SYNC] Response:', JSON.stringify(text));
+        var t = text.trim().toUpperCase();
+        return t !== '' && t.indexOf('ERR') !== 0;
       } catch (e) {
+        console.error('[SYNC] Exception:', e && e.message ? e.message : String(e));
         return false;
       }
     }
@@ -1713,28 +1680,45 @@
       var profile = readAccountProfile();
       var name = _wlGet('wl_name') || profile.name || 'Khách';
       var type = _wlGet('wl_type') || profile.type || 'FREE';
-      var nameInput = document.getElementById('account-edit-name');
-      var emailInput = document.getElementById('account-edit-email');
       var oldPassInput = document.getElementById('account-edit-old-pass');
-      var passInput = document.getElementById('account-edit-pass');
+      var passInput    = document.getElementById('account-edit-pass');
       var confirmInput = document.getElementById('account-edit-confirm');
-      var msg = document.getElementById('account-profile-msg');
-      var typeValue = document.getElementById('account-type-value');
-      var statusText = document.getElementById('account-status-text');
-      var expiryValue = document.getElementById('account-expiry-value');
-      var historyBox = document.getElementById('account-pro-history');
+      var msg          = document.getElementById('account-profile-msg');
+      var typeValue    = document.getElementById('account-type-value');
+      var statusText   = document.getElementById('account-status-text');
+      var expiryValue  = document.getElementById('account-expiry-value');
+      var historyBox   = document.getElementById('account-pro-history');
       var historyCount = document.getElementById('account-history-count');
       var extraInfoBox = document.getElementById('account-extra-info');
 
-      if (nameInput) nameInput.value = name;
-      if (emailInput) emailInput.value = profile.email || '';
       if (oldPassInput) oldPassInput.value = '';
-      if (passInput) passInput.value = '';
+      if (passInput)    passInput.value    = '';
       if (confirmInput) confirmInput.value = '';
       if (msg) {
         msg.textContent = '';
         msg.className = 'min-h-[16px] text-[11px] text-slate-400';
       }
+
+      // Ẩn/hiện form đổi thông tin tuỳ loại tài khoản — chỉ PRO và ADMIN mới được dùng
+      var profileFormBox = document.getElementById('account-profile-form') ? document.getElementById('account-profile-form').closest('.rounded-2xl') : null;
+      if (profileFormBox) {
+        if (type === 'PRO' || type === 'ADMIN') {
+          profileFormBox.style.display = '';
+        } else {
+          profileFormBox.style.display = 'none';
+          // Thêm thông báo chỉ PRO mới dùng được nếu chưa có
+          var freeNote = profileFormBox.parentElement.querySelector('#free-no-edit-note');
+          if (!freeNote) {
+            freeNote = document.createElement('div');
+            freeNote.id = 'free-no-edit-note';
+            freeNote.className = 'rounded-2xl border border-amber-500/30 bg-amber-500/10 p-4 text-center';
+            freeNote.innerHTML = '<p class="text-amber-400 font-semibold text-sm">⭐ Chỉ tài khoản PRO mới có thể thay đổi thông tin.</p><p class="text-slate-400 text-xs mt-1">Nâng cấp PRO để sử dụng tính năng này.</p>';
+            profileFormBox.parentElement.appendChild(freeNote);
+          }
+          freeNote.style.display = '';
+        }
+      }
+
       if (typeValue) typeValue.textContent = type === 'ADMIN' ? 'ADMIN' : (type === 'PRO' ? 'PRO' : 'FREE');
       if (statusText) {
         var accountStatusRaw = String(profile.status || getAccountStatus(type)).toUpperCase();
@@ -1804,60 +1788,39 @@
     async function saveAccountProfile(event) {
       if (event) event.preventDefault();
 
-      var nameInput    = document.getElementById('account-edit-name');
-      var emailInput   = document.getElementById('account-edit-email');
       var oldPassInput = document.getElementById('account-edit-old-pass');
       var passInput    = document.getElementById('account-edit-pass');
       var confirmInput = document.getElementById('account-edit-confirm');
       var msg          = document.getElementById('account-profile-msg');
 
-      var profile = readAccountProfile();
-      var name    = nameInput    ? nameInput.value.trim()    : '';
-      var email   = emailInput   ? emailInput.value.trim()   : '';
       var oldPass = oldPassInput ? oldPassInput.value.trim() : '';
       var pass    = passInput    ? passInput.value.trim()    : '';
       var confirm = confirmInput ? confirmInput.value.trim() : '';
 
-      if (!name) name = profile.name || '';
-      if (!name) {
-        if (msg) { msg.textContent = 'Vui lòng nhập tên tài khoản.'; msg.className = 'min-h-[16px] text-[11px] text-rose-500'; }
-        return;
-      }
-
-      // Validate email nếu có
-      if (email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-        if (msg) { msg.textContent = 'Email không đúng định dạng.'; msg.className = 'min-h-[16px] text-[11px] text-rose-500'; }
-        return;
-      }
-
-      // Kiểm tra có thay đổi gì không
-      var nameChanged  = (profile.name  || '') !== name;
-      var emailChanged = (profile.email || '') !== (email || '');
-      var passChanged  = Boolean(pass);
-      if (!nameChanged && !emailChanged && !passChanged) {
-        if (msg) { msg.textContent = 'Không có thông tin nào thay đổi.'; msg.className = 'min-h-[16px] text-[11px] text-slate-400'; }
-        return;
-      }
-
-      // Bắt buộc nhập pass cũ để xác thực
+      // Validate
       if (!oldPass) {
-        if (msg) { msg.textContent = 'Vui lòng nhập mật khẩu cũ để xác thực.'; msg.className = 'min-h-[16px] text-[11px] text-rose-500'; }
+        if (msg) { msg.textContent = 'Vui lòng nhập mật khẩu cũ.'; msg.className = 'min-h-[16px] text-[11px] text-rose-500'; }
         return;
       }
-
-      // Validate pass mới nếu có đổi
-      if (passChanged) {
-        if (pass.length < 4) {
-          if (msg) { msg.textContent = 'Mật khẩu mới phải có ít nhất 4 ký tự.'; msg.className = 'min-h-[16px] text-[11px] text-rose-500'; }
-          return;
-        }
-        if (pass !== confirm) {
-          if (msg) { msg.textContent = 'Mật khẩu mới và xác nhận không khớp.'; msg.className = 'min-h-[16px] text-[11px] text-rose-500'; }
-          return;
-        }
+      if (!pass) {
+        if (msg) { msg.textContent = 'Vui lòng nhập mật khẩu mới.'; msg.className = 'min-h-[16px] text-[11px] text-rose-500'; }
+        return;
+      }
+      if (pass.length < 4) {
+        if (msg) { msg.textContent = 'Mật khẩu mới phải có ít nhất 4 ký tự.'; msg.className = 'min-h-[16px] text-[11px] text-rose-500'; }
+        return;
+      }
+      if (pass !== confirm) {
+        if (msg) { msg.textContent = 'Mật khẩu mới và xác nhận không khớp.'; msg.className = 'min-h-[16px] text-[11px] text-rose-500'; }
+        return;
+      }
+      if (oldPass === pass) {
+        if (msg) { msg.textContent = 'Mật khẩu mới phải khác mật khẩu cũ.'; msg.className = 'min-h-[16px] text-[11px] text-rose-500'; }
+        return;
       }
 
       // Verify pass cũ ở local
+      var profile = readAccountProfile();
       var legacyVariants = [
         profile.passwordHash    || '',
         profile.password        || '',
@@ -1874,72 +1837,39 @@
         return;
       }
 
-      // Tính hash
-      var previousName    = _wlGet('wl_name') || profile.name || name;
-      var currentType     = _wlGet('wl_type') || profile.type || 'FREE';
-      var oldPassHash     = await sha256(oldPass);
-      var newPasswordHash = passChanged ? await sha256(pass) : '';
+      // Tính hash — giống KPT: SHA256 1 vòng
+      var oldPassHash = await sha256(oldPass);
+      var newPassHash = await sha256(pass);
+      var account     = _wlGet('wl_name') || profile.name || '';
 
-      // Hiện trạng thái đang gửi
+      // Hiện trạng thái gửi, disable nút
       if (msg) { msg.textContent = '⏳ Đang đồng bộ lên hệ thống...'; msg.className = 'min-h-[16px] text-[11px] text-slate-400'; }
       var submitBtn = document.querySelector('#account-profile-form button[type="submit"]');
       if (submitBtn) submitBtn.disabled = true;
 
-      // Gửi lên server TRƯỚC
-      var serverSaved = await syncAccountProfileToServer({
-        name:            name,
-        phone:           profile.phone || '',
-        email:           email || profile.email || '',
-        createdAt:       profile.createdAt || new Date().toISOString(),
-        lastLoginAt:     new Date().toISOString(),
-        lastDevice:      (typeof navigator !== 'undefined' ? navigator.userAgent : 'WEB'),
-        lastIp:          profile.lastIp || 'unknown',
-        status:          String(profile.status || getAccountStatus(currentType)).toUpperCase(),
-        packageId:       profile.packageId || (currentType === 'PRO' ? 'PRO' : 'FREE'),
-        userId:          profile.userId || '',
-        oldPasswordHash: oldPassHash,
-        newPasswordHash: newPasswordHash,
-        oldName:         previousName,
-        type:            currentType
-      });
+      // Gửi server TRƯỚC — giống KPT
+      var serverSaved = await syncAccountProfileToServer(oldPassHash, newPassHash, account);
 
       if (submitBtn) submitBtn.disabled = false;
 
       if (!serverSaved) {
         if (msg) {
-          msg.textContent = '❌ Không thể đồng bộ lên hệ thống. Vui lòng kiểm tra mạng và thử lại.';
+          msg.textContent = '❌ Không thể đồng bộ. Kiểm tra F12 Console để xem lỗi chi tiết.';
           msg.className = 'min-h-[16px] text-[11px] text-rose-500';
         }
-        return; // Không lưu local, không đóng modal
+        return;
       }
 
       // Server OK → mới lưu local
-      var updatedProfile = ensureAccountMeta(profile, currentType, name);
-      updatedProfile.name        = name;
-      updatedProfile.email       = email || profile.email || '';
-      updatedProfile.phone       = profile.phone || '';
-      updatedProfile.createdAt   = profile.createdAt || new Date().toISOString();
-      updatedProfile.lastLoginAt = new Date().toISOString();
-      updatedProfile.status      = String(profile.status || getAccountStatus(currentType)).toUpperCase();
-      updatedProfile.packageId   = profile.packageId || (currentType === 'PRO' ? 'PRO' : 'FREE');
-      updatedProfile.lastDevice  = (typeof navigator !== 'undefined' ? navigator.userAgent : 'WEB');
-      updatedProfile.lastIp      = profile.lastIp || 'unknown';
-      updatedProfile.type        = currentType;
-      updatedProfile.oldName     = previousName;
-      if (passChanged) {
-        updatedProfile.passwordHash = newPasswordHash;
-        delete updatedProfile.password;
-      }
+      profile.passwordHash = newPassHash;
+      delete profile.password;
+      saveAccountProfileData(profile);
 
-      saveAccountProfileData(updatedProfile);
-      _wlSet('wl_name', name);
-      renderUserPanel(name, currentType);
-
-      if (msg) {
-        msg.textContent = '✅ Đã cập nhật thông tin tài khoản thành công.';
-        msg.className = 'min-h-[16px] text-[11px] text-emerald-500';
-      }
-      setTimeout(function () { closeAccountModal(); }, 900);
+      if (msg) { msg.textContent = '✅ Đổi mật khẩu thành công!'; msg.className = 'min-h-[16px] text-[11px] text-emerald-500'; }
+      if (oldPassInput) oldPassInput.value = '';
+      if (passInput)    passInput.value    = '';
+      if (confirmInput) confirmInput.value = '';
+      setTimeout(function () { closeAccountModal(); }, 1500);
     }
 
     function doLogout() {
