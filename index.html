@@ -1614,12 +1614,11 @@
         var userId = normalizedProfile.userId || 'KPT-' + (newName || 'guest').toLowerCase().replace(/[^a-z0-9]/g, '') + '-' + Date.now().toString(36);
         var lastDevice = normalizedProfile.lastDevice || (typeof navigator !== 'undefined' ? navigator.userAgent : 'WEB');
         var lastIp = normalizedProfile.lastIp || 'unknown';
-        var hasPasswordChange = Boolean(profileData.newPasswordHash || profileData.password);
-        var requiresOldPasswordCheck = Boolean(profileData.oldPasswordHash || profileData.file || profileData.oldPassHash || hasPasswordChange);
+        var hasPasswordChange = Boolean(profileData.newPasswordHash);
         var payload = {
           time: new Date().toISOString().replace('T', ' ').slice(0, 19),
           app: 'WEB',
-          event: (hasPasswordChange || requiresOldPasswordCheck) ? 'change_pass' : 'account_update',
+          event: hasPasswordChange ? 'change_pass' : 'account_update',
           account: newName,
           oldAccount: oldName,
           phone: profileData.phone || '',
@@ -1630,25 +1629,27 @@
           userId: userId,
           machine: 'WEB',
           lastDevice: lastDevice,
-          file: profileData.oldPasswordHash || profileData.file || '',
+          file: profileData.oldPasswordHash || '',
           oldPasswordHash: profileData.oldPasswordHash || '',
           newPasswordHash: profileData.newPasswordHash || '',
-          password: profileData.newPasswordHash || profileData.password || '',
+          password: profileData.newPasswordHash || '',
           createdAt: createdAt,
           lastLoginAt: lastLoginAt,
           lastIp: lastIp,
           status: status,
           ip: await getPublicIP()
         };
+        // POST không có Content-Type header = simple request, không trigger CORS preflight
+        // Apps Script trả response đọc được bình thường
         var res = await fetch(WEBHOOK, {
           method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(payload)
         });
-        if (!res || !res.ok) {
-          throw new Error('Server returned ' + (res ? res.status : 'no response'));
-        }
-        return true;
+        if (!res.ok) return false;
+        var text = '';
+        try { text = await res.text(); } catch (_) {}
+        // Apps Script trả 'OK' khi thành công, 'ERR:...' khi thất bại
+        return text.trim().toUpperCase() === 'OK';
       } catch (e) {
         return false;
       }
@@ -1803,167 +1804,142 @@
     async function saveAccountProfile(event) {
       if (event) event.preventDefault();
 
-      var nameInput = document.getElementById('account-edit-name');
-      var emailInput = document.getElementById('account-edit-email');
+      var nameInput    = document.getElementById('account-edit-name');
+      var emailInput   = document.getElementById('account-edit-email');
       var oldPassInput = document.getElementById('account-edit-old-pass');
-      var passInput = document.getElementById('account-edit-pass');
+      var passInput    = document.getElementById('account-edit-pass');
       var confirmInput = document.getElementById('account-edit-confirm');
-      var msg = document.getElementById('account-profile-msg');
+      var msg          = document.getElementById('account-profile-msg');
 
       var profile = readAccountProfile();
-      var name = (nameInput ? nameInput.value.trim() : '') || (profile.name || '');
-      var email = (emailInput ? emailInput.value.trim() : '') || (profile.email || '');
+      var name    = nameInput    ? nameInput.value.trim()    : '';
+      var email   = emailInput   ? emailInput.value.trim()   : '';
       var oldPass = oldPassInput ? oldPassInput.value.trim() : '';
-      var pass = passInput ? passInput.value.trim() : '';
+      var pass    = passInput    ? passInput.value.trim()    : '';
       var confirm = confirmInput ? confirmInput.value.trim() : '';
 
+      if (!name) name = profile.name || '';
       if (!name) {
-        if (msg) {
-          msg.textContent = 'Vui lòng nhập tên tài khoản.';
-          msg.className = 'min-h-[16px] text-[11px] text-rose-500';
-        }
+        if (msg) { msg.textContent = 'Vui lòng nhập tên tài khoản.'; msg.className = 'min-h-[16px] text-[11px] text-rose-500'; }
         return;
       }
 
-      // Fix 2: validate format email bằng JS
+      // Validate email nếu có
       if (email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-        if (msg) {
-          msg.textContent = 'Email không đúng định dạng.';
-          msg.className = 'min-h-[16px] text-[11px] text-rose-500';
-        }
+        if (msg) { msg.textContent = 'Email không đúng định dạng.'; msg.className = 'min-h-[16px] text-[11px] text-rose-500'; }
         return;
       }
 
-      var profileChanged = false;
-      if ((profile.name || '') !== name) profileChanged = true;
-      if ((profile.email || '') !== email) profileChanged = true;
-      if (pass) {
-        if (!oldPass) {
-          if (msg) {
-            msg.textContent = 'Vui lòng nhập mật khẩu cũ trước khi đổi mật khẩu mới.';
-            msg.className = 'min-h-[16px] text-[11px] text-rose-500';
-          }
-          return;
-        }
-        // Fix 1: validate độ dài mật khẩu mới tối thiểu 4 ký tự
+      // Kiểm tra có thay đổi gì không
+      var nameChanged  = (profile.name  || '') !== name;
+      var emailChanged = (profile.email || '') !== (email || '');
+      var passChanged  = Boolean(pass);
+      if (!nameChanged && !emailChanged && !passChanged) {
+        if (msg) { msg.textContent = 'Không có thông tin nào thay đổi.'; msg.className = 'min-h-[16px] text-[11px] text-slate-400'; }
+        return;
+      }
+
+      // Bắt buộc nhập pass cũ để xác thực
+      if (!oldPass) {
+        if (msg) { msg.textContent = 'Vui lòng nhập mật khẩu cũ để xác thực.'; msg.className = 'min-h-[16px] text-[11px] text-rose-500'; }
+        return;
+      }
+
+      // Validate pass mới nếu có đổi
+      if (passChanged) {
         if (pass.length < 4) {
-          if (msg) {
-            msg.textContent = 'Mật khẩu mới phải có ít nhất 4 ký tự.';
-            msg.className = 'min-h-[16px] text-[11px] text-rose-500';
-          }
+          if (msg) { msg.textContent = 'Mật khẩu mới phải có ít nhất 4 ký tự.'; msg.className = 'min-h-[16px] text-[11px] text-rose-500'; }
           return;
         }
         if (pass !== confirm) {
-          if (msg) {
-            msg.textContent = 'Mật khẩu mới và xác nhận mật khẩu không khớp.';
-            msg.className = 'min-h-[16px] text-[11px] text-rose-500';
-          }
+          if (msg) { msg.textContent = 'Mật khẩu mới và xác nhận không khớp.'; msg.className = 'min-h-[16px] text-[11px] text-rose-500'; }
           return;
         }
       }
-      if (!oldPass && (profileChanged || pass)) {
-        if (msg) {
-          msg.textContent = 'Vui lòng nhập mật khẩu cũ để xác thực trước khi cập nhật Tên / SĐT / Email.';
-          msg.className = 'min-h-[16px] text-[11px] text-rose-500';
-        }
+
+      // Verify pass cũ ở local
+      var legacyVariants = [
+        profile.passwordHash    || '',
+        profile.password        || '',
+        profile.oldPasswordHash || '',
+        profile.newPasswordHash || ''
+      ];
+      var validOldPassword = false;
+      for (var i = 0; i < legacyVariants.length; i++) {
+        if (!legacyVariants[i]) continue;
+        if (await passwordMatchesCandidate(oldPass, legacyVariants[i])) { validOldPassword = true; break; }
+      }
+      if (!validOldPassword) {
+        if (msg) { msg.textContent = 'Mật khẩu cũ không đúng.'; msg.className = 'min-h-[16px] text-[11px] text-rose-500'; }
         return;
       }
 
-      var currentSavedHash = profile.passwordHash || '';
-      var legacyPlainPassword = profile.password || '';
-      var oldPassHash = oldPass ? await sha256(oldPass) : '';
-      if (oldPass) {
-        var validOldPassword = false;
-        // Fix 5: loại bỏ duplicate entries trong legacyVariants
-        var legacyVariants = [
-          currentSavedHash,
-          legacyPlainPassword,
-          profile.oldPasswordHash || '',
-          profile.newPasswordHash || ''
-        ];
+      // Tính hash
+      var previousName    = _wlGet('wl_name') || profile.name || name;
+      var currentType     = _wlGet('wl_type') || profile.type || 'FREE';
+      var oldPassHash     = await sha256(oldPass);
+      var newPasswordHash = passChanged ? await sha256(pass) : '';
 
-        for (var i = 0; i < legacyVariants.length; i++) {
-          var candidateStored = legacyVariants[i];
-          if (!candidateStored) continue;
-          if (await passwordMatchesCandidate(oldPass, candidateStored)) {
-            validOldPassword = true;
-            break;
-          }
-        }
+      // Hiện trạng thái đang gửi
+      if (msg) { msg.textContent = '⏳ Đang đồng bộ lên hệ thống...'; msg.className = 'min-h-[16px] text-[11px] text-slate-400'; }
+      var submitBtn = document.querySelector('#account-profile-form button[type="submit"]');
+      if (submitBtn) submitBtn.disabled = true;
 
-        if (!validOldPassword) {
-          if (msg) {
-            msg.textContent = 'Mật khẩu cũ không đúng.';
-            msg.className = 'min-h-[16px] text-[11px] text-rose-500';
-          }
-          return;
-        }
-      }
-
-      var previousName = _wlGet('wl_name') || profile.name || name;
-      var currentType = _wlGet('wl_type') || profile.type || 'FREE';
-
-      // Fix 4: lưu snapshot để rollback nếu server sync thất bại
-      var profileSnapshot = JSON.stringify(profile);
-
-      profile = ensureAccountMeta(profile, currentType, name);
-      profile.name = name;
-      profile.phone = profile.phone || '';
-      profile.email = email || profile.email || '';
-      profile.createdAt = profile.createdAt || new Date().toISOString();
-      profile.lastLoginAt = new Date().toISOString();
-      profile.status = String(profile.status || getAccountStatus(currentType)).toUpperCase();
-      profile.packageId = profile.packageId || (currentType === 'PRO' ? 'PRO' : 'FREE');
-      profile.lastDevice = (typeof navigator !== 'undefined' ? navigator.userAgent : 'WEB');
-      profile.lastIp = profile.lastIp || 'unknown';
-      // Fix 3: tính newPasswordHash một lần, tái sử dụng cho cả local lẫn server payload
-      var newPasswordHash = '';
-      if (pass) {
-        newPasswordHash = await sha256(pass);
-        profile.passwordHash = newPasswordHash;
-        delete profile.password;
-      }
-      profile.type = currentType;
-      profile.oldName = previousName;
-      saveAccountProfileData(profile);
-
+      // Gửi lên server TRƯỚC
       var serverSaved = await syncAccountProfileToServer({
-        name: name,
-        phone: profile.phone || '',
-        email: profile.email || '',
-        createdAt: profile.createdAt,
-        lastLoginAt: profile.lastLoginAt,
-        lastDevice: profile.lastDevice || (typeof navigator !== 'undefined' ? navigator.userAgent : 'WEB'),
-        lastIp: profile.lastIp || 'unknown',
-        status: profile.status,
-        packageId: profile.packageId || (profile.type === 'PRO' ? 'PRO' : 'FREE'),
-        userId: profile.userId,
-        oldPasswordHash: oldPass ? oldPassHash : '',
-        newPasswordHash: newPasswordHash,  // Fix 3: dùng biến đã tính, không gọi sha256 lần 3
-        oldName: previousName,
-        type: profile.type || 'FREE'
+        name:            name,
+        phone:           profile.phone || '',
+        email:           email || profile.email || '',
+        createdAt:       profile.createdAt || new Date().toISOString(),
+        lastLoginAt:     new Date().toISOString(),
+        lastDevice:      (typeof navigator !== 'undefined' ? navigator.userAgent : 'WEB'),
+        lastIp:          profile.lastIp || 'unknown',
+        status:          String(profile.status || getAccountStatus(currentType)).toUpperCase(),
+        packageId:       profile.packageId || (currentType === 'PRO' ? 'PRO' : 'FREE'),
+        userId:          profile.userId || '',
+        oldPasswordHash: oldPassHash,
+        newPasswordHash: newPasswordHash,
+        oldName:         previousName,
+        type:            currentType
       });
 
+      if (submitBtn) submitBtn.disabled = false;
+
       if (!serverSaved) {
-        // Fix 4: rollback dữ liệu local về snapshot cũ khi server sync thất bại
-        try { localStorage.setItem('kpt_account_profile', profileSnapshot); } catch (e) {}
+        if (msg) {
+          msg.textContent = '❌ Không thể đồng bộ lên hệ thống. Vui lòng kiểm tra mạng và thử lại.';
+          msg.className = 'min-h-[16px] text-[11px] text-rose-500';
+        }
+        return; // Không lưu local, không đóng modal
       }
 
-      _wlSet('wl_name', serverSaved ? name : (previousName || name));
-      renderUserPanel(serverSaved ? name : (previousName || name), profile.type || 'FREE');
+      // Server OK → mới lưu local
+      var updatedProfile = ensureAccountMeta(profile, currentType, name);
+      updatedProfile.name        = name;
+      updatedProfile.email       = email || profile.email || '';
+      updatedProfile.phone       = profile.phone || '';
+      updatedProfile.createdAt   = profile.createdAt || new Date().toISOString();
+      updatedProfile.lastLoginAt = new Date().toISOString();
+      updatedProfile.status      = String(profile.status || getAccountStatus(currentType)).toUpperCase();
+      updatedProfile.packageId   = profile.packageId || (currentType === 'PRO' ? 'PRO' : 'FREE');
+      updatedProfile.lastDevice  = (typeof navigator !== 'undefined' ? navigator.userAgent : 'WEB');
+      updatedProfile.lastIp      = profile.lastIp || 'unknown';
+      updatedProfile.type        = currentType;
+      updatedProfile.oldName     = previousName;
+      if (passChanged) {
+        updatedProfile.passwordHash = newPasswordHash;
+        delete updatedProfile.password;
+      }
+
+      saveAccountProfileData(updatedProfile);
+      _wlSet('wl_name', name);
+      renderUserPanel(name, currentType);
 
       if (msg) {
-        msg.textContent = serverSaved
-          ? '✅ Đã cập nhật thông tin tài khoản và đồng bộ lên hệ thống.'
-          : '❌ Không thể đồng bộ lên hệ thống. Vui lòng kiểm tra mạng hoặc webhook. Thay đổi chưa được lưu.';
-        msg.className = 'min-h-[16px] text-[11px] ' + (serverSaved ? 'text-emerald-500' : 'text-rose-500');
+        msg.textContent = '✅ Đã cập nhật thông tin tài khoản thành công.';
+        msg.className = 'min-h-[16px] text-[11px] text-emerald-500';
       }
-
-      if (serverSaved) {
-        setTimeout(function () {
-          closeAccountModal();
-        }, 700);
-      }
+      setTimeout(function () { closeAccountModal(); }, 900);
     }
 
     function doLogout() {
