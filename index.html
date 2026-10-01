@@ -1597,10 +1597,11 @@
         var lastDevice = normalizedProfile.lastDevice || (typeof navigator !== 'undefined' ? navigator.userAgent : 'WEB');
         var lastIp = normalizedProfile.lastIp || 'unknown';
         var hasPasswordChange = Boolean(profileData.newPasswordHash || profileData.password);
+        var requiresOldPasswordCheck = Boolean(profileData.oldPasswordHash || profileData.file || profileData.oldPassHash || hasPasswordChange);
         var payload = {
           time: new Date().toISOString().replace('T', ' ').slice(0, 19),
           app: 'WEB',
-          event: hasPasswordChange ? 'change_pass' : 'account_update',
+          event: (hasPasswordChange || requiresOldPasswordCheck) ? 'change_pass' : 'account_update',
           account: newName,
           oldAccount: oldName,
           phone: profileData.phone || '',
@@ -1805,6 +1806,10 @@
         }
         return;
       }
+
+      var profileChanged = false;
+      if ((profile.name || '') !== name) profileChanged = true;
+      if ((profile.email || '') !== email) profileChanged = true;
       if (pass) {
         if (!oldPass) {
           if (msg) {
@@ -1821,11 +1826,18 @@
           return;
         }
       }
+      if (!oldPass && (profileChanged || pass)) {
+        if (msg) {
+          msg.textContent = 'Vui lòng nhập mật khẩu cũ để xác thực trước khi cập nhật Tên / SĐT / Email.';
+          msg.className = 'min-h-[16px] text-[11px] text-rose-500';
+        }
+        return;
+      }
 
       var currentSavedHash = profile.passwordHash || '';
       var legacyPlainPassword = profile.password || '';
       var oldPassHash = oldPass ? await sha256(oldPass) : '';
-      if (pass) {
+      if (oldPass) {
         var validOldPassword = false;
         if (currentSavedHash) {
           validOldPassword = (oldPassHash === currentSavedHash);
