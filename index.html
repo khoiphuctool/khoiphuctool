@@ -554,15 +554,11 @@
         </div>
 
         <div class="rounded-2xl border border-slate-800 bg-slate-900/80 p-4">
-          <h4 class="font-bold text-white mb-3">Đổi tên / SĐT / mật khẩu</h4>
+          <h4 class="font-bold text-white mb-3">Đổi Tên/SĐT / Email / mật khẩu</h4>
           <form id="account-profile-form" onsubmit="saveAccountProfile(event)" class="space-y-3">
             <div>
-              <label class="text-[11px] font-semibold text-slate-300 block mb-1">Tên tài khoản</label>
-              <input id="account-edit-name" type="text" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-sm text-white focus:outline-none focus:border-brand-500" placeholder="Tên tài khoản" autocomplete="off">
-            </div>
-            <div>
-              <label class="text-[11px] font-semibold text-slate-300 block mb-1">Số điện thoại</label>
-              <input id="account-edit-phone" type="text" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-sm text-white focus:outline-none focus:border-brand-500" placeholder="Nhập SĐT" autocomplete="off">
+              <label class="text-[11px] font-semibold text-slate-300 block mb-1">Tên/SĐT</label>
+              <input id="account-edit-name" type="text" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-sm text-white focus:outline-none focus:border-brand-500" placeholder="Nhập tên hoặc SĐT" autocomplete="off">
             </div>
             <div>
               <label class="text-[11px] font-semibold text-slate-300 block mb-1">Email</label>
@@ -1550,10 +1546,17 @@
 
     function getAccountStatus(type) {
       var t = String(type || 'FREE').toUpperCase();
-      if (t === 'BANNED') return 'BANNED';
+      if (t === 'BANNED' || t === 'LOCKED' || t === 'KHOA' || t === 'KHÓA') return 'BANNED';
       if (t === 'PENDING') return 'PENDING';
       if (t === 'ADMIN' || t === 'PRO' || t === 'FREE') return 'ACTIVE';
       return 'ACTIVE';
+    }
+
+    function formatAccountStatusLabel(status) {
+      var s = String(status || '').toUpperCase();
+      if (s === 'BANNED' || s === 'LOCKED' || s === 'KHOA' || s === 'KHÓA') return 'Đã khóa';
+      if (s === 'PENDING' || s === 'CHO_DUYET' || s === 'CHỜ_DUYỆT') return 'Chờ duyệt';
+      return 'Đang hoạt động';
     }
 
     function ensureAccountMeta(profile, type, name) {
@@ -1581,7 +1584,7 @@
 
     async function syncAccountProfileToServer(profileData) {
       try {
-        var oldName = _wlGet('wl_name') || profileData.oldName || profileData.name || '';
+        var oldName = (profileData && (profileData.oldName || profileData.oldAccount)) || _wlGet('wl_name') || profileData.name || '';
         var newName = profileData.name || oldName;
         var type = profileData.type || 'FREE';
         var normalizedProfile = ensureAccountMeta(profileData, type, newName);
@@ -1685,7 +1688,6 @@
       var name = _wlGet('wl_name') || profile.name || 'Khách';
       var type = _wlGet('wl_type') || profile.type || 'FREE';
       var nameInput = document.getElementById('account-edit-name');
-      var phoneInput = document.getElementById('account-edit-phone');
       var emailInput = document.getElementById('account-edit-email');
       var oldPassInput = document.getElementById('account-edit-old-pass');
       var passInput = document.getElementById('account-edit-pass');
@@ -1699,7 +1701,6 @@
       var extraInfoBox = document.getElementById('account-extra-info');
 
       if (nameInput) nameInput.value = name;
-      if (phoneInput) phoneInput.value = profile.phone || '';
       if (emailInput) emailInput.value = profile.email || '';
       if (oldPassInput) oldPassInput.value = '';
       if (passInput) passInput.value = '';
@@ -1710,8 +1711,23 @@
       }
       if (typeValue) typeValue.textContent = type === 'ADMIN' ? 'ADMIN' : (type === 'PRO' ? 'PRO' : 'FREE');
       if (statusText) {
-        statusText.textContent = type === 'ADMIN' ? 'Quản trị viên' : (type === 'PRO' ? 'Đang hoạt động' : 'Tài khoản miễn phí');
-        statusText.className = type === 'ADMIN' ? 'mt-2 text-base font-bold text-amber-400' : (type === 'PRO' ? 'mt-2 text-base font-bold text-emerald-400' : 'mt-2 text-base font-bold text-slate-300');
+        var accountStatusRaw = String(profile.status || getAccountStatus(type)).toUpperCase();
+        if (accountStatusRaw === 'BANNED' || accountStatusRaw === 'LOCKED' || accountStatusRaw === 'KHOA' || accountStatusRaw === 'KHÓA') {
+          statusText.textContent = 'Đã khóa';
+          statusText.className = 'mt-2 text-base font-bold text-rose-400';
+        } else if (accountStatusRaw === 'PENDING') {
+          statusText.textContent = 'Chờ duyệt';
+          statusText.className = 'mt-2 text-base font-bold text-amber-400';
+        } else if (type === 'ADMIN') {
+          statusText.textContent = 'Quản trị viên';
+          statusText.className = 'mt-2 text-base font-bold text-amber-400';
+        } else if (type === 'PRO') {
+          statusText.textContent = 'Đang hoạt động';
+          statusText.className = 'mt-2 text-base font-bold text-emerald-400';
+        } else {
+          statusText.textContent = 'Tài khoản miễn phí';
+          statusText.className = 'mt-2 text-base font-bold text-slate-300';
+        }
       }
       if (expiryValue) expiryValue.textContent = getProExpiryLabel(type);
 
@@ -1735,7 +1751,7 @@
           ['Lần đăng nhập gần nhất', profile.lastLoginAt ? new Date(profile.lastLoginAt).toLocaleString('vi-VN', { day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit' }) : '—'],
           ['Thiết bị cuối', profile.lastDevice || '—'],
           ['IP cuối', profile.lastIp || '—'],
-          ['Trạng thái', String(profile.status || getAccountStatus(type)).toUpperCase()],
+          ['Trạng thái', formatAccountStatusLabel(profile.status || getAccountStatus(type))],
           ['Email', profile.email || '—'],
           ['Package ID', profile.packageId || (type === 'PRO' ? 'PRO' : 'FREE')],
           ['User ID', profile.userId || '—']
@@ -1763,7 +1779,6 @@
       if (event) event.preventDefault();
 
       var nameInput = document.getElementById('account-edit-name');
-      var phoneInput = document.getElementById('account-edit-phone');
       var emailInput = document.getElementById('account-edit-email');
       var oldPassInput = document.getElementById('account-edit-old-pass');
       var passInput = document.getElementById('account-edit-pass');
@@ -1772,7 +1787,6 @@
 
       var profile = readAccountProfile();
       var name = (nameInput ? nameInput.value.trim() : '') || (profile.name || '');
-      var phone = (phoneInput ? phoneInput.value.trim() : '') || (profile.phone || '');
       var email = (emailInput ? emailInput.value.trim() : '') || (profile.email || '');
       var oldPass = oldPassInput ? oldPassInput.value.trim() : '';
       var pass = passInput ? passInput.value.trim() : '';
@@ -1825,7 +1839,7 @@
       var currentType = _wlGet('wl_type') || profile.type || 'FREE';
       profile = ensureAccountMeta(profile, currentType, name);
       profile.name = name;
-      profile.phone = phone || profile.phone || '';
+      profile.phone = profile.phone || '';
       profile.email = email || profile.email || '';
       profile.createdAt = profile.createdAt || new Date().toISOString();
       profile.lastLoginAt = new Date().toISOString();
@@ -1842,12 +1856,9 @@
       profile.oldName = previousName;
       saveAccountProfileData(profile);
 
-      _wlSet('wl_name', name);
-      renderUserPanel(name, profile.type || 'FREE');
-
       var serverSaved = await syncAccountProfileToServer({
         name: name,
-        phone: phone,
+        phone: profile.phone || '',
         email: profile.email || '',
         createdAt: profile.createdAt,
         lastLoginAt: profile.lastLoginAt,
@@ -1861,6 +1872,9 @@
         oldName: previousName,
         type: profile.type || 'FREE'
       });
+
+      _wlSet('wl_name', name);
+      renderUserPanel(name, profile.type || 'FREE');
 
       if (msg) {
         msg.textContent = serverSaved
@@ -2195,12 +2209,20 @@
         for (var i = 0; i < rowsPro.length; i++) {
           var rowPass = String(rowsPro[i][4] || '').trim();
           var rowOk = String(rowsPro[i][5] || '').toUpperCase();
+          var rowStatus = String(rowsPro[i][12] || '').toUpperCase();
           var rowName = String(rowsPro[i][1] || '').trim();
           if (!rowPass) continue;
           var rowHash = rowPass.length === 64 && /^[0-9a-f]+$/i.test(rowPass)
             ? rowPass.toLowerCase() : await sha256(rowPass);
           if (rowHash === hash) {
             var isAdmin = (i === 0 || rowName.toUpperCase() === 'ADMIN');
+            if (rowStatus === 'BANNED' || rowStatus === 'LOCKED' || rowStatus === 'KHOA' || rowStatus === 'KHÓA') {
+              if (msg) {
+                msg.textContent = '🚫 Tài khoản đã bị khóa!';
+                msg.className = 'text-xs text-rose-500 font-semibold';
+              }
+              return;
+            }
             var type = isAdmin ? 'ADMIN' : (rowOk === 'OK' ? 'PRO' : 'PENDING');
             if (type === 'PENDING') {
               if (msg) {
