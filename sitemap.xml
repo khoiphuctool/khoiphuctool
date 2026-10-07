@@ -1,32 +1,61 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <!-- Trang chủ -->
   <url>
-    <loc>https://khoiphuctool.github.io/khoiphuctool/</loc>
-    <lastmod>2026-04-24</lastmod>
-    <changefreq>weekly</changefreq>
+    <loc>https://khoiphuctool.site/</loc>
+    <lastmod>2026-10-07</lastmod>
+    <changefreq>daily</changefreq>
     <priority>1.0</priority>
   </url>
+
+  <!-- Các trang hướng dẫn -->
   <url>
-    <loc>https://khoiphuctool.github.io/khoiphuctool/huong-dan-khoiphuctool.html</loc>
-    <lastmod>2026-04-24</lastmod>
+    <loc>https://khoiphuctool.site/huong-dan-khoiphuctool.html</loc>
+    <lastmod>2026-10-07</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://khoiphuctool.github.io/khoiphuctool/huong-dan-mom.html</loc>
-    <lastmod>2026-04-24</lastmod>
+    <loc>https://khoiphuctool.site/huong-dan-autohash.html</loc>
+    <lastmod>2026-10-07</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://khoiphuctool.github.io/khoiphuctool/huong-dan-rarzip.html</loc>
-    <lastmod>2026-04-24</lastmod>
+    <loc>https://khoiphuctool.site/huong-dan-trau.html</loc>
+    <lastmod>2026-10-07</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://khoiphuctool.github.io/khoiphuctool/tags.html</loc>
-    <lastmod>2026-04-24</lastmod>
+    <loc>https://khoiphuctool.site/huong-dan-mom.html</loc>
+    <lastmod>2026-10-07</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://khoiphuctool.site/huong-dan-rarzip.html</loc>
+    <lastmod>2026-10-07</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <!-- Các trang thông tin & phụ trợ -->
+  <url>
+    <loc>https://khoiphuctool.site/dieu-khoan.html</loc>
+    <lastmod>2026-10-07</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://khoiphuctool.site/su-kien.html</loc>
+    <lastmod>2026-10-07</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://khoiphuctool.site/tags.html</loc>
+    <lastmod>2026-10-07</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
