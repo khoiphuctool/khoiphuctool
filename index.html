@@ -48,6 +48,32 @@
 <meta name="twitter:description" content="Công cụ mở khóa file Excel, Word, RAR, ZIP an toàn và tiện lợi.">
 <meta name="twitter:image" content="https://khoiphuctool.site/LOGO.png">
 
+<!-- Existing SEO tags retained -->
+<meta name="description" content="Công cụ khôi phục mật khẩu file Excel, Word, PowerPoint, RAR, ZIP, 7z miễn phí. Hỗ trợ brute force, pattern, đa luồng, GPU Hashcat. Tải về dù...">
+<meta name="keywords" content="khôi phục mật khẩu excel, crack pass excel, mở khóa file excel, khôi phục mật khẩu rar, crack pass rar, khôi phục mật khẩu zip, crack pass zip, khôi phục mật khẩu word, crack pass word, khôi phục mật khẩu 7z, crack pass 7z, khôi phục mật khẩu powerpoint, crack pass powerpoint, hashcat, brute force, pattern, wordlist, gpu hashcat, password recovery, office password, macbook password, zip password, rar password, 7z password">
+<meta name="author" content="khoiphuctool">
+<meta name="application-name" content="KhoiPhucTool">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://khoiphuctool.github.io/khoiphuctool/">
+
+<!-- Favicon: use same icon as index2 (LOGO.png) -->
+<link rel="icon" href="LOGO.png" type="image/png">
+<link rel="shortcut icon" href="LOGO.png" type="image/png">
+<link rel="apple-touch-icon" href="LOGO.png">
+
+<!-- Open Graph / Facebook -->
+<meta property="og:title" content="Khôi phục mật khẩu Excel Word RAR ZIP 7z - TOOLS miễn phí">
+<meta property="og:description" content="Công cụ khôi phục mật khẩu file Excel, Word, PowerPoint, RAR, ZIP, 7z miễn phí. Hỗ trợ brute force, pattern, đa luồng, GPU Hashcat. Tải về dùng thử miễn phí.">
+<meta property="og:image" content="https://khoiphuctool.github.io/khoiphuctool/LOGO.png">
+<meta property="og:url" content="https://khoiphuctool.github.io/khoiphuctool/">
+<meta property="og:type" content="website">
+
+<!-- Twitter Card -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Khôi phục mật khẩu Excel Word RAR ZIP 7z - TOOLS miễn phí">
+<meta name="twitter:description" content="Công cụ khôi phục mật khẩu file Excel, Word, PowerPoint, RAR, ZIP, 7z miễn phí. Hỗ trợ brute force, pattern, đa luồng, GPU Hashcat. Tải về dùng thử miễn phí.">
+<meta name="twitter:image" content="https://khoiphuctool.github.io/khoiphuctool/LOGO.png">
+
 <!-- JSON-LD Structured Data -->
 <script type="application/ld+json">
 {
@@ -92,3 +118,1026 @@
     }
   }
 </script>
+
+<style>
+  :root {
+    color-scheme: dark;
+    --bg-page: #0b0338;
+    --bg-page-2: #120a46;
+    --text-main: #f1f5f9;
+    --text-muted: #94a3b8;
+    --panel-bg: rgba(18, 24, 38, 0.75);
+    --panel-border: rgba(255, 255, 255, 0.08);
+    --nav-bg: rgba(2, 6, 23, 0.7);
+  }
+  html[data-theme="light"] {
+    color-scheme: light;
+    --bg-page: #edf4ff;
+    --bg-page-2: #e5edff;
+    --text-main: #0f172a;
+    --text-muted: #475569;
+    --panel-bg: rgba(255, 255, 255, 0.82);
+    --panel-border: rgba(148, 163, 184, 0.28);
+    --nav-bg: rgba(255, 255, 255, 0.72);
+  }
+  * {
+    box-sizing: border-box;
+  }
+  html {
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+    scroll-behavior: smooth;
+  }
+  body {
+    background-color: var(--bg-page);
+    color: var(--text-main);
+    overflow-x: hidden;
+    position: relative;
+    min-width: 320px;
+  }
+  img, svg, canvas, video, iframe {
+    display: block;
+    max-width: 100%;
+  }
+  button, input, textarea, select {
+    font: inherit;
+  }
+  a, button {
+    -webkit-tap-highlight-color: transparent;
+  }
+  .theme-toggle {
+    width: 40px; height: 40px; border-radius: 999px; border: 1px solid rgba(148,163,184,.28);
+    background: rgba(15,23,42,.45); color: #fbbf24; display: inline-flex; align-items: center; justify-content: center;
+    font-size: 1.1rem; cursor: pointer; transition: all .2s ease; box-shadow: 0 4px 12px rgba(15,23,42,.2);
+  }
+  .theme-toggle:hover { transform: translateY(-1px) scale(1.02); }
+  html[data-theme="light"] .theme-toggle {
+    background: rgba(255,255,255,.7); color: #0f172a; border-color: rgba(148,163,184,.35);
+  }
+  #starfield {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    pointer-events: none;
+    z-index: 0;
+  }
+  .glow-bg {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(120px);
+    opacity: 0.22;
+    pointer-events: none;
+  }
+  .glass-panel {
+    background: rgba(18, 24, 38, 0.75);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+  }
+  .glass-panel-hover:hover {
+    background: rgba(22, 7, 223, 0.88);
+    border-color: rgba(59, 130, 246, 0.4);
+    box-shadow: 0 10px 30px -10px rgba(4, 187, 219, 0.3);
+  }
+  .gradient-text {
+    background: linear-gradient(135deg, #60a5fa 0%, #a855f7 50%, #f43f5e 100%);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  .pkg-item {
+    transition: all 0.2s ease;
+    cursor: pointer;
+    border: 1px solid rgba(148, 163, 184, 0.4);
+    background: rgba(15, 23, 42, 0.7);
+  }
+  .pkg-item.active {
+    border-color: rgba(251, 191, 36, 0.8);
+    background: rgba(251, 191, 36, 0.12);
+    box-shadow: 0 0 0 1px rgba(251, 191, 36, 0.35);
+  }
+  .pkg-item span {
+    color: #fbbf24;
+    font-weight: 700;
+  }
+  .pkg-item:hover {
+    border-color: rgba(251, 191, 36, 0.5);
+    background: rgba(46, 17, 112, 0.9);
+  }
+  #pro-qr-box > div:first-child {
+    overflow: visible;
+  }
+  #pro-qr-img {
+    display: block;
+    width: min(100%, 320px);
+    height: auto;
+    max-height: 420px;
+    object-fit: contain;
+    margin-inline: auto;
+    background: #fff;
+    padding: 8px;
+  }
+  .entertain { position: relative; }
+  .entertain-menu-custom {
+    display: none;
+    position: absolute;
+    right: 0;
+    top: calc(100% + 8px);
+    min-width: 180px;
+    padding: 8px;
+    border: 1px solid rgba(148, 163, 184, 0.3);
+    border-radius: 12px;
+    background: #0f172a;
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.35);
+    z-index: 200;
+  }
+  .entertain-menu-custom.open { display: flex; flex-direction: column; gap: 4px; }
+  .entertain-menu-custom a {
+    display: block;
+    padding: 8px 10px;
+    border-radius: 8px;
+    color: #e2e8f0;
+    text-decoration: none;
+    white-space: nowrap;
+  }
+  .entertain-menu-custom a:hover { background: #1e293b; color: #60a5fa; }
+  .entertain-mobile { display: none; }
+  html[data-theme="light"] body { background: linear-gradient(180deg, #edf4ff 0%, #f7f9ff 100%); }
+  html[data-theme="light"] .glass-panel { background: rgba(255,255,255,0.78); border-color: rgba(148,163,184,0.25); }
+  html[data-theme="light"] .glass-panel-hover:hover { background: rgba(255,255,255,0.9); border-color: rgba(59,130,246,0.25); box-shadow: 0 10px 30px -10px rgba(59,130,246,0.18); }
+  html[data-theme="light"] .pkg-item { background: rgba(255,255,255,0.7); border-color: rgba(148,163,184,0.25); }
+  html[data-theme="light"] .pkg-item:hover { background: rgba(239,246,255,0.9); }
+  html[data-theme="light"] .text-slate-300, html[data-theme="light"] .text-slate-400, html[data-theme="light"] .text-slate-200 { color: #334155 !important; }
+  html[data-theme="light"] .text-white, html[data-theme="light"] h1, html[data-theme="light"] h2, html[data-theme="light"] h3, html[data-theme="light"] h4, html[data-theme="light"] h5, html[data-theme="light"] h6, html[data-theme="light"] span, html[data-theme="light"] strong { color: #0f172a !important; }
+  html[data-theme="light"] .bg-slate-950\/70, html[data-theme="light"] .bg-slate-950\/95, html[data-theme="light"] .bg-slate-900\/90, html[data-theme="light"] .bg-slate-900, html[data-theme="light"] .bg-slate-950, html[data-theme="light"] .bg-slate-950\/80, html[data-theme="light"] .bg-slate-950\/60, html[data-theme="light"] .bg-slate-900\/80 {
+    background: rgba(255,255,255,0.82) !important;
+    border-color: rgba(148,163,184,0.25) !important;
+  }
+  html[data-theme="light"] .bg-slate-800\/50, html[data-theme="light"] .bg-slate-900\/50, html[data-theme="light"] .bg-slate-800\/60 {
+    background: rgba(255,255,255,0.82) !important;
+    border-color: rgba(148,163,184,0.25) !important;
+  }
+  html[data-theme="light"] [class*="bg-slate-900"], html[data-theme="light"] [class*="bg-slate-800"], html[data-theme="light"] [class*="bg-slate-950"] {
+    background-color: rgba(255,255,255,0.82) !important;
+    background-image: none !important;
+    border-color: rgba(148,163,184,0.28) !important;
+  }
+  html[data-theme="light"] #dangky .bg-slate-900\/80,
+  html[data-theme="light"] #dangky .bg-slate-950\/80,
+  html[data-theme="light"] #dangky .bg-slate-950,
+  html[data-theme="light"] #dangky .rounded-2xl {
+    background: linear-gradient(135deg, rgba(248,250,252,0.98), rgba(239,246,255,0.95)) !important;
+    border-color: rgba(96,165,250,0.2) !important;
+    box-shadow: 0 8px 20px rgba(59,130,246,0.08) !important;
+  }
+  html[data-theme="light"] .border-slate-800, html[data-theme="light"] .border-slate-700, html[data-theme="light"] .border-slate-800\/80 { border-color: rgba(148,163,184,0.3) !important; }
+  html[data-theme="light"] .text-slate-500, html[data-theme="light"] .text-slate-600, html[data-theme="light"] .text-slate-700 { color: #475569 !important; }
+  html[data-theme="light"] .text-slate-200, html[data-theme="light"] .text-slate-300, html[data-theme="light"] .text-slate-400 { color: #334155 !important; }
+  html[data-theme="light"] .bg-slate-800:hover, html[data-theme="light"] .bg-slate-900:hover { background: rgba(241,245,249,0.9) !important; }
+  html[data-theme="light"] .bg-gradient-to-r.from-amber-500.to-rose-500,
+  html[data-theme="light"] .bg-gradient-to-r.from-cyan-600.to-blue-600,
+  html[data-theme="light"] .bg-gradient-to-r.from-brand-600.to-purple-600,
+  html[data-theme="light"] .bg-gradient-to-r.from-emerald-600.to-teal-600 {
+    filter: saturate(1.1) brightness(1.08);
+  }
+  html[data-theme="light"] #huongdan-gpu,
+  html[data-theme="light"] #huongdan-gpu .bg-gradient-to-r,
+  html[data-theme="light"] #huongdan-gpu .bg-slate-900\/60,
+  html[data-theme="light"] #huongdan-gpu .bg-slate-800,
+  html[data-theme="light"] #huongdan-gpu .bg-slate-950,
+  html[data-theme="light"] #huongdan-gpu .border-slate-800,
+  html[data-theme="light"] #huongdan-gpu .bg-emerald-500\/10 {
+    background: rgba(255,255,255,0.82) !important;
+    border-color: rgba(148,163,184,0.28) !important;
+    color: #0f172a !important;
+  }
+  html[data-theme="light"] #huongdan-gpu .text-white,
+  html[data-theme="light"] #huongdan-gpu .font-bold,
+  html[data-theme="light"] #huongdan-gpu strong,
+  html[data-theme="light"] #huongdan-gpu .text-slate-200,
+  html[data-theme="light"] #huongdan-gpu .text-slate-300,
+  html[data-theme="light"] #huongdan-gpu .text-slate-400,
+  html[data-theme="light"] #huongdan-gpu .text-slate-500,
+  html[data-theme="light"] #huongdan-gpu .text-slate-700 {
+    color: #0f172a !important;
+  }
+  html[data-theme="light"] #huongdan-gpu .text-emerald-300,
+  html[data-theme="light"] #huongdan-gpu .text-amber-400,
+  html[data-theme="light"] #huongdan-gpu .text-cyan-400,
+  html[data-theme="light"] #huongdan-gpu .text-rose-400,
+  html[data-theme="light"] #huongdan-gpu .text-amber-500 {
+    color: #0f766e !important;
+  }
+  html[data-theme="light"] #huongdan-gpu code {
+    background: rgba(226,232,240,0.9) !important;
+    color: #0f172a !important;
+    border-color: rgba(148,163,184,0.3) !important;
+  }
+  html[data-theme="light"] #huongdan-gpu .bg-slate-800:hover,
+  html[data-theme="light"] #huongdan-gpu .bg-slate-900:hover {
+    background: rgba(239,246,255,0.95) !important;
+  }
+  html[data-theme="light"] #user-panel > div,
+  html[data-theme="light"] #user-panel .rounded-2xl,
+  html[data-theme="light"] #user-panel .bg-gradient-to-r {
+    background: linear-gradient(135deg, rgba(255,255,255,0.96), rgba(239,246,255,0.94)) !important;
+    border-color: rgba(148,163,184,0.28) !important;
+    box-shadow: 0 8px 20px rgba(59,130,246,0.08) !important;
+  }
+  html[data-theme="light"] #user-panel strong,
+  html[data-theme="light"] #user-panel .text-slate-200,
+  html[data-theme="light"] #user-panel .text-slate-300,
+  html[data-theme="light"] #user-panel .text-white,
+  html[data-theme="light"] #user-panel .text-slate-100,
+  html[data-theme="light"] #user-panel span,
+  html[data-theme="light"] #user-panel a {
+    color: #0f172a !important;
+  }
+  html[data-theme="light"] #user-panel a {
+    background: rgba(248,250,252,0.9) !important;
+    border-color: rgba(148,163,184,0.24) !important;
+  }
+  html[data-theme="light"] #user-panel a:hover {
+    background: rgba(239,246,255,0.98) !important;
+    color: #2563eb !important;
+  }
+  html[data-theme="light"] footer {
+    background: rgba(255,255,255,0.92) !important;
+    border-top: 1px solid rgba(148,163,184,0.28) !important;
+    box-shadow: inset 0 1px 0 rgba(255,255,255,0.75) !important;
+    color: #334155 !important;
+  }
+  html[data-theme="light"] footer p,
+  html[data-theme="light"] footer a,
+  html[data-theme="light"] footer strong,
+  html[data-theme="light"] footer span,
+  html[data-theme="light"] footer .text-slate-400,
+  html[data-theme="light"] footer .text-slate-300,
+  html[data-theme="light"] footer .text-brand-400,
+  html[data-theme="light"] footer .text-rose-400,
+  html[data-theme="light"] footer .text-blue-400,
+  html[data-theme="light"] footer .text-slate-700 {
+    color: #334155 !important;
+  }
+  html[data-theme="light"] footer a:hover {
+    color: #2563eb !important;
+  }
+  html[data-theme="light"] footer .text-slate-700,
+  html[data-theme="light"] footer .text-slate-500 {
+    color: #a0aec0 !important;
+  }
+  @media (max-width: 767px) {
+    .entertain-mobile { display: block; }
+    .entertain-mobile-menu { display: none; padding: 4px 0 4px 12px; }
+    .entertain-mobile-menu.open { display: flex; flex-direction: column; gap: 4px; }
+    .entertain-mobile-menu a { color: #cbd5e1; text-decoration: none; padding: 7px 0; }
+    #ticker-wrap { padding-left: 0.5rem; padding-right: 0.5rem; }
+    #ticker-wrap .max-w-7xl { gap: 0.5rem; }
+    nav .max-w-7xl { min-height: 58px; }
+    #nav-user { max-width: 100px; }
+    .glow-bg {
+      width: 220px !important;
+      height: 220px !important;
+      opacity: 0.18 !important;
+    }
+  }
+  @media (max-width: 480px) {
+    #ticker-wrap { font-size: 0.72rem; }
+    nav .max-w-7xl { padding-left: 0.75rem !important; padding-right: 0.75rem !important; }
+    #btn-login-header, #btn-logout-header { padding: 0.5rem 0.7rem; }
+  }
+  ::-webkit-scrollbar { width: 8px; }
+  ::-webkit-scrollbar-track { background: #090d16; }
+  ::-webkit-scrollbar-thumb { background: #1e293b; border-radius: 4px; }
+  ::-webkit-scrollbar-thumb:hover { background: #334155; }
+</style>
+</head>
+<body class="min-h-screen flex flex-col justify-between selection:bg-brand-500 selection:text-white">
+
+  <!-- Canvas Chấm Sao Bay -->
+  <canvas id="starfield"></canvas>
+
+  <!-- Background Glows -->
+  <div class="glow-bg w-[500px] h-[500px] bg-brand-600 top-0 left-1/4"></div>
+  <div class="glow-bg w-[400px] h-[400px] bg-purple-600 top-1/3 right-10"></div>
+  <div class="glow-bg w-[600px] h-[600px] bg-emerald-600 bottom-10 left-10"></div>
+
+  <!-- Announcement Ticker -->
+  <div id="ticker-wrap" class="bg-slate-900/90 border-b border-slate-800 text-amber-400 text-sm py-2 px-4 flex items-center justify-between backdrop-blur-md sticky top-0 z-50">
+    <style>
+      @keyframes ticker-scroll {
+        0%   { transform: translate(0, -50%); }
+        100% { transform: translate(calc(-100% - 100vw), -50%); }
+      }
+      #ticker-inner {
+        position: absolute;
+        top: 50%;
+        left: 100%;
+        transform: translateY(-50%);
+        white-space: nowrap;
+      }
+      .ticker-text-wrap { flex: 1; overflow: hidden; position: relative; min-height: 28px; }
+    </style>
+    <div class="max-w-7xl mx-auto w-full flex items-center justify-between gap-2">
+      <button onclick="tickerPrev()" class="text-amber-400 hover:text-white bg-white/10 hover:bg-white/20 border-none px-2 py-0.5 rounded text-xs flex-shrink-0 transition">◀</button>
+      <div class="flex items-center gap-2 overflow-hidden flex-1">
+        <span class="flex h-2 w-2 relative flex-shrink-0">
+          <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-amber-400 opacity-75"></span>
+          <span class="relative inline-flex rounded-full h-2 w-2 bg-amber-500"></span>
+        </span>
+        <i data-lucide="bell" class="w-4 h-4 flex-shrink-0"></i>
+        <div class="ticker-text-wrap">
+          <div id="ticker-inner" class="font-medium text-slate-200"></div>
+        </div>
+      </div>
+      <button onclick="tickerNext()" class="text-amber-400 hover:text-white bg-white/10 hover:bg-white/20 border-none px-2 py-0.5 rounded text-xs flex-shrink-0 transition">▶</button>
+      <button onclick="toggleTicker()" id="ticker-toggle" title="Tắt/Bật thông báo" class="text-slate-400 hover:text-white transition flex-shrink-0 ml-1">
+        <i data-lucide="x" class="w-4 h-4"></i>
+      </button>
+    </div>
+  </div>
+
+  <!-- Header Nav -->
+  <nav class="border-b border-slate-800/80 bg-slate-950/70 backdrop-blur-xl sticky top-[37px] z-40">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+      
+      <a href="#" class="flex items-center gap-3 group">
+        <div class="relative">
+          <img src="LOGO.png" alt="KhoiPhucTool Logo" class="w-10 h-10 rounded-xl border border-brand-500/30 group-hover:scale-105 transition duration-300">
+          <div class="absolute inset-0 bg-brand-500/20 blur-lg rounded-full opacity-0 group-hover:opacity-100 transition"></div>
+        </div>
+        <div>
+          <span class="font-extrabold text-lg text-white tracking-wide block leading-none">KhoiPhucTool</span>
+          <span class="text-[10px] text-slate-400 font-medium tracking-widest uppercase">Password Recovery</span>
+        </div>
+      </a>
+
+      <div class="hidden md:flex items-center gap-6 text-sm font-medium text-slate-300">
+        <a href="#kpt" class="hover:text-brand-500 transition flex items-center gap-1.5"><i data-lucide="shield-check" class="w-4 h-4 text-brand-500"></i> KhoiPhucTool</a>
+        <a href="#autohash" class="hover:text-brand-500 transition flex items-center gap-1.5"><i data-lucide="hash" class="w-4 h-4 text-purple-400"></i> AutoHash</a>
+        <a href="#trau" class="hover:text-brand-500 transition flex items-center gap-1.5"><i data-lucide="cpu" class="w-4 h-4 text-cyan-400"></i> ConTrâu V7</a>
+        <a href="#ung-ho" class="hover:text-brand-500 transition flex items-center gap-1.5"><i data-lucide="heart" class="w-4 h-4 text-rose-500"></i> Ủng Hộ Tác Giả</a>
+        <a href="#huongdan" class="hover:text-brand-500 transition flex items-center gap-1.5"><i data-lucide="book-open" class="w-4 h-4 text-emerald-400"></i> Hướng Dẫn</a>
+        <a id="nav-register" href="#dangky" class="hover:text-brand-500 transition flex items-center gap-1.5"><i data-lucide="user-plus" class="w-4 h-4 text-amber-400"></i> Đăng ký</a>
+      </div>
+
+      <div class="flex items-center gap-3">
+        <a href="su-kien.html" class="hidden sm:flex items-center gap-1.5 text-xs font-bold bg-gradient-to-r from-amber-500 to-rose-500 text-white px-3.5 py-1.5 rounded-full hover:shadow-lg hover:shadow-amber-500/20 transition">
+          <i data-lucide="gift" class="w-3.5 h-3.5"></i> TẶNG PRO 5 ngày
+        </a>
+
+        <div class="entertain">
+          <button type="button" onclick="toggleEntertainment('desktop')" class="text-xs font-semibold bg-purple-600/80 hover:bg-purple-500 text-white px-3 py-2 rounded-xl transition">🎮 Giải trí</button>
+          <div id="entertain-menu-desktop" class="entertain-menu-custom">
+            <a href="https://khoiphuctool.github.io/caro/" target="_blank" rel="noopener">🎮 Chơi cờ Caro</a>
+            <a href="https://khoiphuctool.github.io/THUOC/" target="_blank" rel="noopener">📏 Thước</a>
+          </div>
+        </div>
+
+        <span id="nav-user" class="hidden text-xs font-semibold text-emerald-400 bg-emerald-500/10 border border-emerald-500/20 px-3 py-1.5 rounded-full max-w-[140px] truncate"></span>
+
+        <button id="theme-toggle" type="button" class="theme-toggle" aria-label="Chuyển chế độ sáng/tối" title="Chuyển chế độ sáng/tối">☀️</button>
+        
+        <button id="btn-login-header" onclick="showLoginModal()" class="text-xs font-semibold bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 px-4 py-2 rounded-xl transition flex items-center gap-1.5">
+          <i data-lucide="log-in" class="w-3.5 h-3.5"></i> Đăng Nhập
+        </button>
+
+        <button id="btn-logout-header" onclick="doLogout()" class="hidden text-xs font-semibold bg-rose-500/10 hover:bg-rose-500/20 text-rose-300 border border-rose-500/25 px-4 py-2 rounded-xl transition flex items-center gap-1.5">
+          <i data-lucide="log-out" class="w-3.5 h-3.5"></i> Đăng Xuất
+        </button>
+
+        <button onclick="toggleNav()" class="md:hidden text-slate-300 hover:text-white p-2">
+          <i data-lucide="menu" class="w-6 h-6"></i>
+        </button>
+      </div>
+    </div>
+
+    <div id="nav-menu" class="hidden md:hidden border-t border-slate-800 bg-slate-950/95 px-4 pt-3 pb-6 space-y-3">
+      <a href="#kpt" class="block py-2 text-slate-300 hover:text-white font-medium">KhoiPhucTool</a>
+      <a href="#autohash" class="block py-2 text-slate-300 hover:text-white font-medium">AutoHash</a>
+      <a href="#trau" class="block py-2 text-slate-300 hover:text-white font-medium">ConTrâu V7</a>
+      <a href="#ung-ho" class="block py-2 text-rose-400 font-medium">Ủng Hộ Tác Giả</a>
+      <a href="#huongdan" class="block py-2 text-slate-300 hover:text-white font-medium">Hướng Dẫn</a>
+      <a id="nav-register-mobile" href="#dangky" class="block py-2 text-slate-300 hover:text-white font-medium">Đăng ký</a>
+      <a href="su-kien.html" class="block py-2 text-amber-400 font-semibold">🎁 TẶNG PRO 5 ngày</a>
+      <div class="entertain-mobile">
+        <button type="button" onclick="toggleEntertainment('mobile')" class="w-full text-left py-2 text-purple-300 font-semibold">🎮 Giải trí ▾</button>
+        <div id="entertain-menu-mobile" class="entertain-mobile-menu">
+          <a href="https://khoiphuctool.github.io/caro/" target="_blank" rel="noopener">🎮 Chơi cờ Caro</a>
+          <a href="https://khoiphuctool.github.io/THUOC/" target="_blank" rel="noopener">📏 Thước</a>
+        </div>
+      </div>
+      <div class="flex items-center justify-between gap-2 pt-2 border-t border-slate-800">
+        <span id="nav-user-mobile" class="hidden text-xs font-semibold text-emerald-400 bg-emerald-500/10 border border-emerald-500/20 px-3 py-1.5 rounded-full max-w-[140px] truncate"></span>
+        <button id="btn-logout-mobile" onclick="doLogout()" class="hidden ml-auto text-xs font-semibold bg-rose-500/10 hover:bg-rose-500/20 text-rose-300 border border-rose-500/25 px-3 py-1.5 rounded-xl transition">Đăng Xuất</button>
+      </div>
+    </div>
+  </nav>
+
+  <div id="user-panel" class="hidden max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-4 z-10 relative"></div>
+
+  <div id="account-modal" class="hidden fixed inset-0 bg-slate-950/80 backdrop-blur-md z-[60] flex items-start justify-center p-3 sm:p-4 overflow-y-auto">
+    <div class="w-full max-w-3xl rounded-3xl border border-slate-800 bg-slate-950/95 p-5 sm:p-6 shadow-2xl my-4 max-h-[92vh] overflow-y-auto overflow-x-hidden">
+      <div class="flex items-start justify-between gap-4">
+        <div>
+          <div class="text-[10px] uppercase tracking-[0.2em] text-slate-400 mb-2">Account</div>
+          <h3 class="text-xl font-bold text-white">Thông tin tài khoản</h3>
+        </div>
+        <button type="button" onclick="closeAccountModal()" class="text-slate-400 hover:text-white text-xl leading-none">✕</button>
+      </div>
+
+      <div class="mt-5 grid gap-5 lg:grid-cols-[1.2fr,0.8fr]">
+        <div class="space-y-4">
+          <div class="grid gap-3 sm:grid-cols-3">
+            <div class="rounded-2xl border border-slate-800 bg-slate-900/80 p-3">
+              <div class="text-[10px] uppercase tracking-[0.2em] text-slate-400">Loại TK</div>
+              <div id="account-type-value" class="mt-2 text-base font-bold text-white">FREE</div>
+            </div>
+            <div class="rounded-2xl border border-slate-800 bg-slate-900/80 p-3">
+              <div class="text-[10px] uppercase tracking-[0.2em] text-slate-400">Trạng thái</div>
+              <div id="account-status-text" class="mt-2 text-base font-bold text-emerald-400">Tài khoản miễn phí</div>
+            </div>
+            <div class="rounded-2xl border border-slate-800 bg-slate-900/80 p-3">
+              <div class="text-[10px] uppercase tracking-[0.2em] text-slate-400">Hết hạn</div>
+              <div id="account-expiry-value" class="mt-2 text-xs font-semibold text-slate-200">—</div>
+            </div>
+          </div>
+
+          <div class="rounded-2xl border border-slate-800 bg-slate-900/80 p-4">
+            <div class="flex items-center justify-between mb-3">
+              <h4 class="font-bold text-white">Lịch sử mua PRO</h4>
+              <span id="account-history-count" class="text-[10px] uppercase tracking-[0.2em] text-slate-400">0</span>
+            </div>
+            <div id="account-pro-history" class="space-y-2 text-sm text-slate-300"></div>
+          </div>
+
+          <div class="rounded-2xl border border-slate-800 bg-slate-900/80 p-4">
+            <h4 class="font-bold text-white mb-3">Thông tin bổ sung</h4>
+            <div id="account-extra-info" class="space-y-2 text-[11px] text-slate-300"></div>
+          </div>
+        </div>
+
+        <div class="rounded-2xl border border-slate-800 bg-slate-900/80 p-4">
+          <h4 class="font-bold text-white mb-3">🔑 Đổi mật khẩu</h4>
+          <form id="account-profile-form" onsubmit="saveAccountProfile(event)" class="space-y-3">
+            <div>
+              <label class="text-[11px] font-semibold text-slate-300 block mb-1">Mật khẩu cũ</label>
+              <input id="account-edit-old-pass" type="password" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-sm text-white focus:outline-none focus:border-brand-500" placeholder="Nhập mật khẩu cũ">
+            </div>
+            <div>
+              <label class="text-[11px] font-semibold text-slate-300 block mb-1">Mật khẩu mới</label>
+              <input id="account-edit-pass" type="password" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-sm text-white focus:outline-none focus:border-brand-500" placeholder="Nhập mật khẩu mới">
+            </div>
+            <div>
+              <label class="text-[11px] font-semibold text-slate-300 block mb-1">Xác nhận mật khẩu mới</label>
+              <input id="account-edit-confirm" type="password" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-sm text-white focus:outline-none focus:border-brand-500" placeholder="Nhập lại mật khẩu mới">
+            </div>
+            <div id="account-profile-msg" class="min-h-[16px] text-[11px] text-slate-400"></div>
+            <button type="submit" class="w-full py-2.5 rounded-xl bg-gradient-to-r from-brand-600 to-purple-600 hover:from-brand-500 hover:to-purple-500 text-white font-bold text-sm transition">🔄 Cập nhật mật khẩu</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Hero Section -->
+  <header class="relative pt-12 pb-16 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto text-center z-10">
+    <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-brand-500/10 border border-brand-500/20 text-brand-400 text-xs font-semibold mb-6">
+      <i data-lucide="sparkles" class="w-4 h-4"></i> Giải pháp khôi phục mật khẩu hàng đầu 2026
+    </div>
+    
+    <h1 class="text-4xl sm:text-6xl font-extrabold tracking-tight text-white mb-6 leading-tight">
+      Khôi Phục Mật Khẩu File <br class="hidden sm:block"/>
+      <span class="gradient-text">Password Recovery</span>
+    </h1>
+
+    <p class="max-w-2xl mx-auto text-slate-400 text-base sm:text-lg mb-8 leading-relaxed">
+      Bộ công cụ hỗ trợ khôi phục mật khẩu file Excel (.xls, .xlsx, .xlsb), Word (.docx , .doc), PowerPoint, RAR, ZIP, 7z. Chạy trực tiếp offline trên máy tính Windows, online hoặc thông qua nền tảng gợi ý tiêu chuẩn.
+    </p>
+
+    <div class="flex flex-col sm:flex-row items-center justify-center gap-4 max-w-md mx-auto">
+      <a id="btn-dl-7z" href="https://drive.google.com/file/d/1Kcnbods8F4EgM0PvykE7e69VSV6ignua/view?usp=drive_link" target="_blank" rel="noopener" class="w-full sm:w-auto flex items-center justify-center gap-2 bg-gradient-to-r from-brand-600 to-indigo-600 hover:from-brand-500 hover:to-indigo-500 text-white font-semibold px-6 py-3.5 rounded-xl shadow-lg shadow-brand-500/20 transition">
+        <i data-lucide="download" class="w-5 h-5"></i> Tải Gói Hashcat 7z Full
+      </a>
+      <a href="#huongdan" class="w-full sm:w-auto flex items-center justify-center gap-2 bg-slate-800/80 hover:bg-slate-700 text-slate-200 border border-slate-700 font-semibold px-6 py-3.5 rounded-xl shadow-lg shadow-slate-900/20 transition">
+        <i data-lucide="play-circle" class="w-5 h-5"></i> Xem Video Hướng Dẫn
+      </a>
+    </div>
+
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mt-16 text-left">
+      <div class="glass-panel p-5 rounded-2xl border border-slate-800">
+        <div class="w-10 h-10 rounded-lg bg-amber-500/10 text-amber-400 flex items-center justify-center mb-3">
+          <i data-lucide="shield" class="w-5 h-5"></i>
+        </div>
+        <h3 class="font-bold text-white text-base">Bảo Mật 100%</h3>
+        <p class="text-xs text-slate-400 mt-1">File của bạn được xử lý hoàn toàn Offline trên máy tính cá nhân. Không lo lộ dữ liệu.</p>
+      </div>
+
+      <div class="glass-panel p-5 rounded-2xl border border-slate-800">
+        <div class="w-10 h-10 rounded-lg bg-brand-500/10 text-brand-400 flex items-center justify-center mb-3">
+          <i data-lucide="zap" class="w-5 h-5"></i>
+        </div>
+        <h3 class="font-bold text-white text-base">Tốc Độ Cực Nhanh</h3>
+        <p class="text-xs text-slate-400 mt-1">Tận dụng tối đa sức mạnh đa luồng CPU và card đồ họa GPU Hashcat tăng tốc gấp nhiều lần.</p>
+      </div>
+
+      <div class="glass-panel p-5 rounded-2xl border border-slate-800">
+        <div class="w-10 h-10 rounded-lg bg-purple-500/10 text-purple-400 flex items-center justify-center mb-3">
+          <i data-lucide="file-type" class="w-5 h-5"></i>
+        </div>
+        <h3 class="font-bold text-white text-base">Hỗ Trợ Đa Định Dạng</h3>
+        <p class="text-xs text-slate-400 mt-1">Excel (.xlsx, .xlsb, .xls), Word, PowerPoint, RAR (.rar, .rev), ZIP, 7z (.7z).</p>
+      </div>
+
+      <div class="glass-panel p-5 rounded-2xl border border-slate-800">
+        <div class="w-10 h-10 rounded-lg bg-emerald-500/10 text-emerald-400 flex items-center justify-center mb-3">
+          <i data-lucide="smile" class="w-5 h-5"></i>
+        </div>
+        <h3 class="font-bold text-white text-base">Dễ Dàng Sử Dụng</h3>
+        <p class="text-xs text-slate-400 mt-1">Giao diện tiếng Việt trực quan. Chọn file, chọn kiểu khôi phục và bấm Bắt đầu.</p>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 space-y-16 z-10 relative">
+
+    <div class="text-center max-w-xl mx-auto">
+      <h2 class="text-3xl font-extrabold text-white">Danh Sách Phần Mềm Khôi Phục</h2>
+      <p class="text-slate-400 text-sm mt-2">Tải về miễn phí và trải nghiệm ngay trên Windows</p>
+    </div>
+
+    <!-- Softwares Cards Grid -->
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+
+      <!-- TOOL 1: KhoiPhucTool -->
+      <div id="kpt" class="glass-panel glass-panel-hover rounded-3xl p-6 sm:p-8 flex flex-col justify-between relative overflow-hidden transition duration-300">
+        <div>
+          <div class="flex items-center justify-between mb-4">
+            <span class="px-3 py-1 rounded-full bg-purple-500/10 text-purple-400 border border-purple-500/20 text-xs font-bold">KHUYÊN DÙNG</span>
+            <span class="text-xs text-slate-400 font-semibold" id="ver-kpt">v3.5</span>
+          </div>
+
+          <div class="flex items-center gap-4 mb-4">
+            <img src="LOGO.png" alt="KhoiPhucTool" class="w-12 h-12 rounded-xl border border-purple-500/30">
+            <div>
+              <h3 class="text-xl font-bold text-white">KhoiPhucTool</h3>
+              <p class="text-xs text-slate-400">Khôi Phục Mật Khẩu File</p>
+            </div>
+          </div>
+
+          <p class="text-slate-300 text-sm mb-6 leading-relaxed">
+            Phần mềm chính khôi phục mật khẩu cho Excel, Word, PowerPoint, RAR, ZIP & 7z. Tích hợp công nghệ Hashcat GPU cực mạnh.
+          </p>
+
+          <ul class="space-y-2.5 text-xs text-slate-300 mb-6">
+            <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-purple-400"></i> khôi phục mật khẩu Brute-Force, Từ điển, Mask</li>
+            <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-purple-400"></i> Hỗ trợ GPU (Hashcat 7.x) tăng tốc vượt trội</li>
+            <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-purple-400"></i> Khôi phục Office Agile SHA-1/256/512</li>
+            <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-purple-400"></i> Đa luồng CPU X1 → X8 linh hoạt</li>
+            <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-purple-400"></i> Crack mật khẩu VBA Macro (DPB Pass)</li>
+            <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-purple-400"></i> Giao diện tiếng Việt đơn giản</li>
+          </ul>
+        </div>
+
+        <div class="space-y-2 pt-4 border-t border-slate-800">
+          <a id="btn-kpt" href="#" target="_blank" class="w-full py-3 bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-white font-bold rounded-xl text-center text-sm transition flex items-center justify-center gap-2">
+            <i data-lucide="download" class="w-4 h-4"></i> Tải KhoiPhucTool (Drive)
+          </a>
+          <a id="btn-kpt-mf" href="huong-dan-khoiphuctool.html" target="_self" class="w-full py-2 bg-slate-800/80 hover:bg-slate-700 text-slate-300 rounded-xl text-center text-xs font-semibold transition block">
+            Hướng dẫn sử dụng
+          </a>
+        </div>
+      </div>
+
+      <!-- TOOL 2: AutoHash -->
+      <div id="autohash" class="glass-panel glass-panel-hover rounded-3xl p-6 sm:p-8 flex flex-col justify-between relative overflow-hidden transition duration-300">
+        <div>
+          <div class="flex items-center justify-between mb-4">
+            <span class="px-3 py-1 rounded-full bg-brand-500/10 text-brand-400 border border-brand-500/20 text-xs font-bold">HASH TOOL</span>
+            <span class="text-xs text-slate-400 font-semibold" id="ver-autohash">v3.5</span>
+          </div>
+
+          <div class="flex items-center gap-4 mb-4">
+            <img src="LOGO.png" alt="AUTO_HASH" class="w-12 h-12 rounded-xl border border-brand-500/30 object-cover">
+            <div>
+              <h3 class="text-xl font-bold text-white">AUTO_HASH</h3>
+              <p class="text-xs text-slate-400">Kiểm Tra & khôi phục Hash</p>
+            </div>
+          </div>
+
+          <p class="text-slate-300 text-sm mb-6 leading-relaxed">
+            Công cụ chuyên dùng để kiểm tra mã Hash (MD5, SHA1, SHA256, NTLM...) và giải mã ngược chuỗi Hash bằng thuật toán Brute-Force hoặc Từ điển.
+          </p>
+
+          <ul class="space-y-2.5 text-xs text-slate-300 mb-6">
+            <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-brand-400"></i> Hỗ trợ MD5, NTLM, SHA-1, SHA-256, SHA-512</li>
+            <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-brand-400"></i> Tự động nhận diện loại Hash</li>
+            <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-brand-400"></i> Brute-force theo khoảng độ dài</li>
+            <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-brand-400"></i> Đọc File Wordlist dung lượng lớn</li>
+            <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-brand-400"></i> Tự động lưu kết quả vào PASS_AUTOHASH.TXT</li>
+          </ul>
+        </div>
+
+        <div class="space-y-2 pt-4 border-t border-slate-800">
+          <a id="btn-autohash" href="https://drive.google.com/file/d/1Kcnbods8F4EgM0PvykE7e69VSV6ignua/view?usp=drive_link" target="_blank" class="w-full py-3 bg-gradient-to-r from-brand-600 to-blue-600 hover:from-brand-500 hover:to-blue-500 text-white font-bold rounded-xl text-center text-sm transition flex items-center justify-center gap-2">
+            <i data-lucide="download" class="w-4 h-4"></i> Tải Hashcat 7z Full
+          </a>
+          <a id="btn-autohash-mf" href="huong-dan-autohash.html" target="_self" class="w-full py-2 bg-slate-800/80 hover:bg-slate-700 text-slate-300 rounded-xl text-center text-xs font-semibold transition block">
+            Hướng dẫn sử dụng
+          </a>
+        </div>
+      </div>
+
+      <!-- TOOL 3: ConTrâu V7 -->
+      <div id="trau" class="glass-panel glass-panel-hover rounded-3xl p-6 sm:p-8 flex flex-col justify-between relative overflow-hidden transition duration-300">
+        <div>
+          <div class="flex items-center justify-between mb-4">
+            <span class="px-3 py-1 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 text-xs font-bold">MIỄN PHÍ</span>
+            <span class="text-xs text-slate-400 font-semibold" id="ver-trau">V7</span>
+          </div>
+
+          <div class="flex items-center gap-4 mb-4">
+            <div class="w-12 h-12 rounded-xl bg-emerald-500/20 border border-emerald-500/30 flex items-center justify-center text-2xl">
+              🐃
+            </div>
+            <div>
+              <h3 class="text-xl font-bold text-white">Con Trâu Tool</h3>
+              <p class="text-xs text-slate-400">Quản Lý & Đổi IP Mạng</p>
+            </div>
+          </div>
+
+          <p class="text-slate-300 text-sm mb-6 leading-relaxed">
+            Phần mềm tiện ích mạng: Đổi IP tĩnh / động, thay đổi địa chỉ MAC card mạng, cài đặt DNS nhanh, quét mạng LAN nội bộ, vượt được bảo mật công nghệ hiện đại.
+          </p>
+
+          <ul class="space-y-2.5 text-xs text-slate-300 mb-6">
+            <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-emerald-400"></i> Đổi IP Tĩnh / DHCP tự động</li>
+            <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-emerald-400"></i> Đổi địa chỉ MAC và tên PC tự động</li>
+            <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-emerald-400"></i> Quét các IP đang hoạt động trong mạng LAN</li>
+            <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-emerald-400"></i> 🔑 Mật khẩu cấp 1: 0123  |  Mật khẩu cấp 2: 2222</li>
+            <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-emerald-400"></i> Miễn phí hoàn toàn 100%</li>
+          </ul>
+        </div>
+
+        <div class="space-y-2 pt-4 border-t border-slate-800">
+          <a id="btn-trau" href="#" target="_blank" class="w-full py-3 bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white font-bold rounded-xl text-center text-sm transition flex items-center justify-center gap-2">
+            <i data-lucide="download" class="w-4 h-4"></i> Tải ConTrâu V7 (Drive)
+          </a>
+          <a id="btn-trau-mf" href="huong-dan-trau.html" target="_self" class="w-full py-2 bg-slate-800/80 hover:bg-slate-700 text-slate-300 rounded-xl text-center text-xs font-semibold transition block">
+            Hướng dẫn sử dụng
+          </a>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- MỤC ỦNG HỘ TÁC GIẢ (DONATE SECTION) -->
+    <section id="ung-ho" class="glass-panel rounded-3xl p-8 sm:p-12 border border-slate-800 relative overflow-hidden">
+      <div class="max-w-3xl mx-auto text-center mb-10">
+        <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-rose-500/10 border border-rose-500/20 text-rose-400 text-xs font-bold mb-4">
+          <i data-lucide="heart" class="w-4 h-4 fill-rose-500"></i> Cảm Ơn Bạn Đã Đồng Hành
+        </div>
+        <h2 class="text-3xl font-extrabold text-white">Ủng Hộ Tác Giả (Donate)</h2>
+        <p class="text-slate-400 text-sm mt-2">
+          Nếu KhoiPhucTool mang lại giá trị cho công việc của bạn, hãy ủng hộ một ly cà phê để tác giả có thêm động lực duy trì máy chủ, phát triển và cập nhật công cụ mới.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <!-- BIDV -->
+        <div class="bg-slate-900/80 rounded-2xl p-8 border border-slate-800 hover:border-emerald-500/50 transition text-center flex flex-col justify-between">
+          <div class="space-y-5">
+            <div class="w-12 h-12 rounded-xl bg-emerald-600/20 text-emerald-400 flex items-center justify-center mx-auto font-bold">
+              BIDV
+            </div>
+            <h3 class="font-bold text-white text-base">BIDV</h3>
+            <p class="text-xs text-slate-400">Ngân hàng Đầu tư và Phát triển Việt Nam</p>
+            <div class="p-5 bg-slate-950 rounded-2xl border border-slate-800">
+              <img src="https://img.vietqr.io/image/970418-96247328232-compact2.png?accountName=TOOLS" alt="QR BIDV 96247328232" class="mx-auto w-full max-w-[220px] h-auto rounded-xl border border-slate-700">
+              <div class="space-y-2">
+                <span class="text-slate-400 text-[11px] block">Số tài khoản:</span>
+                <strong class="text-emerald-400 font-mono text-base block select-all">9624 7328 232</strong>
+                <span class="text-slate-400 text-[11px] block mt-2">Chủ tài khoản:</span>
+                <span class="text-white text-xs font-semibold block">TOOLS</span>
+              </div>
+            </div>
+          </div>
+          <p class="text-[11px] text-slate-500 italic mt-5">Nội dung: KHOIPHUCTOOL / Tên + gói</p>
+        </div>
+
+        <!-- Momo -->
+        <div class="bg-slate-900/80 rounded-2xl p-8 border border-slate-800 hover:border-pink-500/50 transition text-center flex flex-col justify-between">
+          <div class="space-y-5">
+            <div class="w-12 h-12 rounded-xl bg-pink-600/20 text-pink-400 flex items-center justify-center mx-auto font-bold">
+              MoMo
+            </div>
+            <h3 class="font-bold text-white text-base">Ví MoMo</h3>
+            <p class="text-xs text-slate-400">Ví điện tử Momo</p>
+            <div class="p-5 bg-slate-950 rounded-2xl border border-slate-800">
+              <img src="https://api.qrserver.com/v1/create-qr-code/?size=240x240&data=https://nhantien.momo.vn/0962768533" alt="QR MoMo 0962768533" class="mx-auto w-full max-w-[220px] h-auto rounded-xl border border-slate-700">
+              <div class="space-y-2">
+                <span class="text-slate-400 text-[11px] block">Số điện thoại:</span>
+                <strong class="text-pink-400 font-mono text-base block select-all">0962 768 533</strong>
+                <span class="text-slate-400 text-[11px] block mt-2">Chủ tài khoản:</span>
+                <span class="text-white text-xs font-semibold block">KHOIPHUCTOOL</span>
+              </div>
+            </div>
+          </div>
+          <p class="text-[11px] text-slate-500 italic mt-5">Nội dung: Ung ho KPT</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Pricing Table -->
+    <section class="glass-panel rounded-3xl p-6 sm:p-10 border border-slate-800 overflow-hidden">
+      <div class="max-w-2xl mx-auto text-center mb-8">
+        <h2 class="text-2xl sm:text-3xl font-extrabold text-white">So Sánh Tính Năng Các Chế Độ</h2>
+        <p class="text-slate-400 text-sm mt-2">Chi tiết sự khác biệt giữa phiên bản Miễn Phí và PRO</p>
+      </div>
+
+      <div class="overflow-x-auto">
+        <table class="w-full text-left text-sm text-slate-300 border-collapse">
+          <thead>
+            <tr class="border-b border-slate-800 bg-slate-900/60 text-slate-200">
+              <th class="p-4 font-bold">Tính Năng</th>
+              <th class="p-4 font-bold text-center text-emerald-400">Chế Độ FREE</th>
+              <th class="p-4 font-bold text-center text-amber-400">Chế Độ PRO</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-slate-800/60">
+            <tr>
+              <td class="p-4 font-medium">Độ dài mật khẩu khôi phục</td>
+              <td class="p-4 text-center">Tối đa 4 ký tự</td>
+              <td class="p-4 text-center font-bold text-amber-400">Không giới hạn</td>
+            </tr>
+            <tr>
+              <td class="p-4 font-medium">Số luồng xử lý CPU (Threads)</td>
+              <td class="p-4 text-center">X1 luồng</td>
+              <td class="p-4 text-center font-bold text-amber-400">Đa luồng (X1 → X8)</td>
+            </tr>
+            <tr>
+              <td class="p-4 font-medium">Tăng tốc GPU (Hashcat)</td>
+              <td class="p-4 text-center text-slate-500">❌ Không hỗ trợ</td>
+              <td class="p-4 text-center text-emerald-400 font-bold">✔ Hỗ trợ GPU Mode</td>
+            </tr>
+            <tr>
+              <td class="p-4 font-medium">khôi phục từ điển & Pattern Mask</td>
+              <td class="p-4 text-center">Cơ bản</td>
+              <td class="p-4 text-center font-bold text-amber-400">Nâng cao / Không giới hạn</td>
+            </tr>
+            <tr>
+              <td class="p-4 font-medium">Crack mật khẩu VBA Macro</td>
+              <td class="p-4 text-center text-slate-500">❌ Không hỗ trợ</td>
+              <td class="p-4 text-center text-emerald-400 font-bold">✔ Có</td>
+            </tr>
+            <tr>
+              <td class="p-4 font-medium">Hỗ trợ kỹ thuật qua Zalo</td>
+              <td class="p-4 text-center">Hỗ trợ cộng đồng</td>
+              <td class="p-4 text-center font-bold text-amber-400">Ưu tiên 24/7</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- Account Registration Section -->
+    <section id="dangky" class="glass-panel rounded-3xl p-8 sm:p-12 border border-slate-800">
+      <div class="max-w-3xl mx-auto text-center mb-10">
+        <h2 class="text-3xl font-extrabold text-white">Đăng Ký & Nâng Cấp Tài Khoản</h2>
+        <p class="text-slate-400 text-sm mt-2">đăng ký tài khoản sử dụng phần mềm KhoiPhucTool</p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-10">
+        <!-- FREE Plan Box -->
+        <div class="bg-slate-900/80 rounded-2xl p-6 border border-slate-800 flex flex-col justify-between">
+          <div>
+            <span class="inline-block px-3 py-1 rounded-full bg-emerald-500/10 text-emerald-400 text-xs font-bold mb-4">GÓI MIỄN PHÍ</span>
+            <h3 class="text-2xl font-bold text-white mb-2">Tài Khoản FREE</h3>
+            <p class="text-xs text-slate-400 mb-6">Dành cho nhu cầu dùng thử và mật khẩu ngắn (&lt;= 4 ký tự).</p>
+            <div class="text-3xl font-extrabold text-white mb-6">0 VNĐ</div>
+            <ul class="space-y-3 text-sm text-slate-300 mb-6">
+              <li class="flex items-center gap-2"><i data-lucide="check-circle" class="w-4 h-4 text-emerald-400"></i> Khôi phục mật khẩu tối đa 4 ký tự</li>
+              <li class="flex items-center gap-2"><i data-lucide="check-circle" class="w-4 h-4 text-emerald-400"></i> Chế độ X1 luồng CPU</li>
+              <li class="flex items-center gap-2"><i data-lucide="check-circle" class="w-4 h-4 text-emerald-400"></i> Sử dụng vĩnh viễn không mất phí</li>
+            </ul>
+          </div>
+
+          <form id="form-free" onsubmit="submitReg(event, 'FREE')" autocomplete="off" class="space-y-3">
+            <input type="text" id="free-name" placeholder="Tên / SĐT của bạn" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:border-brand-500" autocomplete="off">
+            <input type="password" id="free-pass" placeholder="Mật khẩu (tự chọn)" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:border-brand-500" autocomplete="new-password">
+            <button type="submit" class="w-full py-3 bg-slate-800 hover:bg-slate-700 text-white font-bold rounded-xl transition text-sm">
+              Đăng Ký FREE
+            </button>
+            <div id="free-msg" class="min-h-[18px] text-xs text-slate-400"></div>
+          </form>
+        </div>
+
+        <!-- PRO Plan Box -->
+        <div class="bg-gradient-to-b from-slate-900 to-brand-950/40 rounded-2xl p-6 border border-brand-500/30 flex flex-col justify-between relative">
+          <div class="absolute -top-3 right-6 bg-gradient-to-r from-amber-500 to-rose-500 text-white text-[10px] font-extrabold tracking-widest uppercase px-3 py-1 rounded-full shadow-md">
+            KHUYÊN DÙNG
+          </div>
+          <div>
+            <span class="inline-block px-3 py-1 rounded-full bg-amber-500/10 text-amber-400 text-xs font-bold mb-4">GÓI PRO</span>
+            <h3 class="text-2xl font-bold text-white mb-2">Tài Khoản PRO</h3>
+            <p class="text-xs text-slate-400 mb-6">Mở khóa toàn bộ sức mạnh GPU Hashcat & đa luồng.</p>
+            <div class="text-3xl font-extrabold text-amber-400 mb-6">THANH TOÁN TỰ ĐỘNG</div>
+            <ul class="space-y-3 text-sm text-slate-300 mb-6">
+              <li class="flex items-center gap-2"><i data-lucide="check-circle" class="w-4 h-4 text-amber-400"></i> Không giới hạn độ dài mật khẩu</li>
+              <li class="flex items-center gap-2"><i data-lucide="check-circle" class="w-4 h-4 text-amber-400"></i> Đa luồng X1 → X8 CPU</li>
+              <li class="flex items-center gap-2"><i data-lucide="check-circle" class="w-4 h-4 text-amber-400"></i> Chạy chế độ GPU Mode (Hashcat) cực nhanh</li>
+              <li class="flex items-center gap-2"><i data-lucide="check-circle" class="w-4 h-4 text-amber-400"></i> Ưu tiên hỗ trợ kỹ thuật qua Zalo</li>
+            </ul>
+          </div>
+
+          <div class="mb-4 space-y-2">
+            <div class="text-xs font-semibold uppercase tracking-wide text-slate-400">Chọn gói</div>
+            <div id="pkg-list" class="grid grid-cols-2 gap-2 text-xs">
+              <div class="col-span-2 text-center text-slate-400 py-3 text-xs">⏳ Đang tải giá gói từ server...</div>
+            </div>
+            <div id="selected-pkg-summary" class="rounded-xl border border-amber-500/20 bg-amber-500/10 px-3 py-2 text-xs text-amber-300">
+              Đã chọn: <strong class="text-white">1 GIỜ</strong> · <span>5.555đ</span>
+            </div>
+          </div>
+
+          <div class="mb-4 space-y-3 hidden" id="pro-qr-box">
+            <div class="rounded-2xl border border-slate-800 bg-slate-950/80 p-4 text-center">
+              <img id="pro-qr-img" src="" alt="QR thanh toán" class="rounded-xl border border-slate-700">
+            </div>
+            <div id="pro-ck-content" class="text-xs text-slate-300 text-center break-all"></div>
+            <div class="flex gap-2">
+              <button type="button" id="btn-copy-pro" onclick="copyProContent(event)" class="flex-1 py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-white text-xs font-semibold">📋 Copy nội dung</button>
+              <button type="button" id="btn-check-pro" onclick="checkProNow()" class="flex-1 py-2.5 rounded-xl bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 text-white text-xs font-semibold">✅ Kiểm tra</button>
+            </div>
+          </div>
+
+          <div id="pro-form" class="space-y-2 hidden">
+            <input id="pro-name" type="text" placeholder="Tên / SĐT của bạn" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:border-brand-500" autocomplete="off">
+            <input id="pro-pass" type="password" placeholder="Mật khẩu PRO" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:border-brand-500" autocomplete="new-password">
+            <div id="pro-msg" class="min-h-[16px] text-xs text-slate-400"></div>
+            <button type="button" onclick="showProQR()" class="w-full py-3 bg-gradient-to-r from-amber-500 to-rose-500 hover:from-amber-400 hover:to-rose-400 text-white font-bold rounded-xl shadow-lg shadow-amber-500/20 transition">
+              Tạo QR Thanh Toán
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Video Tutorials Section -->
+    <section id="huongdan" class="glass-panel rounded-3xl p-8 border border-slate-800">
+      <div class="max-w-2xl mx-auto text-center mb-8">
+        <h2 class="text-2xl sm:text-3xl font-extrabold text-white">Video Hướng Dẫn Sử Dụng KhoiPhucTool</h2>
+        <p class="text-slate-400 text-sm mt-2">Xem video hướng dẫn chi tiết các thao tác mở khóa file Excel, Word, RAR, ZIP, 7z</p>
+      </div>
+
+      <div class="max-w-md mx-auto rounded-2xl overflow-hidden border border-slate-800 shadow-2xl bg-slate-950/60">
+        <video id="kpt-video" src="KPT.mp4" class="w-full h-auto" controls autoplay muted loop playsinline onerror="this.style.display='none'; this.parentElement.innerHTML='<div class=&quot;flex h-72 items-center justify-center text-slate-400 text-sm&quot;>Video hướng dẫn chưa có sẵn trong trang này.</div>'"></video>
+      </div>
+    </section>
+
+    <!-- Detailed How-To Instructions -->
+    <section class="glass-panel rounded-3xl p-8 border border-slate-800 space-y-6 text-sm text-slate-300">
+      <h3 class="text-xl font-bold text-white mb-4">Hướng Dẫn Khôi Phục Mật Khẩu Từng Bước</h3>
+      
+      <div class="space-y-4">
+        <div class="bg-slate-900/60 p-4 rounded-xl border border-slate-800">
+          <h4 class="font-bold text-brand-400 mb-1">Bước 1: Tải về và giải nén phần mềm</h4>
+          <p class="text-xs text-slate-400">Tải file ZIP/7z KhoiPhucTool từ link trên, giải nén ra một thư mục trên máy tính Windows của bạn.</p>
+        </div>
+
+        <div class="bg-slate-900/60 p-4 rounded-xl border border-slate-800">
+          <h4 class="font-bold text-brand-400 mb-1">Bước 2: Mở phần mềm và chọn File cần khôi phục</h4>
+          <p class="text-xs text-slate-400">Chạy file <code class="text-amber-400">khoiphuctool.exe</code>. Bấm nút "Chọn File" để nạp file Excel, Word, RAR, ZIP hoặc 7z bị quên mật khẩu.</p>
+        </div>
+
+        <div class="bg-slate-900/60 p-4 rounded-xl border border-slate-800">
+          <h4 class="font-bold text-brand-400 mb-1">Bước 3: Chọn chế độ khôi phục mật khẩu</h4>
+          <p class="text-xs text-slate-400">Chọn chế độ Brute-Force (Thử toàn bộ), Từ điển (Wordlist) hoặc Pattern Mask (Mẫu mật khẩu nếu nhớ 1 số ký tự). Thiết lập độ dài và luồng xử lý phù hợp.</p>
+        </div>
+
+        <div class="bg-slate-900/60 p-4 rounded-xl border border-slate-800">
+          <h4 class="font-bold text-brand-400 mb-1">Bước 4: Bấm Bắt Đầu và nhận kết quả</h4>
+          <p class="text-xs text-slate-400">Nhấn nút "Bắt Đầu". Phần mềm sẽ khôi phục tìm và hiển thị mật khẩu ngay khi tìm thấy. Bạn chỉ cần sao chép mật khẩu và mở file.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="glass-panel rounded-3xl p-8 border border-slate-800">
+      <div class="max-w-4xl mx-auto text-center">
+        <h3 class="text-2xl font-extrabold text-white mb-3">Tải miễn phí & trải nghiệm ngay</h3>
+        <p class="text-slate-400 text-sm mb-6">KhoiPhucTool hỗ trợ nhiều format file và tích hợp công nghệ tăng tốc mạnh mẽ trên Windows 7/8/10/11.</p>
+        <div class="flex flex-col sm:flex-row justify-center gap-3">
+          <a id="btn-footer-dl" href="https://drive.google.com/file/d/1Kcnbods8F4EgM0PvykE7e69VSV6ignua/view?usp=drive_link" target="_blank" rel="noopener" class="inline-flex items-center justify-center gap-2 bg-gradient-to-r from-brand-600 to-indigo-600 hover:from-brand-500 hover:to-indigo-500 text-white font-bold px-6 py-3 rounded-xl shadow-lg shadow-brand-500/20 transition">
+            <i data-lucide="download" class="w-4 h-4"></i> Tải ngay
+          </a>
+          <a href="#dangky" class="inline-flex items-center justify-center gap-2 bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 font-semibold px-6 py-3 rounded-xl transition">
+            <i data-lucide="user-plus" class="w-4 h-4"></i> Đăng ký tài khoản
+          </a>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="border-t border-slate-800 bg-slate-950/70 backdrop-blur-md">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 text-sm text-slate-400 flex flex-col md:flex-row items-center justify-between gap-3">
+      <div>
+        <p class="font-semibold text-white">KhoiPhucTool</p>
+        <p class="text-xs text-slate-500">Khôi phục mật khẩu file Excel, Word, RAR, ZIP, 7z</p>
+      </div>
+      <div class="flex items-center gap-4 text-xs">
+        <a href="#kpt" class="hover:text-brand-400 transition">KhoiPhucTool</a>
+        <a href="#autohash" class="hover:text-brand-400 transition">AutoHash</a>
+        <a href="#trau" class="hover:text-brand-400 transition">ConTrâu V7</a>
+        <a href="#ung-ho" class="hover:text-brand-400 transition">Ủng Hộ</a>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    lucide.createIcons();
+    
+    function toggleNav() {
+      const navMenu = document.getElementById('nav-menu');
+      navMenu.classList.toggle('hidden');
+    }
+
+    function toggleEntertainment(mode) {
+      const menu = mode === 'desktop' ? document.getElementById('entertain-menu-desktop') : document.getElementById('entertain-menu-mobile');
+      menu.classList.toggle('open');
+    }
+
+    function showLoginModal() {
+      const modal = document.getElementById('account-modal');
+      modal.classList.remove('hidden');
+    }
+
+    function closeAccountModal() {
+      const modal = document.getElementById('account-modal');
+      modal.classList.add('hidden');
+    }
+
+    function doLogout() {
+      localStorage.removeItem('kpt_account');
+      location.reload();
+    }
+
+    function submitReg(event, plan) {
+      event.preventDefault();
+      const name = document.getElementById(plan === 'FREE' ? 'free-name' : 'pro-name');
+      const pass = document.getElementById(plan === 'FREE' ? 'free-pass' : 'pro-pass');
+      const msg = document.getElementById(plan === 'FREE' ? 'free-msg' : 'pro-msg');
+      if (!name.value.trim() || !pass.value.trim()) {
+        msg.textContent = 'Vui lòng nhập đầy đủ thông tin.';
+        return;
+      }
+      const account = {
+        name: name.value.trim(),
+        pass: pass.value,
+        plan,
+        type: plan,
+        status: plan === 'FREE' ? 'free' : 'pro',
+        expiry: plan === 'FREE' ? 'Không giới hạn' : 'Theo gói mua'
+      };
+      localStorage.setItem('kpt_account', JSON.stringify(account));
+      msg.textContent = plan === 'FREE' ? 'Đăng ký FREE thành công.' : 'Thông tin tài khoản đã lưu.';
+      location.reload();
+    }
+
+    function renderAccountState() {
+      const account = JSON.parse(localStorage.getItem('kpt_account') || 'null');
+      const loginBtn = document.getElementById('btn-login-header');
+      const logoutBtn = document.getElementById('btn-logout-header');
+      const navUser = document.getElementById('nav-user');
+      const navUserMobile = document.getElementById('nav-user-mobile');
+      if (!account) return;
+      const label = account.name || 'Tài khoản';
+      navUser.textContent = label;
+      navUser.classList.remove('hidden');
+      if (navUserMobile) {
+        navUserMobile.textContent = label;
+        navUserMobile.classList.remove('hidden');
+      }
+      loginBtn.classList.add('hidden');
+      logoutBtn.classList.remove('hidden');
+    }
+
+    window.addEventListener('DOMContentLoaded', () => {
+      renderAccountState();
+      if (document.body.getAttribute('data-theme') !== 'light') {
+        document.documentElement.setAttribute('data-theme', 'dark');
+      }
+      const toggle = document.getElementById('theme-toggle');
+      toggle.addEventListener('click', () => {
+        const html = document.documentElement;
+        const current = html.getAttribute('data-theme') === 'light' ? 'light' : 'dark';
+        html.setAttribute('data-theme', current === 'light' ? 'dark' : 'light');
+        toggle.textContent = current === 'light' ? '☀️' : '🌙';
+      });
+    });
+  </script>
+</body>
+</html>
