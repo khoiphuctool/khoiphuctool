@@ -932,8 +932,11 @@
             <div id="pkg-list" class="grid grid-cols-2 gap-2 text-xs">
               <div class="col-span-2 text-center text-slate-400 py-3 text-xs">⏳ Đang tải giá gói từ server...</div>
             </div>
+            <div id="owned-pkg-badge" class="rounded-xl border border-emerald-500/20 bg-emerald-500/10 px-3 py-2 text-xs text-emerald-300 hidden">
+              Gói đang sở hữu: <strong class="text-white">FREE</strong>
+            </div>
             <div id="selected-pkg-summary" class="rounded-xl border border-amber-500/20 bg-amber-500/10 px-3 py-2 text-xs text-amber-300">
-              Đã chọn: <strong class="text-white">1 GIỜ</strong> · <span>5.555đ</span>
+              Đã chọn: <strong class="text-white">1 GIỜ</strong> · <span class="text-amber-300">PRO 5</span> · <span>5.555đ</span><div class="mt-1 text-[10px] text-slate-300">Khôi phục mật khẩu tối đa 5 ký tự</div>
             </div>
           </div>
 
@@ -1483,7 +1486,18 @@
     }
 
     function renderUserPanel(name, type) {
-      var userLabel = type === 'PRO' ? '⭐ PRO' : type === 'ADMIN' ? '👑 ADMIN' : '🆓 FREE';
+      var profile = readAccountProfile();
+      profile = ensureAccountMeta(profile, type, name);
+      profile.name = name || profile.name || 'Khách';
+      profile.type = type || profile.type || 'FREE';
+      if (profile.type === 'PRO' || profile.type === 'ADMIN') {
+        profile.packageId = profile.packageId || (profile.type === 'ADMIN' ? 'VV' : '1MONTH');
+      } else {
+        profile.packageId = 'FREE';
+      }
+      profile.packageId = normalizePackageCode(profile.packageId) || (profile.type === 'PRO' ? '1MONTH' : 'FREE');
+      var currentPackageLabel = resolveCurrentPackageLabel(profile);
+      var userLabel = profile.type === 'PRO' ? ('⭐ ' + currentPackageLabel) : profile.type === 'ADMIN' ? '👑 ADMIN' : '🆓 FREE';
       var desktop = document.getElementById('nav-user');
       var mobile = document.getElementById('nav-user-mobile');
       var registerNav = document.getElementById('nav-register');
@@ -1492,16 +1506,6 @@
       var logoutBtn = document.getElementById('btn-logout-header');
       var logoutMobile = document.getElementById('btn-logout-mobile');
       var panel = document.getElementById('user-panel');
-      var profile = readAccountProfile();
-      profile = ensureAccountMeta(profile, type, name);
-      profile.name = name || profile.name || 'Khách';
-      profile.type = type || profile.type || 'FREE';
-      if (profile.type === 'PRO') {
-        var history = getProHistory();
-        if (!history.length) {
-          addProPurchaseRecord(name, 'PRO', new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString());
-        }
-      }
       saveAccountProfileData(profile);
 
       if (desktop) {
@@ -1531,7 +1535,8 @@
             return '<a href="' + _decLink(link.enc) + '" target="_blank" class="inline-flex items-center rounded-lg border border-slate-700 bg-slate-800/80 px-2.5 py-1.5 text-[11px] font-semibold text-slate-100 hover:border-brand-500 hover:text-white transition">' + link.label + '</a>';
           }).join('') + '</div></div>';
         } else {
-          panel.innerHTML = '<div class="rounded-2xl border border-slate-800 bg-gradient-to-r from-slate-900 to-slate-800/80 p-4 text-sm text-slate-200 shadow-lg cursor-pointer" onclick="openAccountModal()"><strong class="text-white">' + (type === 'PRO' ? '⭐ Tài khoản PRO' : '🆓 Tài khoản FREE') + '</strong><div class="mt-1 text-slate-300">Xin chào <span class="text-white font-semibold">' + name + '</span> — ' + (type === 'PRO' ? 'Bạn đang dùng tài khoản PRO, có thể truy cập đầy đủ tính năng.' : 'Bạn đang ở tài khoản FREE, hãy nâng cấp để dùng đầy đủ.') + '</div></div>';
+          var packageSummary = type === 'PRO' ? ('Bạn đang dùng: ' + currentPackageLabel) : 'Bạn đang ở tài khoản FREE';
+          panel.innerHTML = '<div class="rounded-2xl border border-slate-800 bg-gradient-to-r from-slate-900 to-slate-800/80 p-4 text-sm text-slate-200 shadow-lg cursor-pointer" onclick="openAccountModal()"><strong class="text-white">' + (type === 'PRO' ? '⭐ Tài khoản PRO' : '🆓 Tài khoản FREE') + '</strong><div class="mt-1 text-slate-300">Xin chào <span class="text-white font-semibold">' + name + '</span> — ' + packageSummary + (type === 'PRO' ? ', có thể truy cập đầy đủ tính năng.' : ', hãy nâng cấp để dùng đầy đủ.') + '</div></div>';
         }
       }
     }
@@ -1628,12 +1633,95 @@
       }
     }
 
+    function normalizePackageCode(packageCode) {
+      var raw = String(packageCode || '').trim().toUpperCase();
+      if (!raw) return '';
+      raw = raw.replace(/[^A-Z0-9]/g, '');
+      if (raw.indexOf('1H') !== -1 || raw.indexOf('ONEHOUR') !== -1 || raw.indexOf('HOUR') !== -1) return '1H';
+      if (raw.indexOf('1DAY') !== -1 || raw.indexOf('DAY') !== -1 || raw.indexOf('NGAY') !== -1) return '1DAY';
+      if (raw.indexOf('1WEEK') !== -1 || raw.indexOf('WEEK') !== -1 || raw.indexOf('TUAN') !== -1) return '1WEEK';
+      // Tất cả gói từ 1MONTH trở lên → map về 1MONTH (ULTIMATE)
+      if (raw.indexOf('2MONTH') !== -1 || raw.indexOf('2THANG') !== -1) return '1MONTH';
+      if (raw.indexOf('3MONTH') !== -1 || raw.indexOf('3THANG') !== -1) return '1MONTH';
+      if (raw.indexOf('6MONTH') !== -1 || raw.indexOf('6THANG') !== -1) return '1MONTH';
+      if (raw.indexOf('1YEAR') !== -1 || raw.indexOf('YEAR') !== -1 || raw.indexOf('NAM') !== -1) return '1MONTH';
+      if (raw.indexOf('VV') !== -1 || raw.indexOf('VINH') !== -1 || raw.indexOf('FOREVER') !== -1) return '1MONTH';
+      if (raw.indexOf('1MONTH') !== -1 || raw.indexOf('MONTH') !== -1 || raw.indexOf('THANG') !== -1) return '1MONTH';
+      if (raw.indexOf('PRO5') !== -1) return '1H';
+      if (raw.indexOf('PRO6') !== -1) return '1DAY';
+      if (raw.indexOf('PRO7') !== -1) return '1WEEK';
+      // PRO8 trở lên → 1MONTH
+      if (raw.indexOf('PRO8') !== -1 || raw.indexOf('PRO9') !== -1 || raw.indexOf('PRO10') !== -1 || raw.indexOf('PRO11') !== -1 || raw.indexOf('PRO12') !== -1) return '1MONTH';
+      // Gói động (6H, 2DAY, 3WEEK...): nếu suffix hợp lệ → giữ nguyên key
+      if (typeof parsePkgSuffix === 'function' && parsePkgSuffix(raw)) return raw;
+      return raw;
+    }
+
+    function getPackageTierLabelFromCode(packageCode) {
+      var code = normalizePackageCode(packageCode);
+      // 1. Cache từ Sheet (được populate khi fetch thành công)
+      if (PKG_TIER_LABELS && PKG_TIER_LABELS[code]) return PKG_TIER_LABELS[code];
+      // 2. Dynamic fallback: parse suffix từ key
+      var dynamic = parsePkgTierLabel(code);
+      if (dynamic && dynamic !== code) return dynamic;
+      if (code) return 'PRO';
+      return 'FREE';
+    }
+
+    function resolveCurrentPackageLabel(profile) {
+      var p = profile || readAccountProfile();
+      var type = String((p && p.type) || 'FREE').toUpperCase();
+      if (type !== 'PRO' && type !== 'ADMIN') return 'FREE';
+      var pkg = normalizePackageCode((p && (p.packageId || p.packageCode)) || '1MONTH');
+      var label = getPackageTierLabelFromCode(pkg);
+      return label || 'PRO';
+    }
+
     function getProHistory() {
       try {
         var history = JSON.parse(localStorage.getItem('kpt_pro_history') || '[]');
         return Array.isArray(history) ? history : [];
       } catch (e) {
         return [];
+      }
+    }
+
+    async function loadRealProHistoryFromSheet() {
+      try {
+        var proUrl = SHEET_CSV.replace(/gid=\d+/, 'gid=300692422');
+        var response = await fetch(proUrl + '&t=' + Date.now());
+        if (!response.ok) return [];
+        var csv = await response.text();
+        var rows = csv.split('\n').map(function (row) {
+          return row.replace(/\r/g, '').split(',').map(function (cell) {
+            return cell.replace(/^"|"$/g, '').trim();
+          });
+        });
+        var items = [];
+        for (var i = 1; i < rows.length; i++) {
+          var row = rows[i];
+          if (!row || !row.length) continue;
+          var name = String(row[1] || '').trim();
+          var passValue = String(row[4] || '').trim();
+          var status = String(row[5] || '').trim().toUpperCase();
+          var expiry = String(row[6] || '').trim();
+          var pkgCell = String(row[0] || row[2] || row[3] || '').trim();
+          if (!name && !passValue) continue;
+          if (status !== 'OK' && !expiry) continue;
+          var packageLabel = getPackageTierLabelFromCode(pkgCell || 'PRO');
+          if (!packageLabel || packageLabel === 'FREE') packageLabel = 'PRO';
+          items.push({
+            name: name || 'Khách',
+            package: packageLabel,
+            purchasedAt: row[8] || new Date().toISOString(),
+            expiresAt: expiry || null
+          });
+        }
+        if (!items.length) return getProHistory();
+        localStorage.setItem('kpt_pro_history', JSON.stringify(items.slice(0, 20)));
+        return items;
+      } catch (e) {
+        return getProHistory();
       }
     }
 
@@ -1723,7 +1811,7 @@
         }
       }
 
-      if (typeValue) typeValue.textContent = type === 'ADMIN' ? 'ADMIN' : (type === 'PRO' ? 'PRO' : 'FREE');
+      if (typeValue) typeValue.textContent = type === 'ADMIN' ? 'ADMIN' : (type === 'PRO' ? resolveCurrentPackageLabel(profile) : 'FREE');
       if (statusText) {
         var accountStatusRaw = String(profile.status || getAccountStatus(type)).toUpperCase();
         if (accountStatusRaw === 'BANNED' || accountStatusRaw === 'LOCKED' || accountStatusRaw === 'KHOA' || accountStatusRaw === 'KHÓA') {
@@ -1746,16 +1834,34 @@
       if (expiryValue) expiryValue.textContent = getProExpiryLabel(type);
 
       var history = getProHistory();
+      if (type === 'PRO' || type === 'ADMIN') {
+        (async function () {
+          var realHistory = await loadRealProHistoryFromSheet();
+          if (realHistory && realHistory.length) {
+            history = realHistory;
+            if (historyBox) {
+              historyBox.innerHTML = history.slice(0, 8).map(function (item) {
+                var label = item && item.package ? item.package : 'PRO';
+                var date = item && item.purchasedAt ? new Date(item.purchasedAt).toLocaleString('vi-VN', { day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit' }) : '—';
+                var expiry = item && item.expiresAt ? new Date(item.expiresAt).toLocaleString('vi-VN', { day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit' }) : '—';
+                return '<div class="rounded-xl border border-slate-700 bg-slate-950/60 p-3"><div class="flex items-center justify-between gap-2"><span class="font-semibold text-white">' + label + '</span><span class="text-[10px] uppercase tracking-[0.2em] text-amber-400">PRO</span></div><div class="mt-1 text-[11px] text-slate-400">Mua: ' + date + '</div><div class="mt-0.5 text-[11px] text-slate-400">Hết hạn: ' + expiry + '</div></div>';
+              }).join('');
+            }
+            if (historyCount) historyCount.textContent = String(history.length || '0');
+          }
+        })();
+      }
       if (historyBox) {
         if (!history.length) {
           historyBox.innerHTML = '<div class="rounded-xl border border-dashed border-slate-700 bg-slate-950/60 p-3 text-xs text-slate-400">Chưa có lịch sử mua PRO nào.</div>';
-        } else {
+        } else if (!historyBox.dataset.sheetLoaded) {
           historyBox.innerHTML = history.slice(0, 8).map(function (item) {
             var label = item && item.package ? item.package : 'PRO';
             var date = item && item.purchasedAt ? new Date(item.purchasedAt).toLocaleString('vi-VN', { day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit' }) : '—';
             var expiry = item && item.expiresAt ? new Date(item.expiresAt).toLocaleString('vi-VN', { day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit' }) : '—';
             return '<div class="rounded-xl border border-slate-700 bg-slate-950/60 p-3"><div class="flex items-center justify-between gap-2"><span class="font-semibold text-white">' + label + '</span><span class="text-[10px] uppercase tracking-[0.2em] text-amber-400">PRO</span></div><div class="mt-1 text-[11px] text-slate-400">Mua: ' + date + '</div><div class="mt-0.5 text-[11px] text-slate-400">Hết hạn: ' + expiry + '</div></div>';
           }).join('');
+          historyBox.dataset.sheetLoaded = '1';
         }
       }
       if (historyCount) historyCount.textContent = String(history.length || '0');
@@ -2261,29 +2367,66 @@
       }
     }
 
-    var PKG_ICONS = {
-      '1H':    '⚡',
-      '1DAY':  '☀️',
-      '1WEEK': '⏰',
-      '1MONTH':'⭐',
-      '2MONTH':'🌙',
-      '3MONTH':'🚀',
-      '6MONTH':'💎',
-      '1YEAR': '📅',
-      'VV':    '♾️'
+    // ── PARSE GÓI ĐỘNG TỪ SUFFIX CỘT G ─────────────────────────────────────
+    // Quy tắc: suffix H → tier 1 (max 5), DAY → tier 2 (max 7),
+    //          WEEK → tier 3 (max 10), MONTH → tier 4 (không giới hạn)
+    var PKG_TIER_ORDER   = { 'H': 0, 'DAY': 1, 'WEEK': 2, 'MONTH': 3 };
+    var PKG_TIER_MAX     = { 'H': 5, 'DAY': 7, 'WEEK': 10, 'MONTH': null };
+    var PKG_TIER_LABEL   = {
+      'H':     'PRO 5 · Tối đa 5 ký tự',
+      'DAY':   'BASIC · Tối đa 7 ký tự',
+      'WEEK':  'ADVANCED · Tối đa 10 ký tự',
+      'MONTH': 'ULTIMATE · Từ 11 ký tự trở lên'
     };
+    var PKG_TIER_ICON    = { 'H': '⚡', 'DAY': '🟢', 'WEEK': '🔵', 'MONTH': '🔴' };
+    var PKG_UNIT_LABEL   = { 'MONTH': 'THÁNG', 'WEEK': 'TUẦN', 'DAY': 'NGÀY', 'H': 'GIỜ' };
 
-    var PKG_LABELS = {
-      '1H':    '1 GIỜ',
-      '1DAY':  '1 NGÀY',
-      '1WEEK': '1 TUẦN',
-      '1MONTH':'1 THÁNG',
-      '2MONTH':'2 THÁNG',
-      '3MONTH':'3 THÁNG',
-      '6MONTH':'6 THÁNG',
-      '1YEAR': '1 NĂM',
-      'VV':    'VĨNH VIỄN'
-    };
+    function parsePkgSuffix(key) {
+      var k = (key || '').toString().toUpperCase().replace(/\s+/g, '');
+      var suffixes = ['MONTH', 'WEEK', 'DAY', 'H']; // dài trước
+      for (var i = 0; i < suffixes.length; i++) {
+        if (k.slice(-suffixes[i].length) === suffixes[i]) return suffixes[i];
+      }
+      return null;
+    }
+
+    function parsePkgDurationLabel(key) {
+      var k = (key || '').toString().toUpperCase().replace(/\s+/g, '');
+      var suffixes = ['MONTH', 'WEEK', 'DAY', 'H'];
+      for (var i = 0; i < suffixes.length; i++) {
+        var sfx = suffixes[i];
+        if (k.slice(-sfx.length) === sfx) {
+          var num = k.slice(0, k.length - sfx.length) || '1';
+          return num + ' ' + PKG_UNIT_LABEL[sfx];
+        }
+      }
+      return key;
+    }
+
+    function parsePkgMaxLength(key) {
+      var sfx = parsePkgSuffix(key);
+      if (!sfx) return null;
+      return PKG_TIER_MAX[sfx]; // null = không giới hạn
+    }
+
+    function parsePkgTierLabel(key) {
+      var sfx = parsePkgSuffix(key);
+      return sfx ? (PKG_TIER_LABEL[sfx] || key) : key;
+    }
+
+    function parsePkgIcon(key) {
+      var sfx = parsePkgSuffix(key);
+      return sfx ? (PKG_TIER_ICON[sfx] || '📦') : '📦';
+    }
+
+    function parsePkgTierOrder(key) {
+      var sfx = parsePkgSuffix(key);
+      return sfx !== null ? (PKG_TIER_ORDER[sfx] !== undefined ? PKG_TIER_ORDER[sfx] : 99) : 99;
+    }
+
+    // ── PKG_TIER_LABELS vẫn giữ cho getPackageTierLabelFromCode (lookup nhanh) ─
+    // Giờ chỉ là fallback — lookup động qua parsePkgTierLabel() là chính
+    var PKG_TIER_LABELS = {}; // sẽ được populate khi render
 
     var selectedPkg = null;
 
@@ -2324,24 +2467,39 @@
         });
         var pkgs = [];
         for (var i = 1; i < rows.length; i++) {
-          var key   = rows[i][6];
-          var price = parseInt(rows[i][7], 10);
-          if (!key || isNaN(price)) continue;
+          var key      = (rows[i][6] || '').trim().toUpperCase().replace(/\s+/g, '');
+          var pkgName  = (rows[i][5] || '').trim();   // cột F — tên gói
+          var price    = parseInt(rows[i][7], 10);
+          var sfx      = parsePkgSuffix(key);
+          if (!key || isNaN(price) || !sfx) continue;
+          var maxLen    = parsePkgMaxLength(key);
+          var durLabel  = pkgName || parsePkgDurationLabel(key);  // ưu tiên cột F
+          var tierLabel = pkgName || parsePkgTierLabel(key);      // ưu tiên cột F
+          PKG_TIER_LABELS[key] = tierLabel;
           pkgs.push({
-            pkg:   key,
-            price: price,
-            label: PKG_LABELS[key] || key,
-            fmt:   price.toLocaleString('vi-VN') + 'đ'
+            pkg:          key,
+            price:        price,
+            durationLabel:durLabel,
+            tierLabel:    tierLabel,
+            detail:       (maxLen === null ? 'Từ 11 ký tự trở lên' : 'Tối đa ' + maxLen + ' ký tự'),
+            label:        durLabel,
+            fmt:          price.toLocaleString('vi-VN') + 'đ',
+            icon:         parsePkgIcon(key),
+            _tierOrder:   parsePkgTierOrder(key)
           });
         }
+        // Sort theo tier rồi key
+        pkgs.sort(function(a, b) {
+          return a._tierOrder !== b._tierOrder ? a._tierOrder - b._tierOrder : a.pkg < b.pkg ? -1 : 1;
+        });
         if (pkgs.length === 0) throw new Error('empty');
         var list = document.getElementById('pkg-list');
         if (list) {
           list.innerHTML = pkgs.map(function(p, idx) {
-            var isVV = p.pkg === 'VV';
-            return '<button type="button" class="pkg-item rounded-xl px-3 py-2 text-left' + (isVV ? ' col-span-2' : '') + (idx === 0 ? ' active' : '') + '"'
+            return '<button type="button" class="pkg-item rounded-xl px-3 py-2 text-left' + (idx === 0 ? ' active' : '') + '"'
               + ' data-pkg="' + p.pkg + '" data-price="' + p.price + '" data-label="' + p.label + '">'
-              + '<div class="font-bold text-white">' + (PKG_ICONS[p.pkg] || '📦') + ' ' + p.label + '</div>'
+              + '<div class="font-bold text-white">' + (p.icon || parsePkgIcon(p.pkg)) + ' ' + p.durationLabel + ' · ' + p.tierLabel + '</div>'
+              + '<div class="text-[10px] text-slate-300 mt-1">' + p.detail + '</div>'
               + '<div><span>' + p.fmt + '</span></div>'
               + '</button>';
           }).join('');
@@ -2352,23 +2510,18 @@
       })
       .catch(function() {
         var fallbackPkgs = [
-          { pkg:'1H',     price:5555,    label:'1 GIỜ',      icon:'⚡' },
-          { pkg:'1DAY',   price:10000,   label:'1 NGÀY',     icon:'☀️' },
-          { pkg:'1WEEK',  price:30000,   label:'1 TUẦN',     icon:'⏰' },
-          { pkg:'1MONTH', price:55000,   label:'1 THÁNG',    icon:'⭐' },
-          { pkg:'2MONTH', price:100000,  label:'2 THÁNG',    icon:'🌙' },
-          { pkg:'3MONTH', price:160000,  label:'3 THÁNG',    icon:'🚀' },
-          { pkg:'6MONTH', price:320000,  label:'6 THÁNG',    icon:'💎' },
-          { pkg:'1YEAR',  price:530000,  label:'1 NĂM',      icon:'📅' },
-          { pkg:'VV',     price:2530000, label:'VĨNH VIỄN',  icon:'♾️' }
+          { pkg:'1H',     price:3000,   label:'1 GIỜ',   durationLabel:'1 GIỜ',   tierLabel:'PRO 5 · Tối đa 5 ký tự',            detail:'Tối đa 5 ký tự',            icon:'⚡' },
+          { pkg:'1DAY',   price:10000,  label:'1 NGÀY',  durationLabel:'1 NGÀY',  tierLabel:'BASIC · Tối đa 7 ký tự',             detail:'Tối đa 7 ký tự',            icon:'🟢' },
+          { pkg:'1WEEK',  price:50000,  label:'7 NGÀY',  durationLabel:'7 NGÀY',  tierLabel:'ADVANCED · Tối đa 10 ký tự',         detail:'Tối đa 10 ký tự',           icon:'🔵' },
+          { pkg:'1MONTH', price:150000, label:'30 NGÀY', durationLabel:'30 NGÀY', tierLabel:'ULTIMATE · Từ 11 ký tự trở lên',     detail:'Từ 11 ký tự trở lên',       icon:'🔴' }
         ];
         var list = document.getElementById('pkg-list');
         if (list) {
           list.innerHTML = fallbackPkgs.map(function(p, idx) {
-            var isVV = p.pkg === 'VV';
-            return '<button type="button" class="pkg-item rounded-xl px-3 py-2 text-left' + (isVV ? ' col-span-2' : '') + (idx === 0 ? ' active' : '') + '"'
+            return '<button type="button" class="pkg-item rounded-xl px-3 py-2 text-left' + (idx === 0 ? ' active' : '') + '"'
               + ' data-pkg="' + p.pkg + '" data-price="' + p.price + '" data-label="' + p.label + '">'
-              + '<div class="font-bold text-white">' + p.icon + ' ' + p.label + '</div>'
+              + '<div class="font-bold text-white">' + p.icon + ' ' + p.durationLabel + ' · ' + p.tierLabel + '</div>'
+              + '<div class="text-[10px] text-slate-300 mt-1">' + p.detail + '</div>'
               + '<div><span>' + p.price.toLocaleString('vi-VN') + 'đ</span></div>'
               + '</button>';
           }).join('');
@@ -2380,8 +2533,20 @@
 
     function updateSelectedPkgSummary() {
       var summary = document.getElementById('selected-pkg-summary');
+      var ownedBadge = document.getElementById('owned-pkg-badge');
       if (!summary || !selectedPkg) return;
-      summary.innerHTML = 'Đã chọn: <strong class="text-white">' + selectedPkg.label + '</strong> · <span>' + Number(selectedPkg.price).toLocaleString('vi-VN') + 'đ</span>';
+      var durationLabel = selectedPkg.durationLabel || selectedPkg.label || parsePkgDurationLabel(selectedPkg.pkg);
+      var tierLabel = selectedPkg.tierLabel || parsePkgTierLabel(selectedPkg.pkg);
+      var maxLen = (selectedPkg.maxLen !== undefined) ? selectedPkg.maxLen : parsePkgMaxLength(selectedPkg.pkg);
+      var detail = maxLen === null ? 'Từ 11 ký tự trở lên' : 'Khôi phục mật khẩu tối đa ' + maxLen + ' ký tự';
+      summary.innerHTML = 'Đã chọn: <strong class="text-white">' + durationLabel + '</strong> · <span class="text-amber-300">' + tierLabel + '</span> · <span>' + Number(selectedPkg.price).toLocaleString('vi-VN') + 'đ</span><div class="mt-1 text-[10px] text-slate-300">' + detail + '</div>';
+
+      if (ownedBadge) {
+        var ownedLabel = (selectedPkg.tierLabel || parsePkgTierLabel(selectedPkg.pkg) || 'PRO');
+        var ownedText = 'Gói đang sở hữu: <strong class="text-white">' + durationLabel + ' · ' + ownedLabel + '</strong>';
+        ownedBadge.innerHTML = ownedText;
+        ownedBadge.classList.remove('hidden');
+      }
     }
 
     function showProQR() {
