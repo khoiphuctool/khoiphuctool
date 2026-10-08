@@ -2466,9 +2466,6 @@
           return r.replace(/\r/g, '').split(',').map(function(c) { return c.replace(/^"|"$/g, '').trim(); });
         });
         var pkgs = [];
-        // Nếu bất kỳ hàng nào trong sheet có ô tên gói (cột F) không rỗng,
-        // coi toàn bộ sheet là nguồn dữ liệu ưu tiên và không dùng cơ chế parse từ package code.
-        var sheetHasNames = rows.slice(1).some(function(r) { return (r[5] || '').toString().trim() !== ''; });
         for (var i = 1; i < rows.length; i++) {
           var key      = (rows[i][6] || '').trim().toUpperCase().replace(/\s+/g, '');
           var pkgName  = (rows[i][5] || '').trim();   // cột F — tên gói (có thể chứa cả duration · tier)
@@ -2479,39 +2476,8 @@
           // ưu tiên: cột E → parsePkgMaxLength (suffix) → null
           var sheetMax = (colE !== '' && !isNaN(parseInt(colE, 10))) ? parseInt(colE, 10) : null;
           var maxLen   = sheetMax !== null ? sheetMax : parsePkgMaxLength(key);
-          var durLabel = '';
-          var tierLabel = '';
-          if (sheetHasNames) {
-            // Toàn cục: sheet có dữ liệu -> ưu tiên lấy từ sheet. Nếu ô rỗng, fallback nhẹ về key.
-            if (pkgName) {
-              var parts = pkgName.split(/\s*[·|\-|\|;]\s*/);
-              if (parts.length >= 2) {
-                durLabel = parts[0];
-                tierLabel = parts.slice(1).join(' · ');
-              } else {
-                durLabel = pkgName;
-                tierLabel = pkgName;
-              }
-            } else {
-              // Nếu sheet có hàng khác có tên gói nhưng hàng này không, dùng key làm nhãn ngắn
-              durLabel = key;
-              tierLabel = '';
-            }
-          } else {
-            // Sheet không có dữ liệu tên gói -> sử dụng parse mặc định từ package code
-            if (pkgName) {
-              var parts = pkgName.split(/\s*[·|\-|\|;]\s*/);
-              if (parts.length >= 2) {
-                durLabel = parts[0];
-                tierLabel = parts.slice(1).join(' · ');
-              } else {
-                durLabel = pkgName;
-                tierLabel = pkgName;
-              }
-            }
-            if (!durLabel) durLabel = parsePkgDurationLabel(key);
-            if (!tierLabel) tierLabel = parsePkgTierLabel(key);
-          }
+          var durLabel  = parsePkgDurationLabel(key);   // thời hạn luôn parse từ cột G (1H→"1 GIỜ", 1DAY→"1 NGÀY"...)
+          var tierLabel = pkgName || parsePkgTierLabel(key); // tên tier: ưu tiên cột F, fallback suffix
           PKG_TIER_LABELS[key] = tierLabel;
           pkgs.push({
             pkg:          key,
@@ -2555,10 +2521,13 @@
       })
       .catch(function() {
         var fallbackPkgs = [
-          { pkg:'1H',     price:3000,   label:'1 GIỜ',   durationLabel:'1 GIỜ',   tierLabel:'PRO 5 · Tối đa 5 ký tự',            detail:'Tối đa 5 ký tự',            icon:'⚡' },
-          { pkg:'1DAY',   price:10000,  label:'1 NGÀY',  durationLabel:'1 NGÀY',  tierLabel:'BASIC · Tối đa 7 ký tự',             detail:'Tối đa 7 ký tự',            icon:'🟢' },
-          { pkg:'1WEEK',  price:50000,  label:'7 NGÀY',  durationLabel:'7 NGÀY',  tierLabel:'ADVANCED · Tối đa 10 ký tự',         detail:'Tối đa 10 ký tự',           icon:'🔵' },
-          { pkg:'1MONTH', price:150000, label:'30 NGÀY', durationLabel:'30 NGÀY', tierLabel:'ULTIMATE · Từ 11 ký tự trở lên',     detail:'Từ 11 ký tự trở lên',       icon:'🔴' }
+          { pkg:'1H',     price:3000,   label:'1 GIỜ',   durationLabel:'1 GIỜ',   tierLabel:'PRO 5',           detail:'Tối đa 5 ký tự',     icon:'⚡', maxLen:5    },
+          { pkg:'1DAY',   price:10000,  label:'1 NGÀY',  durationLabel:'1 NGÀY',  tierLabel:'PRO 6',           detail:'Tối đa 6 ký tự',     icon:'🟢', maxLen:6    },
+          { pkg:'2DAY',   price:16000,  label:'2 NGÀY',  durationLabel:'2 NGÀY',  tierLabel:'PRO 7 BASIC',     detail:'Tối đa 7 ký tự',     icon:'🟢', maxLen:7    },
+          { pkg:'3DAY',   price:33000,  label:'3 NGÀY',  durationLabel:'3 NGÀY',  tierLabel:'PRO 9',           detail:'Tối đa 9 ký tự',     icon:'🟢', maxLen:9    },
+          { pkg:'1WEEK',  price:50000,  label:'7 NGÀY',  durationLabel:'7 NGÀY',  tierLabel:'PRO 10 ADVANCED', detail:'Tối đa 10 ký tự',    icon:'🔵', maxLen:10   },
+          { pkg:'2WEEK',  price:60000,  label:'14 NGÀY', durationLabel:'14 NGÀY', tierLabel:'PRO 11',          detail:'Tối đa 11 ký tự',    icon:'🔵', maxLen:11   },
+          { pkg:'1MONTH', price:150000, label:'30 NGÀY', durationLabel:'30 NGÀY', tierLabel:'PRO ULTIMATE',    detail:'Từ 11 ký tự trở lên', icon:'🔴', maxLen:null }
         ];
         var list = document.getElementById('pkg-list');
         if (list) {
