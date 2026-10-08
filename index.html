@@ -920,7 +920,7 @@
             <p class="text-xs text-slate-400 mb-6">Mở khóa toàn bộ sức mạnh GPU Hashcat & đa luồng.</p>
             <div class="text-3xl font-extrabold text-amber-400 mb-6">THANH TOÁN TỰ ĐỘNG</div>
             <ul class="space-y-3 text-sm text-slate-300 mb-6">
-              <li class="flex items-center gap-2"><i data-lucide="check-circle" class="w-4 h-4 text-amber-400"></i> Không giới hạn độ dài mật khẩu</li>
+              <li class="flex items-center gap-2"><i data-lucide="check-circle" class="w-4 h-4 text-amber-400"></i> Không giới hạn số file cần khôi phục</li>
               <li class="flex items-center gap-2"><i data-lucide="check-circle" class="w-4 h-4 text-amber-400"></i> Đa luồng X1 → X8 CPU</li>
               <li class="flex items-center gap-2"><i data-lucide="check-circle" class="w-4 h-4 text-amber-400"></i> Chạy chế độ GPU Mode (Hashcat) cực nhanh</li>
               <li class="flex items-center gap-2"><i data-lucide="check-circle" class="w-4 h-4 text-amber-400"></i> Ưu tiên hỗ trợ kỹ thuật qua Zalo</li>
@@ -2466,15 +2466,52 @@
           return r.replace(/\r/g, '').split(',').map(function(c) { return c.replace(/^"|"$/g, '').trim(); });
         });
         var pkgs = [];
+        // Nếu bất kỳ hàng nào trong sheet có ô tên gói (cột F) không rỗng,
+        // coi toàn bộ sheet là nguồn dữ liệu ưu tiên và không dùng cơ chế parse từ package code.
+        var sheetHasNames = rows.slice(1).some(function(r) { return (r[5] || '').toString().trim() !== ''; });
         for (var i = 1; i < rows.length; i++) {
           var key      = (rows[i][6] || '').trim().toUpperCase().replace(/\s+/g, '');
-          var pkgName  = (rows[i][5] || '').trim();   // cột F — tên gói
+          var pkgName  = (rows[i][5] || '').trim();   // cột F — tên gói (có thể chứa cả duration · tier)
+          var colE     = (rows[i][4] || '').trim();   // cột E — max_length do admin ghi trực tiếp
           var price    = parseInt(rows[i][7], 10);
           var sfx      = parsePkgSuffix(key);
           if (!key || isNaN(price) || !sfx) continue;
-          var maxLen    = parsePkgMaxLength(key);
-          var durLabel  = pkgName || parsePkgDurationLabel(key);  // ưu tiên cột F
-          var tierLabel = pkgName || parsePkgTierLabel(key);      // ưu tiên cột F
+          // ưu tiên: cột E → parsePkgMaxLength (suffix) → null
+          var sheetMax = (colE !== '' && !isNaN(parseInt(colE, 10))) ? parseInt(colE, 10) : null;
+          var maxLen   = sheetMax !== null ? sheetMax : parsePkgMaxLength(key);
+          var durLabel = '';
+          var tierLabel = '';
+          if (sheetHasNames) {
+            // Toàn cục: sheet có dữ liệu -> ưu tiên lấy từ sheet. Nếu ô rỗng, fallback nhẹ về key.
+            if (pkgName) {
+              var parts = pkgName.split(/\s*[·|\-|\|;]\s*/);
+              if (parts.length >= 2) {
+                durLabel = parts[0];
+                tierLabel = parts.slice(1).join(' · ');
+              } else {
+                durLabel = pkgName;
+                tierLabel = pkgName;
+              }
+            } else {
+              // Nếu sheet có hàng khác có tên gói nhưng hàng này không, dùng key làm nhãn ngắn
+              durLabel = key;
+              tierLabel = '';
+            }
+          } else {
+            // Sheet không có dữ liệu tên gói -> sử dụng parse mặc định từ package code
+            if (pkgName) {
+              var parts = pkgName.split(/\s*[·|\-|\|;]\s*/);
+              if (parts.length >= 2) {
+                durLabel = parts[0];
+                tierLabel = parts.slice(1).join(' · ');
+              } else {
+                durLabel = pkgName;
+                tierLabel = pkgName;
+              }
+            }
+            if (!durLabel) durLabel = parsePkgDurationLabel(key);
+            if (!tierLabel) tierLabel = parsePkgTierLabel(key);
+          }
           PKG_TIER_LABELS[key] = tierLabel;
           pkgs.push({
             pkg:          key,
@@ -2496,10 +2533,18 @@
         var list = document.getElementById('pkg-list');
         if (list) {
           list.innerHTML = pkgs.map(function(p, idx) {
+            var title = '';
+            try {
+              var dl = (p.durationLabel || '').toString().trim();
+              var tl = (p.tierLabel || '').toString().trim();
+              title = (dl && tl && dl === tl) ? dl : (dl + (tl ? ' · ' + tl : ''));
+            } catch (ex) { title = p.durationLabel || p.tierLabel || p.label || p.pkg; }
+            // Ẩn detail nếu tierLabel đã chứa thông tin ký tự (tránh lặp)
+            var showDetail = p.detail && title.indexOf(p.detail) === -1;
             return '<button type="button" class="pkg-item rounded-xl px-3 py-2 text-left' + (idx === 0 ? ' active' : '') + '"'
               + ' data-pkg="' + p.pkg + '" data-price="' + p.price + '" data-label="' + p.label + '">'
-              + '<div class="font-bold text-white">' + (p.icon || parsePkgIcon(p.pkg)) + ' ' + p.durationLabel + ' · ' + p.tierLabel + '</div>'
-              + '<div class="text-[10px] text-slate-300 mt-1">' + p.detail + '</div>'
+              + '<div class="font-bold text-white">' + (p.icon || parsePkgIcon(p.pkg)) + ' ' + title + '</div>'
+              + (showDetail ? '<div class="text-[10px] text-slate-300 mt-1">' + p.detail + '</div>' : '')
               + '<div><span>' + p.fmt + '</span></div>'
               + '</button>';
           }).join('');
@@ -2518,10 +2563,17 @@
         var list = document.getElementById('pkg-list');
         if (list) {
           list.innerHTML = fallbackPkgs.map(function(p, idx) {
+            var title = '';
+            try {
+              var dl = (p.durationLabel || '').toString().trim();
+              var tl = (p.tierLabel || '').toString().trim();
+              title = (dl && tl && dl === tl) ? dl : (dl + (tl ? ' · ' + tl : ''));
+            } catch (ex) { title = p.durationLabel || p.tierLabel || p.label || p.pkg; }
+            var showDetail = p.detail && title.indexOf(p.detail) === -1;
             return '<button type="button" class="pkg-item rounded-xl px-3 py-2 text-left' + (idx === 0 ? ' active' : '') + '"'
               + ' data-pkg="' + p.pkg + '" data-price="' + p.price + '" data-label="' + p.label + '">'
-              + '<div class="font-bold text-white">' + p.icon + ' ' + p.durationLabel + ' · ' + p.tierLabel + '</div>'
-              + '<div class="text-[10px] text-slate-300 mt-1">' + p.detail + '</div>'
+              + '<div class="font-bold text-white">' + p.icon + ' ' + title + '</div>'
+              + (showDetail ? '<div class="text-[10px] text-slate-300 mt-1">' + p.detail + '</div>' : '')
               + '<div><span>' + p.price.toLocaleString('vi-VN') + 'đ</span></div>'
               + '</button>';
           }).join('');
