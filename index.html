@@ -560,8 +560,8 @@
                   <input id="account-email-input" type="email" maxlength="254" autocomplete="email" required class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-sm text-white focus:outline-none focus:border-brand-500" placeholder="name@example.com">
                 </div>
                 <div>
-                  <label for="account-email-password" class="text-[11px] font-semibold text-slate-300 block mb-1">Mật khẩu hiện tại để xác nhận</label>
-                  <input id="account-email-password" type="password" autocomplete="current-password" required class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-sm text-white focus:outline-none focus:border-brand-500" placeholder="Nhập mật khẩu hiện tại">
+                  <label for="account-email-password" class="text-[11px] font-semibold text-slate-300 block mb-1">Mật khẩu xác nhận</label>
+                  <input id="account-email-password" type="password" autocomplete="current-password" required class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-sm text-white focus:outline-none focus:border-brand-500" placeholder="Nhập mật khẩu để xác nhận">
                 </div>
                 <div id="account-email-msg" class="min-h-[16px] text-[11px] text-slate-400" role="status" aria-live="polite"></div>
                 <button id="account-email-submit" type="submit" class="w-full py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-white font-bold text-sm transition">Lưu email</button>
@@ -2146,7 +2146,7 @@
       }
       if (!currentPassword) {
         if (message) {
-          message.textContent = 'Vui lòng nhập mật khẩu hiện tại để xác minh.';
+          message.textContent = 'Vui lòng nhập mật khẩu để xác nhận.';
           message.className = 'min-h-[16px] text-[11px] text-rose-500';
         }
         return;
