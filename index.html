@@ -363,6 +363,7 @@
     color: #a0aec0 !important;
   }
   @media (max-width: 767px) {
+    .entertain { display: none; }
     .entertain-mobile { display: block; }
     .entertain-mobile-menu { display: none; padding: 4px 0 4px 12px; }
     .entertain-mobile-menu.open { display: flex; flex-direction: column; gap: 4px; }
@@ -379,8 +380,9 @@
   }
   @media (max-width: 480px) {
     #ticker-wrap { font-size: 0.72rem; }
-    nav .max-w-7xl { padding-left: 0.75rem !important; padding-right: 0.75rem !important; }
-    #btn-login-header, #btn-logout-header { padding: 0.5rem 0.7rem; }
+    nav .max-w-7xl { padding-left: 0.75rem !important; padding-right: 0.75rem !important; gap: 0.5rem; }
+    #btn-login-header, #btn-logout-header { padding: 0.5rem !important; }
+    #theme-toggle { width: 34px; height: 34px; flex-shrink: 0; }
   }
   ::-webkit-scrollbar { width: 8px; }
   ::-webkit-scrollbar-track { background: #090d16; }
@@ -437,14 +439,14 @@
   <nav class="border-b border-slate-800/80 bg-slate-950/70 backdrop-blur-xl sticky top-[37px] z-40">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
       
-      <a href="#" class="flex items-center gap-3 group">
-        <div class="relative">
-          <img src="LOGO.png" alt="KhoiPhucTool Logo" class="w-10 h-10 rounded-xl border border-brand-500/30 group-hover:scale-105 transition duration-300">
+      <a href="#" class="flex flex-shrink-0 items-center gap-2 sm:gap-3 group">
+        <div class="relative flex-shrink-0">
+          <img src="LOGO.png" alt="KhoiPhucTool Logo" class="w-11 h-11 flex-shrink-0 object-contain rounded-xl border border-brand-500/30 group-hover:scale-105 transition duration-300">
           <div class="absolute inset-0 bg-brand-500/20 blur-lg rounded-full opacity-0 group-hover:opacity-100 transition"></div>
         </div>
-        <div>
-          <span class="font-extrabold text-lg text-white tracking-wide block leading-none">KhoiPhucTool</span>
-          <span class="text-[10px] text-slate-400 font-medium tracking-widest uppercase">Password Recovery</span>
+        <div class="flex-shrink-0">
+          <span class="font-extrabold text-lg text-white tracking-wide block leading-none whitespace-nowrap">KhoiPhucTool</span>
+          <span class="hidden sm:block text-[10px] text-slate-400 font-medium tracking-widest uppercase whitespace-nowrap">Password Recovery</span>
         </div>
       </a>
 
@@ -457,7 +459,7 @@
         <a id="nav-register" href="#dangky" class="hover:text-brand-500 transition flex items-center gap-1.5"><i data-lucide="user-plus" class="w-4 h-4 text-amber-400"></i> Đăng ký</a>
       </div>
 
-      <div class="flex items-center gap-3">
+      <div class="flex flex-shrink-0 items-center gap-1.5 sm:gap-3">
         <a href="su-kien.html" class="hidden sm:flex items-center gap-1.5 text-xs font-bold bg-gradient-to-r from-amber-500 to-rose-500 text-white px-3.5 py-1.5 rounded-full hover:shadow-lg hover:shadow-amber-500/20 transition transform hover:-translate-y-0.5">
           <i data-lucide="gift" class="w-3.5 h-3.5"></i> TẶNG PRO 5 ngày
         </a>
@@ -474,15 +476,15 @@
 
         <button id="theme-toggle" type="button" class="theme-toggle" aria-label="Chuyển chế độ sáng/tối" title="Chuyển chế độ sáng/tối">☀️</button>
         
-        <button id="btn-login-header" onclick="showLoginModal()" class="text-xs font-semibold bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 px-4 py-2 rounded-xl transition flex items-center gap-1.5">
-          <i data-lucide="log-in" class="w-3.5 h-3.5"></i> Đăng Nhập
+        <button id="btn-login-header" onclick="showLoginModal()" aria-label="Đăng nhập" class="text-xs font-semibold bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 px-4 py-2 rounded-xl transition flex items-center gap-1.5 flex-shrink-0">
+          <i data-lucide="log-in" class="w-3.5 h-3.5 flex-shrink-0"></i><span class="hidden sm:inline">Đăng Nhập</span>
         </button>
 
-        <button id="btn-logout-header" onclick="doLogout()" class="hidden text-xs font-semibold bg-rose-500/10 hover:bg-rose-500/20 text-rose-300 border border-rose-500/25 px-4 py-2 rounded-xl transition flex items-center gap-1.5">
-          <i data-lucide="log-out" class="w-3.5 h-3.5"></i> Đăng Xuất
+        <button id="btn-logout-header" onclick="doLogout()" aria-label="Đăng xuất" class="hidden text-xs font-semibold bg-rose-500/10 hover:bg-rose-500/20 text-rose-300 border border-rose-500/25 px-4 py-2 rounded-xl transition flex items-center gap-1.5 flex-shrink-0">
+          <i data-lucide="log-out" class="w-3.5 h-3.5 flex-shrink-0"></i><span class="hidden sm:inline">Đăng Xuất</span>
         </button>
 
-        <button onclick="toggleNav()" class="md:hidden text-slate-300 hover:text-white p-2">
+        <button onclick="toggleNav()" aria-label="Mở menu" class="md:hidden text-slate-300 hover:text-white p-2 flex-shrink-0">
           <i data-lucide="menu" class="w-6 h-6"></i>
         </button>
       </div>
@@ -550,6 +552,21 @@
           <div class="rounded-2xl border border-slate-800 bg-slate-900/80 p-4">
             <h4 class="font-bold text-white mb-3">Thông tin bổ sung</h4>
             <div id="account-extra-info" class="space-y-2 text-[11px] text-slate-300"></div>
+            <div id="account-email-editor" class="hidden mt-4 border-t border-slate-800 pt-4">
+              <h5 class="text-sm font-bold text-white mb-3">Cập nhật email</h5>
+              <form id="account-email-form" onsubmit="saveAccountEmail(event)" class="space-y-3">
+                <div>
+                  <label for="account-email-input" class="text-[11px] font-semibold text-slate-300 block mb-1">Email liên hệ</label>
+                  <input id="account-email-input" type="email" maxlength="254" autocomplete="email" required class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-sm text-white focus:outline-none focus:border-brand-500" placeholder="name@example.com">
+                </div>
+                <div>
+                  <label for="account-email-password" class="text-[11px] font-semibold text-slate-300 block mb-1">Mật khẩu hiện tại để xác nhận</label>
+                  <input id="account-email-password" type="password" autocomplete="current-password" required class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-sm text-white focus:outline-none focus:border-brand-500" placeholder="Nhập mật khẩu hiện tại">
+                </div>
+                <div id="account-email-msg" class="min-h-[16px] text-[11px] text-slate-400" role="status" aria-live="polite"></div>
+                <button id="account-email-submit" type="submit" class="w-full py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-white font-bold text-sm transition">Lưu email</button>
+              </form>
+            </div>
           </div>
         </div>
 
@@ -936,7 +953,7 @@
               Gói đang sở hữu: <strong class="text-white">FREE</strong>
             </div>
             <div id="selected-pkg-summary" class="rounded-xl border border-amber-500/20 bg-amber-500/10 px-3 py-2 text-xs text-amber-300">
-              Đã chọn: <strong class="text-white">1 GIỜ</strong> · <span class="text-amber-300">PRO 5</span> · <span>5.555đ</span><div class="mt-1 text-[10px] text-slate-300">Khôi phục mật khẩu tối đa 5 ký tự</div>
+              Đã chọn: <strong class="text-white">1 GIỜ</strong> · <span class="text-amber-300">PRO 5</span> · <span>3.000đ</span><div class="mt-1 text-[10px] text-slate-300">Khôi phục mật khẩu tối đa 5 ký tự</div>
             </div>
           </div>
 
@@ -1204,7 +1221,7 @@
           <label class="text-xs font-semibold text-slate-300 block mb-1">Mật khẩu</label>
           <div class="relative">
             <input type="password" id="login-pass" placeholder="Nhập mật khẩu"
-              onkeydown="if(event.key==='Enter') doLogin()"
+              onkeydown="if(event.key==='Enter'&&!event.isComposing&&event.keyCode!==229){event.preventDefault();doLogin()}"
               class="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-2.5 pr-10 text-sm text-white focus:outline-none focus:border-brand-500">
             <span id="login-eye" onclick="toggleLoginPass()"
               class="absolute right-3 top-1/2 -translate-y-1/2 cursor-pointer select-none text-base text-slate-400 hover:text-white transition">👁</span>
@@ -1503,11 +1520,11 @@
       profile.name = name || profile.name || 'Khách';
       profile.type = type || profile.type || 'FREE';
       if (profile.type === 'PRO' || profile.type === 'ADMIN') {
-        profile.packageId = profile.packageId || (profile.type === 'ADMIN' ? 'VV' : '1MONTH');
+        profile.packageId = profile.packageId || (profile.type === 'ADMIN' ? 'ADMIN' : 'PRO');
       } else {
         profile.packageId = 'FREE';
       }
-      profile.packageId = normalizePackageCode(profile.packageId) || (profile.type === 'PRO' ? '1MONTH' : 'FREE');
+      profile.packageId = normalizePackageCode(profile.packageId) || (profile.type === 'ADMIN' ? 'ADMIN' : (profile.type === 'PRO' ? 'PRO' : 'FREE'));
       var currentPackageLabel = resolveCurrentPackageLabel(profile);
       var userLabel = profile.type === 'PRO' ? ('⭐ ' + currentPackageLabel) : profile.type === 'ADMIN' ? '👑 ADMIN' : '🆓 FREE';
       var desktop = document.getElementById('nav-user');
@@ -1586,14 +1603,15 @@
       if (t === 'BANNED' || t === 'LOCKED' || t === 'KHOA' || t === 'KHÓA') return 'BANNED';
       if (t === 'PENDING') return 'PENDING';
       if (t === 'ADMIN' || t === 'PRO' || t === 'FREE') return 'ACTIVE';
-      return 'ACTIVE';
+      return 'UNKNOWN';
     }
 
     function formatAccountStatusLabel(status) {
       var s = String(status || '').toUpperCase();
       if (s === 'BANNED' || s === 'LOCKED' || s === 'KHOA' || s === 'KHÓA') return 'Đã khóa';
       if (s === 'PENDING' || s === 'CHO_DUYET' || s === 'CHỜ_DUYỆT') return 'Chờ duyệt';
-      return 'Đang hoạt động';
+      if (s === 'ACTIVE' || s === 'OK') return 'Đang hoạt động';
+      return 'Chưa xác minh';
     }
 
     function ensureAccountMeta(profile, type, name) {
@@ -1602,14 +1620,12 @@
       var resolvedName = String(name || data.name || 'Khách').trim();
       data.name = resolvedName;
       data.type = resolvedType === 'ADMIN' ? 'ADMIN' : (resolvedType === 'PRO' ? 'PRO' : 'FREE');
-      data.createdAt = data.createdAt || new Date().toISOString();
-      data.lastLoginAt = data.lastLoginAt || new Date().toISOString();
-      data.status = String(data.status || getAccountStatus(data.type)).toUpperCase();
+      data.status = String(data.status || '').toUpperCase();
       data.email = data.email || '';
-      data.packageId = data.packageId || (data.type === 'PRO' ? 'PRO' : 'FREE');
-      data.userId = data.userId || 'KPT-' + (resolvedName || 'guest').toLowerCase().replace(/[^a-z0-9]/g, '') + '-' + Date.now().toString(36);
-      data.lastDevice = data.lastDevice || (typeof navigator !== 'undefined' ? navigator.userAgent : 'WEB');
-      data.lastIp = data.lastIp || 'unknown';
+      data.packageId = data.packageId || (data.type === 'ADMIN' ? 'ADMIN' : (data.type === 'PRO' ? 'PRO' : 'FREE'));
+      data.userId = data.userId || '';
+      data.lastDevice = data.lastDevice || '';
+      data.lastIp = data.lastIp || '';
       return data;
     }
 
@@ -1648,9 +1664,19 @@
     function normalizePackageCode(packageCode) {
       var raw = String(packageCode || '').trim().toUpperCase();
       if (!raw) return '';
+      if (PKG_TIER_LABELS && Object.prototype.hasOwnProperty.call(PKG_TIER_LABELS, raw)) return raw;
       raw = raw.replace(/[^A-Z0-9]/g, '');
+      if (/^\d+(?:H|DAY|WEEK|MONTH)$/.test(raw) || raw === 'VV') return raw;
+      if (String(packageCode || '').trim().toUpperCase().indexOf('PRO') === 0) return String(packageCode).trim().toUpperCase();
       if (raw.indexOf('1H') !== -1 || raw.indexOf('ONEHOUR') !== -1 || raw.indexOf('HOUR') !== -1) return '1H';
-      if (raw.indexOf('1DAY') !== -1 || raw.indexOf('DAY') !== -1 || raw.indexOf('NGAY') !== -1) return '1DAY';
+      if (raw.indexOf('PRO5') !== -1) return '1H';
+      if (raw.indexOf('PRO6') !== -1) return '6H';
+      if (raw.indexOf('PRO7') !== -1 || raw.indexOf('BASIC') !== -1) return '1DAY';
+      if (raw.indexOf('PRO8') !== -1) return '2DAY';
+      if (raw.indexOf('PRO9') !== -1) return '3DAY';
+      if (raw.indexOf('PRO10') !== -1 || raw.indexOf('ADVANCED') !== -1) return '1WEEK';
+      if (raw.indexOf('PRO11') !== -1) return '2WEEK';
+      if (raw.indexOf('1DAY') !== -1 || raw.indexOf('NGAY') !== -1) return '1DAY';
       if (raw.indexOf('1WEEK') !== -1 || raw.indexOf('WEEK') !== -1 || raw.indexOf('TUAN') !== -1) return '1WEEK';
       // Tất cả gói từ 1MONTH trở lên → map về 1MONTH (ULTIMATE)
       if (raw.indexOf('2MONTH') !== -1 || raw.indexOf('2THANG') !== -1) return '1MONTH';
@@ -1659,17 +1685,14 @@
       if (raw.indexOf('1YEAR') !== -1 || raw.indexOf('YEAR') !== -1 || raw.indexOf('NAM') !== -1) return '1MONTH';
       if (raw.indexOf('VV') !== -1 || raw.indexOf('VINH') !== -1 || raw.indexOf('FOREVER') !== -1) return '1MONTH';
       if (raw.indexOf('1MONTH') !== -1 || raw.indexOf('MONTH') !== -1 || raw.indexOf('THANG') !== -1) return '1MONTH';
-      if (raw.indexOf('PRO5') !== -1) return '1H';
-      if (raw.indexOf('PRO6') !== -1) return '1DAY';
-      if (raw.indexOf('PRO7') !== -1) return '1WEEK';
-      // PRO8 trở lên → 1MONTH
-      if (raw.indexOf('PRO8') !== -1 || raw.indexOf('PRO9') !== -1 || raw.indexOf('PRO10') !== -1 || raw.indexOf('PRO11') !== -1 || raw.indexOf('PRO12') !== -1) return '1MONTH';
       // Gói động (6H, 2DAY, 3WEEK...): nếu suffix hợp lệ → giữ nguyên key
       if (typeof parsePkgSuffix === 'function' && parsePkgSuffix(raw)) return raw;
       return raw;
     }
 
     function getPackageTierLabelFromCode(packageCode) {
+      var raw = String(packageCode || '').trim().toUpperCase();
+      if (PKG_TIER_LABELS && PKG_TIER_LABELS[raw]) return PKG_TIER_LABELS[raw];
       var code = normalizePackageCode(packageCode);
       // 1. Cache từ Sheet (được populate khi fetch thành công)
       if (PKG_TIER_LABELS && PKG_TIER_LABELS[code]) return PKG_TIER_LABELS[code];
@@ -1684,32 +1707,92 @@
       var p = profile || readAccountProfile();
       var type = String((p && p.type) || 'FREE').toUpperCase();
       if (type !== 'PRO' && type !== 'ADMIN') return 'FREE';
-      var pkg = normalizePackageCode((p && (p.packageId || p.packageCode)) || '1MONTH');
+      var rawPackageId = String((p && (p.packageId || p.packageCode)) || 'PRO').trim().toUpperCase();
+      var pkg = PKG_TIER_LABELS && PKG_TIER_LABELS[rawPackageId] ? rawPackageId : normalizePackageCode(rawPackageId);
       var label = getPackageTierLabelFromCode(pkg);
       return label || 'PRO';
     }
 
-    function getProHistory() {
-      try {
-        var history = JSON.parse(localStorage.getItem('kpt_pro_history') || '[]');
-        return Array.isArray(history) ? history : [];
-      } catch (e) {
-        return [];
-      }
+    function escapeAccountHtml(value) {
+      return String(value == null ? '' : value).replace(/[&<>"']/g, function (char) {
+        return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[char];
+      });
     }
 
-    async function loadRealProHistoryFromSheet() {
+    function formatAccountDate(value) {
+      if (!value) return '—';
+      var date = new Date(value);
+      if (isNaN(date.getTime())) return '—';
+      return date.toLocaleString('vi-VN', { day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit' });
+    }
+
+    function parseAccountCsv(csv) {
+      var rows = [];
+      var row = [];
+      var cell = '';
+      var quoted = false;
+      for (var i = 0; i < csv.length; i++) {
+        var ch = csv[i];
+        if (ch === '"') {
+          if (quoted && csv[i + 1] === '"') {
+            cell += '"';
+            i++;
+          } else {
+            quoted = !quoted;
+          }
+        } else if (ch === ',' && !quoted) {
+          row.push(cell.trim());
+          cell = '';
+        } else if ((ch === '\n' || ch === '\r') && !quoted) {
+          if (ch === '\r' && csv[i + 1] === '\n') i++;
+          row.push(cell.trim());
+          if (row.some(function (value) { return value !== ''; })) rows.push(row);
+          row = [];
+          cell = '';
+        } else {
+          cell += ch;
+        }
+      }
+      if (cell !== '' || row.length) {
+        row.push(cell.trim());
+        if (row.some(function (value) { return value !== ''; })) rows.push(row);
+      }
+      return rows;
+    }
+
+    async function hashSheetPassword(value) {
+      var password = String(value || '').trim();
+      if (!password) return '';
+      if (password.length === 64 && /^[0-9a-f]+$/i.test(password)) return password.toLowerCase();
+      return (await sha256(password)).toLowerCase();
+    }
+
+    function isSheetExpiryPassed(value) {
+      var raw = String(value || '').trim();
+      if (!raw || ['VĨNH VIỄN', 'VINH VIEN', 'PERMANENT', 'FOREVER'].indexOf(raw.toUpperCase()) >= 0) return false;
+      var date;
+      var dayFirst = raw.match(/^(\d{1,2})\/(\d{1,2})\/(\d{4})(?:[ T](\d{1,2}):(\d{2})(?::(\d{2}))?)?$/);
+      if (dayFirst) {
+        date = new Date(Number(dayFirst[3]), Number(dayFirst[2]) - 1, Number(dayFirst[1]),
+          Number(dayFirst[4] || 0), Number(dayFirst[5] || 0), Number(dayFirst[6] || 0));
+      } else {
+        date = new Date(raw.indexOf('T') >= 0 ? raw : raw.replace(' ', 'T'));
+      }
+      return !isNaN(date.getTime()) && date.getTime() <= Date.now();
+    }
+
+    async function loadRealProAccountData(accountName, passwordHash) {
       try {
+        var targetHash = String(passwordHash || '').trim().toLowerCase();
+        var targetName = String(accountName || '').trim().toLowerCase();
+        if (!targetHash || !targetName) return null;
         var proUrl = SHEET_CSV.replace(/gid=\d+/, 'gid=300692422');
         var response = await fetch(proUrl + '&t=' + Date.now());
-        if (!response.ok) return [];
+        if (!response.ok) return null;
         var csv = await response.text();
-        var rows = csv.split('\n').map(function (row) {
-          return row.replace(/\r/g, '').split(',').map(function (cell) {
-            return cell.replace(/^"|"$/g, '').trim();
-          });
-        });
+        var rows = parseAccountCsv(csv);
         var items = [];
+        var account = null;
         for (var i = 1; i < rows.length; i++) {
           var row = rows[i];
           if (!row || !row.length) continue;
@@ -1717,54 +1800,47 @@
           var passValue = String(row[4] || '').trim();
           var status = String(row[5] || '').trim().toUpperCase();
           var expiry = String(row[6] || '').trim();
-          var pkgCell = String(row[0] || row[2] || row[3] || '').trim();
-          if (!name && !passValue) continue;
+          var pkgCode = String(row[14] || '').trim();
+          var pkgCell = String(row[3] || pkgCode || '').trim();
+          if (!passValue) continue;
+          var rowHash = passValue.length === 64 && /^[0-9a-f]+$/i.test(passValue)
+            ? passValue.toLowerCase() : (await sha256(passValue)).toLowerCase();
+          if (rowHash !== targetHash || name.toLowerCase() !== targetName) continue;
+
+          account = {
+            name: name,
+            createdAt: row[10] || row[0] || '',
+            lastLoginAt: row[11] || '',
+            status: String(row[12] || (status === 'OK' ? 'ACTIVE' : '')).trim(),
+            approvalStatus: status,
+            email: String(row[13] || '').trim(),
+            packageId: pkgCode,
+            userId: String(row[15] || '').trim(),
+            lastDevice: String(row[16] || row[8] || '').trim(),
+            lastIp: String(row[17] || row[9] || '').trim()
+          };
           if (status !== 'OK' && !expiry) continue;
-          var packageLabel = getPackageTierLabelFromCode(pkgCell || 'PRO');
+          var packageLabel = pkgCell || getPackageTierLabelFromCode(pkgCode || 'PRO');
           if (!packageLabel || packageLabel === 'FREE') packageLabel = 'PRO';
           items.push({
             name: name || 'Khách',
             package: packageLabel,
-            purchasedAt: row[8] || new Date().toISOString(),
+            purchasedAt: row[10] || row[0] || '',
             expiresAt: expiry || null
           });
         }
-        if (!items.length) return getProHistory();
-        localStorage.setItem('kpt_pro_history', JSON.stringify(items.slice(0, 20)));
-        return items;
+        items.sort(function (a, b) {
+          return new Date(b.purchasedAt || 0).getTime() - new Date(a.purchasedAt || 0).getTime();
+        });
+        return { history: items.slice(0, 20), account: account };
       } catch (e) {
-        return getProHistory();
+        return null;
       }
     }
 
-    function getProDurationMs(packageLabel) {
-      var label = String(packageLabel || '').toUpperCase();
-      if (label.indexOf('VĨNH') !== -1 || label.indexOf('VV') !== -1 || label.indexOf('FOREVER') !== -1) return 3650 * 24 * 60 * 60 * 1000;
-      if (label.indexOf('NĂM') !== -1 || label.indexOf('YEAR') !== -1) return 365 * 24 * 60 * 60 * 1000;
-      if (label.indexOf('THÁNG') !== -1 || label.indexOf('MONTH') !== -1) {
-        var months = parseInt(label.replace(/[^\d]/g, ''), 10) || 1;
-        return months * 30 * 24 * 60 * 60 * 1000;
-      }
-      if (label.indexOf('TUẦN') !== -1 || label.indexOf('WEEK') !== -1) return 7 * 24 * 60 * 60 * 1000;
-      if (label.indexOf('NGÀY') !== -1 || label.indexOf('DAY') !== -1) return 24 * 60 * 60 * 1000;
-      if (label.indexOf('GIỜ') !== -1 || label.indexOf('HOUR') !== -1) return 60 * 60 * 1000;
-      return 30 * 24 * 60 * 60 * 1000;
-    }
-
-    function addProPurchaseRecord(name, packageLabel, expiresAt) {
-      var history = getProHistory();
-      history.unshift({
-        name: name || _wlGet('wl_name') || 'Khách',
-        package: packageLabel || 'PRO',
-        purchasedAt: new Date().toISOString(),
-        expiresAt: expiresAt || null
-      });
-      localStorage.setItem('kpt_pro_history', JSON.stringify(history.slice(0, 20)));
-    }
-
-    function getProExpiryLabel(type) {
-      if (type !== 'PRO') return '—';
-      var history = getProHistory();
+    function getProExpiryLabel(type, history) {
+      if (type !== 'PRO' && type !== 'ADMIN') return '—';
+      history = Array.isArray(history) ? history : [];
       var activeExpiry = null;
       var now = Date.now();
       for (var i = 0; i < history.length; i++) {
@@ -1796,6 +1872,18 @@
       var historyBox   = document.getElementById('account-pro-history');
       var historyCount = document.getElementById('account-history-count');
       var extraInfoBox = document.getElementById('account-extra-info');
+      var emailEditor  = document.getElementById('account-email-editor');
+      var emailInput   = document.getElementById('account-email-input');
+      var emailPass    = document.getElementById('account-email-password');
+      var emailMsg     = document.getElementById('account-email-msg');
+
+      if (emailEditor) emailEditor.classList.toggle('hidden', type !== 'PRO' && type !== 'ADMIN');
+      if (emailInput) emailInput.value = profile.email || '';
+      if (emailPass) emailPass.value = '';
+      if (emailMsg) {
+        emailMsg.textContent = '';
+        emailMsg.className = 'min-h-[16px] text-[11px] text-slate-400';
+      }
 
       if (oldPassInput) oldPassInput.value = '';
       if (passInput)    passInput.value    = '';
@@ -1836,61 +1924,109 @@
           statusText.textContent = 'Quản trị viên';
           statusText.className = 'mt-2 text-base font-bold text-amber-400';
         } else if (type === 'PRO') {
-          statusText.textContent = 'Đang hoạt động';
-          statusText.className = 'mt-2 text-base font-bold text-emerald-400';
+          statusText.textContent = accountStatusRaw === 'ACTIVE' || accountStatusRaw === 'OK' ? 'Đang hoạt động' : 'Chưa xác minh';
+          statusText.className = 'mt-2 text-base font-bold ' + (accountStatusRaw === 'ACTIVE' || accountStatusRaw === 'OK' ? 'text-emerald-400' : 'text-amber-400');
         } else {
           statusText.textContent = 'Tài khoản miễn phí';
           statusText.className = 'mt-2 text-base font-bold text-slate-300';
         }
       }
-      if (expiryValue) expiryValue.textContent = getProExpiryLabel(type);
+      if (expiryValue) expiryValue.textContent = type === 'PRO' ? 'Đang xác minh trên Sheet…' : '—';
+      if (historyCount) historyCount.textContent = '0';
+      if (historyBox) historyBox.textContent = (type === 'PRO' || type === 'ADMIN') ? 'Đang tải lịch sử đã xác nhận…' : 'Chỉ hiển thị lịch sử cho tài khoản PRO.';
 
-      var history = getProHistory();
-      if (type === 'PRO' || type === 'ADMIN') {
-        (async function () {
-          var realHistory = await loadRealProHistoryFromSheet();
-          if (realHistory && realHistory.length) {
-            history = realHistory;
-            if (historyBox) {
-              historyBox.innerHTML = history.slice(0, 8).map(function (item) {
-                var label = item && item.package ? item.package : 'PRO';
-                var date = item && item.purchasedAt ? new Date(item.purchasedAt).toLocaleString('vi-VN', { day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit' }) : '—';
-                var expiry = item && item.expiresAt ? new Date(item.expiresAt).toLocaleString('vi-VN', { day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit' }) : '—';
-                return '<div class="rounded-xl border border-slate-700 bg-slate-950/60 p-3"><div class="flex items-center justify-between gap-2"><span class="font-semibold text-white">' + label + '</span><span class="text-[10px] uppercase tracking-[0.2em] text-amber-400">PRO</span></div><div class="mt-1 text-[11px] text-slate-400">Mua: ' + date + '</div><div class="mt-0.5 text-[11px] text-slate-400">Hết hạn: ' + expiry + '</div></div>';
-              }).join('');
-            }
-            if (historyCount) historyCount.textContent = String(history.length || '0');
-          }
-        })();
-      }
-      if (historyBox) {
-        if (!history.length) {
-          historyBox.innerHTML = '<div class="rounded-xl border border-dashed border-slate-700 bg-slate-950/60 p-3 text-xs text-slate-400">Chưa có lịch sử mua PRO nào.</div>';
-        } else if (!historyBox.dataset.sheetLoaded) {
-          historyBox.innerHTML = history.slice(0, 8).map(function (item) {
-            var label = item && item.package ? item.package : 'PRO';
-            var date = item && item.purchasedAt ? new Date(item.purchasedAt).toLocaleString('vi-VN', { day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit' }) : '—';
-            var expiry = item && item.expiresAt ? new Date(item.expiresAt).toLocaleString('vi-VN', { day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit' }) : '—';
-            return '<div class="rounded-xl border border-slate-700 bg-slate-950/60 p-3"><div class="flex items-center justify-between gap-2"><span class="font-semibold text-white">' + label + '</span><span class="text-[10px] uppercase tracking-[0.2em] text-amber-400">PRO</span></div><div class="mt-1 text-[11px] text-slate-400">Mua: ' + date + '</div><div class="mt-0.5 text-[11px] text-slate-400">Hết hạn: ' + expiry + '</div></div>';
-          }).join('');
-          historyBox.dataset.sheetLoaded = '1';
-        }
-      }
-      if (historyCount) historyCount.textContent = String(history.length || '0');
-      if (extraInfoBox) {
+      function renderExtraInfo(sheetAccount) {
+        if (!extraInfoBox) return;
         var details = [
-          ['Ngày tạo', profile.createdAt ? new Date(profile.createdAt).toLocaleString('vi-VN', { day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit' }) : '—'],
-          ['Lần đăng nhập gần nhất', profile.lastLoginAt ? new Date(profile.lastLoginAt).toLocaleString('vi-VN', { day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit' }) : '—'],
-          ['Thiết bị cuối', profile.lastDevice || '—'],
-          ['IP cuối', profile.lastIp || '—'],
-          ['Trạng thái', formatAccountStatusLabel(profile.status || getAccountStatus(type))],
-          ['Email', profile.email || '—'],
-          ['Package ID', profile.packageId || (type === 'PRO' ? 'PRO' : 'FREE')],
-          ['User ID', profile.userId || '—']
+          ['Ngày tạo', formatAccountDate(sheetAccount && sheetAccount.createdAt)],
+          ['Lần đăng nhập gần nhất', formatAccountDate((sheetAccount && sheetAccount.lastLoginAt) || profile.lastLoginAt)],
+          ['Thiết bị cuối', (sheetAccount && sheetAccount.lastDevice) || profile.lastDevice || '—'],
+          ['IP cuối', (sheetAccount && sheetAccount.lastIp) || '—'],
+          ['Trạng thái', formatAccountStatusLabel((sheetAccount && sheetAccount.status) || profile.status || '')],
+          ['Email', (sheetAccount && sheetAccount.email) || profile.email || '—'],
+          ['Package ID', (sheetAccount && sheetAccount.packageId) || (type === 'FREE' ? 'FREE' : 'Chưa xác minh')],
+          ['User ID', (sheetAccount && sheetAccount.userId) || '—']
         ];
         extraInfoBox.innerHTML = details.map(function (item) {
-          return '<div class="flex items-start justify-between gap-3 border-b border-slate-800 pb-2 last:border-b-0 last:pb-0"><span class="text-slate-400">' + item[0] + '</span><span class="text-right text-slate-200 break-all font-medium">' + item[1] + '</span></div>';
+          return '<div class="flex items-start justify-between gap-3 border-b border-slate-800 pb-2 last:border-b-0 last:pb-0"><span class="text-slate-400">' + escapeAccountHtml(item[0]) + '</span><span class="text-right text-slate-200 break-all font-medium">' + escapeAccountHtml(item[1]) + '</span></div>';
         }).join('');
+      }
+
+      function renderHistory(history, loadFailed) {
+        history = Array.isArray(history) ? history : [];
+        if (historyCount) historyCount.textContent = String(history.length);
+        if (!historyBox) return;
+        if (!history.length) {
+          var emptyMessage = loadFailed
+            ? 'Không tải được lịch sử từ Sheet. Vui lòng thử lại sau.'
+            : 'Sheet chưa có giao dịch PRO nào được xác nhận cho tài khoản này.';
+          historyBox.innerHTML = '<div class="rounded-xl border border-dashed border-slate-700 bg-slate-950/60 p-3 text-xs text-slate-400">' + emptyMessage + '</div>';
+          return;
+        }
+        historyBox.innerHTML = history.slice(0, 8).map(function (item) {
+          return '<div class="rounded-xl border border-slate-700 bg-slate-950/60 p-3"><div class="flex items-center justify-between gap-2"><span class="font-semibold text-white">' + escapeAccountHtml(item.package || 'PRO') + '</span><span class="text-[10px] uppercase tracking-[0.2em] text-emerald-400">Đã xác nhận</span></div><div class="mt-1 text-[11px] text-slate-400">Mua: ' + escapeAccountHtml(formatAccountDate(item.purchasedAt)) + '</div><div class="mt-0.5 text-[11px] text-slate-400">Hết hạn: ' + escapeAccountHtml(formatAccountDate(item.expiresAt)) + '</div></div>';
+        }).join('');
+      }
+
+      renderExtraInfo(null);
+      if ((type === 'PRO' || type === 'ADMIN') && profile.passwordHash) {
+        loadRealProAccountData(name, profile.passwordHash).then(function (sheetData) {
+          if (modal.classList.contains('hidden')) return;
+          if (!sheetData) {
+            if (expiryValue) expiryValue.textContent = 'Không tải được từ Sheet';
+            if (statusText) {
+              statusText.textContent = 'Chưa xác minh được với Sheet';
+              statusText.className = 'mt-2 text-base font-bold text-amber-400';
+            }
+            renderHistory([], true);
+            renderExtraInfo(null);
+            return;
+          }
+          var sheetAccount = sheetData.account;
+          var history = sheetData.history || [];
+          if (emailInput && sheetAccount) emailInput.value = sheetAccount.email || '';
+          if (expiryValue) expiryValue.textContent = type === 'PRO'
+            ? (sheetAccount ? getProExpiryLabel(type, history) : 'Không có dữ liệu hạn từ Sheet')
+            : '—';
+          if (sheetAccount && statusText) {
+            var remoteStatus = String(sheetAccount.status || '').toUpperCase();
+            if (type === 'ADMIN') {
+              statusText.textContent = 'Quản trị viên';
+              statusText.className = 'mt-2 text-base font-bold text-amber-400';
+            } else {
+              statusText.textContent = remoteStatus
+                ? formatAccountStatusLabel(remoteStatus)
+                : (sheetAccount.approvalStatus === 'OK' ? 'Đang hoạt động' : 'Chưa xác minh');
+              statusText.className = 'mt-2 text-base font-bold ' +
+                (remoteStatus === 'BANNED' || remoteStatus === 'LOCKED' ? 'text-rose-400' :
+                  (remoteStatus === 'ACTIVE' || remoteStatus === 'OK' || sheetAccount.approvalStatus === 'OK' ? 'text-emerald-400' : 'text-amber-400'));
+            }
+          } else if (statusText) {
+            statusText.textContent = 'Không tìm thấy hồ sơ trên Sheet';
+            statusText.className = 'mt-2 text-base font-bold text-amber-400';
+          }
+          if (type === 'ADMIN') {
+            if (historyCount) historyCount.textContent = '0';
+            if (historyBox) historyBox.textContent = 'Không áp dụng cho tài khoản quản trị.';
+          } else {
+            renderHistory(history, false);
+          }
+          renderExtraInfo(sheetAccount);
+        });
+      } else {
+        if (type === 'PRO') {
+          if (expiryValue) expiryValue.textContent = 'Chưa có mã để xác minh';
+          if (statusText) {
+            statusText.textContent = 'Chưa xác minh được với Sheet';
+            statusText.className = 'mt-2 text-base font-bold text-amber-400';
+          }
+          renderHistory([], true);
+        } else if (type === 'ADMIN') {
+          if (historyBox) historyBox.textContent = 'Không áp dụng cho tài khoản quản trị.';
+          if (historyCount) historyCount.textContent = '0';
+        } else {
+          renderHistory([], false);
+        }
       }
 
       modal.classList.remove('hidden');
@@ -1988,6 +2124,80 @@
       if (passInput)    passInput.value    = '';
       if (confirmInput) confirmInput.value = '';
       setTimeout(function () { closeAccountModal(); }, 1500);
+    }
+
+    async function saveAccountEmail(event) {
+      if (event) event.preventDefault();
+      var emailInput = document.getElementById('account-email-input');
+      var passwordInput = document.getElementById('account-email-password');
+      var message = document.getElementById('account-email-msg');
+      var submitButton = document.getElementById('account-email-submit');
+      var email = String(emailInput && emailInput.value || '').trim();
+      var currentPassword = String(passwordInput && passwordInput.value || '').trim();
+      var profile = readAccountProfile();
+      var account = _wlGet('wl_name') || profile.name || '';
+
+      if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+        if (message) {
+          message.textContent = 'Vui lòng nhập email hợp lệ.';
+          message.className = 'min-h-[16px] text-[11px] text-rose-500';
+        }
+        return;
+      }
+      if (!currentPassword) {
+        if (message) {
+          message.textContent = 'Vui lòng nhập mật khẩu hiện tại để xác minh.';
+          message.className = 'min-h-[16px] text-[11px] text-rose-500';
+        }
+        return;
+      }
+
+      if (submitButton) submitButton.disabled = true;
+      if (message) {
+        message.textContent = 'Đang xác minh và lưu email lên Sheet…';
+        message.className = 'min-h-[16px] text-[11px] text-slate-400';
+      }
+      try {
+        var response = await fetch(WEBHOOK, {
+          method: 'POST',
+          body: JSON.stringify({
+            time: new Date().toISOString().replace('T', ' ').slice(0, 19),
+            app: 'WEB',
+            event: 'email_update',
+            account: account,
+            password: await sha256(currentPassword),
+            email: email,
+            packageId: profile.packageId || '',
+            machine: 'WEB',
+            ip: await getPublicIP()
+          })
+        });
+        var responseText = (await response.text()).trim();
+        if (!response.ok || responseText !== 'OK') {
+          throw new Error(responseText || 'Không lưu được email lên Sheet.');
+        }
+
+        profile.email = email;
+        saveAccountProfileData(profile);
+        var extraRows = document.querySelectorAll('#account-extra-info > div');
+        extraRows.forEach(function (row) {
+          var label = row.querySelector('span');
+          var value = row.querySelectorAll('span')[1];
+          if (label && value && label.textContent === 'Email') value.textContent = email;
+        });
+        if (passwordInput) passwordInput.value = '';
+        if (message) {
+          message.textContent = 'Email đã được xác minh và cập nhật.';
+          message.className = 'min-h-[16px] text-[11px] text-emerald-500';
+        }
+      } catch (error) {
+        if (message) {
+          message.textContent = 'Không cập nhật được email. Kiểm tra kết nối hoặc xác nhận lại mật khẩu.';
+          message.className = 'min-h-[16px] text-[11px] text-rose-500';
+        }
+      } finally {
+        if (submitButton) submitButton.disabled = false;
+      }
     }
 
     function doLogout() {
@@ -2192,11 +2402,12 @@
       }
     }
 
-    function autoLoginAfterReg(name, type, password) {
+    function autoLoginAfterReg(name, type, password, packageId) {
       var profile = readAccountProfile();
       profile = ensureAccountMeta(profile, type, name);
       profile.name = name;
       profile.type = type;
+      if (type === 'PRO' && packageId) profile.packageId = normalizePackageCode(packageId) || packageId;
       profile.lastLoginAt = new Date().toISOString();
       profile.status = getAccountStatus(type);
       profile.lastDevice = (typeof navigator !== 'undefined' ? navigator.userAgent : 'WEB');
@@ -2233,15 +2444,24 @@
         msg.className = 'text-xs text-amber-400 font-semibold';
       }
 
-      var savedName = _wlGet('wl_name');
-      var savedType = _wlGet('wl_type');
-      if (savedName && savedType && name === savedName) {
-        renderUserPanel(savedName, savedType);
-        closeLoginModal();
-        return;
-      }
-
       var hash = await sha256(pass);
+
+      function completeLogin(type, packageId) {
+        _wlSet('wl_name', name);
+        _wlSet('wl_type', type);
+        var profile = ensureAccountMeta(readAccountProfile(), type, name);
+        profile.name = name;
+        profile.type = type;
+        profile.packageId = packageId || (type === 'ADMIN' ? 'ADMIN' : (type === 'PRO' ? 'PRO' : 'FREE'));
+        profile.lastLoginAt = new Date().toISOString();
+        profile.status = 'ACTIVE';
+        profile.lastDevice = (typeof navigator !== 'undefined' ? navigator.userAgent : 'WEB');
+        profile.passwordHash = hash;
+        delete profile.password;
+        saveAccountProfileData(profile);
+        renderUserPanel(name, type);
+        closeLoginModal();
+      }
 
       try {
         var localResponse = await fetch('http://localhost:5000/check-pass', {
@@ -2261,7 +2481,6 @@
           profile.lastLoginAt = new Date().toISOString();
           profile.status = getAccountStatus(localType);
           profile.lastDevice = (typeof navigator !== 'undefined' ? navigator.userAgent : 'WEB');
-          profile.lastIp = profile.lastIp || 'unknown';
           profile.passwordHash = hash;
           delete profile.password;
           saveAccountProfileData(profile);
@@ -2275,6 +2494,13 @@
       if (hash === _LA) {
         _wlSet('wl_name', name);
         _wlSet('wl_type', 'ADMIN');
+        var adminProfile = ensureAccountMeta(readAccountProfile(), 'ADMIN', name);
+        adminProfile.name = name;
+        adminProfile.type = 'ADMIN';
+        adminProfile.status = 'ACTIVE';
+        adminProfile.lastLoginAt = new Date().toISOString();
+        adminProfile.passwordHash = hash;
+        saveAccountProfileData(adminProfile);
         renderUserPanel(name, 'ADMIN');
         closeLoginModal();
         return;
@@ -2288,81 +2514,80 @@
         var csvPro = await rPro.text();
         var csvFree = await rFree.text();
 
-        var rowsPro = csvPro.split('\n').map(function(row) {
-          return row.replace(/\r/g, '').split(',').map(function(cell) {
-            return cell.replace(/^"|"$/g, '').trim();
-          });
-        });
+        var rowsPro = parseAccountCsv(csvPro);
+        var rowsFree = parseAccountCsv(csvFree);
+        var freeEnabled = !(rowsFree.length && String(rowsFree[0][6] || '').trim().toUpperCase() === 'OFF');
+        var activeProRow = null;
+        var expiredOrPendingPro = false;
+        var bannedPro = false;
         for (var i = 0; i < rowsPro.length; i++) {
           var rowPass = String(rowsPro[i][4] || '').trim();
           var rowOk = String(rowsPro[i][5] || '').toUpperCase();
           var rowStatus = String(rowsPro[i][12] || '').toUpperCase();
           var rowName = String(rowsPro[i][1] || '').trim();
           if (!rowPass) continue;
-          var rowHash = rowPass.length === 64 && /^[0-9a-f]+$/i.test(rowPass)
-            ? rowPass.toLowerCase() : await sha256(rowPass);
+          var embeddedHashes = rowPass.match(/[0-9a-f]{64}/gi) || [];
+          if (embeddedHashes.length > 1) {
+            if (embeddedHashes.some(function (value) { return value.toLowerCase() === hash; })) {
+              expiredOrPendingPro = true;
+            }
+            continue;
+          }
+          if (rowPass.toUpperCase() === 'PASS') continue;
+          var rowHash = await hashSheetPassword(rowPass);
           if (rowHash === hash) {
-            var isAdmin = (i === 0 || rowName.toUpperCase() === 'ADMIN');
             if (rowStatus === 'BANNED' || rowStatus === 'LOCKED' || rowStatus === 'KHOA' || rowStatus === 'KHÓA') {
+              bannedPro = true;
+              break;
+            }
+            if (rowName.toUpperCase() === 'ADMIN') {
+              activeProRow = { type: 'ADMIN', packageId: 'ADMIN' };
+              break;
+            }
+            if (rowOk === 'OK' && !isSheetExpiryPassed(rowsPro[i][6])) {
+              activeProRow = { type: 'PRO', packageId: String(rowsPro[i][14] || rowsPro[i][3] || 'PRO').trim() };
+              break;
+            }
+            expiredOrPendingPro = true;
+          }
+        }
+
+        if (bannedPro) {
+          if (msg) {
+            msg.textContent = '🚫 Tài khoản đã bị khóa!';
+            msg.className = 'text-xs text-rose-500 font-semibold';
+          }
+          return;
+        }
+        if (activeProRow) {
+          completeLogin(activeProRow.type, activeProRow.packageId);
+          return;
+        }
+        if (expiredOrPendingPro) {
+          if (!freeEnabled) {
+            if (msg) {
+              msg.textContent = '⛔ PRO đã hết hạn/chưa được duyệt và FREE hiện đã tắt.';
+              msg.className = 'text-xs text-rose-500 font-semibold';
+            }
+            return;
+          }
+          completeLogin('FREE', 'FREE');
+          return;
+        }
+
+        for (var j = 1; j < rowsFree.length; j++) {
+          var rowPassFree = String(rowsFree[j][2] || '').trim();
+          if (!rowPassFree) continue;
+          var rowHashFree = await hashSheetPassword(rowPassFree);
+          if (rowHashFree === hash) {
+            if (!freeEnabled) {
               if (msg) {
-                msg.textContent = '🚫 Tài khoản đã bị khóa!';
+                msg.textContent = '⛔ Tài khoản FREE hiện đã tắt.';
                 msg.className = 'text-xs text-rose-500 font-semibold';
               }
               return;
             }
-            var type = isAdmin ? 'ADMIN' : (rowOk === 'OK' ? 'PRO' : 'PENDING');
-            if (type === 'PENDING') {
-              if (msg) {
-                msg.textContent = '⏳ Tài khoản đang chờ admin duyệt!';
-                msg.className = 'text-xs text-amber-500 font-semibold';
-              }
-              return;
-            }
-            _wlSet('wl_name', name);
-            _wlSet('wl_type', type);
-            var profile = readAccountProfile();
-            profile = ensureAccountMeta(profile, type, name);
-            profile.name = name;
-            profile.type = type;
-            profile.lastLoginAt = new Date().toISOString();
-            profile.status = getAccountStatus(type);
-            profile.lastDevice = (typeof navigator !== 'undefined' ? navigator.userAgent : 'WEB');
-            profile.lastIp = profile.lastIp || 'unknown';
-            profile.passwordHash = hash;
-            delete profile.password;
-            saveAccountProfileData(profile);
-            renderUserPanel(name, type);
-            closeLoginModal();
-            return;
-          }
-        }
-
-        var rowsFree = csvFree.split('\n').map(function(row) {
-          return row.replace(/\r/g, '').split(',').map(function(cell) {
-            return cell.replace(/^"|"$/g, '').trim();
-          });
-        });
-        for (var j = 1; j < rowsFree.length; j++) {
-          var rowPassFree = String(rowsFree[j][2] || '').trim();
-          if (!rowPassFree) continue;
-          var rowHashFree = rowPassFree.length === 64 && /^[0-9a-f]+$/i.test(rowPassFree)
-            ? rowPassFree.toLowerCase() : await sha256(rowPassFree);
-          if (rowHashFree === hash) {
-            _wlSet('wl_name', name);
-            _wlSet('wl_type', 'FREE');
-            var profile = readAccountProfile();
-            profile = ensureAccountMeta(profile, 'FREE', name);
-            profile.name = name;
-            profile.type = 'FREE';
-            profile.lastLoginAt = new Date().toISOString();
-            profile.status = getAccountStatus('FREE');
-            profile.lastDevice = (typeof navigator !== 'undefined' ? navigator.userAgent : 'WEB');
-            profile.lastIp = profile.lastIp || 'unknown';
-            profile.passwordHash = hash;
-            delete profile.password;
-            saveAccountProfileData(profile);
-            renderUserPanel(name, 'FREE');
-            closeLoginModal();
+            completeLogin('FREE', 'FREE');
             return;
           }
         }
@@ -2438,26 +2663,43 @@
 
     // ── PKG_TIER_LABELS vẫn giữ cho getPackageTierLabelFromCode (lookup nhanh) ─
     // Giờ chỉ là fallback — lookup động qua parsePkgTierLabel() là chính
-    var PKG_TIER_LABELS = {}; // sẽ được populate khi render
+    var PKG_TIER_LABELS = {}; // keyed by unique package name from column F
 
     var selectedPkg = null;
+
+    function makeSelectedPackage(pkg) {
+      return {
+        pkg: pkg.pkg,
+        durationCode: pkg.durationCode || pkg.pkg,
+        price: Number(pkg.price),
+        label: pkg.tierLabel || pkg.label,
+        tierLabel: pkg.tierLabel || pkg.label,
+        durationLabel: pkg.durationLabel || parsePkgDurationLabel(pkg.pkg),
+        maxLen: pkg.maxLen
+      };
+    }
 
     function bindPkgItems() {
       document.querySelectorAll('#pkg-list .pkg-item').forEach(function(el) {
         el.addEventListener('click', function() {
           document.querySelectorAll('#pkg-list .pkg-item').forEach(function(x) { x.classList.remove('active'); });
           el.classList.add('active');
+          var selectedLabel = decodeURIComponent(el.dataset.label || '');
           selectedPkg = {
-            pkg:   el.dataset.pkg,
+            pkg:   decodeURIComponent(el.dataset.pkg || ''),
+            durationCode: decodeURIComponent(el.dataset.durationCode || ''),
             price: Number(el.dataset.price),
-            label: el.dataset.label
+            label: selectedLabel,
+            tierLabel: selectedLabel,
+            durationLabel: decodeURIComponent(el.dataset.duration || ''),
+            maxLen: el.dataset.maxLen === '' ? null : Number(el.dataset.maxLen)
           };
           var box = document.getElementById('pro-qr-box');
           if (box) box.classList.add('hidden');
           updateSelectedPkgSummary();
           var msg = document.getElementById('pro-msg');
           if (msg) {
-            msg.textContent = 'Đã chọn gói ' + selectedPkg.label + '. Bạn có thể tạo QR ngay.';
+            msg.textContent = 'Đã chọn gói ' + selectedPkg.durationLabel + ' · ' + selectedPkg.tierLabel + '. Bạn có thể tạo QR ngay.';
             msg.className = 'text-xs text-amber-500';
           }
           var proForm = document.getElementById('pro-form');
@@ -2479,33 +2721,39 @@
         });
         var pkgs = [];
         for (var i = 1; i < rows.length; i++) {
-          var key      = (rows[i][6] || '').trim().toUpperCase().replace(/\s+/g, '');
-          var pkgName  = (rows[i][5] || '').trim();   // cột F — tên gói (có thể chứa cả duration · tier)
+          var durationCode = (rows[i][6] || '').trim().toUpperCase().replace(/\s+/g, '');
+          var pkgName  = (rows[i][5] || '').trim();   // cột F — ID/tên gói duy nhất
+          var packageId = pkgName.toUpperCase();
           var colE     = (rows[i][4] || '').trim();   // cột E — max_length do admin ghi trực tiếp
           var price    = parseInt(rows[i][7], 10);
-          var sfx      = parsePkgSuffix(key);
-          if (!key || isNaN(price) || !sfx) continue;
+          var sfx      = parsePkgSuffix(durationCode);
+          if (!packageId || isNaN(price) || !sfx) continue;
           // ưu tiên: cột E → parsePkgMaxLength (suffix) → null
           var sheetMax = (colE !== '' && !isNaN(parseInt(colE, 10))) ? parseInt(colE, 10) : null;
-          var maxLen   = sheetMax !== null ? sheetMax : parsePkgMaxLength(key);
-          var durLabel  = parsePkgDurationLabel(key);   // thời hạn luôn parse từ cột G (1H→"1 GIỜ", 1DAY→"1 NGÀY"...)
-          var tierLabel = pkgName || parsePkgTierLabel(key); // tên tier: ưu tiên cột F, fallback suffix
-          PKG_TIER_LABELS[key] = tierLabel;
-          pkgs.push({
-            pkg:          key,
+          var maxLen   = sheetMax !== null ? sheetMax : parsePkgMaxLength(durationCode);
+          var durLabel  = parsePkgDurationLabel(durationCode);
+          var tierLabel = pkgName || parsePkgTierLabel(durationCode);
+          PKG_TIER_LABELS[packageId] = tierLabel;
+          var pkgInfo = {
+            pkg:          packageId,
+            durationCode: durationCode,
             price:        price,
             durationLabel:durLabel,
             tierLabel:    tierLabel,
-            detail:       (maxLen === null ? 'Từ 11 ký tự trở lên' : 'Tối đa ' + maxLen + ' ký tự'),
-            label:        durLabel,
+            maxLen:       maxLen,
+            detail:       (maxLen === null ? 'Không giới hạn' : 'Tối đa ' + maxLen + ' ký tự'),
+            label:        tierLabel,
             fmt:          price.toLocaleString('vi-VN') + 'đ',
-            icon:         parsePkgIcon(key),
-            _tierOrder:   parsePkgTierOrder(key)
-          });
+            icon:         parsePkgIcon(durationCode),
+            _tierOrder:   parsePkgTierOrder(durationCode)
+          };
+          pkgs.push(pkgInfo);
         }
         // Sort theo tier rồi key
         pkgs.sort(function(a, b) {
-          return a._tierOrder !== b._tierOrder ? a._tierOrder - b._tierOrder : a.pkg < b.pkg ? -1 : 1;
+          if (a._tierOrder !== b._tierOrder) return a._tierOrder - b._tierOrder;
+          if (a.durationCode !== b.durationCode) return a.durationCode < b.durationCode ? -1 : 1;
+          return a.pkg < b.pkg ? -1 : a.pkg > b.pkg ? 1 : 0;
         });
         if (pkgs.length === 0) throw new Error('empty');
         var list = document.getElementById('pkg-list');
@@ -2520,27 +2768,32 @@
             // Ẩn detail nếu tierLabel đã chứa thông tin ký tự (tránh lặp)
             var showDetail = p.detail && title.indexOf(p.detail) === -1;
             return '<button type="button" class="pkg-item rounded-xl px-3 py-2 text-left' + (idx === 0 ? ' active' : '') + '"'
-              + ' data-pkg="' + p.pkg + '" data-price="' + p.price + '" data-label="' + p.label + '">'
+              + ' data-pkg="' + encodeURIComponent(p.pkg) + '" data-duration-code="' + encodeURIComponent(p.durationCode) + '" data-price="' + p.price + '" data-label="' + encodeURIComponent(p.tierLabel) + '"'
+              + ' data-duration="' + encodeURIComponent(p.durationLabel) + '" data-max-len="' + (p.maxLen === null ? '' : p.maxLen) + '">'
               + '<div class="font-bold text-white">' + (p.icon || parsePkgIcon(p.pkg)) + ' ' + title + '</div>'
               + (showDetail ? '<div class="text-[10px] text-slate-300 mt-1">' + p.detail + '</div>' : '')
               + '<div><span>' + p.fmt + '</span></div>'
               + '</button>';
           }).join('');
-          selectedPkg = { pkg: pkgs[0].pkg, price: pkgs[0].price, label: pkgs[0].label };
+          selectedPkg = makeSelectedPackage(pkgs[0]);
           updateSelectedPkgSummary();
           bindPkgItems();
         }
       })
       .catch(function() {
         var fallbackPkgs = [
-          { pkg:'1H',     price:3000,   label:'1 GIỜ',   durationLabel:'1 GIỜ',   tierLabel:'PRO 5',           detail:'Tối đa 5 ký tự',     icon:'⚡', maxLen:5    },
-          { pkg:'1DAY',   price:10000,  label:'1 NGÀY',  durationLabel:'1 NGÀY',  tierLabel:'PRO 6',           detail:'Tối đa 6 ký tự',     icon:'🟢', maxLen:6    },
-          { pkg:'2DAY',   price:16000,  label:'2 NGÀY',  durationLabel:'2 NGÀY',  tierLabel:'PRO 7 BASIC',     detail:'Tối đa 7 ký tự',     icon:'🟢', maxLen:7    },
-          { pkg:'3DAY',   price:33000,  label:'3 NGÀY',  durationLabel:'3 NGÀY',  tierLabel:'PRO 9',           detail:'Tối đa 9 ký tự',     icon:'🟢', maxLen:9    },
-          { pkg:'1WEEK',  price:50000,  label:'7 NGÀY',  durationLabel:'7 NGÀY',  tierLabel:'PRO 10 ADVANCED', detail:'Tối đa 10 ký tự',    icon:'🔵', maxLen:10   },
-          { pkg:'2WEEK',  price:60000,  label:'14 NGÀY', durationLabel:'14 NGÀY', tierLabel:'PRO 11',          detail:'Tối đa 11 ký tự',    icon:'🔵', maxLen:11   },
-          { pkg:'1MONTH', price:150000, label:'30 NGÀY', durationLabel:'30 NGÀY', tierLabel:'PRO ULTIMATE',    detail:'Từ 11 ký tự trở lên', icon:'🔴', maxLen:null }
+          { pkg:'PRO 5',           durationCode:'1H',     price:5000,   label:'PRO 5',           durationLabel:'1 GIỜ',   tierLabel:'PRO 5',           detail:'Tối đa 5 ký tự', icon:'⚡', maxLen:5 },
+          { pkg:'PRO 6',           durationCode:'6H',     price:10000,  label:'PRO 6',           durationLabel:'6 GIỜ',   tierLabel:'PRO 6',           detail:'Tối đa 6 ký tự', icon:'🟢', maxLen:6 },
+          { pkg:'PRO 7 BASIC',    durationCode:'1DAY',   price:20000,  label:'PRO 7 BASIC',    durationLabel:'1 NGÀY',  tierLabel:'PRO 7 BASIC',    detail:'Tối đa 7 ký tự', icon:'🟢', maxLen:7 },
+          { pkg:'PRO 8',           durationCode:'2DAY',   price:30000,  label:'PRO 8',           durationLabel:'2 NGÀY',  tierLabel:'PRO 8',           detail:'Tối đa 8 ký tự', icon:'🟢', maxLen:8 },
+          { pkg:'PRO 9',           durationCode:'3DAY',   price:40000,  label:'PRO 9',           durationLabel:'3 NGÀY',  tierLabel:'PRO 9',           detail:'Tối đa 9 ký tự', icon:'🟢', maxLen:9 },
+          { pkg:'PRO 10 ADVANCED', durationCode:'1WEEK',  price:50000,  label:'PRO 10 ADVANCED', durationLabel:'1 TUẦN',  tierLabel:'PRO 10 ADVANCED', detail:'Tối đa 10 ký tự', icon:'🔵', maxLen:10 },
+          { pkg:'PRO 11',          durationCode:'2WEEK',  price:60000,  label:'PRO 11',          durationLabel:'2 TUẦN', tierLabel:'PRO 11',          detail:'Tối đa 11 ký tự', icon:'🔵', maxLen:11 },
+          { pkg:'PRO ULTIMATE',    durationCode:'1MONTH', price:150000, label:'PRO ULTIMATE',    durationLabel:'1 THÁNG', tierLabel:'PRO ULTIMATE',    detail:'Không giới hạn', icon:'🔴', maxLen:null }
         ];
+        fallbackPkgs.forEach(function(pkg) {
+          PKG_TIER_LABELS[pkg.pkg] = pkg.tierLabel;
+        });
         var list = document.getElementById('pkg-list');
         if (list) {
           list.innerHTML = fallbackPkgs.map(function(p, idx) {
@@ -2552,13 +2805,14 @@
             } catch (ex) { title = p.durationLabel || p.tierLabel || p.label || p.pkg; }
             var showDetail = p.detail && title.indexOf(p.detail) === -1;
             return '<button type="button" class="pkg-item rounded-xl px-3 py-2 text-left' + (idx === 0 ? ' active' : '') + '"'
-              + ' data-pkg="' + p.pkg + '" data-price="' + p.price + '" data-label="' + p.label + '">'
+              + ' data-pkg="' + encodeURIComponent(p.pkg) + '" data-duration-code="' + encodeURIComponent(p.durationCode) + '" data-price="' + p.price + '" data-label="' + encodeURIComponent(p.tierLabel) + '"'
+              + ' data-duration="' + encodeURIComponent(p.durationLabel) + '" data-max-len="' + (p.maxLen === null ? '' : p.maxLen) + '">'
               + '<div class="font-bold text-white">' + p.icon + ' ' + title + '</div>'
               + (showDetail ? '<div class="text-[10px] text-slate-300 mt-1">' + p.detail + '</div>' : '')
               + '<div><span>' + p.price.toLocaleString('vi-VN') + 'đ</span></div>'
               + '</button>';
           }).join('');
-          selectedPkg = { pkg: fallbackPkgs[0].pkg, price: fallbackPkgs[0].price, label: fallbackPkgs[0].label };
+          selectedPkg = makeSelectedPackage(fallbackPkgs[0]);
           updateSelectedPkgSummary();
           bindPkgItems();
         }
@@ -2568,14 +2822,14 @@
       var summary = document.getElementById('selected-pkg-summary');
       var ownedBadge = document.getElementById('owned-pkg-badge');
       if (!summary || !selectedPkg) return;
-      var durationLabel = selectedPkg.durationLabel || selectedPkg.label || parsePkgDurationLabel(selectedPkg.pkg);
-      var tierLabel = selectedPkg.tierLabel || parsePkgTierLabel(selectedPkg.pkg);
-      var maxLen = (selectedPkg.maxLen !== undefined) ? selectedPkg.maxLen : parsePkgMaxLength(selectedPkg.pkg);
-      var detail = maxLen === null ? 'Từ 11 ký tự trở lên' : 'Khôi phục mật khẩu tối đa ' + maxLen + ' ký tự';
+      var durationLabel = selectedPkg.durationLabel || selectedPkg.label || parsePkgDurationLabel(selectedPkg.durationCode || selectedPkg.pkg);
+      var tierLabel = selectedPkg.tierLabel || parsePkgTierLabel(selectedPkg.durationCode || selectedPkg.pkg);
+      var maxLen = (selectedPkg.maxLen !== undefined) ? selectedPkg.maxLen : parsePkgMaxLength(selectedPkg.durationCode || selectedPkg.pkg);
+      var detail = maxLen === null ? 'Không giới hạn' : 'Khôi phục mật khẩu tối đa ' + maxLen + ' ký tự';
       summary.innerHTML = 'Đã chọn: <strong class="text-white">' + durationLabel + '</strong> · <span class="text-amber-300">' + tierLabel + '</span> · <span>' + Number(selectedPkg.price).toLocaleString('vi-VN') + 'đ</span><div class="mt-1 text-[10px] text-slate-300">' + detail + '</div>';
 
       if (ownedBadge) {
-        var ownedLabel = (selectedPkg.tierLabel || parsePkgTierLabel(selectedPkg.pkg) || 'PRO');
+        var ownedLabel = (selectedPkg.tierLabel || parsePkgTierLabel(selectedPkg.durationCode || selectedPkg.pkg) || 'PRO');
         var ownedText = 'Gói đang sở hữu: <strong class="text-white">' + durationLabel + ' · ' + ownedLabel + '</strong>';
         ownedBadge.innerHTML = ownedText;
         ownedBadge.classList.remove('hidden');
@@ -2601,19 +2855,19 @@
         return;
       }
       updateSelectedPkgSummary();
+      var purchasePkg = makeSelectedPackage(selectedPkg);
       showTos(async function () {
         localStorage.setItem('kpt_pending_pro_name', name);
         localStorage.setItem('kpt_pending_pro_pass', pass);
-        localStorage.setItem('kpt_pending_pro_pkg', selectedPkg.label);
-        addProPurchaseRecord(name, selectedPkg.label, new Date(Date.now() + getProDurationMs(selectedPkg.label)).toISOString());
+        localStorage.setItem('kpt_pending_pro_pkg', purchasePkg.pkg);
 
         var buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(pass));
         var hash = Array.from(new Uint8Array(buf)).map(function(b) { return b.toString(16).padStart(2, '0'); }).join('');
 
         var ip = await getPublicIP();
 
-        var ck = 'KHOIPHUCTOOL ' + btoa(pass) + ' ' + selectedPkg.pkg;
-        var qrUrl = 'https://img.vietqr.io/image/970418-96247328232-compact2.png?amount=' + selectedPkg.price + '&addInfo=' + encodeURIComponent(ck) + '&accountName=TOOLS';
+        var ck = 'KHOIPHUCTOOL ' + btoa(pass) + ' ' + purchasePkg.pkg;
+        var qrUrl = 'https://img.vietqr.io/image/970418-96247328232-compact2.png?amount=' + purchasePkg.price + '&addInfo=' + encodeURIComponent(ck) + '&accountName=TOOLS';
         var img = document.getElementById('pro-qr-img');
         if (img) img.src = qrUrl;
         var ckBox = document.getElementById('pro-ck-content');
@@ -2621,7 +2875,7 @@
         var box = document.getElementById('pro-qr-box');
         if (box) box.classList.remove('hidden');
         if (msg) {
-          msg.textContent = '✅ Đã tạo QR gói ' + selectedPkg.label + '. Chuyển khoản xong bấm 🔍 Check để xác nhận.';
+          msg.textContent = '✅ Đã tạo QR gói ' + purchasePkg.durationLabel + ' · ' + purchasePkg.tierLabel + '. Chuyển khoản xong bấm 🔍 Check để xác nhận.';
           msg.className = 'text-xs text-emerald-500';
         }
 
@@ -2636,7 +2890,10 @@
               machine:  'WEB',
               file:     ck,
               password: hash,
-              package:  selectedPkg.label,
+              package:  purchasePkg.tierLabel,
+              packageLabel: purchasePkg.tierLabel,
+              packageCode: purchasePkg.pkg,
+              packageId: purchasePkg.pkg,
               ip:       ip
             })
           });
@@ -2659,7 +2916,7 @@
                   clearInterval(pollTimer);
                   var pm = document.getElementById('pro-msg');
                   if (pm) { pm.textContent = '✅ Đã xác nhận! Đang đăng nhập...'; pm.className = 'text-xs text-emerald-500'; }
-                  setTimeout(function() { autoLoginAfterReg(name, 'PRO', pass); }, 800);
+                  setTimeout(function() { autoLoginAfterReg(name, 'PRO', pass, purchasePkg.pkg); }, 800);
                   return;
                 }
               }
@@ -2692,6 +2949,7 @@
                 var profile = readAccountProfile();
                 profile.name = name;
                 profile.type = 'PRO';
+                profile.packageId = purchasePkg.pkg;
                 profile.passwordHash = hash;
                 delete profile.password;
                 saveAccountProfileData(profile);
@@ -2781,7 +3039,6 @@
                   msg.textContent = '✅ Đã xác nhận! Đang kích hoạt tài khoản PRO...';
                   msg.className = 'text-xs text-emerald-500';
                 }
-                addProPurchaseRecord(name, 'PRO', new Date(Date.now() + getProDurationMs('1 THÁNG')).toISOString());
                 var profile = readAccountProfile();
                 profile.name = name;
                 profile.type = 'PRO';
