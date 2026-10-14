@@ -1,6 +1,6 @@
 # KhoiPhucTool
 
-Phiên bản hiện tại: V7.49
+Phiên bản hiện tại: V7.54
 
 KhoiPhucTool là ứng dụng Windows hỗ trợ khôi phục mật khẩu cho các tệp Office và Archive dưới dạng desktop tool, với khả năng chạy trên CPU hoặc tăng tốc bằng GPU thông qua Hashcat. Ứng dụng nhắm tới mục đích hỗ trợ kiểm thử, phục hồi dữ liệu hợp pháp và khôi phục mật khẩu đối với các tệp thuộc quyền sở hữu hoặc quản lý của người dùng.
 
