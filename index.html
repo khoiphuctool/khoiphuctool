@@ -425,17 +425,15 @@
     <div class="max-w-7xl mx-auto w-full flex items-center justify-between gap-2">
       <button onclick="tickerPrev()" class="text-amber-400 hover:text-white bg-white/10 hover:bg-white/20 border-none px-2 py-0.5 rounded text-xs flex-shrink-0 transition">◀</button>
       <div class="flex items-center gap-2 overflow-hidden flex-1">
-        <span class="flex h-2 w-2 relative flex-shrink-0">
-          <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-amber-400 opacity-75"></span>
-          <span class="relative inline-flex rounded-full h-2 w-2 bg-amber-500"></span>
-        </span>
-        <i data-lucide="bell" class="w-4 h-4 flex-shrink-0"></i>
+        <button onclick="toggleTicker()" id="bell-toggle" title="Tạm dừng/Tiếp tục thông báo" class="text-amber-400 hover:text-white transition flex-shrink-0">
+          <i data-lucide="bell" id="bell-icon" class="w-4 h-4"></i>
+        </button>
         <div class="ticker-text-wrap">
           <div id="ticker-inner" class="font-medium text-slate-200"></div>
         </div>
       </div>
       <button onclick="tickerNext()" class="text-amber-400 hover:text-white bg-white/10 hover:bg-white/20 border-none px-2 py-0.5 rounded text-xs flex-shrink-0 transition">▶</button>
-      <button onclick="toggleTicker()" id="ticker-toggle" title="Tắt/Bật thông báo" class="text-slate-400 hover:text-white transition flex-shrink-0 ml-1">
+      <button onclick="dismissTicker()" id="ticker-dismiss" title="Đóng thông báo" class="text-slate-400 hover:text-white transition flex-shrink-0 ml-1">
         <i data-lucide="x" class="w-4 h-4"></i>
       </button>
     </div>
@@ -1434,12 +1432,24 @@
 
     function toggleTicker() {
       var inner = document.getElementById('ticker-inner');
-      var btn = document.getElementById('ticker-toggle');
+      var btn = document.getElementById('bell-toggle');
+      var bellIcon = document.getElementById('bell-icon');
       if (!inner) return;
       var paused = inner.style.animationPlayState === 'paused';
       inner.style.animationPlayState = paused ? 'running' : 'paused';
       if (btn) {
-        btn.title = paused ? 'Tắt thông báo' : 'Bật thông báo';
+        btn.title = paused ? 'Tạm dừng thông báo' : 'Tiếp tục thông báo';
+      }
+      if (bellIcon) {
+        bellIcon.setAttribute('data-lucide', paused ? 'bell' : 'bell-off');
+        lucide.createIcons();
+      }
+    }
+
+    function dismissTicker() {
+      var tickerWrap = document.getElementById('ticker-wrap');
+      if (tickerWrap) {
+        tickerWrap.style.display = 'none';
       }
     }
 
